@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="Coord.cs" />
+    <Compile Include="Elements.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
