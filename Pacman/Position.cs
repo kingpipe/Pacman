@@ -5,8 +5,7 @@
         public int X { get;set; }
         public int Y { get;set; }
 
-        public int XminusOne { get { return X--; } }
-
+        public int XminusOne => X--;
         public int XplusOne => X++;
         public int YminusOne => Y--;
         public int YplusOne =>Y++;
