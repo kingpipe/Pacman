@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Pacman
 {
-    public class Pacman
+    class Pacman:Player
     {
+        public Pacman(Position position):base(position)
+        {
+
+        }
     }
 }
