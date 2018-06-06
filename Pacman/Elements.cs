@@ -3,8 +3,8 @@
     enum Elements
     {
         None,
-        Monster,
+        Wall,
         Pacman,
-        Wall
+        Monster
     }
 }
