@@ -4,6 +4,17 @@ namespace Pacman
 {
     public class Game
     {
+        private Pacman pacman;
+        public int[,] map;
+        public Game(int pacmanX, int pacmanY, int[,] map)
+        {
+            pacman = new Pacman(new Position(pacmanX, pacmanY));
+            this.map = map;
+        }
+        public void Move()
+        {
+            pacman.MoveLeft(this);
+        }
         public static int[,] LoadMap(string path, int width, int height)
         {
             int[,] map = new int[width,height];

@@ -12,5 +12,15 @@ namespace Pacman
         {
 
         }
+
+        public void MoveLeft(Game game)
+        {
+            if (position.X != (int)Elements.Wall)
+            {
+                game.map[position.X, position.Y] = (int)Elements.None;
+                game.map[position.X - 1, position.Y] = (int)Elements.Pacman;
+                position.X = position.X - 1;
+            }
+        }
     }
 }
