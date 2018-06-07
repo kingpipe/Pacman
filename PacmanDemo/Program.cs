@@ -8,14 +8,14 @@ namespace PacmanDemo
         const int SIZE = 16; 
         static void Main(string[] args)
         {
-            int[,] array = Game.LoadMap(@"C:\Users\Petro Fediushko\source\repos\Pacman\PacmanDemo\map.txt", SIZE, SIZE);
+            int[,] array = Game.LoadMap(@"C:\Users\Petro Fediushko\source\repos\Pacman\PacmanDemo\map.txt", 2*SIZE, SIZE);
             Program.Show(array);
         }
         public static void Show(int[,] array)
         {
-            for(int x=0; x<SIZE; x++)
+            for(int y=0; y<SIZE; y++)
             {
-                for(int y=0; y<SIZE;y++)
+                for(int x=0; x<2*SIZE;x++)
                 {
                     switch(array[x,y])
                     {

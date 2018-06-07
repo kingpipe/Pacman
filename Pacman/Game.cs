@@ -10,9 +10,9 @@ namespace Pacman
             int counter=0;
             StreamReader FileWithMap = new StreamReader(path);
             char[] array = FileWithMap.ReadToEnd().ToCharArray();
-            for(int x=0;x<width; x++)
+            for(int y=0;y<height; y++)
             {
-                for(int y=0;y<height;y++)
+                for(int x=0;x<width;x++)
                 {
                     switch(array[counter++])
                     {
