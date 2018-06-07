@@ -11,10 +11,29 @@ namespace Pacman
             pacman = new Pacman(new Position(pacmanX, pacmanY));
             this.map = map;
         }
-        public void Move()
+
+        public void PacmanMove(Direction direction)
         {
-            pacman.MoveLeft(this);
+            switch (direction)
+                {
+                    case Direction.Left:
+                        pacman.MoveLeft(this);
+                        break;
+                    case Direction.Right:
+                        pacman.MoveRight(this);
+                        break;
+                    case Direction.Up:
+                        pacman.MoveUp(this);
+                        break;
+                    case Direction.Down:
+                        pacman.MoveDown(this);
+                        break;
+                    default:
+                        break;
+                }
         }
+
+
         public static int[,] LoadMap(string path, int width, int height)
         {
             int[,] map = new int[width,height];

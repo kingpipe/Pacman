@@ -12,14 +12,44 @@ namespace Pacman
         {
 
         }
-
+       
         public void MoveLeft(Game game)
         {
-            if (position.X != (int)Elements.Wall)
+            if (position.X != (int)Elements.Wall)//Think!
             {
                 game.map[position.X, position.Y] = (int)Elements.None;
                 game.map[position.X - 1, position.Y] = (int)Elements.Pacman;
                 position.X = position.X - 1;
+            }
+        }
+
+        public void MoveRight(Game game)
+        {
+            if (position.X != (int)Elements.Wall)//Think!
+            {
+                game.map[position.X, position.Y] = (int)Elements.None;
+                game.map[position.X + 1, position.Y] = (int)Elements.Pacman;
+                position.X = position.X + 1;
+            }
+        }
+
+        public void MoveUp(Game game)
+        {
+            if (position.Y != (int)Elements.Wall)//Think!
+            {
+                game.map[position.X, position.Y] = (int)Elements.None;
+                game.map[position.X, position.Y-1] = (int)Elements.Pacman;
+                position.Y = position.Y - 1;
+            }
+        }
+
+        public void MoveDown(Game game)
+        {
+            if (position.Y != (int)Elements.Wall)//Think!
+            {
+                game.map[position.X, position.Y] = (int)Elements.None;
+                game.map[position.X, position.Y+1] = (int)Elements.Pacman;
+                position.Y = position.Y+1;
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pacman
 {
-    enum Direction
+    public enum Direction
     {
         None,
         Left,

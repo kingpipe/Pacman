@@ -17,7 +17,19 @@ namespace PacmanDemo
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
-                    game.Move();
+                    game.PacmanMove(Direction.Left);
+                }
+                if (key.Key == ConsoleKey.RightArrow)
+                {
+                    game.PacmanMove(Direction.Right);
+                }
+                if (key.Key == ConsoleKey.UpArrow)
+                {
+                    game.PacmanMove(Direction.Up);
+                }
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+                    game.PacmanMove(Direction.Down);
                 }
 
             }
