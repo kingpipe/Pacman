@@ -15,7 +15,7 @@ namespace Pacman
        
         public void MoveLeft(Game game)
         {
-            if (position.X != (int)Elements.Wall)//Think!
+            if (game.map[position.X - 1, position.Y] != (int)Elements.Wall)
             {
                 game.map[position.X, position.Y] = (int)Elements.None;
                 game.map[position.X - 1, position.Y] = (int)Elements.Pacman;
@@ -25,7 +25,7 @@ namespace Pacman
 
         public void MoveRight(Game game)
         {
-            if (position.X != (int)Elements.Wall)//Think!
+            if (game.map[position.X+1, position.Y]!= (int)Elements.Wall)
             {
                 game.map[position.X, position.Y] = (int)Elements.None;
                 game.map[position.X + 1, position.Y] = (int)Elements.Pacman;
@@ -35,7 +35,7 @@ namespace Pacman
 
         public void MoveUp(Game game)
         {
-            if (position.Y != (int)Elements.Wall)//Think!
+            if (game.map[position.X, position.Y-1] != (int)Elements.Wall)
             {
                 game.map[position.X, position.Y] = (int)Elements.None;
                 game.map[position.X, position.Y-1] = (int)Elements.Pacman;
@@ -45,7 +45,7 @@ namespace Pacman
 
         public void MoveDown(Game game)
         {
-            if (position.Y != (int)Elements.Wall)//Think!
+            if (game.map[position.X, position.Y + 1] != (int)Elements.Wall)
             {
                 game.map[position.X, position.Y] = (int)Elements.None;
                 game.map[position.X, position.Y+1] = (int)Elements.Pacman;
