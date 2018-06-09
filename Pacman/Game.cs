@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 
 namespace Pacman
 {
@@ -12,25 +13,9 @@ namespace Pacman
             this.map = map;
         }
 
-        public void PacmanMove(Direction direction)
+        public bool PacmanMove(Direction direction)
         {
-            switch (direction)
-                {
-                    case Direction.Left:
-                        pacman.MoveLeft(this);
-                        break;
-                    case Direction.Right:
-                        pacman.MoveRight(this);
-                        break;
-                    case Direction.Up:
-                        pacman.MoveUp(this);
-                        break;
-                    case Direction.Down:
-                        pacman.MoveDown(this);
-                        break;
-                    default:
-                        break;
-                }
+            return pacman.Move(direction, this);
         }
 
 
