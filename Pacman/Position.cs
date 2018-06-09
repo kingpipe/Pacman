@@ -1,6 +1,6 @@
 ﻿namespace Pacman
 {
-    struct Position
+    class Position
     {
         public int X { get;set; }
         public int Y { get;set; }
@@ -12,7 +12,7 @@
         }
         public bool OnMap()
         {
-            return X >= 0 && X < 16 && Y >= 0 && Y < 16;
+            return X >= 0 && X < 32 && Y >= 0 && Y < 16;
         }
     }
 }

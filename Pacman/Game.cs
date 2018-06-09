@@ -1,9 +1,24 @@
 ﻿using System.IO;
+using System.Threading;
 
 namespace Pacman
 {
     public class Game
     {
+        private Pacman pacman;
+        public int[,] map;
+        public Game(int pacmanX, int pacmanY, int[,] map)
+        {
+            pacman = new Pacman(new Position(pacmanX, pacmanY));
+            this.map = map;
+        }
+
+        public bool PacmanMove(Direction direction)
+        {
+            return pacman.Move(direction, this);
+        }
+
+
         public static int[,] LoadMap(string path, int width, int height)
         {
             int[,] map = new int[width,height];
