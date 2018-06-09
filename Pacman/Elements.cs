@@ -5,6 +5,6 @@
         None,
         Wall,
         Pacman,
-        Monster
+        Clyde
     }
 }

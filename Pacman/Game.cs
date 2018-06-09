@@ -6,9 +6,11 @@ namespace Pacman
     public class Game
     {
         private Pacman pacman;
+        private Clyde clyde;
         public int[,] map;
-        public Game(int pacmanX, int pacmanY, int[,] map)
+        public Game(int pacmanX, int pacmanY, int clydeX, int clydeY, int[,] map)
         {
+            clyde = new Clyde(new Position(clydeX, clydeY));
             pacman = new Pacman(new Position(pacmanX, pacmanY));
             this.map = map;
         }
@@ -17,7 +19,10 @@ namespace Pacman
         {
             return pacman.Move(direction, this);
         }
-
+        public bool ClydeMove()
+        {
+            return clyde.Move(this);
+        }
 
         public static int[,] LoadMap(string path, int width, int height)
         {
@@ -39,6 +44,9 @@ namespace Pacman
                             break;
                         case '2':
                             map[x, y] = (int)Elements.Pacman;
+                            break;
+                        case '3':
+                            map[x, y] = (int)Elements.Clyde;
                             break;
                         default:
                             continue;
