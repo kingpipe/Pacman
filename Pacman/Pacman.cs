@@ -16,7 +16,7 @@ namespace Pacman
         {
             this.direction = direction;
             switch (this.direction)
-            {
+                            {
                 case Direction.Left:
                     return MoveLeft(game,Elements.Pacman);
                 case Direction.Right:

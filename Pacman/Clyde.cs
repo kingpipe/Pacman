@@ -26,27 +26,34 @@ namespace Pacman
         public bool Move(Game game)
         {
             PacmanPosition= SearchPacman(game);
-            if (PacmanPosition == position)
-                return false;
 
+            if (PacmanPosition != position)
+            {
+                GoToPacman(game);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private void GoToPacman(Game game)
+        {
             int DeltaX = position.X - PacmanPosition.X;
             int DeltaY = position.Y - PacmanPosition.Y;
-
-            if(Math.Abs(DeltaX)>Math.Abs(DeltaY))
+            if (Math.Abs(DeltaX) > Math.Abs(DeltaY))
             {
-                if(DeltaX>0)
-                   return MoveLeft(game,Elements.Clyde);
+                if (DeltaX > 0)
+                    MoveLeft(game, Elements.Clyde);
                 else
-                   return  MoveRight(game, Elements.Clyde);
+                    MoveRight(game, Elements.Clyde);
             }
             else
             {
                 if (DeltaY > 0)
-                   return  MoveUp(game, Elements.Clyde);
+                    MoveUp(game, Elements.Clyde);
                 else
-                   return  MoveDown(game, Elements.Clyde);
+                    MoveDown(game, Elements.Clyde);
             }
-
         }
     }
 }
