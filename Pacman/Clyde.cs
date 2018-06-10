@@ -30,6 +30,8 @@ namespace Pacman
             if (PacmanPosition != position)
             {
                 GoToPacman(game);
+                if (PacmanPosition == position)
+                    return false;
                 return true;
             }
             else
