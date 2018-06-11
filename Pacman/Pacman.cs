@@ -12,19 +12,18 @@ namespace Pacman
         {
 
         }
-        public bool Move(Direction direction, Game game)
+        public bool Move(Direction direction,int [,] map)
         {
-            this.direction = direction;
-            switch (this.direction)
-                            {
+            switch (direction)
+            {
                 case Direction.Left:
-                    return MoveLeft(game,Elements.Pacman);
+                    return MoveLeft(map);
                 case Direction.Right:
-                    return MoveRight(game, Elements.Pacman);
+                    return MoveRight(map);
                 case Direction.Up:
-                    return MoveUp(game, Elements.Pacman);
+                    return MoveUp(map);
                 case Direction.Down:
-                    return MoveDown(game, Elements.Pacman);
+                    return MoveDown(map);
                 default:
                     return false;
             }

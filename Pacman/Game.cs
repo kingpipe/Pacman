@@ -17,11 +17,11 @@ namespace Pacman
 
         public bool PacmanMove(Direction direction)
         {
-            return pacman.Move(direction, this);
+            return pacman.Move(direction, map);
         }
         public bool ClydeMove()
         {
-            return clyde.Move(this);
+            return clyde.Move(map);
         }
 
         public static int[,] LoadMap(string path, int width, int height)
