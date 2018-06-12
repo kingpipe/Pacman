@@ -9,7 +9,7 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             int[,] array = Game.LoadMap(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", 2 * SIZE, SIZE);
-            Game game = new Game(7, 6, 20, 12, array);
+            Game game = new Game(array);
             bool lost = true;
             while (true)
             {

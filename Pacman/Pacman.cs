@@ -8,9 +8,9 @@ namespace Pacman
 {
     class Pacman : Player
     {
-        public Pacman(Position position) : base(position)
+        public Pacman() : base()
         {
-
+            position = new Position(7, 6);
         }
         public bool Move(Direction direction,int [,] map)
         {

@@ -8,7 +8,7 @@ namespace Pacman
 {
     class Ghost:Player
     {
-        public Ghost(Position position):base(position)
+        public Ghost():base()
         {
                 
         }

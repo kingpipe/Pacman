@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Timers;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +8,9 @@ namespace Pacman
 {
     class Clyde:Ghost
     {
-        public Clyde(Position position):base(position)
+        public Clyde():base()
         {
-
+            position = new Position(20, 12);
         }
 
         private Position PacmanPosition;

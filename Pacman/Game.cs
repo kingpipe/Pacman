@@ -8,10 +8,10 @@ namespace Pacman
         private Pacman pacman;
         private Clyde clyde;
         public int[,] map;
-        public Game(int pacmanX, int pacmanY, int clydeX, int clydeY, int[,] map)
+        public Game(int[,] map)
         {
-            clyde = new Clyde(new Position(clydeX, clydeY));
-            pacman = new Pacman(new Position(pacmanX, pacmanY));
+            clyde = new Clyde();
+            pacman = new Pacman();
             this.map = map;
         }
 

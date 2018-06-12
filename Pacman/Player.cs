@@ -4,9 +4,8 @@
     {
         public Position position { get; set; }
         public Direction direction { get; set; }
-        public Player(Position position)
+        public Player()
         {
-            this.position = position;
             direction = Direction.None;
         }
         public virtual bool MoveLeft(int [,] map)
