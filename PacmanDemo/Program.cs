@@ -11,6 +11,8 @@ namespace PacmanDemo
             int[,] array = Game.LoadMap(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", 2 * SIZE, SIZE);
             Game game = new Game(array);
             bool lost = true;
+            Console.Clear();
+            ShowMap(array);
             while (true)
             {
                 if (lost==false)
@@ -19,33 +21,50 @@ namespace PacmanDemo
                     Console.WriteLine("You lost");
                     break;
                 }
-                Console.Clear();
-                Show(array);
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
-                    game.PacmanMove(Direction.Left);
-                    lost = game.ClydeMove();
+                    MovePacman(game, Direction.Left);
+                    lost = MoveClyde(game);
                 }
                 if (key.Key == ConsoleKey.RightArrow)
                 {
-                    game.PacmanMove(Direction.Right);
-                    lost = game.ClydeMove();
+                    MovePacman(game, Direction.Right);
+                    lost = MoveClyde(game);
                 }
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    game.PacmanMove(Direction.Up);
-                    lost = game.ClydeMove();
+                    MovePacman(game, Direction.Up);
+                    lost = MoveClyde(game);
                 }
                 if (key.Key == ConsoleKey.DownArrow)
                 {
-                    game.PacmanMove(Direction.Down);
-                    lost = game.ClydeMove();
+                    MovePacman(game, Direction.Down);
+                    lost = MoveClyde(game);
                 }
             }
             Console.ReadLine();
         }
-        public static void Show(int[,] array)
+        public static void MovePacman(Game game, Direction direction)
+        {
+            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.WriteLine(Elements.None.GetChar());
+            game.PacmanMove(direction);
+            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.WriteLine(Elements.Pacman.GetChar());
+
+        }
+        public static bool MoveClyde(Game game)
+        {
+            
+            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.WriteLine(Elements.None.GetChar());
+            bool value=game.ClydeMove();
+            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.WriteLine(Elements.Clyde.GetChar());
+            return value;
+        }
+        public static void ShowMap(int[,] array)
         {
             for(int y=0; y<SIZE; y++)
             {
@@ -54,20 +73,20 @@ namespace PacmanDemo
                     switch(array[x,y])
                     {
                         case 0:
-                            Console.Write((char)183);
+                            Console.Write(Elements.None.GetChar());
                             break;
                         case 1:
-                            Console.Write('#');
+                            Console.Write(Elements.Wall.GetChar());
                             break;
                         case 2:
-                            Console.Write('P');
+                            Console.Write(Elements.Pacman.GetChar());
                             break;
                         case 3:
-                            Console.Write('C');
+                            Console.Write(Elements.Clyde.GetChar());
                             break;
                         default:
+                            Console.Write(' ');
                             break;
-
                     }
                 }
                 Console.WriteLine();

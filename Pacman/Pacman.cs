@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pacman
 {
-    class Pacman : Player
+    public class Pacman : Player
     {
         public Pacman() : base()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pacman
 {
-    class Clyde:Ghost
+    public class Clyde:Ghost
     {
         public Clyde():base()
         {

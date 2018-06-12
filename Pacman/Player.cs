@@ -1,6 +1,6 @@
 ﻿namespace Pacman
 {
-    abstract class Player:IPlayer
+    abstract public class Player:IPlayer
     {
         public Position position { get; set; }
         public Direction direction { get; set; }

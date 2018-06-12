@@ -5,16 +5,17 @@ namespace Pacman
 {
     public class Game
     {
-        private Pacman pacman;
-        private Clyde clyde;
-        public int[,] map;
+         public int[,] map;
+
+        public Pacman pacman { get; private set; }
+        public Clyde clyde { get; private set; }
+
         public Game(int[,] map)
         {
             clyde = new Clyde();
             pacman = new Pacman();
             this.map = map;
         }
-
         public bool PacmanMove(Direction direction)
         {
             return pacman.Move(direction, map);
