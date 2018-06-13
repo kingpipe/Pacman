@@ -44,9 +44,12 @@ namespace Pacman
                             map[x, y] = (int)Elements.Wall;
                             break;
                         case '2':
+                            map[x, y] = (int)Elements.LittleGoal;
+                            break;
+                        case '4':
                             map[x, y] = (int)Elements.Pacman;
                             break;
-                        case '3':
+                        case '5':
                             map[x, y] = (int)Elements.Clyde;
                             break;
                         default:

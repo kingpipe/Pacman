@@ -79,9 +79,12 @@ namespace PacmanDemo
                             Console.Write(Elements.Wall.GetChar());
                             break;
                         case 2:
+                            Console.Write(Elements.LittleGoal.GetChar());
+                            break;
+                        case 4:
                             Console.Write(Elements.Pacman.GetChar());
                             break;
-                        case 3:
+                        case 5:
                             Console.Write(Elements.Clyde.GetChar());
                             break;
                         default:
