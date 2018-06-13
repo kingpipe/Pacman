@@ -7,7 +7,8 @@
         LittleGoal,
         Apples,
         Pacman,
-        Clyde
+        Clyde,
+        Blinky
     }
     public static class ExpendElements
     {
@@ -23,6 +24,8 @@
                 return 'C';
             if (elements == Elements.LittleGoal)
                 return (char)183;
+            if (elements == Elements.Blinky)
+                return 'B';
             return ' ';
         }
     }

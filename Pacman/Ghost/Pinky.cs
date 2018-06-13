@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pacman
+namespace Pacman.Ghost
 {
-    public class Ghost:Player
+    public class Pinky:IGhost
     {
-        public Ghost():base()
-        {
-                
-        }
     }
 }
