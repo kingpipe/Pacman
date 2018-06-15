@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pacman
+﻿namespace PacMan.Interfaces
 {
-    public interface IBehavior<T>
+    public interface IBehavior<T> where T:IPlayer 
     {
     }
 }

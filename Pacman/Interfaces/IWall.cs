@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pacman.Ghost
+namespace PacMan.Interfaces
 {
-    public class Pinky:IGhost
+    public interface IWall
     {
+        IPosition position { get; set; }
     }
 }

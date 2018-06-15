@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Timers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PacMan.Abstracts;
+using PacMan.Interfaces;
 
-namespace Pacman
+namespace PacMan.Players
 {
-    public class Clyde:IGhost
+    public class Clyde:Ghost
     {
         public Clyde():base()
         {
             position = new Position(20, 12);
         }
 
-        public void Start(Timer timer, int[,] map)
+        public static char GetCharElement()
         {
-            timer.Elapsed += Step;
+            return 'C';
         }
-        private static void Step(Object source, ElapsedEventArgs e)
+
+        public static int GetNumberElement()
         {
+            return 7;
         }
+
         public bool Move(int [,] map)
         {
             PacmanPosition= SearchPacman(map);

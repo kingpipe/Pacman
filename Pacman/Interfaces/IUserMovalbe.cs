@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pacman
+﻿namespace PacMan.Interfaces
 {
-    public class IUserMovalbe: IMovable
+    public interface IUserMovalbe: IMovable
     {
+        bool MoveLeft(int[,] map);
+        bool MoveRight(int[,] map);
+        bool MoveUp(int[,] map);
+        bool MoveDown(int[,] map);
     }
 }

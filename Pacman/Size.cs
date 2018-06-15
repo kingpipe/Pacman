@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PacMan.Interfaces;
 
-namespace Pacman.Interfaces
+namespace PacMan
 {
-    class Size
+    public class Size : ISize
     {
+        public Size(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+        public int Width { get; set; }
+        public int Height { get; set; }
     }
 }

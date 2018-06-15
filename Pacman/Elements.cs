@@ -1,4 +1,4 @@
-﻿namespace Pacman
+﻿namespace PacMans
 {
     public enum Elements
     {

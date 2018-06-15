@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PacMan.Abstracts;
+using PacMan.Interfaces;
 
-namespace Pacman
+namespace PacMan.Players
 {
-    public class Pacman : Player
+    public class Pacman : Player, IPacman
     {
+        public int Lives { get; set; }
+
         public Pacman() : base()
         {
+            Lives = 3;
             position = new Position(7, 6);
         }
+
         public bool Move(Direction direction,int [,] map)
         {
             switch (direction)
@@ -29,5 +31,14 @@ namespace Pacman
             }
         }
 
+        public static int GetNumberElement()
+        {
+            return 5;
+        }
+
+        public static char GetCharElement()
+        {
+            return 'P';
+        }
     }
 }

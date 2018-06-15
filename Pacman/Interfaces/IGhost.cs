@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pacman
+﻿namespace PacMan.Interfaces
 {
-    public interface IGhost: ISelfMovable
+    public interface IGhost: ISelfMovable, IEateble
     {
+        bool Frightened { get; set; }
     }
 }

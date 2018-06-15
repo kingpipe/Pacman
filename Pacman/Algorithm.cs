@@ -1,14 +1,12 @@
-﻿using System;
+﻿using PacMan.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Pacman
+namespace PacMan
 {
     static class Algorithm
     {
-        public static Queue<Position> Dijkstra(int[,] map, Position position, Position pacmanPosition)
+        public static Queue<Position> Dijkstra(int[,] map, IPosition position, IPosition pacmanPosition)
         {
             throw new NotImplementedException();
             //Dijkstra algorithm

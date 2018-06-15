@@ -1,9 +1,12 @@
-﻿using System.IO;
-using System.Threading;
+﻿using PacMan.Interfaces;
+using PacMan.Players;
+using PacMan.Foods;
+using System.IO;
 
-namespace Pacman
+
+namespace PacMan
 {
-    public class Game
+    public class Game:IGame
     {
          public int[,] map;
 
@@ -16,39 +19,53 @@ namespace Pacman
             pacman = new Pacman();
             this.map = map;
         }
-        
-        public bool Move(Direction direction)
+        public void Start()
         {
-
-            return pacman.Move(direction, map);
+            throw new System.NotImplementedException();
         }
 
-        public static int[,] LoadMap(string path, int width, int height)
+        public void Stop()
         {
-            int[,] map = new int[width,height];
+            throw new System.NotImplementedException();
+        }
+
+        public void End()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Move(Direction direction)
+        {
+            pacman.Move(direction, map);
+            return clyde.Move(map);
+        }
+
+        public static int[,] LoadMap(string path, ISize size)
+        {
+            int[,] map = new int[size.Width,size.Height];
             int counter=0;
             StreamReader FileWithMap = new StreamReader(path);
             char[] array = FileWithMap.ReadToEnd().ToCharArray();
-            for(int y=0;y<height; y++)
+            for(int y=0;y<size.Height; y++)
             {
-                for(int x=0;x<width;x++)
+                for(int x=0;x<size.Width;x++)
                 {
                     switch(array[counter++])
                     {
                         case '0':
-                            map[x, y] = (int)Elements.None;
+                            map[x, y] = Empty.GetNumberElement();
                             break;
                         case '1':
-                            map[x, y] = (int)Elements.Wall;
+                            map[x, y] = Wall.GetNumberElement();
                             break;
                         case '2':
-                            map[x, y] = (int)Elements.LittleGoal;
-                            break;
-                        case '4':
-                            map[x, y] = (int)Elements.Pacman;
+                            map[x, y] = LittleGoal.GetNumberElement();
                             break;
                         case '5':
-                            map[x, y] = (int)Elements.Clyde;
+                            map[x, y] = Pacman.GetNumberElement();
+                            break;
+                        case '7':
+                            map[x, y] = Clyde.GetNumberElement();
                             break;
                         default:
                             continue;

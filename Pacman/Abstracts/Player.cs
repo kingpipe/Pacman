@@ -1,4 +1,6 @@
-﻿namespace Pacman
+﻿using PacMan.Interfaces;
+
+namespace PacMan.Abstracts
 {
     abstract public class Player:IPlayer
     {
@@ -10,7 +12,7 @@
         }
         public virtual bool MoveLeft(int [,] map)
         {
-            if (map[position.X - 1, position.Y] != (int)Elements.Wall)
+            if (map[position.X - 1, position.Y] != Wall.GetNumberElement())
             {
                 SwapPlacesX(map, position.X-1);
                 return true;
@@ -20,7 +22,7 @@
 
         public virtual bool MoveRight(int[,] map)
         {
-            if (map[position.X + 1, position.Y] != (int)Elements.Wall)
+            if (map[position.X + 1, position.Y] !=Wall.GetNumberElement())
             {
                 SwapPlacesX(map, position.X+1);
                 return true;
@@ -30,7 +32,7 @@
 
         public virtual bool MoveUp(int[,] map)
         {
-            if (map[position.X, position.Y - 1] != (int)Elements.Wall)
+            if (map[position.X, position.Y - 1] != Wall.GetNumberElement())
             {
                 SwapPlacesY(map,position.Y-1);
                 return true;
@@ -40,7 +42,7 @@
 
         public virtual bool MoveDown(int[,] map)
         {
-            if (map[position.X, position.Y + 1] != (int)Elements.Wall)
+            if (map[position.X, position.Y + 1] != Wall.GetNumberElement())
             {
                 SwapPlacesY(map, position.Y + 1);
                 return true;

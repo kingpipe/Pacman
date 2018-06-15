@@ -49,9 +49,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pacman\Pacman.csproj">
+    <ProjectReference Include="..\Pacman\PacMan.csproj">
       <Project>{cdff2872-a473-4724-bfc2-e0c6e19cef32}</Project>
-      <Name>Pacman</Name>
+      <Name>PacMan</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pacman
+﻿namespace PacMan.Interfaces
 {
-    public interface IPacman:IBehavior<IUserMovalbe> 
+    public interface IPacman: IEateble 
     {
+        int Lives { get; set; }
+
+        //IPosition position { get; set; }
+
+
     }
 }
