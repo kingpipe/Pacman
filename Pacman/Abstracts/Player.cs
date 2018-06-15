@@ -1,16 +1,20 @@
-﻿namespace Pacman
+﻿using PacMan.Interfaces;
+
+namespace PacMan.Abstracts
 {
-    abstract public class Player:IPlayer
+    abstract public class Player:IMovable
     {
         public Position position { get; set; }
         public Direction direction { get; set; }
+
         public Player()
         {
             direction = Direction.None;
         }
+
         public virtual bool MoveLeft(int [,] map)
         {
-            if (map[position.X - 1, position.Y] != (int)Elements.Wall)
+            if (map[position.X - 1, position.Y] != Wall.GetNumberElement())
             {
                 SwapPlacesX(map, position.X-1);
                 return true;
@@ -20,7 +24,7 @@
 
         public virtual bool MoveRight(int[,] map)
         {
-            if (map[position.X + 1, position.Y] != (int)Elements.Wall)
+            if (map[position.X + 1, position.Y] !=Wall.GetNumberElement())
             {
                 SwapPlacesX(map, position.X+1);
                 return true;
@@ -30,7 +34,7 @@
 
         public virtual bool MoveUp(int[,] map)
         {
-            if (map[position.X, position.Y - 1] != (int)Elements.Wall)
+            if (map[position.X, position.Y - 1] != Wall.GetNumberElement())
             {
                 SwapPlacesY(map,position.Y-1);
                 return true;
@@ -40,7 +44,7 @@
 
         public virtual bool MoveDown(int[,] map)
         {
-            if (map[position.X, position.Y + 1] != (int)Elements.Wall)
+            if (map[position.X, position.Y + 1] != Wall.GetNumberElement())
             {
                 SwapPlacesY(map, position.Y + 1);
                 return true;

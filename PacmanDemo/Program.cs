@@ -1,5 +1,8 @@
-﻿using Pacman;
+﻿using PacMan;
+using PacMan.Interfaces;
+using PacMan.Foods;
 using System;
+using PacMan.Players;
 
 namespace PacmanDemo
 {
@@ -8,8 +11,9 @@ namespace PacmanDemo
         const int SIZE = 16;
         static void Main(string[] args)
         {
-            int[,] array = Game.LoadMap(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", 2 * SIZE, SIZE);
-            Game game = new Game(array);
+            var size = new Size(32, 16);
+            int[,] array = Game.LoadMap(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
+            var game = new Game(array);
             bool lost = true;
             Console.Clear();
             ShowMap(array);
@@ -21,49 +25,29 @@ namespace PacmanDemo
                     Console.WriteLine("You lost");
                     break;
                 }
+                Console.Clear();
+                ShowMap(array);
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
-                    MovePacman(game, Direction.Left);
-                    lost = MoveClyde(game);
+                    lost=game.Move(Direction.Left);
                 }
                 if (key.Key == ConsoleKey.RightArrow)
                 {
-                    MovePacman(game, Direction.Right);
-                    lost = MoveClyde(game);
+                    lost = game.Move(Direction.Right);
                 }
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    MovePacman(game, Direction.Up);
-                    lost = MoveClyde(game);
+                    lost = game.Move(Direction.Up);
                 }
                 if (key.Key == ConsoleKey.DownArrow)
                 {
-                    MovePacman(game, Direction.Down);
-                    lost = MoveClyde(game);
+                    lost = game.Move(Direction.Down);
                 }
             }
             Console.ReadLine();
         }
-        public static void MovePacman(Game game, Direction direction)
-        {
-            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
-            Console.WriteLine(Elements.None.GetChar());
-            game.PacmanMove(direction);
-            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
-            Console.WriteLine(Elements.Pacman.GetChar());
 
-        }
-        public static bool MoveClyde(Game game)
-        {
-            
-            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
-            Console.WriteLine(Elements.None.GetChar());
-            bool value=game.ClydeMove();
-            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
-            Console.WriteLine(Elements.Clyde.GetChar());
-            return value;
-        }
         public static void ShowMap(int[,] array)
         {
             for(int y=0; y<SIZE; y++)
@@ -73,19 +57,19 @@ namespace PacmanDemo
                     switch(array[x,y])
                     {
                         case 0:
-                            Console.Write(Elements.None.GetChar());
+                            Console.Write(Empty.GetCharElement());
                             break;
                         case 1:
-                            Console.Write(Elements.Wall.GetChar());
+                            Console.Write(Wall.GetCharElement());
                             break;
                         case 2:
-                            Console.Write(Elements.LittleGoal.GetChar());
-                            break;
-                        case 4:
-                            Console.Write(Elements.Pacman.GetChar());
+                            Console.Write(LittleGoal.GetCharElement());
                             break;
                         case 5:
-                            Console.Write(Elements.Clyde.GetChar());
+                            Console.Write(Pacman.GetCharElement());
+                            break;
+                        case 7:
+                            Console.Write(Clyde.GetCharElement());
                             break;
                         default:
                             Console.Write(' ');

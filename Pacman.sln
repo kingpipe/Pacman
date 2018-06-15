@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacman", "Pacman\Pacman.csproj", "{CDFF2872-A473-4724-BFC2-E0C6E19CEF32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacMan", "Pacman\PacMan.csproj", "{CDFF2872-A473-4724-BFC2-E0C6E19CEF32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacmanDemo", "PacmanDemo\PacmanDemo.csproj", "{58DA4D8B-1793-42D7-93EC-99245A8193FE}"
 EndProject

@@ -1,6 +1,8 @@
-﻿namespace Pacman
+﻿using PacMan.Interfaces;
+
+namespace PacMan
 {
-    public class Position
+    public class Position: IPosition
     {
         public int X { get;set; }
         public int Y { get;set; }
@@ -10,10 +12,7 @@
             X = x;
             Y = y;
         }
-        public bool OnMap()
-        {
-            return X >= 0 && X < 32 && Y >= 0 && Y < 16;
-        }
+
         public static bool operator ==(Position p1, Position p2)
         {
             return (p1.X == p2.X && p1.Y == p2.Y) ? true : false;
@@ -21,7 +20,7 @@
 
         public static bool operator !=(Position p1, Position p2)
         {
-            return (p1.X != p2.X || p1.Y != p2.Y) ? true : false; ;
+            return (p1.X != p2.Y || p1.Y != p2.Y) ? true : false; ;
         }
     }
 }

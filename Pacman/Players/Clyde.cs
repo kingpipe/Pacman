@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Timers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PacMan.Abstracts;
+using PacMan.Interfaces;
 
-namespace Pacman
+namespace PacMan.Players
 {
     public class Clyde:Ghost
     {
@@ -13,15 +11,16 @@ namespace Pacman
             position = new Position(20, 12);
         }
 
-        private Position PacmanPosition;
-        private Position SearchPacman(int [,] map)
+        public static char GetCharElement()
         {
-            for (int y = 0; y < 16; y++)
-                for (int x = 0; x < 32; x++)
-                    if (map[x, y] == (int)Elements.Pacman)
-                        return new Position(x, y);
-            return position;
+            return 'C';
         }
+
+        public static int GetNumberElement()
+        {
+            return 7;
+        }
+
         public bool Move(int [,] map)
         {
             PacmanPosition= SearchPacman(map);
@@ -41,6 +40,7 @@ namespace Pacman
         {
             int DeltaX = position.X - PacmanPosition.X;
             int DeltaY = position.Y - PacmanPosition.Y;
+
             if (Math.Abs(DeltaX) > Math.Abs(DeltaY))
             {
                 if (DeltaX > 0)
