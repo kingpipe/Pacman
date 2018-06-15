@@ -1,16 +1,12 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PacMan.Foods
 {
     public class Empty:Food
     {
-        public Empty(IPosition position):base(position)
+        public Empty(Position position):base(position)
         {
             Score = 0;
         }

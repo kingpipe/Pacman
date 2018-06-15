@@ -1,7 +1,10 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IMovable
+    public interface IMovable:ICoord
     {
-        void Move();
+        bool MoveLeft(int[,] map);
+        bool MoveRight(int[,] map);
+        bool MoveUp(int[,] map);
+        bool MoveDown(int[,] map);
     }
 }

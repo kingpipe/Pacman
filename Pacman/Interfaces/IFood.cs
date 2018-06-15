@@ -1,9 +1,7 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IFood
+    public interface IFood:ICoord
     {
-        IPosition position { get; set; }
-
         int Score { get; set; }
 
         bool IsLive { get; set; }

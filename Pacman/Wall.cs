@@ -1,17 +1,13 @@
 ﻿using PacMan.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PacMan
 {
-    public class Wall: IWall
+    public class Wall: ICoord
     {
-        public IPosition position { get; set; }
+        public Position position { get; set; }
 
-        public Wall(IPosition position)
+        public Wall(Position position)
         {
             this.position = position;
         }

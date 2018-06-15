@@ -1,18 +1,25 @@
-﻿using PacMan.Players;
+﻿using PacMan.Interfaces;
+using PacMan.Players;
 using System;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Ghost : Player
+    abstract public class Ghost : Player, IGhost
     {
+        public bool Frightened { get; set; }
+        protected Position PacmanPosition { get; set; }
+
         public Ghost() : base()
         {
 
         }
 
-       protected Position PacmanPosition { get; set; }
-
         public void Move()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool Move(int[,] map)
         {
             throw new NotImplementedException();
         }

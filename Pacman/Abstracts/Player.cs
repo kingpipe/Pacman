@@ -2,14 +2,16 @@
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player:IPlayer
+    abstract public class Player:IMovable
     {
         public Position position { get; set; }
         public Direction direction { get; set; }
+
         public Player()
         {
             direction = Direction.None;
         }
+
         public virtual bool MoveLeft(int [,] map)
         {
             if (map[position.X - 1, position.Y] != Wall.GetNumberElement())

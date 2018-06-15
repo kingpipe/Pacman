@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PacMan.Abstracts;
+﻿using PacMan.Abstracts;
 using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
     public class Cherry:Food
     {
-        public Cherry(IPosition position) : base(position)
+        public Cherry(Position position) : base(position)
         {
             Score = 100;
         }

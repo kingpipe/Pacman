@@ -5,7 +5,7 @@ namespace PacMan.Foods
 {
     public class LittleGoal: Food
     {
-        public LittleGoal(IPosition position) : base(position)
+        public LittleGoal(Position position) : base(position)
         {
             Score = 10;
         }

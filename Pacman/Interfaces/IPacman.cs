@@ -1,11 +1,8 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IPacman: IEateble 
+    public interface IPacman
     {
         int Lives { get; set; }
-
-        //IPosition position { get; set; }
-
 
     }
 }

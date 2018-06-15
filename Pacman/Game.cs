@@ -8,7 +8,7 @@ namespace PacMan
 {
     public class Game:IGame
     {
-         public int[,] map;
+        public int[,] map;
 
         public Pacman pacman { get; private set; }
         public Clyde clyde { get; private set; }

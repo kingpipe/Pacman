@@ -5,7 +5,7 @@ namespace PacMan.Foods
 {
     public class BigGoal : Food
     {
-        public BigGoal(IPosition position):base(position)
+        public BigGoal(Position position):base(position)
         {
             Score = 50;
         }
