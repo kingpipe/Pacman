@@ -11,6 +11,10 @@ namespace PacMan.Players
         public Pacman() : base()
         {
             Lives = 3;
+            StartPosition();
+        }
+        public override void StartPosition()
+        {
             position = new Position(7, 6);
         }
 

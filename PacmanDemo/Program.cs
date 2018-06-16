@@ -14,18 +14,37 @@ namespace PacmanDemo
             var size = new Size(32, 16);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
-            Console.Clear();
-            ShowMap(game.map);
             while (true)
             {
                 if (lost==false)
                 {
+                    game.pacman.Lives--;
                     Console.Clear();
-                    Console.WriteLine("You lost");
-                    break;
+                    if (game.pacman.Lives != 0)
+                    {
+
+                        string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
+                        Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
+                        Console.WriteLine("Press the spacebar to continue the game");
+                        while (true)
+                        {
+                            ConsoleKeyInfo space = Console.ReadKey(true);
+                            if (space.Key == ConsoleKey.Spacebar)
+                                break;
+                        }
+                        game.Start();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("You lost");
+                        break;
+                    }
                 }
+                string LiveorLives= game.pacman.Lives == 1 ? "Live" : "Lives";
                 Console.Clear();
                 ShowMap(game.map);
+                Console.WriteLine($"{LiveorLives} {game.pacman.Lives} ");
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {

@@ -1,4 +1,5 @@
-﻿using PacMan.Interfaces;
+﻿using PacMan.Foods;
+using PacMan.Interfaces;
 
 namespace PacMan.Abstracts
 {
@@ -10,6 +11,11 @@ namespace PacMan.Abstracts
         public Player()
         {
             direction = Direction.None;
+        }
+
+        public virtual void StartPosition()
+        {
+            position = Position.None;
         }
 
         public virtual bool MoveLeft(int [,] map)
@@ -55,14 +61,14 @@ namespace PacMan.Abstracts
         private void SwapPlacesX(int[,] map, int x)
         {
             int value = map[position.X, position.Y];
-            map[position.X, position.Y] = map[x, position.Y];
+            map[position.X, position.Y] = Empty.GetNumberElement();//map[x, position.Y];
             map[x, position.Y] = value;
             position.X = x;
         }
         private void SwapPlacesY(int[,] map, int y)
         {
             int value = map[position.X, position.Y];
-            map[position.X, position.Y] = map[position.X, y];
+            map[position.X, position.Y] = Empty.GetNumberElement();//map[position.X, y];
             map[position.X, y] = value;
             position.Y = y;
         }

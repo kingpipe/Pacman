@@ -13,13 +13,19 @@ namespace PacMan
 
         public Game(string path, ISize size)
         {
-            clyde = new Clyde();
             pacman = new Pacman();
+            clyde = new Clyde();
             map = new Map(path, size);
         }
         public void Start()
         {
-            throw new System.NotImplementedException();
+            map.map[clyde.position.X, clyde.position.Y] = Empty.GetNumberElement();
+            map.map[pacman.position.X, pacman.position.Y] = Empty.GetNumberElement();
+            pacman.StartPosition();
+            clyde.StartPosition();
+            map.map[clyde.position.X, clyde.position.Y] = Clyde.GetNumberElement();
+            map.map[pacman.position.X, pacman.position.Y] = Pacman.GetNumberElement();
+
         }
 
         public void Stop()

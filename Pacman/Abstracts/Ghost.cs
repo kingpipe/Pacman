@@ -14,11 +14,6 @@ namespace PacMan.Abstracts
 
         }
 
-        public void Move()
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual bool Move(int[,] map)
         {
             throw new NotImplementedException();

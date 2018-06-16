@@ -8,6 +8,10 @@ namespace PacMan.Players
     {
         public Clyde():base()
         {
+            StartPosition();
+        }
+        public override void StartPosition()
+        {
             position = new Position(20, 12);
         }
 
