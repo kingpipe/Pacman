@@ -21,7 +21,7 @@ namespace PacMan.Players
             return 7;
         }
 
-        public bool Move(int [,] map)
+        public override bool Move(int [,] map)
         {
             PacmanPosition= SearchPacman(map);
 

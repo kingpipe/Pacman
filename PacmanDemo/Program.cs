@@ -12,11 +12,10 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             var size = new Size(32, 16);
-            int[,] array = Game.LoadMap(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
-            var game = new Game(array);
+            var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
             Console.Clear();
-            ShowMap(array);
+            ShowMap(game.map);
             while (true)
             {
                 if (lost==false)
@@ -26,7 +25,7 @@ namespace PacmanDemo
                     break;
                 }
                 Console.Clear();
-                ShowMap(array);
+                ShowMap(game.map);
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
@@ -48,8 +47,9 @@ namespace PacmanDemo
             Console.ReadLine();
         }
 
-        public static void ShowMap(int[,] array)
+        public static void ShowMap(IMap map)
         {
+            int[,] array = map.map;
             for(int y=0; y<SIZE; y++)
             {
                 for(int x=0; x<2*SIZE;x++)
