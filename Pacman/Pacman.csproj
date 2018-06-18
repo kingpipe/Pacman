@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Algorithms\Astar\Algorithm.cs" />
+    <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Foods\BigGoal.cs" />
     <Compile Include="Foods\Cherry.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Foods\LittleGoal.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\ICoord.cs" />
+    <Compile Include="Interfaces\IEateble.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Players\Blinky.cs" />
@@ -73,5 +75,6 @@
     <Compile Include="Size.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

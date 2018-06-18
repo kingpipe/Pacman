@@ -23,7 +23,7 @@ namespace PacMan
 
         public static bool operator !=(Position p1, Position p2)
         {
-            return (p1.X != p2.Y || p1.Y != p2.Y) ? true : false; ;
+            return (p1.X != p2.Y || p1.Y != p2.Y) ? true : false;
         }
     }
 }
