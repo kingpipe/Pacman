@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using PacMan.Abstracts;
+using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -31,7 +33,8 @@ namespace PacMan.Players
 
             if (PacmanPosition != position)
             {
-                GoToPacman(map);
+                var algorithm = new Algorithm();
+                List<Position> list= algorithm.FindPath(map, position, PacmanPosition);
                 if (PacmanPosition == position)
                     return false;
                 return true;

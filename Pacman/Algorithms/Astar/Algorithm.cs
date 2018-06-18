@@ -7,7 +7,7 @@ namespace PacMan.Algorithms.Astar
 {
     class Algorithm
     {
-        public List<Position> FindPath(int[,] field, Position start, Position goal)
+        public List<Position> FindPath(int[,] map, Position start, Position goal)
         {
             // Шаг 1.
             var closedSet = new Collection<PathNode>();
@@ -33,7 +33,7 @@ namespace PacMan.Algorithms.Astar
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
                 // Шаг 6.
-                foreach (var neighbourNode in GetNeighbours(currentNode, goal, field))
+                foreach (var neighbourNode in GetNeighbours(currentNode, goal, map))
                 {
                     // Шаг 7.
                     if (closedSet.Count(node => node.position == neighbourNode.position) > 0)
@@ -78,7 +78,7 @@ namespace PacMan.Algorithms.Astar
                 if (point.Y < 0 || point.Y >= field.GetLength(1))
                     continue;
                 // Проверяем, что по клетке можно ходить.
-                if ((field[point.X, point.Y] != 0) && (field[point.X, point.Y] != 1))
+                if (field[point.X, point.Y] == Wall.GetNumberElement())
                     continue;
                 // Заполняем данные для точки маршрута.
                 var neighbourNode = new PathNode()
