@@ -13,10 +13,11 @@ namespace PacmanDemo
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
+            DrawMap(game);
             while (true)
             {
-                if (lost==false)
-                {
+                if (lost == false)
+                {   
                     game.pacman.Lives--;
                     Console.Clear();
                     if (game.pacman.Lives != 0)
@@ -29,7 +30,10 @@ namespace PacmanDemo
                         {
                             ConsoleKeyInfo space = Console.ReadKey(true);
                             if (space.Key == ConsoleKey.Spacebar)
+                            {
+                                DrawMap(game);
                                 break;
+                            }
                         }
                         game.Start();
                     }
@@ -40,29 +44,59 @@ namespace PacmanDemo
                         break;
                     }
                 }
-                string LiveorLives= game.pacman.Lives == 1 ? "Live" : "Lives";
-                Console.Clear();
-                ShowMap(game.map);
-                Console.WriteLine($"{LiveorLives} {game.pacman.Lives} ");
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
-                    lost=game.Move(Direction.Left);
+                    lost = Move(game, Direction.Left);
                 }
                 if (key.Key == ConsoleKey.RightArrow)
                 {
-                    lost = game.Move(Direction.Right);
+                    lost = Move(game, Direction.Right);
                 }
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    lost = game.Move(Direction.Up);
+                    lost = Move(game, Direction.Up);
                 }
                 if (key.Key == ConsoleKey.DownArrow)
                 {
-                    lost = game.Move(Direction.Down);
+                    lost = Move(game, Direction.Down);
                 }
             }
             Console.ReadLine();
+        }
+
+        private static void DrawMap(Game game)
+        {
+            Console.Clear();
+            ShowMap(game.map);
+            string LiveorLives = game.pacman.Lives == 1 ? "Live" : "Lives";
+            Console.WriteLine($"{LiveorLives} {game.pacman.Lives} ");
+        }
+
+        public static bool Move(Game game, Direction direction)
+        {
+            RemoveElements(game);
+            bool value = game.Move(direction);
+            CreateElements(game);
+            return value;
+
+        }
+
+        private static void CreateElements(Game game)
+        {
+            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.WriteLine(Pacman.GetCharElement());
+
+            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.WriteLine(Clyde.GetCharElement());
+        }
+
+        private static void RemoveElements(Game game)
+        {
+            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.WriteLine(Empty.GetCharElement());
+            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.WriteLine(Empty.GetCharElement());
         }
 
         public static void ShowMap(IMap map)

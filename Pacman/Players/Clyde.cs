@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
-using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
@@ -17,17 +16,14 @@ namespace PacMan.Players
         {
             position = new Position(15, 11);
         }
-
-        public static char GetCharElement()
+        public bool Start(int [,] map, Timer timer)
         {
-            return 'C';
+            while(true)
+            {
+                Move(map);
+                timer.Start();
+            }
         }
-
-        public static int GetNumberElement()
-        {
-            return 7;
-        }
-
         public override bool Move(int [,] map)
         {
             PacmanPosition= SearchPacman(map);
@@ -50,6 +46,16 @@ namespace PacMan.Players
             map[position.X, position.Y] = Empty.GetNumberElement();
             position = list.Pop();
             map[position.X, position.Y] = GetNumberElement();
+        }
+
+        public static char GetCharElement()
+        {
+            return 'C';
+        }
+
+        public static int GetNumberElement()
+        {
+            return 7;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace PacMan
             clyde.StartPosition();
             map.map[clyde.position.X, clyde.position.Y] = Clyde.GetNumberElement();
             map.map[pacman.position.X, pacman.position.Y] = Pacman.GetNumberElement();
-
         }
 
         public void Stop()
