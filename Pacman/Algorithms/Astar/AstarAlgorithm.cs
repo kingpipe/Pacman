@@ -7,12 +7,11 @@ namespace PacMan.Algorithms.Astar
 {
     class AstarAlgorithm
     {
-        public List<Position> FindPath(int[,] map, Position start, Position goal)
+        public Stack<Position> FindPath(int[,] map, Position start, Position goal)
         {
-            // Шаг 1.
             var closedSet = new Collection<PathNode>();
             var openSet = new Collection<PathNode>();
-            // Шаг 2.
+
             PathNode startNode = new PathNode()
             {
                 position = start,
@@ -23,36 +22,28 @@ namespace PacMan.Algorithms.Astar
             openSet.Add(startNode);
             while (openSet.Count > 0)
             {
-                // Шаг 3.
                 var currentNode = openSet.OrderBy(node =>
                   node.EstimateFullPathLength).First();
-                // Шаг 4.
                 if (currentNode.position == goal)
                     return GetPathForNode(currentNode);
-                // Шаг 5.
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
-                // Шаг 6.
                 foreach (var neighbourNode in GetNeighbours(currentNode, goal, map))
                 {
-                    // Шаг 7.
                     if (closedSet.Count(node => node.position == neighbourNode.position) > 0)
                         continue;
                     var openNode = openSet.FirstOrDefault(node =>
                       node.position == neighbourNode.position);
-                    // Шаг 8.
                     if (openNode == null)
                         openSet.Add(neighbourNode);
                     else
-                      if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
+                    if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
                     {
-                        // Шаг 9.
                         openNode.CameFrom = currentNode;
                         openNode.PathLengthFromStart = neighbourNode.PathLengthFromStart;
                     }
                 }
             }
-            // Шаг 10.
             return null;
         }
         private int GetHeuristicPathLength(Position from, Position to)
@@ -63,7 +54,6 @@ namespace PacMan.Algorithms.Astar
         {
             var result = new Collection<PathNode>();
 
-            // Соседними точками являются соседние по стороне клетки.
             Position[] neighbourPoints = new Position[4];
             neighbourPoints[0] = new Position(pathNode.position.X + 1, pathNode.position.Y);
             neighbourPoints[1] = new Position(pathNode.position.X - 1, pathNode.position.Y);
@@ -72,15 +62,12 @@ namespace PacMan.Algorithms.Astar
 
             foreach (var point in neighbourPoints)
             {
-                // Проверяем, что не вышли за границы карты.
                 if (point.X < 0 || point.X >= field.GetLength(0))
                     continue;
                 if (point.Y < 0 || point.Y >= field.GetLength(1))
                     continue;
-                // Проверяем, что по клетке можно ходить.
                 if (field[point.X, point.Y] == Wall.GetNumberElement())
                     continue;
-                // Заполняем данные для точки маршрута.
                 var neighbourNode = new PathNode()
                 {
                     position = point,
@@ -93,16 +80,16 @@ namespace PacMan.Algorithms.Astar
             }
             return result;
         }
-        private List<Position> GetPathForNode(PathNode pathNode)
+        private Stack<Position> GetPathForNode(PathNode pathNode)
         {
-            var result = new List<Position>();
+            var result = new Stack<Position>();
             var currentNode = pathNode;
             while (currentNode != null)
             {
-                result.Add(currentNode.position);
+                result.Push(currentNode.position);
                 currentNode = currentNode.CameFrom;
             }
-            result.Reverse();
+            result.Pop();
             return result;
         }
         private int GetDistanceBetweenNeighbours()

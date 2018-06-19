@@ -35,7 +35,7 @@ namespace PacMan.Players
             if (PacmanPosition != position)
             {
                 var astar = new AstarAlgorithm();
-                List<Position> list= astar.FindPath(map, position, PacmanPosition);
+                Stack<Position> list= astar.FindPath(map, position, PacmanPosition);
                 Go(list, map);
                 if (PacmanPosition == position)
                     return false;
@@ -45,33 +45,11 @@ namespace PacMan.Players
                 return false;
         }
 
-        private void Go(List<Position> list, int [,] map)
+        private void Go(Stack<Position> list, int [,] map)
         {
             map[position.X, position.Y] = Empty.GetNumberElement();
-            position = list[1];
-            list.Remove(position);
+            position = list.Pop();
             map[position.X, position.Y] = GetNumberElement();
-        }
-
-        private void GoToPacman(int [,] map)
-        {
-            int DeltaX = position.X - PacmanPosition.X;
-            int DeltaY = position.Y - PacmanPosition.Y;
-
-            if (Math.Abs(DeltaX) > Math.Abs(DeltaY))
-            {
-                if (DeltaX > 0)
-                    MoveLeft(map);
-                else
-                    MoveRight(map);
-            }
-            else
-            {
-                if (DeltaY > 0)
-                    MoveUp(map);
-                else
-                    MoveDown(map);
-            }
         }
     }
 }
