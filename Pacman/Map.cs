@@ -10,18 +10,12 @@ namespace PacMan
         public int[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int[,] OldMap { get; set; }
        
         public Map(string path,ISize size)
         {
             map = LoadMap(path, size);
             Width = map.GetLength(0);
             Height = map.GetLength(1);
-            OldMap = map;
-        }
-        public void StartMap()
-        {
-            map = OldMap;
         }
 
         private int[,] LoadMap(string path, ISize size)

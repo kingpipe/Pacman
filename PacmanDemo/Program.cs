@@ -17,7 +17,8 @@ namespace PacmanDemo
             while (true)
             {
                 if (lost == false)
-                {   
+                {
+                    game.RemovePlayers();
                     game.pacman.Lives--;
                     Console.Clear();
                     if (game.pacman.Lives != 0)
@@ -36,6 +37,7 @@ namespace PacmanDemo
                             }
                         }
                         game.Start();
+                        CreateElements(game);
                     }
                     else
                     {
