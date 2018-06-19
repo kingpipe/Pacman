@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\Astar\Algorithm.cs" />
+    <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Foods\BigGoal.cs" />

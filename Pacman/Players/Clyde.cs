@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
+using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -14,7 +15,7 @@ namespace PacMan.Players
         }
         public override void StartPosition()
         {
-            position = new Position(20, 12);
+            position = new Position(15, 11);
         }
 
         public static char GetCharElement()
@@ -33,14 +34,23 @@ namespace PacMan.Players
 
             if (PacmanPosition != position)
             {
-                var algorithm = new Algorithm();
-                List<Position> list= algorithm.FindPath(map, position, PacmanPosition);
+                var astar = new AstarAlgorithm();
+                List<Position> list= astar.FindPath(map, position, PacmanPosition);
+                Go(list, map);
                 if (PacmanPosition == position)
                     return false;
                 return true;
             }
             else
                 return false;
+        }
+
+        private void Go(List<Position> list, int [,] map)
+        {
+            map[position.X, position.Y] = Empty.GetNumberElement();
+            position = list[1];
+            list.Remove(position);
+            map[position.X, position.Y] = GetNumberElement();
         }
 
         private void GoToPacman(int [,] map)

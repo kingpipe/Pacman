@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PacMan.Algorithms.Astar
 {
-    class Algorithm
+    class AstarAlgorithm
     {
         public List<Position> FindPath(int[,] map, Position start, Position goal)
         {

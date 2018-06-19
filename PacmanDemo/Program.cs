@@ -8,10 +8,9 @@ namespace PacmanDemo
 {
     class Program
     {
-        const int SIZE = 16;
         static void Main(string[] args)
         {
-            var size = new Size(32, 16);
+            var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
             while (true)
@@ -69,9 +68,9 @@ namespace PacmanDemo
         public static void ShowMap(IMap map)
         {
             int[,] array = map.map;
-            for(int y=0; y<SIZE; y++)
+            for(int y=0; y<map.Height; y++)
             {
-                for(int x=0; x<2*SIZE;x++)
+                for(int x=0; x<map.Width;x++)
                 {
                     switch(array[x,y])
                     {

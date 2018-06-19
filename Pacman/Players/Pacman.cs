@@ -15,7 +15,7 @@ namespace PacMan.Players
         }
         public override void StartPosition()
         {
-            position = new Position(7, 6);
+            position = new Position(15, 23);
         }
 
         public bool Move(Direction direction,int [,] map)
