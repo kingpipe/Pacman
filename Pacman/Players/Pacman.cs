@@ -40,10 +40,12 @@ namespace PacMan.Players
             if (position.X + 3 > map.GetLength(1))
             {
                 map[position.X, position.Y] = Empty.GetNumberElement();
-                position.X = 1;
+                position.X = 0;
                 map[position.X, position.Y] = GetNumberElement();
+                return true;
             }
-            return base.MoveRight(map);
+            else
+                return base.MoveRight(map);
         }
 
         public override bool MoveLeft(int[,] map)
@@ -53,7 +55,9 @@ namespace PacMan.Players
                 map[position.X, position.Y] = Empty.GetNumberElement();
                 position.X = 29;
                 map[position.X, position.Y] = GetNumberElement();
+                return true;
             }
+            else
             return base.MoveLeft(map);
         }
 
