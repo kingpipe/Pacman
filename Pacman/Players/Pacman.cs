@@ -1,5 +1,6 @@
 ﻿using System;
 using PacMan.Abstracts;
+using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -33,6 +34,27 @@ namespace PacMan.Players
                 default:
                     return false;
             }
+        }
+        public override bool MoveRight(int[,] map)
+        {
+            if (position.X + 3 > map.GetLength(1))
+            {
+                map[position.X, position.Y] = Empty.GetNumberElement();
+                position.X = 1;
+                map[position.X, position.Y] = GetNumberElement();
+            }
+            return base.MoveRight(map);
+        }
+
+        public override bool MoveLeft(int[,] map)
+        {
+            if (position.X - 1 < 0)
+            {
+                map[position.X, position.Y] = Empty.GetNumberElement();
+                position.X = 29;
+                map[position.X, position.Y] = GetNumberElement();
+            }
+            return base.MoveLeft(map);
         }
 
         public static int GetNumberElement()

@@ -1,5 +1,6 @@
 ﻿using PacMan.Foods;
 using PacMan.Interfaces;
+using PacMan.Players;
 
 namespace PacMan.Abstracts
 {
@@ -22,7 +23,7 @@ namespace PacMan.Abstracts
         {
             if (map[position.X - 1, position.Y] != Wall.GetNumberElement())
             {
-                SwapPlacesX(map, position.X-1);
+                SwapPlacesX(map, position.X - 1);
                 return true;
             }
             return false;
