@@ -39,6 +39,9 @@ namespace PacMan
                         case '2':
                             map[x, y] = new LittleGoal(new Position(x, y));
                             break;
+                        case '3':
+                            map[x, y] = new BigGoal(new Position(x, y));
+                            break;
                         case '5':
                             map[x, y] = new Pacman(new Position(x, y));
                             break;

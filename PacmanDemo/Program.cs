@@ -120,6 +120,10 @@ namespace PacmanDemo
                     {
                         Console.Write(LittleGoal.GetCharElement());
                     }
+                    if (array[x, y] is BigGoal)
+                    {
+                        Console.Write(BigGoal.GetCharElement());
+                    }
                     if (array[x, y] is Pacman)
                     {
                         Console.Write(Pacman.GetCharElement());
