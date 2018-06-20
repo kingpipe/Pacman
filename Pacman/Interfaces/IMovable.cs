@@ -3,9 +3,9 @@
     public interface IMovable:ICoord
     {
         void StartPosition();
-        bool MoveLeft(int[,] map);
-        bool MoveRight(int[,] map);
-        bool MoveUp(int[,] map);
-        bool MoveDown(int[,] map);
+        bool MoveLeft(ICoord[,] map);
+        bool MoveRight(ICoord[,] map);
+        bool MoveUp(ICoord[,] map);
+        bool MoveDown(ICoord[,] map);
     }
 }

@@ -14,16 +14,16 @@ namespace PacMan.Abstracts
 
         }
 
-        public virtual bool Move(int[,] map)
+        public virtual bool Move(ICoord[,] map)
         {
             throw new NotImplementedException();
         }
 
-        protected Position SearchPacman(int[,] map)
+        protected Position SearchPacman(ICoord[,] map)
         {
             for (int y = 0; y < map.GetLength(1); y++)
                 for (int x = 0; x < map.GetLength(0); x++)
-                    if (map[x, y] == Pacman.GetNumberElement())
+                    if (map[x, y] is Pacman)
                         return new Position(x, y);
             return position;
         }

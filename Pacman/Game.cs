@@ -32,14 +32,14 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = Clyde.GetNumberElement();
-            map.map[pacman.position.X, pacman.position.Y] = Pacman.GetNumberElement();
+            map.map[clyde.position.X, clyde.position.Y] = new Clyde(clyde.position);
+            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position);
         }
 
         public void RemovePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = Empty.GetNumberElement();
-            map.map[pacman.position.X, pacman.position.Y] = Empty.GetNumberElement();
+            map.map[clyde.position.X, clyde.position.Y] = new Empty(clyde.position);
+            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position);
         }
 
         public void Stop()

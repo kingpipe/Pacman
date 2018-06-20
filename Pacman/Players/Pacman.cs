@@ -14,12 +14,16 @@ namespace PacMan.Players
             Lives = 3;
             StartPosition();
         }
+        public Pacman(Position position):base()
+        {
+            this.position = position;
+        }
         public override void StartPosition()
         {
             position = new Position(15, 23);
         }
 
-        public bool Move(Direction direction,int [,] map)
+        public bool Move(Direction direction,ICoord [,] map)
         {
             switch (direction)
             {
@@ -35,26 +39,26 @@ namespace PacMan.Players
                     return false;
             }
         }
-        public override bool MoveRight(int[,] map)
+        public override bool MoveRight(ICoord[,] map)
         {
             if (position.X + 3 > map.GetLength(1))
             {
-                map[position.X, position.Y] = Empty.GetNumberElement();
+                map[position.X, position.Y] =new Empty(position);
                 position.X = 0;
-                map[position.X, position.Y] = GetNumberElement();
+                map[position.X, position.Y] = new Pacman(position);
                 return true;
             }
             else
                 return base.MoveRight(map);
         }
 
-        public override bool MoveLeft(int[,] map)
+        public override bool MoveLeft(ICoord[,] map)
         {
             if (position.X - 1 < 0)
             {
-                map[position.X, position.Y] = Empty.GetNumberElement();
+                map[position.X, position.Y] = new Empty(position);
                 position.X = 29;
-                map[position.X, position.Y] = GetNumberElement();
+                map[position.X, position.Y] = new Pacman(position);
                 return true;
             }
             else

@@ -103,31 +103,31 @@ namespace PacmanDemo
 
         public static void ShowMap(IMap map)
         {
-            int[,] array = map.map;
+            ICoord[,] array = map.map;
             for(int y=0; y<map.Height; y++)
             {
                 for(int x=0; x<map.Width;x++)
                 {
-                    switch(array[x,y])
+                    if(array[x,y] is Empty)
                     {
-                        case 0:
-                            Console.Write(Empty.GetCharElement());
-                            break;
-                        case 1:
-                            Console.Write(Wall.GetCharElement());
-                            break;
-                        case 2:
-                            Console.Write(LittleGoal.GetCharElement());
-                            break;
-                        case 5:
-                            Console.Write(Pacman.GetCharElement());
-                            break;
-                        case 7:
-                            Console.Write(Clyde.GetCharElement());
-                            break;
-                        default:
-                            Console.Write(' ');
-                            break;
+                        Console.Write(Empty.GetCharElement());
+                    }
+                    if (array[x, y] is Wall)
+                    {
+                        Console.Write(Wall.GetCharElement());
+                    }
+                    if (array[x, y] is LittleGoal)
+                    {
+                        Console.Write(LittleGoal.GetCharElement());
+                    }
+                    if (array[x, y] is Pacman)
+                    {
+                        Console.Write(Pacman.GetCharElement());
+
+                    }
+                    if (array[x, y] is Clyde)
+                    {
+                        Console.Write(Clyde.GetCharElement());
                     }
                 }
                 Console.WriteLine();
