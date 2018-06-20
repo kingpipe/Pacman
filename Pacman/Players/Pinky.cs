@@ -9,10 +9,5 @@ namespace PacMan.Players
         {
             return 'N';
         }
-
-        public static int GetNumberElement()
-        {
-            return 9;
-        }
     }
 }

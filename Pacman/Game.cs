@@ -39,7 +39,7 @@ namespace PacMan
         public void RemovePlayers()
         {
             map.map[clyde.position.X, clyde.position.Y] = new Empty(clyde.position);
-            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position);
+            map.map[pacman.position.X, pacman.position.Y] = new Empty(pacman.position);
         }
 
         public void Stop()

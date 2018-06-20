@@ -64,12 +64,6 @@ namespace PacMan.Players
             else
             return base.MoveLeft(map);
         }
-
-        public static int GetNumberElement()
-        {
-            return 5;
-        }
-
         public static char GetCharElement()
         {
             return 'P';

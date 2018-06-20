@@ -12,11 +12,6 @@ namespace PacMan
             this.position = position;
         }
 
-        public static int GetNumberElement()
-        {
-            return 1;
-        }
-
         public static char GetCharElement()
         {
             return '#';

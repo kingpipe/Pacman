@@ -50,10 +50,5 @@ namespace PacMan.Players
         {
             return 'C';
         }
-
-        public static int GetNumberElement()
-        {
-            return 7;
-        }
     }
 }

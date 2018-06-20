@@ -14,10 +14,5 @@ namespace PacMan.Foods
         {
             return ' ';
         }
-
-        public static int GetNumberElement()
-        {
-            return 0;
-        }
     }
 }
