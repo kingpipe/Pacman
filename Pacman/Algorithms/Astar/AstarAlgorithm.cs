@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PacMan.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace PacMan.Algorithms.Astar
 {
     class AstarAlgorithm
     {
-        public Stack<Position> FindPath(int[,] map, Position start, Position goal)
+        public Stack<Position> FindPath(ICoord[,] map, Position start, Position goal)
         {
             var closedSet = new Collection<PathNode>();
             var openSet = new Collection<PathNode>();
@@ -50,7 +51,7 @@ namespace PacMan.Algorithms.Astar
         {
             return Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
         }
-        private Collection<PathNode> GetNeighbours(PathNode pathNode,  Position goal, int[,] field)
+        private Collection<PathNode> GetNeighbours(PathNode pathNode,  Position goal, ICoord[,] field)
         {
             var result = new Collection<PathNode>();
 
@@ -66,7 +67,7 @@ namespace PacMan.Algorithms.Astar
                     continue;
                 if (point.Y < 0 || point.Y >= field.GetLength(1))
                     continue;
-                if (field[point.X, point.Y] == Wall.GetNumberElement())
+                if (field[point.X, point.Y] is Wall)
                     continue;
                 var neighbourNode = new PathNode()
                 {

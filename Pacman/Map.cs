@@ -7,7 +7,7 @@ namespace PacMan
 {
     public class Map : IMap
     {
-        public int[,] map { get; set; }
+        public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
        
@@ -18,9 +18,9 @@ namespace PacMan
             Height = map.GetLength(1);
         }
 
-        private int[,] LoadMap(string path, ISize size)
+        private ICoord[,] LoadMap(string path, ISize size)
         {
-            int[,] map = new int[size.Width, size.Height];
+            ICoord[,] map = new ICoord[size.Width, size.Height];
             int counter = 0;
             StreamReader FileWithMap = new StreamReader(path);
             char[] array = FileWithMap.ReadToEnd().ToCharArray();
@@ -31,19 +31,22 @@ namespace PacMan
                     switch (array[counter++])
                     {
                         case '0':
-                            map[x, y] = Empty.GetNumberElement();
+                            map[x, y] = new Empty(new Position(x,y));
                             break;
                         case '1':
-                            map[x, y] = Wall.GetNumberElement();
+                            map[x, y] = new Wall(new Position(x, y));
                             break;
                         case '2':
-                            map[x, y] = LittleGoal.GetNumberElement();
+                            map[x, y] = new LittleGoal(new Position(x, y));
+                            break;
+                        case '3':
+                            map[x, y] = new BigGoal(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = Pacman.GetNumberElement();
+                            map[x, y] = new Pacman(new Position(x, y));
                             break;
                         case '7':
-                            map[x, y] = Clyde.GetNumberElement();
+                            map[x, y] = new Clyde(new Position(x, y));
                             break;
                         default:
                             continue;

@@ -12,12 +12,7 @@ namespace PacMan.Foods
 
         public static char GetCharElement()
         {
-            return 'E';
-        }
-
-        public static int GetNumberElement()
-        {
-            return 3;
+            return '*';
         }
     }
 }

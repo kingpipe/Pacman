@@ -19,9 +19,9 @@ namespace PacMan.Abstracts
             position = Position.None;
         }
 
-        public virtual bool MoveLeft(int [,] map)
+        public virtual bool MoveLeft(ICoord [,] map)
         {
-            if (map[position.X - 1, position.Y] != Wall.GetNumberElement())
+            if (!(map[position.X - 1, position.Y] is Wall))
             {
                 SwapPlacesX(map, position.X - 1);
                 return true;
@@ -29,9 +29,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveRight(int[,] map)
+        public virtual bool MoveRight(ICoord[,] map)
         {
-            if (map[position.X + 1, position.Y] !=Wall.GetNumberElement())
+            if (!(map[position.X + 1, position.Y] is Wall))
             {
                 SwapPlacesX(map, position.X+1);
                 return true;
@@ -39,9 +39,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveUp(int[,] map)
+        public virtual bool MoveUp(ICoord[,] map)
         {
-            if (map[position.X, position.Y - 1] != Wall.GetNumberElement())
+            if (!(map[position.X, position.Y - 1] is Wall))
             {
                 SwapPlacesY(map,position.Y-1);
                 return true;
@@ -49,9 +49,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveDown(int[,] map)
+        public virtual bool MoveDown(ICoord[,] map)
         {
-            if (map[position.X, position.Y + 1] != Wall.GetNumberElement())
+            if (!(map[position.X, position.Y + 1] is Wall))
             {
                 SwapPlacesY(map, position.Y + 1);
                 return true;
@@ -59,17 +59,17 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        private void SwapPlacesX(int[,] map, int x)
+        private void SwapPlacesX(ICoord[,] map, int x)
         {
-            int value = map[position.X, position.Y];
-            map[position.X, position.Y] = Empty.GetNumberElement();//map[x, position.Y];
+            var value = map[position.X, position.Y];
+            map[position.X, position.Y] = new Empty(position);//map[x, position.Y];
             map[x, position.Y] = value;
             position.X = x;
         }
-        private void SwapPlacesY(int[,] map, int y)
+        private void SwapPlacesY(ICoord[,] map, int y)
         {
-            int value = map[position.X, position.Y];
-            map[position.X, position.Y] = Empty.GetNumberElement();//map[position.X, y];
+            var value = map[position.X, position.Y];
+            map[position.X, position.Y] = new Empty(position);//map[position.X, y];
             map[position.X, y] = value;
             position.Y = y;
         }

@@ -3,6 +3,7 @@ using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
+using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
@@ -12,19 +13,16 @@ namespace PacMan.Players
         {
             StartPosition();
         }
+        public Clyde(Position position):base()
+        {
+            this.position = position;
+        }
         public override void StartPosition()
         {
             position = new Position(15, 11);
         }
-        public bool Start(int [,] map, Timer timer)
-        {
-            while(true)
-            {
-                Move(map);
-                timer.Start();
-            }
-        }
-        public override bool Move(int [,] map)
+        
+        public override bool Move(ICoord [,] map)
         {
             PacmanPosition= SearchPacman(map);
 
@@ -41,21 +39,16 @@ namespace PacMan.Players
                 return false;
         }
 
-        private void Go(Stack<Position> list, int [,] map)
+        private void Go(Stack<Position> list, ICoord [,] map)
         {
-            map[position.X, position.Y] = Empty.GetNumberElement();
+            map[position.X, position.Y] = new Empty(position);
             position = list.Pop();
-            map[position.X, position.Y] = GetNumberElement();
+            map[position.X, position.Y] = new Clyde(position);
         }
 
         public static char GetCharElement()
         {
             return 'C';
-        }
-
-        public static int GetNumberElement()
-        {
-            return 7;
         }
     }
 }
