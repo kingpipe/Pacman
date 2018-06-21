@@ -4,14 +4,18 @@ using System;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Ghost : Player, IGhost
+    abstract public class Ghost : Player, IGhost, IFood
     {
         public bool Frightened { get; set; }
         protected Position PacmanPosition { get; set; }
+        public int Score { get; set; }
+        public bool IsLive { get; set; }
 
         public Ghost() : base()
         {
-
+            Score = 200;
+            IsLive = true;
+            Frightened = false;
         }
 
         public virtual bool Move(ICoord[,] map)

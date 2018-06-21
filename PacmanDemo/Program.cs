@@ -14,6 +14,7 @@ namespace PacmanDemo
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
             DrawMap(game);
+            Console.WriteLine($"Score={game.pacman.Count}");
             while (true)
             {
                 if (lost == false)
@@ -33,6 +34,7 @@ namespace PacmanDemo
                             if (space.Key == ConsoleKey.Spacebar)
                             {
                                 DrawMap(game);
+                                Console.WriteLine($"Score={game.pacman.Count}");
                                 break;
                             }
                         }
@@ -43,6 +45,7 @@ namespace PacmanDemo
                     {
                         Console.Clear();
                         Console.WriteLine("You lost");
+                        Console.WriteLine($"Score={game.pacman.Count}");
                         break;
                     }
                 }
@@ -63,8 +66,15 @@ namespace PacmanDemo
                 {
                     lost = Move(game, Direction.Down);
                 }
+                WriteScore(game.pacman.Count);
             }
             Console.ReadLine();
+        }
+
+        private static void WriteScore(int count)
+        {
+            Console.SetCursorPosition(6,32);
+            Console.WriteLine(count);
         }
 
         private static void DrawMap(Game game)

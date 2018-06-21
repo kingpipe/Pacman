@@ -7,13 +7,13 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    public class Clyde:Ghost
+    public class Clyde : Ghost
     {
-        public Clyde():base()
+        public Clyde() : base()
         {
             StartPosition();
         }
-        public Clyde(Position position):base()
+        public Clyde(Position position) : base()
         {
             this.position = position;
         }
@@ -21,15 +21,15 @@ namespace PacMan.Players
         {
             position = new Position(15, 11);
         }
-        
-        public override bool Move(ICoord [,] map)
+
+        public override bool Move(ICoord[,] map)
         {
-            PacmanPosition= SearchPacman(map);
+            PacmanPosition = SearchPacman(map);
 
             if (PacmanPosition != position)
             {
                 var astar = new AstarAlgorithm();
-                Stack<Position> list= astar.FindPath(map, position, PacmanPosition);
+                Stack<Position> list = astar.FindPath(map, position, PacmanPosition);
                 Go(list, map);
                 if (PacmanPosition == position)
                     return false;
@@ -39,10 +39,11 @@ namespace PacMan.Players
                 return false;
         }
 
-        private void Go(Stack<Position> list, ICoord [,] map)
+        private void Go(Stack<Position> list, ICoord[,] map)
         {
             map[position.X, position.Y] = new Empty(position);
-            position = list.Pop();
+            if (list.Count != 0)
+                position = list.Pop();
             map[position.X, position.Y] = new Clyde(position);
         }
 
