@@ -43,10 +43,10 @@ namespace PacMan
                             map[x, y] = new BigGoal(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = new Pacman(new Position(x, y));
+                            map[x, y] = new Pacman(new Position(x, y), map);
                             break;
                         case '7':
-                            map[x, y] = new Clyde(new Position(x, y));
+                            map[x, y] = new Clyde(new Position(x, y), map);
                             break;
                         default:
                             continue;

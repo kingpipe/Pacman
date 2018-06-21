@@ -9,13 +9,13 @@ namespace PacMan.Players
         public int Lives { get; set; }
         public int Count { get; set; }
 
-        public Pacman() : base()
+        public Pacman(ICoord[,] map) : base(map)
         {
             Count = 0;
             Lives = 3;
             StartPosition();
         }
-        public Pacman(Position position) : base()
+        public Pacman(Position position, ICoord[,] map) : base(map)
         {
             this.position = position;
         }
@@ -37,69 +37,69 @@ namespace PacMan.Players
             }
 
         }
-        public bool Move(Direction direction, ICoord[,] map)
+        public bool Move(Direction direction)
         {
             switch (direction)
             {
                 case Direction.Left:
-                    return MoveLeft(map);
+                    return MoveLeft();
                 case Direction.Right:
-                    return MoveRight(map);
+                    return MoveRight();
                 case Direction.Up:
-                    return MoveUp(map);
+                    return MoveUp();
                 case Direction.Down:
-                    return MoveDown(map);
+                    return MoveDown();
                 default:
                     return false;
             }
         }
-        public override bool MoveRight(ICoord[,] map)
+        public override bool MoveRight()
         {
-            if (position.X + 3 > map.GetLength(1))
+            if (position.X + 3 > Map.GetLength(1))
             {
-                map[position.X, position.Y] = new Empty(position);
+                Map[position.X, position.Y] = new Empty(position);
                 position.X = 0;
-                map[position.X, position.Y] = new Pacman(position);
+                Map[position.X, position.Y] = new Pacman(position, Map);
                 return true;
             }
             else
             {
-                if (map[position.X + 1, position.Y] is IFood)
-                    Eat(map[position.X + 1, position.Y]);
-                return base.MoveRight(map);
+                if (Map[position.X + 1, position.Y] is IFood)
+                    Eat(Map[position.X + 1, position.Y]);
+                return base.MoveRight();
             }
 
         }
 
-        public override bool MoveLeft(ICoord[,] map)
+        public override bool MoveLeft()
         {
             if (position.X - 1 < 0)
             {
-                map[position.X, position.Y] = new Empty(position);
-                position.X = map.GetLength(0) - 1;
-                map[position.X, position.Y] = new Pacman(position);
+                Map[position.X, position.Y] = new Empty(position);
+                position.X = Map.GetLength(0) - 1;
+                Map[position.X, position.Y] = new Pacman(position, Map);
                 return true;
             }
             else
             {
-                if (map[position.X - 1, position.Y] is IFood)
-                    Eat(map[position.X - 1, position.Y]);
-                return base.MoveLeft(map);
+                if (Map[position.X - 1, position.Y] is IFood)
+                    Eat(Map[position.X - 1, position.Y]);
+                return base.MoveLeft();
 
             }
         }
-        public override bool MoveDown(ICoord[,] map)
+        public override bool MoveDown()
         {
-            if (map[position.X, position.Y + 1] is IFood)
-                Eat(map[position.X, position.Y + 1]);
-            return base.MoveDown(map);
+            if (Map[position.X, position.Y + 1] is IFood)
+                Eat(Map[position.X, position.Y + 1]);
+            return base.MoveDown();
         }
-        public override bool MoveUp(ICoord[,] map)
+        public override bool MoveUp()
         {
 
-            if (map[position.X, position.Y - 1] is IFood)
-                Eat(map[position.X, position.Y - 1]);
-            return base.MoveUp(map);
+            if (Map[position.X, position.Y - 1] is IFood)
+                Eat(Map[position.X, position.Y - 1]);
+            return base.MoveUp();
         }
         public static char GetCharElement()
         {

@@ -5,6 +5,10 @@ namespace PacMan.Players
 {
     public class Pinky : Ghost
     {
+        public Pinky(ICoord[,] map):base(map)
+        {
+
+        }
         public static char GetCharElement()
         {
             return 'N';

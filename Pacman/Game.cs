@@ -13,14 +13,14 @@ namespace PacMan
 
         public Game(string path, ISize size)
         {
-            pacman = new Pacman();
-            clyde = new Clyde();
             map = new Map(path, size);
+            pacman = new Pacman(map.map);
+            clyde = new Clyde(map.map);
         }
         public bool Move(Direction direction)
         {
-            pacman.Move(direction, map.map);
-            return clyde.Move(map.map);
+            pacman.Move(direction);
+            return clyde.Move();
         }
         public void Start()
         {
@@ -32,8 +32,8 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = new Clyde(clyde.position);
-            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position);
+            map.map[clyde.position.X, clyde.position.Y] = new Clyde(clyde.position, map.map);
+            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position, map.map);
         }
 
         public void RemovePlayers()

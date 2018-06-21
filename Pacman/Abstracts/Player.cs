@@ -4,13 +4,15 @@ using PacMan.Players;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player:IMovable
+    abstract public class Player : IMovable
     {
+        public ICoord[,] Map { get; set; }
         public Position position { get; set; }
         public Direction direction { get; set; }
 
-        public Player()
+        public Player(ICoord[,] map)
         {
+            Map = map;
             direction = Direction.None;
         }
 
@@ -19,58 +21,58 @@ namespace PacMan.Abstracts
             position = Position.None;
         }
 
-        public virtual bool MoveLeft(ICoord [,] map)
+        public virtual bool MoveLeft()
         {
-            if (!(map[position.X - 1, position.Y] is Wall))
+            if (!(Map[position.X - 1, position.Y] is Wall))
             {
-                SwapPlacesX(map, position.X - 1);
+                SwapPlacesX(position.X - 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveRight(ICoord[,] map)
+        public virtual bool MoveRight()
         {
-            if (!(map[position.X + 1, position.Y] is Wall))
+            if (!(Map[position.X + 1, position.Y] is Wall))
             {
-                SwapPlacesX(map, position.X+1);
+                SwapPlacesX(position.X + 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveUp(ICoord[,] map)
+        public virtual bool MoveUp()
         {
-            if (!(map[position.X, position.Y - 1] is Wall))
+            if (!(Map[position.X, position.Y - 1] is Wall))
             {
-                SwapPlacesY(map,position.Y-1);
+                SwapPlacesY(position.Y - 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveDown(ICoord[,] map)
+        public virtual bool MoveDown()
         {
-            if (!(map[position.X, position.Y + 1] is Wall))
+            if (!(Map[position.X, position.Y + 1] is Wall))
             {
-                SwapPlacesY(map, position.Y + 1);
+                SwapPlacesY(position.Y + 1);
                 return true;
             }
             return false;
         }
 
-        private void SwapPlacesX(ICoord[,] map, int x)
+        private void SwapPlacesX(int x)
         {
-            var value = map[position.X, position.Y];
-            map[position.X, position.Y] = new Empty(position);//map[x, position.Y];
-            map[x, position.Y] = value;
+            var value = Map[position.X, position.Y];
+            Map[position.X, position.Y] = new Empty(position);//map[x, position.Y];
+            Map[x, position.Y] = value;
             position.X = x;
         }
-        private void SwapPlacesY(ICoord[,] map, int y)
+        private void SwapPlacesY(int y)
         {
-            var value = map[position.X, position.Y];
-            map[position.X, position.Y] = new Empty(position);//map[position.X, y];
-            map[position.X, y] = value;
+            var value = Map[position.X, position.Y];
+            Map[position.X, position.Y] = new Empty(position);//map[position.X, y];
+            Map[position.X, y] = value;
             position.Y = y;
         }
     }

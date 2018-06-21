@@ -2,6 +2,6 @@
 {
     public interface IUserMovalbe: IMovable
     {
-        bool Move(Direction direction, ICoord[,] map);
+        bool Move(Direction direction);
     }
 }

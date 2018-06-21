@@ -11,14 +11,14 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        public Ghost() : base()
+        public Ghost(ICoord [,] map) : base(map)
         {
             Score = 200;
             IsLive = true;
             Frightened = false;
         }
 
-        public virtual bool Move(ICoord[,] map)
+        public virtual bool Move()
         {
             throw new NotImplementedException();
         }

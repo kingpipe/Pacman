@@ -2,6 +2,6 @@
 {
     public interface ISelfMovable: IMovable
     {
-        bool Move(ICoord[,] map);
+        bool Move();
     }
 }

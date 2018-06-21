@@ -9,13 +9,13 @@ namespace PacMan.Players
     public class Clyde : Ghost
     {
         private ICoord oldcoord;
-
-        public Clyde() : base()
+        
+        public Clyde(ICoord[,] map) : base(map)
         {
             StartPosition();
             oldcoord = new Empty(position);
         }
-        public Clyde(Position position) : base()
+        public Clyde(Position position, ICoord[,] map) : base(map)
         {
             this.position = position;
             oldcoord = new Empty(position);
@@ -25,22 +25,27 @@ namespace PacMan.Players
             position = new Position(15, 11);
         }
 
-        public override bool Move(ICoord[,] map)
+        public override bool Move()
         {
-            PacmanPosition = SearchPacman(map);
+            PacmanPosition = SearchPacman(Map);
 
             if (PacmanPosition != position)
             {
                 var astar = new AstarAlgorithm();
-                Stack<Position> list = astar.FindPath(map, position, PacmanPosition);
-                oldcoord=Go(list, map, oldcoord);
+                Stack<Position> list = astar.FindPath(Map, position, PacmanPosition);
+                oldcoord=Go(list, Map, oldcoord);
                 if (PacmanPosition == position)
-
+                {
+                    oldcoord =new Empty(position);
                     return false;
+                }
                 return true;
             }
             else
+            {
+                oldcoord = new Empty(position);
                 return false;
+            }
         }
 
         private ICoord Go(Stack<Position> list, ICoord[,] map, ICoord coord)
@@ -49,7 +54,7 @@ namespace PacMan.Players
             if (list.Count != 0)
                 position = list.Pop();
             ICoord old=map[position.X, position.Y];
-            map[position.X, position.Y] = new Clyde(position);
+            map[position.X, position.Y] = new Clyde(position, Map);
             return old;
         }
 
