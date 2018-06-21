@@ -3,6 +3,7 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
+using System.Threading.Tasks;
 
 namespace PacmanDemo
 {
@@ -15,6 +16,7 @@ namespace PacmanDemo
             bool lost = true;
             DrawMap(game);
             Console.WriteLine($"Score={game.pacman.Count}");
+            game.clyde.StartAsync(500);
             while (true)
             {
                 if (lost == false)
@@ -24,7 +26,21 @@ namespace PacmanDemo
                     Console.Clear();
                     if (game.pacman.Lives != 0)
                     {
-                        YouKill(game);
+                        string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
+                        Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
+                        Console.WriteLine("Press the spacebar to continue the game");
+                        while (true)
+                        {
+                            ConsoleKeyInfo space = Console.ReadKey(true);
+                            if (space.Key == ConsoleKey.Spacebar)
+                            {
+                                DrawMap(game);
+                                Console.WriteLine($"Score={game.pacman.Count}");
+                                break;
+                            }
+                        }
+                        game.Start();
+                        CreateElements(game);
                     }
                     else
                     {
@@ -32,28 +48,9 @@ namespace PacmanDemo
                         break;
                     }
                 }
-                lost = Go(game, lost);
+                Go(game);
             }
             Console.ReadLine();
-        }
-
-        private static void YouKill(Game game)
-        {
-            string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
-            Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
-            Console.WriteLine("Press the spacebar to continue the game");
-            while (true)
-            {
-                ConsoleKeyInfo space = Console.ReadKey(true);
-                if (space.Key == ConsoleKey.Spacebar)
-                {
-                    DrawMap(game);
-                    Console.WriteLine($"Score={game.pacman.Count}");
-                    break;
-                }
-            }
-            game.Start();
-            CreateElements(game);
         }
 
         private static void TheEnd(Game game)
@@ -63,27 +60,26 @@ namespace PacmanDemo
             Console.WriteLine($"Score={game.pacman.Count}");
         }
 
-        private static bool Go(Game game, bool lost)
+        private static void Go(Game game)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.LeftArrow)
             {
-                lost = Move(game, Direction.Left);
+                Move(game, Direction.Left);
             }
             if (key.Key == ConsoleKey.RightArrow)
             {
-                lost = Move(game, Direction.Right);
+                Move(game, Direction.Right);
             }
             if (key.Key == ConsoleKey.UpArrow)
             {
-                lost = Move(game, Direction.Up);
+                Move(game, Direction.Up);
             }
             if (key.Key == ConsoleKey.DownArrow)
             {
-                lost = Move(game, Direction.Down);
+                Move(game, Direction.Down);
             }
             WriteScore(game.pacman.Count);
-            return lost;
         }
 
         private static void WriteScore(int count)

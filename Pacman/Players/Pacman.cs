@@ -28,8 +28,8 @@ namespace PacMan.Players
         {
             if (coord is IGhost)
             {
-                Count += ((Ghost)coord).Score;
-
+                if (((IGhost)coord).Frightened == true)
+                    Count += ((Ghost)coord).Score;
             }
             else
             {

@@ -19,8 +19,7 @@ namespace PacMan
         }
         public bool Move(Direction direction)
         {
-            pacman.Move(direction);
-            return clyde.Move();
+            return pacman.Move(direction);
         }
         public void Start()
         {
