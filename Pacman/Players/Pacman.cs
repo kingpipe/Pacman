@@ -57,7 +57,7 @@ namespace PacMan.Players
             if (position.X - 1 < 0)
             {
                 map[position.X, position.Y] = new Empty(position);
-                position.X = 29;
+                position.X = map.GetLength(0)-1;
                 map[position.X, position.Y] = new Pacman(position);
                 return true;
             }
