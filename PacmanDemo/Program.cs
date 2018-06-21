@@ -24,56 +24,71 @@ namespace PacmanDemo
                     Console.Clear();
                     if (game.pacman.Lives != 0)
                     {
-
-                        string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
-                        Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
-                        Console.WriteLine("Press the spacebar to continue the game");
-                        while (true)
-                        {
-                            ConsoleKeyInfo space = Console.ReadKey(true);
-                            if (space.Key == ConsoleKey.Spacebar)
-                            {
-                                DrawMap(game);
-                                Console.WriteLine($"Score={game.pacman.Count}");
-                                break;
-                            }
-                        }
-                        game.Start();
-                        CreateElements(game);
+                        YouKill(game);
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine("You lost");
-                        Console.WriteLine($"Score={game.pacman.Count}");
+                        TheEnd(game);
                         break;
                     }
                 }
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.LeftArrow)
-                {
-                    lost = Move(game, Direction.Left);
-                }
-                if (key.Key == ConsoleKey.RightArrow)
-                {
-                    lost = Move(game, Direction.Right);
-                }
-                if (key.Key == ConsoleKey.UpArrow)
-                {
-                    lost = Move(game, Direction.Up);
-                }
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-                    lost = Move(game, Direction.Down);
-                }
-                WriteScore(game.pacman.Count);
+                lost = Go(game, lost);
             }
             Console.ReadLine();
         }
 
+        private static void YouKill(Game game)
+        {
+            string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
+            Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
+            Console.WriteLine("Press the spacebar to continue the game");
+            while (true)
+            {
+                ConsoleKeyInfo space = Console.ReadKey(true);
+                if (space.Key == ConsoleKey.Spacebar)
+                {
+                    DrawMap(game);
+                    Console.WriteLine($"Score={game.pacman.Count}");
+                    break;
+                }
+            }
+            game.Start();
+            CreateElements(game);
+        }
+
+        private static void TheEnd(Game game)
+        {
+            Console.Clear();
+            Console.WriteLine("You lost");
+            Console.WriteLine($"Score={game.pacman.Count}");
+        }
+
+        private static bool Go(Game game, bool lost)
+        {
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.LeftArrow)
+            {
+                lost = Move(game, Direction.Left);
+            }
+            if (key.Key == ConsoleKey.RightArrow)
+            {
+                lost = Move(game, Direction.Right);
+            }
+            if (key.Key == ConsoleKey.UpArrow)
+            {
+                lost = Move(game, Direction.Up);
+            }
+            if (key.Key == ConsoleKey.DownArrow)
+            {
+                lost = Move(game, Direction.Down);
+            }
+            WriteScore(game.pacman.Count);
+            return lost;
+        }
+
         private static void WriteScore(int count)
         {
-            Console.SetCursorPosition(6,32);
+            Console.SetCursorPosition(6, 32);
             Console.WriteLine(count);
         }
 
@@ -114,11 +129,11 @@ namespace PacmanDemo
         public static void ShowMap(IMap map)
         {
             ICoord[,] array = map.map;
-            for(int y=0; y<map.Height; y++)
+            for (int y = 0; y < map.Height; y++)
             {
-                for(int x=0; x<map.Width;x++)
+                for (int x = 0; x < map.Width; x++)
                 {
-                    if(array[x,y] is Empty)
+                    if (array[x, y] is Empty)
                     {
                         Console.Write(Empty.GetCharElement());
                     }

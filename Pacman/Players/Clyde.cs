@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
@@ -9,13 +8,17 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
+        private ICoord oldcoord;
+
         public Clyde() : base()
         {
             StartPosition();
+            oldcoord = new Empty(position);
         }
         public Clyde(Position position) : base()
         {
             this.position = position;
+            oldcoord = new Empty(position);
         }
         public override void StartPosition()
         {
@@ -30,8 +33,9 @@ namespace PacMan.Players
             {
                 var astar = new AstarAlgorithm();
                 Stack<Position> list = astar.FindPath(map, position, PacmanPosition);
-                Go(list, map);
+                oldcoord=Go(list, map, oldcoord);
                 if (PacmanPosition == position)
+
                     return false;
                 return true;
             }
@@ -39,12 +43,14 @@ namespace PacMan.Players
                 return false;
         }
 
-        private void Go(Stack<Position> list, ICoord[,] map)
+        private ICoord Go(Stack<Position> list, ICoord[,] map, ICoord coord)
         {
-            map[position.X, position.Y] = new Empty(position);
+            map[position.X, position.Y] = coord;
             if (list.Count != 0)
                 position = list.Pop();
+            ICoord old=map[position.X, position.Y];
             map[position.X, position.Y] = new Clyde(position);
+            return old;
         }
 
         public static char GetCharElement()
