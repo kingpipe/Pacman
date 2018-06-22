@@ -8,6 +8,7 @@ namespace PacMan.Foods
     {
         public Empty(Position position):base(position)
         {
+            Position = position;
             Score = 0;
         }
         public static char GetCharElement()

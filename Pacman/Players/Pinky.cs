@@ -5,7 +5,7 @@ namespace PacMan.Players
 {
     public class Pinky : Ghost
     {
-        public Pinky(ICoord[,] map):base(map)
+        public Pinky(Map map):base(map)
         {
 
         }

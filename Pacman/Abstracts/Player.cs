@@ -1,31 +1,30 @@
 ﻿using PacMan.Foods;
 using PacMan.Interfaces;
-using PacMan.Players;
 
 namespace PacMan.Abstracts
 {
     abstract public class Player : IMovable
     {
-        public ICoord[,] Map { get; set; }
-        public Position position { get; set; }
-        public Direction direction { get; set; }
+        public Map Map { get; set; }
+        public Position Position { get; set; }
+        public Direction Direction { get; set; }
 
-        public Player(ICoord[,] map)
+        public Player(Map map)
         {
             Map = map;
-            direction = Direction.None;
+            Direction = Direction.None;
         }
 
         public virtual void StartPosition()
         {
-            position = Position.None;
+            Position = Position.None;
         }
 
         public virtual bool MoveLeft()
         {
-            if (!(Map[position.X - 1, position.Y] is Wall))
+            if (!(Map.GetElementLeft(Position) is Wall))
             {
-                SwapPlacesX(position.X - 1);
+                SwapPlacesX(Position.X - 1);
                 return true;
             }
             return false;
@@ -33,9 +32,9 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveRight()
         {
-            if (!(Map[position.X + 1, position.Y] is Wall))
+            if (!(Map.GetElementRight(Position) is Wall))
             {
-                SwapPlacesX(position.X + 1);
+                SwapPlacesX(Position.X + 1);
                 return true;
             }
             return false;
@@ -43,9 +42,9 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveUp()
         {
-            if (!(Map[position.X, position.Y - 1] is Wall))
+            if (!(Map.GetElementUp(Position) is Wall))
             {
-                SwapPlacesY(position.Y - 1);
+                SwapPlacesY(Position.Y - 1);
                 return true;
             }
             return false;
@@ -53,9 +52,9 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveDown()
         {
-            if (!(Map[position.X, position.Y + 1] is Wall))
+            if (!(Map.GetElementDown(Position) is Wall))
             {
-                SwapPlacesY(position.Y + 1);
+                SwapPlacesY(Position.Y + 1);
                 return true;
             }
             return false;
@@ -63,17 +62,17 @@ namespace PacMan.Abstracts
 
         private void SwapPlacesX(int x)
         {
-            var value = Map[position.X, position.Y];
-            Map[position.X, position.Y] = new Empty(position);//map[x, position.Y];
-            Map[x, position.Y] = value;
-            position.X = x;
+            var value = Map.GetElement(Position);
+            Map.SetElement(new Empty(Position));
+            Position.X = x;
+            Map.SetElement(value, Position);
         }
         private void SwapPlacesY(int y)
         {
-            var value = Map[position.X, position.Y];
-            Map[position.X, position.Y] = new Empty(position);//map[position.X, y];
-            Map[position.X, y] = value;
-            position.Y = y;
+            var value = Map.GetElement(Position);
+            Map.SetElement(new Empty(Position));
+            Position.Y = y;
+            Map.SetElement(value, Position);
         }
     }
 }

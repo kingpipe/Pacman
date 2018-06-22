@@ -5,7 +5,7 @@ namespace PacMan.Abstracts
 {
     abstract public class Food: IFood
     {
-        public Position position { get; set; }
+        public Position Position { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
 

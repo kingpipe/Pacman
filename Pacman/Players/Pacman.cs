@@ -9,19 +9,21 @@ namespace PacMan.Players
         public int Lives { get; set; }
         public int Count { get; set; }
 
-        public Pacman(ICoord[,] map) : base(map)
+        public Pacman(Map map) : base(map)
         {
             Count = 0;
             Lives = 3;
             StartPosition();
         }
-        public Pacman(Position position, ICoord[,] map) : base(map)
+        public Pacman(Position position, Map map) : base(map)
         {
-            this.position = position;
+            Count = 0;
+            Lives = 3;
+            Position = position;
         }
         public override void StartPosition()
         {
-            position = new Position(15, 23);
+            Position = new Position(15, 23);
         }
 
         public void Eat(ICoord coord)
@@ -55,17 +57,17 @@ namespace PacMan.Players
         }
         public override bool MoveRight()
         {
-            if (position.X + 3 > Map.GetLength(1))
+            if (Position.X + 3 > Map.Width)
             {
-                Map[position.X, position.Y] = new Empty(position);
-                position.X = 0;
-                Map[position.X, position.Y] = new Pacman(position, Map);
+                Map.SetElement(new Empty(Position));
+                Position.X = 0;
+                Map.SetElement(new Pacman(Position, Map));
                 return true;
             }
             else
             {
-                if (Map[position.X + 1, position.Y] is IFood)
-                    Eat(Map[position.X + 1, position.Y]);
+                if (Map.GetElementRight(Position) is IFood)
+                    Eat(Map.GetElementRight(Position));
                 return base.MoveRight();
             }
 
@@ -73,32 +75,32 @@ namespace PacMan.Players
 
         public override bool MoveLeft()
         {
-            if (position.X - 1 < 0)
+            if (Position.X - 1 < 0)
             {
-                Map[position.X, position.Y] = new Empty(position);
-                position.X = Map.GetLength(0) - 1;
-                Map[position.X, position.Y] = new Pacman(position, Map);
+                Map.SetElement(new Empty(Position));
+                Position.X = Map.Width - 1;
+                Map.SetElement(new Pacman(Position, Map));
                 return true;
             }
             else
             {
-                if (Map[position.X - 1, position.Y] is IFood)
-                    Eat(Map[position.X - 1, position.Y]);
+                if (Map.GetElementLeft(Position) is IFood)
+                    Eat(Map.GetElementLeft(Position));
                 return base.MoveLeft();
 
             }
         }
         public override bool MoveDown()
         {
-            if (Map[position.X, position.Y + 1] is IFood)
-                Eat(Map[position.X, position.Y + 1]);
+            if (Map.GetElementDown(Position) is IFood)
+                Eat(Map.GetElementDown(Position));
             return base.MoveDown();
         }
         public override bool MoveUp()
         {
 
-            if (Map[position.X, position.Y - 1] is IFood)
-                Eat(Map[position.X, position.Y - 1]);
+            if (Map.GetElementUp(Position) is IFood)
+                Eat(Map.GetElementUp(Position));
             return base.MoveUp();
         }
         public static char GetCharElement()

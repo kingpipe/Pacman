@@ -7,38 +7,38 @@ namespace PacMan
 {
     public class Game:IGame
     {
-        public Map map { get; set; }
-        public Pacman pacman { get; private set; }
-        public Clyde clyde { get; private set; }
+        public Map Map { get; set; }
+        public Pacman Pacman { get; private set; }
+        public Clyde Clyde { get; private set; }
 
         public Game(string path, ISize size)
         {
-            map = new Map(path, size);
-            pacman = new Pacman(map.map);
-            clyde = new Clyde(map.map);
+            Map = new Map(path, size);
+            Pacman = new Pacman(Map);
+            Clyde = new Clyde(Map);
         }
         public bool Move(Direction direction)
         {
-            return pacman.Move(direction);
+            return Pacman.Move(direction);
         }
         public void Start()
         {
             RemovePlayers();
-            pacman.StartPosition();
-            clyde.StartPosition();
+            Pacman.StartPosition();
+            Clyde.StartPosition();
             CreatePlayers();
         }
 
         private void CreatePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = new Clyde(clyde.position, map.map);
-            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position, map.map);
+            Map.map[Clyde.Position.X, Clyde.Position.Y] = new Clyde(Clyde.Position, Map);
+            Map.map[Pacman.Position.X, Pacman.Position.Y] = new Pacman(Pacman.Position, Map);
         }
 
         public void RemovePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = new Empty(clyde.position);
-            map.map[pacman.position.X, pacman.position.Y] = new Empty(pacman.position);
+            Map.map[Clyde.Position.X, Clyde.Position.Y] = new Empty(Clyde.Position);
+            Map.map[Pacman.Position.X, Pacman.Position.Y] = new Empty(Pacman.Position);
         }
 
         public void Stop()

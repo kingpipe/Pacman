@@ -6,7 +6,7 @@ namespace PacMan.Players
 {
     class Blinky : Ghost
     {
-        public Blinky(ICoord[,] map):base(map)
+        public Blinky(Map map):base(map)
         {
 
         }

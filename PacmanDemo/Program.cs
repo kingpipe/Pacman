@@ -3,7 +3,6 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
-using System.Threading.Tasks;
 
 namespace PacmanDemo
 {
@@ -15,19 +14,19 @@ namespace PacmanDemo
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             bool lost = true;
             DrawMap(game);
-            Console.WriteLine($"Score={game.pacman.Count}");
-            game.clyde.StartAsync(500);
+            Console.WriteLine($"Score={game.Pacman.Count}");
+            game.Clyde.StartAsync(500);
             while (true)
             {
                 if (lost == false)
                 {
                     game.RemovePlayers();
-                    game.pacman.Lives--;
+                    game.Pacman.Lives--;
                     Console.Clear();
-                    if (game.pacman.Lives != 0)
+                    if (game.Pacman.Lives != 0)
                     {
-                        string liveorlives = game.pacman.Lives == 1 ? "live" : "lives";
-                        Console.WriteLine($"You lost,you have more {game.pacman.Lives} {liveorlives}");
+                        string liveorlives = game.Pacman.Lives == 1 ? "live" : "lives";
+                        Console.WriteLine($"You lost,you have more {game.Pacman.Lives} {liveorlives}");
                         Console.WriteLine("Press the spacebar to continue the game");
                         while (true)
                         {
@@ -35,7 +34,7 @@ namespace PacmanDemo
                             if (space.Key == ConsoleKey.Spacebar)
                             {
                                 DrawMap(game);
-                                Console.WriteLine($"Score={game.pacman.Count}");
+                                Console.WriteLine($"Score={game.Pacman.Count}");
                                 break;
                             }
                         }
@@ -57,7 +56,7 @@ namespace PacmanDemo
         {
             Console.Clear();
             Console.WriteLine("You lost");
-            Console.WriteLine($"Score={game.pacman.Count}");
+            Console.WriteLine($"Score={game.Pacman.Count}");
         }
 
         private static void Go(Game game)
@@ -79,7 +78,7 @@ namespace PacmanDemo
             {
                 Move(game, Direction.Down);
             }
-            WriteScore(game.pacman.Count);
+            WriteScore(game.Pacman.Count);
         }
 
         private static void WriteScore(int count)
@@ -91,9 +90,9 @@ namespace PacmanDemo
         private static void DrawMap(Game game)
         {
             Console.Clear();
-            ShowMap(game.map);
-            string LiveorLives = game.pacman.Lives == 1 ? "Live" : "Lives";
-            Console.WriteLine($"{LiveorLives} {game.pacman.Lives} ");
+            ShowMap(game.Map);
+            string LiveorLives = game.Pacman.Lives == 1 ? "Live" : "Lives";
+            Console.WriteLine($"{LiveorLives} {game.Pacman.Lives} ");
         }
 
         public static bool Move(Game game, Direction direction)
@@ -107,18 +106,18 @@ namespace PacmanDemo
 
         private static void CreateElements(Game game)
         {
-            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
             Console.WriteLine(Pacman.GetCharElement());
 
-            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
             Console.WriteLine(Clyde.GetCharElement());
         }
 
         private static void RemoveElements(Game game)
         {
-            Console.SetCursorPosition(game.pacman.position.X, game.pacman.position.Y);
+            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
-            Console.SetCursorPosition(game.clyde.position.X, game.clyde.position.Y);
+            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
         }
 

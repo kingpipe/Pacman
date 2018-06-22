@@ -7,6 +7,7 @@ namespace PacMan.Foods
     {
         public BigGoal(Position position):base(position)
         {
+            Position = position;
             Score = 50;
         }
 

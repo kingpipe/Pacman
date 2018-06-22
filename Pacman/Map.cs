@@ -18,6 +18,41 @@ namespace PacMan
             Height = map.GetLength(1);
         }
 
+        public ICoord GetElement(IPosition position)
+        {
+            return map[position.X, position.Y];
+        }
+
+        public ICoord GetElementLeft(IPosition position)
+        {
+            return map[position.X - 1, position.Y];
+        }
+
+        public ICoord GetElementRight(IPosition position)
+        {
+            return map[position.X + 1, position.Y];
+        }
+
+        public ICoord GetElementUp(IPosition position)
+        {
+            return map[position.X, position.Y - 1];
+        }
+
+        public ICoord GetElementDown(IPosition position)
+        {
+            return map[position.X, position.Y + 1];
+        }
+
+        public void SetElement(ICoord coord)
+        {
+            map[coord.Position.X, coord.Position.Y] = coord;
+        }
+
+        public void SetElement(ICoord coord, IPosition position)
+        {
+            map[position.X, position.Y] = coord;
+        }
+
         private ICoord[,] LoadMap(string path, ISize size)
         {
             ICoord[,] map = new ICoord[size.Width, size.Height];
@@ -43,10 +78,10 @@ namespace PacMan
                             map[x, y] = new BigGoal(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = new Pacman(new Position(x, y), map);
+                            map[x, y] = new Pacman(new Position(x, y), this);
                             break;
                         case '7':
-                            map[x, y] = new Clyde(new Position(x, y), map);
+                            map[x, y] = new Clyde(new Position(x, y), this);
                             break;
                         default:
                             continue;

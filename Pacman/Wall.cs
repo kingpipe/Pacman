@@ -5,11 +5,11 @@ namespace PacMan
 {
     public class Wall: ICoord
     {
-        public Position position { get; set; }
+        public Position Position { get; set; }
 
         public Wall(Position position)
         {
-            this.position = position;
+            this.Position = position;
         }
 
         public static char GetCharElement()

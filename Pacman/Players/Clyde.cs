@@ -12,19 +12,19 @@ namespace PacMan.Players
     {
         private ICoord oldcoord;
 
-        public Clyde(ICoord[,] map) : base(map)
+        public Clyde(Map map) : base(map)
         {
             StartPosition();
-            oldcoord = new Empty(position);
+            oldcoord = new Empty(Position);
         }
-        public Clyde(Position position, ICoord[,] map) : base(map)
+        public Clyde(Position position, Map map) : base(map)
         {
-            this.position = position;
+            this.Position = position;
             oldcoord = new Empty(position);
         }
         public override void StartPosition()
         {
-            position = new Position(15, 11);
+            Position = new Position(15, 11);
         }
         public async Task<bool> StartAsync(int time)
         {
@@ -41,34 +41,34 @@ namespace PacMan.Players
         }
         public override bool Move()
         {
-            PacmanPosition = SearchPacman(Map);
+            PacmanPosition = SearchPacman();
 
-            if (PacmanPosition != position)
+            if (PacmanPosition != Position)
             {
                 var astar = new AstarAlgorithm();
-                Stack<Position> list = astar.FindPath(Map, position, PacmanPosition);
-                oldcoord = Go(list, Map, oldcoord);
-                if (PacmanPosition == position)
+                Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
+                oldcoord = Go(list, oldcoord);
+                if (PacmanPosition == Position)
                 {
-                    oldcoord = new Empty(position);
+                    oldcoord = new Empty(Position);
                     return false;
                 }
                 return true;
             }
             else
             {
-                oldcoord = new Empty(position);
+                oldcoord = new Empty(Position);
                 return false;
             }
         }
 
-        private ICoord Go(Stack<Position> list, ICoord[,] map, ICoord coord)
+        private ICoord Go(Stack<Position> list, ICoord coord)
         {
-            map[position.X, position.Y] = coord;
+            Map.SetElement(coord);
             if (list.Count != 0)
-                position = list.Pop();
-            ICoord old = map[position.X, position.Y];
-            map[position.X, position.Y] = new Clyde(position, Map);
+                Position = list.Pop();
+            ICoord old = Map.GetElement(Position);
+            Map.SetElement(new Clyde(Position, Map));
             return old;
         }
 
