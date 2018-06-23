@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
@@ -11,34 +13,32 @@ namespace PacMan.Players
     public class Clyde : Ghost
     {
         private ICoord oldcoord;
+        public event Action PacmanDied;
 
         public Clyde(Map map) : base(map)
         {
             StartPosition();
             oldcoord = new Empty(Position);
         }
-        public Clyde(Position position, Map map) : base(map)
-        {
-            this.Position = position;
-            oldcoord = new Empty(position);
-        }
+
         public override void StartPosition()
         {
             Position = new Position(15, 11);
         }
-        public async Task<bool> StartAsync(int time)
+        public async Task StartAsync(int time)
         {
-            return await Task.Run(() =>
+            await Task.Run(() =>
             {
                 while (true)
                 {
                     bool isEatPacman = Move();
-                    if (isEatPacman == false)
-                        return true;
+                    if (isEatPacman == false && PacmanDied != null)
+                        PacmanDied();
                     Thread.Sleep(time);
                 }
             });
         }
+
         public override bool Move()
         {
             PacmanPosition = SearchPacman();
@@ -68,7 +68,7 @@ namespace PacMan.Players
             if (list.Count != 0)
                 Position = list.Pop();
             ICoord old = Map.GetElement(Position);
-            Map.SetElement(new Clyde(Position, Map));
+            Map.SetElement(new Clyde(Map));
             return old;
         }
 

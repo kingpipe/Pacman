@@ -15,12 +15,7 @@ namespace PacMan.Players
             Lives = 3;
             StartPosition();
         }
-        public Pacman(Position position, Map map) : base(map)
-        {
-            Count = 0;
-            Lives = 3;
-            Position = position;
-        }
+
         public override void StartPosition()
         {
             Position = new Position(15, 23);
@@ -61,7 +56,7 @@ namespace PacMan.Players
             {
                 Map.SetElement(new Empty(Position));
                 Position.X = 0;
-                Map.SetElement(new Pacman(Position, Map));
+                Map.SetElement(new Pacman(Map));
                 return true;
             }
             else
@@ -79,7 +74,7 @@ namespace PacMan.Players
             {
                 Map.SetElement(new Empty(Position));
                 Position.X = Map.Width - 1;
-                Map.SetElement(new Pacman(Position, Map));
+                Map.SetElement(new Pacman(Map));
                 return true;
             }
             else

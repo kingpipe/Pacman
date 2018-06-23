@@ -9,7 +9,7 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        public Food(IPosition position)
+        public Food(Position position)
         {
             IsLive = true;
         }

@@ -8,18 +8,22 @@ namespace PacmanDemo
 {
     class Program
     {
+        static bool lost = true;
         static void Main(string[] args)
         {
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
-            bool lost = true;
             DrawMap(game);
             Console.WriteLine($"Score={game.Pacman.Count}");
-            game.Clyde.StartAsync(500);
+            //game.Start();
+            game.Clyde.StartAsync(250);
+            game.Clyde.PacmanDied += Clyde_PacmanIsDied;
             while (true)
             {
                 if (lost == false)
                 {
+                    lost = true;
+                    game.Clyde.PacmanDied -= Clyde_PacmanIsDied;
                     game.RemovePlayers();
                     game.Pacman.Lives--;
                     Console.Clear();
@@ -40,6 +44,8 @@ namespace PacmanDemo
                         }
                         game.Start();
                         CreateElements(game);
+                        game.Clyde.StartAsync(500);
+                        game.Clyde.PacmanDied += Clyde_PacmanIsDied;
                     }
                     else
                     {
@@ -47,9 +53,14 @@ namespace PacmanDemo
                         break;
                     }
                 }
-                Go(game);
+                ChoiceDirectionMovePacman(game);
             }
             Console.ReadLine();
+        }
+
+        private static void Clyde_PacmanIsDied()
+        {
+            lost = false;
         }
 
         private static void TheEnd(Game game)
@@ -59,7 +70,7 @@ namespace PacmanDemo
             Console.WriteLine($"Score={game.Pacman.Count}");
         }
 
-        private static void Go(Game game)
+        private static void ChoiceDirectionMovePacman(Game game)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.LeftArrow)

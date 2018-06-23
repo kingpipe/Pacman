@@ -10,8 +10,8 @@ namespace PacMan
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-       
-        public Map(string path,ISize size)
+
+        public Map(string path, ISize size)
         {
             map = LoadMap(path, size);
             Width = map.GetLength(0);
@@ -66,7 +66,7 @@ namespace PacMan
                     switch (array[counter++])
                     {
                         case '0':
-                            map[x, y] = new Empty(new Position(x,y));
+                            map[x, y] = new Empty(new Position(x, y));
                             break;
                         case '1':
                             map[x, y] = new Wall(new Position(x, y));
@@ -78,10 +78,10 @@ namespace PacMan
                             map[x, y] = new BigGoal(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = new Pacman(new Position(x, y), this);
+                            map[x, y] = new Pacman(this);
                             break;
                         case '7':
-                            map[x, y] = new Clyde(new Position(x, y), this);
+                            map[x, y] = new Clyde(this);
                             break;
                         default:
                             continue;

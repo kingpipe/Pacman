@@ -5,7 +5,7 @@ using PacMan.Foods;
 
 namespace PacMan
 {
-    public class Game:IGame
+    public class Game : IGame
     {
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
@@ -31,14 +31,14 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            Map.map[Clyde.Position.X, Clyde.Position.Y] = new Clyde(Clyde.Position, Map);
-            Map.map[Pacman.Position.X, Pacman.Position.Y] = new Pacman(Pacman.Position, Map);
+            Map.SetElement(new Clyde(Map));
+            Map.SetElement(new Pacman(Map));
         }
 
         public void RemovePlayers()
         {
-            Map.map[Clyde.Position.X, Clyde.Position.Y] = new Empty(Clyde.Position);
-            Map.map[Pacman.Position.X, Pacman.Position.Y] = new Empty(Pacman.Position);
+            Map.SetElement(new Empty(Clyde.Position));
+            Map.SetElement(new Empty(Pacman.Position));
         }
 
         public void Stop()
