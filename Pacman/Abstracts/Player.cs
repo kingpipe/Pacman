@@ -11,6 +11,7 @@ namespace PacMan.Abstracts
 
         public Player(Map map)
         {
+            StartPosition();
             Map = map;
             Direction = Direction.None;
         }

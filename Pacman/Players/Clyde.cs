@@ -12,8 +12,8 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
+        public event Action SinkAboutEatPacman;
         private ICoord oldcoord;
-        public event Action PacmanDied;
 
         public Clyde(Map map) : base(map)
         {
@@ -29,11 +29,14 @@ namespace PacMan.Players
         {
             await Task.Run(() =>
             {
-                while (true)
+                bool pacmanIsLive = true;
+                while (pacmanIsLive)
                 {
-                    bool isEatPacman = Move();
-                    if (isEatPacman == false && PacmanDied != null)
-                        PacmanDied();
+                    pacmanIsLive = Move();
+                    if (pacmanIsLive == false && SinkAboutEatPacman != null)
+                    {
+                        SinkAboutEatPacman();
+                    }
                     Thread.Sleep(time);
                 }
             });

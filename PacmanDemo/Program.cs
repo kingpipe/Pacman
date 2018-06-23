@@ -8,29 +8,23 @@ namespace PacmanDemo
 {
     class Program
     {
-        static bool lost = true;
         static void Main(string[] args)
         {
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             DrawMap(game);
-            Console.WriteLine($"Score={game.Pacman.Count}");
-            //game.Start();
-            game.Clyde.StartAsync(250);
-            game.Clyde.PacmanDied += Clyde_PacmanIsDied;
+            Console.WriteLine($"Score={game.Score}");
+            game.Start();
             while (true)
             {
-                if (lost == false)
+                if (game.PacmanIsLive == false)
                 {
-                    lost = true;
-                    game.Clyde.PacmanDied -= Clyde_PacmanIsDied;
-                    game.RemovePlayers();
-                    game.Pacman.Lives--;
+                    game.PacmanIsDied();
                     Console.Clear();
-                    if (game.Pacman.Lives != 0)
+                    if (game.Lives != 0)
                     {
-                        string liveorlives = game.Pacman.Lives == 1 ? "live" : "lives";
-                        Console.WriteLine($"You lost,you have more {game.Pacman.Lives} {liveorlives}");
+                        string liveorlives = game.Lives == 1 ? "live" : "lives";
+                        Console.WriteLine($"You lost,you have more {game.Lives} {liveorlives}");
                         Console.WriteLine("Press the spacebar to continue the game");
                         while (true)
                         {
@@ -38,18 +32,17 @@ namespace PacmanDemo
                             if (space.Key == ConsoleKey.Spacebar)
                             {
                                 DrawMap(game);
-                                Console.WriteLine($"Score={game.Pacman.Count}");
+                                Console.WriteLine($"Score={game.Score}");
                                 break;
                             }
                         }
                         game.Start();
                         CreateElements(game);
-                        game.Clyde.StartAsync(500);
-                        game.Clyde.PacmanDied += Clyde_PacmanIsDied;
                     }
                     else
                     {
                         TheEnd(game);
+                        game.End();
                         break;
                     }
                 }
@@ -57,12 +50,6 @@ namespace PacmanDemo
             }
             Console.ReadLine();
         }
-
-        private static void Clyde_PacmanIsDied()
-        {
-            lost = false;
-        }
-
         private static void TheEnd(Game game)
         {
             Console.Clear();
@@ -106,7 +93,7 @@ namespace PacmanDemo
             Console.WriteLine($"{LiveorLives} {game.Pacman.Lives} ");
         }
 
-        public static bool Move(Game game, Direction direction)
+        private static bool Move(Game game, Direction direction)
         {
             RemoveElements(game);
             bool value = game.Move(direction);
@@ -132,7 +119,7 @@ namespace PacmanDemo
             Console.WriteLine(Empty.GetCharElement());
         }
 
-        public static void ShowMap(IMap map)
+        private static void ShowMap(IMap map)
         {
             ICoord[,] array = map.map;
             for (int y = 0; y < map.Height; y++)

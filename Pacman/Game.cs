@@ -1,18 +1,34 @@
 ﻿using PacMan.Interfaces;
 using PacMan.Players;
 using PacMan.Foods;
-
+using System;
 
 namespace PacMan
 {
-    public class Game : IGame
+    public class Game : IGame, IDisposable
     {
+        public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
         public Clyde Clyde { get; private set; }
+        public int Score
+        {
+            get
+            {
+                return Pacman.Count;
+            }
+        }
+        public int Lives
+        {
+            get
+            {
+                return Pacman.Lives;
+            }
+        }
 
         public Game(string path, ISize size)
         {
+            PacmanIsLive = true;
             Map = new Map(path, size);
             Pacman = new Pacman(Map);
             Clyde = new Clyde(Map);
@@ -21,12 +37,21 @@ namespace PacMan
         {
             return Pacman.Move(direction);
         }
-        public void Start()
+        public void PacmanIsDied()
         {
+            Clyde.SinkAboutEatPacman -= PacmanIsKilled;
+            Pacman.Lives--;
             RemovePlayers();
             Pacman.StartPosition();
             Clyde.StartPosition();
             CreatePlayers();
+            PacmanIsLive = true;
+        }
+
+        public async void Start()
+        {
+            Clyde.SinkAboutEatPacman += PacmanIsKilled;
+            await Clyde.StartAsync(250);
         }
 
         private void CreatePlayers()
@@ -35,7 +60,7 @@ namespace PacMan
             Map.SetElement(new Pacman(Map));
         }
 
-        public void RemovePlayers()
+        private void RemovePlayers()
         {
             Map.SetElement(new Empty(Clyde.Position));
             Map.SetElement(new Empty(Pacman.Position));
@@ -43,13 +68,22 @@ namespace PacMan
 
         public void Stop()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public void End()
         {
-            throw new System.NotImplementedException();
+            Dispose();
         }
 
+        public void Dispose()
+        {
+            GC.SuppressFinalize(true);
+        }
+
+        private void PacmanIsKilled()
+        {
+            PacmanIsLive = false;
+        }
     }
 }

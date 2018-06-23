@@ -10,14 +10,14 @@ namespace PacMan.Abstracts
         protected Position PacmanPosition { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-
+      
         public Ghost(Map map) : base(map)
         {
             Score = 200;
             IsLive = true;
             Frightened = false;
         }
-
+        
         public virtual bool Move()
         {
             throw new NotImplementedException();
