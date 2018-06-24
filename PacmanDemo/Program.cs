@@ -13,6 +13,7 @@ namespace PacmanDemo
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             DrawMap(game);
+            Console.CursorVisible = false;
             Console.WriteLine($"Score={game.Score}");
             game.Start();
             while (true)

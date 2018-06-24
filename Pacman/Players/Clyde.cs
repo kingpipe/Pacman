@@ -25,10 +25,28 @@ namespace PacMan.Players
         {
             Position = new Position(15, 11);
         }
+        public void Start(System.Timers.Timer clydeTimer)
+        {
+            clydeTimer.Elapsed += ClydeTimer_Elapsed;
+            clydeTimer.Start();
+        }
+        public void Stop(System.Timers.Timer clydeTimer)
+        {
+            clydeTimer.Stop();
+        }
+
+        private void ClydeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            bool PacmanIsLive = Move();
+            if (PacmanIsLive == false)
+                SinkAboutEatPacman();
+        }
+
         public async Task StartAsync(int time)
         {
             await Task.Run(() =>
             {
+                PacmanPosition = SearchPacman();
                 bool pacmanIsLive = true;
                 while (pacmanIsLive)
                 {
@@ -44,34 +62,37 @@ namespace PacMan.Players
 
         public override bool Move()
         {
-            PacmanPosition = SearchPacman();
-
-            if (PacmanPosition != Position)
+            lock (this)
             {
-                var astar = new AstarAlgorithm();
-                Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
-                oldcoord = Go(list, oldcoord);
-                if (PacmanPosition == Position)
+                PacmanPosition = SearchPacman();
+
+                if (PacmanPosition != Position)
+                {
+                    var astar = new AstarAlgorithm();
+                    Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
+                    oldcoord = Go(list, oldcoord);
+                    if (PacmanPosition == Position)
+                    {
+                        oldcoord = new Empty(Position);
+                        return false;
+                    }
+                    return true;
+                }
+                else
                 {
                     oldcoord = new Empty(Position);
                     return false;
                 }
-                return true;
-            }
-            else
-            {
-                oldcoord = new Empty(Position);
-                return false;
             }
         }
 
         private ICoord Go(Stack<Position> list, ICoord coord)
         {
-            Map.SetElement(coord);
+            Map.SetElement(coord, Position);
             if (list.Count != 0)
                 Position = list.Pop();
             ICoord old = Map.GetElement(Position);
-            Map.SetElement(new Clyde(Map));
+            Map.SetElement(new Clyde(Map), Position);
             return old;
         }
 

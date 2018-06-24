@@ -2,6 +2,7 @@
 using PacMan.Players;
 using PacMan.Foods;
 using System;
+using System.Timers;
 
 namespace PacMan
 {
@@ -25,9 +26,11 @@ namespace PacMan
                 return Pacman.Lives;
             }
         }
+        public Timer ClydeTimer { get; set; }
 
         public Game(string path, ISize size)
         {
+            ClydeTimer = new Timer(500);
             PacmanIsLive = true;
             Map = new Map(path, size);
             Pacman = new Pacman(Map);
@@ -51,7 +54,7 @@ namespace PacMan
         public async void Start()
         {
             Clyde.SinkAboutEatPacman += PacmanIsKilled;
-            await Clyde.StartAsync(250);
+            await Clyde.StartAsync(500);
         }
 
         private void CreatePlayers()

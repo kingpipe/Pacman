@@ -10,14 +10,15 @@ namespace PacMan.Abstracts
         protected Position PacmanPosition { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-      
+
         public Ghost(Map map) : base(map)
         {
+            PacmanPosition = SearchPacman();
             Score = 200;
             IsLive = true;
             Frightened = false;
         }
-        
+
         public virtual bool Move()
         {
             throw new NotImplementedException();
@@ -29,7 +30,7 @@ namespace PacMan.Abstracts
                 for (int x = 0; x < Map.Width; x++)
                     if (Map.map[x, y] is Pacman)
                         return new Position(x, y);
-            return Position;
+            return PacmanPosition;
         }
     }
 }
