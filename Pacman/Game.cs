@@ -11,7 +11,7 @@ namespace PacMan
         public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
-        public Clyde Clyde { get; private set; }
+        public Blinky Clyde { get; private set; }
         public int Score
         {
             get
@@ -34,7 +34,7 @@ namespace PacMan
             PacmanIsLive = true;
             Map = new Map(path, size);
             Pacman = new Pacman(Map);
-            Clyde = new Clyde(Map);
+            Clyde = new Blinky(Map);
         }
         public bool Move(Direction direction)
         {
@@ -59,7 +59,7 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            Map.SetElement(new Clyde(Map));
+            Map.SetElement(new Blinky(Map));
             Map.SetElement(new Pacman(Map));
         }
 

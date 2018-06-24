@@ -55,8 +55,8 @@
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="Players\Blinky.cs" />
     <Compile Include="Players\Clyde.cs" />
+    <Compile Include="Players\Blinky.cs" />
     <Compile Include="Abstracts\Ghost.cs" />
     <Compile Include="Players\Inky.cs" />
     <Compile Include="Players\Pinky.cs" />

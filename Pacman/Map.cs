@@ -80,8 +80,11 @@ namespace PacMan
                         case '5':
                             map[x, y] = new Pacman(this);
                             break;
-                        case '7':
+                        case '6':
                             map[x, y] = new Clyde(this);
+                            break;
+                        case '7':
+                            map[x, y] = new Blinky(this);
                             break;
                         default:
                             continue;

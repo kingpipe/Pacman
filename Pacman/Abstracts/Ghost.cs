@@ -4,8 +4,10 @@ using System;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Ghost : Player, IGhost, IFood
+    abstract public class Ghost : Player, IGhost, IFood, IEventSink
     {
+        public abstract event Action SinkAboutEatPacman;
+        protected ICoord oldcoord;
         public bool Frightened { get; set; }
         protected Position PacmanPosition { get; set; }
         public int Score { get; set; }

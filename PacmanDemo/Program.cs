@@ -109,7 +109,7 @@ namespace PacmanDemo
             Console.WriteLine(Pacman.GetCharElement());
 
             Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
-            Console.WriteLine(Clyde.GetCharElement());
+            Console.WriteLine(Blinky.GetCharElement());
         }
 
         private static void RemoveElements(Game game)
@@ -146,12 +146,16 @@ namespace PacmanDemo
                     if (array[x, y] is Pacman)
                     {
                         Console.Write(Pacman.GetCharElement());
-
+                    }
+                    if (array[x, y] is Blinky)
+                    {
+                        Console.Write(Blinky.GetCharElement());
                     }
                     if (array[x, y] is Clyde)
                     {
                         Console.Write(Clyde.GetCharElement());
                     }
+
                 }
                 Console.WriteLine();
             }
