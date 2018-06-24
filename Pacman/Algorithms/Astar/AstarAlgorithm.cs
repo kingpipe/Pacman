@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PacMan.Algorithms.Astar
 {
-    class AstarAlgorithm
+    class AstarAlgorithm : IStrategy
     {
         public Stack<Position> FindPath(ICoord[,] map, Position start, Position goal)
         {
@@ -51,7 +51,7 @@ namespace PacMan.Algorithms.Astar
         {
             return Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
         }
-        private Collection<PathNode> GetNeighbours(PathNode pathNode,  Position goal, ICoord[,] field)
+        private Collection<PathNode> GetNeighbours(PathNode pathNode, Position goal, ICoord[,] field)
         {
             var result = new Collection<PathNode>();
 

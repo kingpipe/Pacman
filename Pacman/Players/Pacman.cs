@@ -31,6 +31,7 @@ namespace PacMan.Players
             else
             {
                 Count += ((IFood)coord).Score;
+                ((IFood)coord).IsLive = false;
             }
 
         }

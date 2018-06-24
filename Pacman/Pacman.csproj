@@ -52,6 +52,7 @@
     <Compile Include="Interfaces\ICoord.cs" />
     <Compile Include="Interfaces\IEateble.cs" />
     <Compile Include="Interfaces\IMap.cs" />
+    <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Players\Blinky.cs" />
     <Compile Include="Players\Clyde.cs" />

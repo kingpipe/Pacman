@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface ISelfMovable: IMovable
+    interface ISelfMovable: IMovable
     {
         bool Move();
     }

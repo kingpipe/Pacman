@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IEventSink
+    interface IEventSink
     {
     }
 }
