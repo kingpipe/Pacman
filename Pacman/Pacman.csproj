@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
+    <Compile Include="Algorithms\RandomMoving.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Foods\BigGoal.cs" />
     <Compile Include="Foods\Cherry.cs" />

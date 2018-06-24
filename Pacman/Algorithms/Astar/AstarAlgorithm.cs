@@ -67,7 +67,7 @@ namespace PacMan.Algorithms.Astar
                     continue;
                 if (point.Y < 0 || point.Y >= field.GetLength(1))
                     continue;
-                if (field[point.X, point.Y] is Wall)
+                if (field[point.X, point.Y] is Wall || field[point.X, point.Y] is IGhost)
                     continue;
                 var neighbourNode = new PathNode()
                 {

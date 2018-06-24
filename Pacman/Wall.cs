@@ -9,7 +9,7 @@ namespace PacMan
 
         public Wall(Position position)
         {
-            this.Position = position;
+            Position = position;
         }
 
         public static char GetCharElement()

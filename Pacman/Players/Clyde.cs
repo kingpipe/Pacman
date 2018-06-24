@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using PacMan.Abstracts;
+using PacMan.Algorithms;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
 using PacMan.Interfaces;
@@ -68,7 +69,7 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    var astar = new AstarAlgorithm();
+                    var astar = new RandomMoving();
                     Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
