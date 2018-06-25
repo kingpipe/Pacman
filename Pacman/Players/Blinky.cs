@@ -40,7 +40,29 @@ namespace PacMan.Players
             if (PacmanIsLive == false)
                 SinkAboutEatPacman();
         }
-        
+
+
+
+        public virtual async Task StartAsync(int time)
+        {
+            await Task.Run(() =>
+            {
+                PacmanPosition = SearchPacman();
+                while (pacmanIsLive)
+                {
+                    pacmanIsLive = Move();
+                    if (pacmanIsLive == false)
+                    {
+                        if (SinkAboutEatPacman != null)
+                            SinkAboutEatPacman();
+                        else
+                            throw new NullReferenceException();
+                    }
+                    Thread.Sleep(time);
+                }
+            });
+        }
+
         public override bool Move()
         {
             lock (this)
