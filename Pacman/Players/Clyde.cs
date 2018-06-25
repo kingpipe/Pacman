@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using PacMan.Abstracts;
-using PacMan.Algorithms.Astar;
+using PacMan.Algorithms;
 using PacMan.Foods;
 using PacMan.Interfaces;
 
@@ -11,34 +11,18 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
-        public override event Action SinkAboutEatPacman;
+        private Stack<Position> list = new Stack<Position>();
+        private IStrategy ramdom = new RandomMoving();
 
-        public Clyde(Map map):base(map)
+        public Clyde(Map map) : base(map)
         {
             StartPosition();
+            oldcoord = new Empty(Position);
         }
 
         public override void StartPosition()
         {
-            Position = new Position(15, 15);
-        }
-
-        public async Task StartAsync(int time)
-        {
-            await Task.Run(() =>
-            {
-                PacmanPosition = SearchPacman();
-                bool pacmanIsLive = true;
-                while (pacmanIsLive)
-                {
-                    pacmanIsLive = Move();
-                    if (pacmanIsLive == false && SinkAboutEatPacman != null)
-                    {
-                        SinkAboutEatPacman();
-                    }
-                    Thread.Sleep(time);
-                }
-            });
+            Position = new Position(19, 11);
         }
 
         public override bool Move()
@@ -49,8 +33,10 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    var astar = new AstarAlgorithm();
-                    Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
+                    if (list.Count == 0)
+                    {
+                        list = ramdom.FindPath(Map.map, Position, PacmanPosition);
+                    }
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
                     {

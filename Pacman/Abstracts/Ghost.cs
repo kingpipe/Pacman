@@ -1,12 +1,14 @@
 ﻿using PacMan.Interfaces;
 using PacMan.Players;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PacMan.Abstracts
 {
     abstract public class Ghost : Player, IGhost, IFood, IEventSink
     {
-        public abstract event Action SinkAboutEatPacman;
+        public virtual event Action SinkAboutEatPacman;
         protected ICoord oldcoord;
         public bool Frightened { get; set; }
         protected Position PacmanPosition { get; set; }
@@ -34,5 +36,25 @@ namespace PacMan.Abstracts
                         return new Position(x, y);
             return PacmanPosition;
         }
+
+
+        public virtual async Task StartAsync(int time)
+        {
+            await Task.Run(() =>
+            {
+                PacmanPosition = SearchPacman();
+                bool pacmanIsLive = true;
+                while (pacmanIsLive)
+                {
+                    pacmanIsLive = Move();
+                    if (pacmanIsLive == false && SinkAboutEatPacman != null)
+                    {
+                        SinkAboutEatPacman();
+                    }
+                    Thread.Sleep(time);
+                }
+            });
+        }
+
     }
 }

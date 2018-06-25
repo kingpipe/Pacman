@@ -11,7 +11,8 @@ namespace PacMan
         public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
-        public Blinky Clyde { get; private set; }
+        public Blinky Blinky { get; private set; }
+        public Clyde Clyde { get; private set; }
         public int Score
         {
             get
@@ -26,7 +27,7 @@ namespace PacMan
                 return Pacman.Lives;
             }
         }
-        public Timer ClydeTimer { get; set; }
+        private Timer ClydeTimer { get; set; }
 
         public Game(string path, ISize size)
         {
@@ -34,7 +35,8 @@ namespace PacMan
             PacmanIsLive = true;
             Map = new Map(path, size);
             Pacman = new Pacman(Map);
-            Clyde = new Blinky(Map);
+            Blinky = new Blinky(Map);
+            Clyde = new Clyde(Map);
         }
         public bool Move(Direction direction)
         {
@@ -42,10 +44,12 @@ namespace PacMan
         }
         public void PacmanIsDied()
         {
+            Blinky.SinkAboutEatPacman -= PacmanIsKilled;
             Clyde.SinkAboutEatPacman -= PacmanIsKilled;
             Pacman.Lives--;
             RemovePlayers();
             Pacman.StartPosition();
+            Blinky.StartPosition();
             Clyde.StartPosition();
             CreatePlayers();
             PacmanIsLive = true;
@@ -54,19 +58,23 @@ namespace PacMan
         public async void Start()
         {
             Clyde.SinkAboutEatPacman += PacmanIsKilled;
-            await Clyde.StartAsync(500);
+            Blinky.SinkAboutEatPacman += PacmanIsKilled;
+            Clyde.StartAsync(500);
+            await Blinky.StartAsync(500);
         }
 
         private void CreatePlayers()
         {
             Map.SetElement(new Blinky(Map));
             Map.SetElement(new Pacman(Map));
+            Map.SetElement(new Clyde(Map));
         }
 
         private void RemovePlayers()
         {
-            Map.SetElement(new Empty(Clyde.Position));
+            Map.SetElement(new Empty(Blinky.Position));
             Map.SetElement(new Empty(Pacman.Position));
+            Map.SetElement(new Empty(Clyde.Position));
         }
 
         public void Stop()
