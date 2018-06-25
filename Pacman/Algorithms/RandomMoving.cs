@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 
 namespace PacMan.Algorithms
@@ -12,9 +10,10 @@ namespace PacMan.Algorithms
         {
             Stack<Position> Shadow = new Stack<Position>();
             Random random = new Random();
-            Direction direction = (Direction)random.Next(1, 4);
             while (Shadow.Count == 0)
             {
+                Direction direction = (Direction)random.Next(1, 5);
+
                 if (direction == Direction.Right)
                     GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
                 if (direction == Direction.Left)
@@ -29,7 +28,7 @@ namespace PacMan.Algorithms
 
         private void GoStraightLeft(Position position, ICoord[,] map, ref Stack<Position> swadow)
         {
-            if (!(map[position.X, position.Y] is Wall))
+            if (CanMove(position, map))
             {
                 GoStraightLeft(new Position(position.X - 1, position.Y), map, ref swadow);
                 swadow.Push(position);
@@ -38,7 +37,7 @@ namespace PacMan.Algorithms
 
         private void GoStraightRight(Position position, ICoord[,] map, ref Stack<Position> swadow)
         {
-            if (!(map[position.X, position.Y] is Wall))
+            if (CanMove(position, map))
             {
                 GoStraightRight(new Position(position.X + 1, position.Y), map, ref swadow);
                 swadow.Push(position);
@@ -47,7 +46,7 @@ namespace PacMan.Algorithms
 
         private void GoStraightUp(Position position, ICoord[,] map, ref Stack<Position> swadow)
         {
-            if (!(map[position.X, position.Y] is Wall))
+            if (CanMove(position, map))
             {
                 GoStraightUp(new Position(position.X, position.Y - 1), map, ref swadow);
                 swadow.Push(position);
@@ -56,12 +55,16 @@ namespace PacMan.Algorithms
 
         private void GoStraightDown(Position position, ICoord[,] map, ref Stack<Position> swadow)
         {
-            if (!(map[position.X, position.Y] is Wall))
+            if (CanMove(position, map))
             {
                 GoStraightDown(new Position(position.X, position.Y + 1), map, ref swadow);
                 swadow.Push(position);
             }
         }
 
+        private bool CanMove(Position position, ICoord[,] map)
+        {
+            return !(map[position.X, position.Y] is Wall) && !(map[position.X, position.Y] is IGhost);
+        }
     }
 }

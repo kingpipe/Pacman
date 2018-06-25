@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using PacMan.Abstracts;
+using PacMan.Algorithms;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
 using PacMan.Interfaces;
@@ -11,7 +12,9 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
+        private Stack<Position> list = new Stack<Position>();
         public override event Action SinkAboutEatPacman;
+        IStrategy random = new RandomMoving();
 
         public Clyde(Map map):base(map)
         {
@@ -20,7 +23,7 @@ namespace PacMan.Players
 
         public override void StartPosition()
         {
-            Position = new Position(15, 15);
+            Position = new Position(19, 11);
         }
 
         public async Task StartAsync(int time)
@@ -49,8 +52,10 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    var astar = new AstarAlgorithm();
-                    Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
+                    if (list.Count == 0)
+                    {
+                        list = random.FindPath(Map.map, Position, PacmanPosition);
+                    }
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
                     {
