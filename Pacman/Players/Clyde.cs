@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
+using PacMan.Algorithms.Astar;
 using PacMan.Foods;
 using PacMan.Interfaces;
 
@@ -11,9 +12,9 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
-        public override event Action SinkAboutEatPacman;
         private Stack<Position> list = new Stack<Position>();
-        private IStrategy ramdom = new RandomMoving();
+        public override event Action SinkAboutEatPacman;
+        IStrategy random = new RandomMoving();
 
         public Clyde(Map map) : base(map)
         {
@@ -56,7 +57,7 @@ namespace PacMan.Players
                 {
                     if (list.Count == 0)
                     {
-                        list = ramdom.FindPath(Map.map, Position, PacmanPosition);
+                        list = random.FindPath(Map.map, Position, PacmanPosition);
                     }
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)

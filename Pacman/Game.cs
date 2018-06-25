@@ -57,8 +57,8 @@ namespace PacMan
 
         public async void Start()
         {
-            Clyde.SinkAboutEatPacman += PacmanIsKilled;
             Blinky.SinkAboutEatPacman += PacmanIsKilled;
+            Clyde.SinkAboutEatPacman += PacmanIsKilled;
             Clyde.StartAsync(500);
             await Blinky.StartAsync(500);
         }
@@ -75,6 +75,8 @@ namespace PacMan
             Map.SetElement(new Empty(Blinky.Position));
             Map.SetElement(new Empty(Pacman.Position));
             Map.SetElement(new Empty(Clyde.Position));
+            Map.SetElement(new Empty(Blinky.Position));
+            Map.SetElement(new Empty(Pacman.Position));
         }
 
         public void Stop()

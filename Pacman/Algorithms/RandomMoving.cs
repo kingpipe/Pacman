@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 
 namespace PacMan.Algorithms
@@ -15,6 +13,7 @@ namespace PacMan.Algorithms
             while (Shadow.Count == 0)
             {
                 Direction direction = (Direction)random.Next(1, 5);
+
                 if (direction == Direction.Right)
                     GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
                 if (direction == Direction.Left)
@@ -63,11 +62,9 @@ namespace PacMan.Algorithms
             }
         }
 
-
         private bool CanMove(Position position, ICoord[,] map)
         {
             return !(map[position.X, position.Y] is Wall) && !(map[position.X, position.Y] is IGhost);
         }
-
     }
 }
