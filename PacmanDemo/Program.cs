@@ -22,7 +22,7 @@ namespace PacmanDemo
                 {
                     game.PacmanIsDied();
                     Console.Clear();
-                    if (game.Lives != 0)
+                    if (game.Lives > 0)
                     {
                         string liveorlives = game.Lives == 1 ? "live" : "lives";
                         Console.WriteLine($"You lost,you have more {game.Lives} {liveorlives}");
@@ -37,8 +37,8 @@ namespace PacmanDemo
                                 break;
                             }
                         }
-                        game.Start();
                         CreateElements(game);
+                        game.Start();
                     }
                     else
                     {

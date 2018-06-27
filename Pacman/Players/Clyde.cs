@@ -31,6 +31,12 @@ namespace PacMan.Players
             clydeTimer.Start();
         }
 
+        public void Stop(System.Timers.Timer clydeTimer)
+        {
+            clydeTimer.Elapsed -= ClydeTimer_Elapsed;
+            clydeTimer.Stop();
+        }
+
         private void ClydeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             PacmanIsLive = Move();

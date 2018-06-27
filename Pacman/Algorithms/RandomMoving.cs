@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 
 namespace PacMan.Algorithms
@@ -14,14 +16,21 @@ namespace PacMan.Algorithms
             {
                 Direction direction = (Direction)random.Next(1, 5);
 
-                if (direction == Direction.Right)
-                    GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
-                if (direction == Direction.Left)
-                    GoStraightLeft(new Position(start.X - 1, start.Y), map, ref Shadow);
-                if (direction == Direction.Down)
-                    GoStraightDown(new Position(start.X, start.Y + 1), map, ref Shadow);
-                if (direction == Direction.Up)
-                    GoStraightUp(new Position(start.X, start.Y - 1), map, ref Shadow);
+                switch (direction)
+                {
+                    case Direction.Right:
+                        GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
+                        break;
+                    case Direction.Left:
+                        GoStraightLeft(new Position(start.X - 1, start.Y), map, ref Shadow);
+                        break;
+                    case Direction.Up:
+                        GoStraightUp(new Position(start.X, start.Y - 1), map, ref Shadow);
+                        break;
+                    case Direction.Down:
+                        GoStraightDown(new Position(start.X, start.Y + 1), map, ref Shadow);
+                        break;
+                }
             }
             return Shadow;
         }

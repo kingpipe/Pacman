@@ -31,6 +31,11 @@ namespace PacMan.Players
             blinkyTimer.Elapsed += BlinkyTimer_Elapsed;
             blinkyTimer.Start();
         }
+        public void Stop(System.Timers.Timer blinkyTimer)
+        {
+            blinkyTimer.Elapsed -= BlinkyTimer_Elapsed;
+            blinkyTimer.Stop();
+        }
 
         private void BlinkyTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
