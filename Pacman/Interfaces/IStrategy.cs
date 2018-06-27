@@ -4,6 +4,6 @@ namespace PacMan.Interfaces
 {
     interface IStrategy
     {
-        Stack<Position> FindPath(ICoord[,] map, Position start, Position goal);
+        Stack<Position> FindPath(IMap map, Position start, Position goal);
     }
 }

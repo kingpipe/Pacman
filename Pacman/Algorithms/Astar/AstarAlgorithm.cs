@@ -8,7 +8,7 @@ namespace PacMan.Algorithms.Astar
 {
     class AstarAlgorithm : IStrategy
     {
-        public Stack<Position> FindPath(ICoord[,] map, Position start, Position goal)
+        public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             var closedSet = new Collection<PathNode>();
             var openSet = new Collection<PathNode>();
@@ -29,7 +29,7 @@ namespace PacMan.Algorithms.Astar
                     return GetPathForNode(currentNode);
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
-                foreach (var neighbourNode in GetNeighbours(currentNode, goal, map))
+                foreach (var neighbourNode in GetNeighbours(currentNode, goal, map.map))
                 {
                     if (closedSet.Count(node => node.position == neighbourNode.position) > 0)
                         continue;

@@ -8,7 +8,7 @@ namespace PacMan.Algorithms
 {
     class RandomMoving : IStrategy
     {
-        public Stack<Position> FindPath(ICoord[,] map, Position start, Position goal)
+        public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             Stack<Position> Shadow = new Stack<Position>();
             Random random = new Random();
@@ -19,16 +19,16 @@ namespace PacMan.Algorithms
                 switch (direction)
                 {
                     case Direction.Right:
-                        GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
+                        GoStraightRight(new Position(start.X + 1, start.Y), map.map, ref Shadow);
                         break;
                     case Direction.Left:
-                        GoStraightLeft(new Position(start.X - 1, start.Y), map, ref Shadow);
+                        GoStraightLeft(new Position(start.X - 1, start.Y), map.map, ref Shadow);
                         break;
                     case Direction.Up:
-                        GoStraightUp(new Position(start.X, start.Y - 1), map, ref Shadow);
+                        GoStraightUp(new Position(start.X, start.Y - 1), map.map, ref Shadow);
                         break;
                     case Direction.Down:
-                        GoStraightDown(new Position(start.X, start.Y + 1), map, ref Shadow);
+                        GoStraightDown(new Position(start.X, start.Y + 1), map.map, ref Shadow);
                         break;
                 }
             }

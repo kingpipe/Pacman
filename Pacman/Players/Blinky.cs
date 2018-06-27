@@ -42,7 +42,6 @@ namespace PacMan.Players
             PacmanIsLive = Move();
             if (PacmanIsLive == false)
             {
-                //((System.Timers.Timer)sender).Stop();
                 SinkAboutEatPacman();
             }
         }
@@ -78,7 +77,7 @@ namespace PacMan.Players
                 if (PacmanPosition != Position)
                 {
                     var astar = new AstarAlgorithm();
-                    Stack<Position> list = astar.FindPath(Map.map, Position, PacmanPosition);
+                    Stack<Position> list = astar.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
                     {
