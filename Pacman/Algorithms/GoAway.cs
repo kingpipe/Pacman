@@ -7,17 +7,23 @@ namespace PacMan.Algorithms
     class GoAway : IStrategy
     {
         private IStrategy astar = new AstarAlgorithm();
+
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
-            if (goal.X < map.Width / 2 && goal.Y < map.Height / 2)
-                goal = new Position(map.Width - 2, map.Height - 1);
-            if (goal.X >= map.Width / 2 && goal.Y < map.Height / 2)
-                goal = new Position(map.Width - 2, 1);
-            if (goal.X < map.Width / 2 && goal.Y >= map.Height / 2)
-                goal = new Position(2, map.Height - 1);
-            if (goal.X >= map.Width / 2 && goal.Y >= map.Height / 2)
-                goal = new Position(2, 1);
-            return astar.FindPath(map, start, goal);
+            int x = map.Width / 2;
+            int y = map.Height / 2;
+            Position value = goal;
+            
+                if (goal.X < x && goal.Y < y)
+                    value = new Position(map.Width - 3, map.Height - 2);
+                if (goal.X >= x && goal.Y < y)
+                    value = new Position(2, map.Height - 2);
+                if (goal.X < x && goal.Y >= y)
+                    value = new Position(map.Width - 3, 1);
+                if (goal.X >= x && goal.Y >= y)
+                    value = new Position(2, 1);
+               
+            return astar.FindPath(map, start, value);
         }
     }
 }

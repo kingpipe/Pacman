@@ -12,7 +12,7 @@ namespace PacMan.Players
     {
         public override event Action SinkAboutEatPacman;
         private Stack<Position> list = new Stack<Position>();
-        private IStrategy random = new RandomMoving();
+        private IStrategy random = new GoAway();
 
         public Inky(Map map) : base(map)
         {
