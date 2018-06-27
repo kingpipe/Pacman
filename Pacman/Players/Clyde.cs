@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
 using PacMan.Foods;
@@ -11,7 +10,6 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
-        private object obj = new object();
         public override event Action SinkAboutEatPacman;
         private Stack<Position> list = new Stack<Position>();
         private IStrategy random = new RandomMoving();
@@ -25,45 +23,14 @@ namespace PacMan.Players
         {
             Position = new Position(19, 11);
         }
-        public void Start(System.Timers.Timer clydeTimer)
+        
+        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            clydeTimer.Elapsed += ClydeTimer_Elapsed;
-            clydeTimer.Start();
-        }
-
-        public void Stop(System.Timers.Timer clydeTimer)
-        {
-            clydeTimer.Elapsed -= ClydeTimer_Elapsed;
-            clydeTimer.Stop();
-        }
-
-        private void ClydeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            PacmanIsLive = Move();
-            if (PacmanIsLive == false)
+            pacmanIsLive = Move();
+            if (pacmanIsLive == false)
             {
                 SinkAboutEatPacman();
             }
-        }
-
-        public async Task StartAsync(int time)
-        {
-            await Task.Run(() =>
-            {
-                lock (obj)
-                {
-                    while (true)
-                    {
-                        PacmanIsLive = Move();
-                        if (PacmanIsLive == false && SinkAboutEatPacman != null)
-                        {
-                            SinkAboutEatPacman();
-                            break;
-                        }
-                        Thread.Sleep(time);
-                    }
-                }
-            });
         }
 
         public override bool Move()
@@ -93,17 +60,6 @@ namespace PacMan.Players
                 }
             }
         }
-
-        private ICoord Go(Stack<Position> list, ICoord coord)
-        {
-            Map.SetElement(coord, Position);
-            if (list.Count != 0)
-                Position = list.Pop();
-            ICoord old = Map.GetElement(Position);
-            Map.SetElement(this, Position);
-            return old;
-        }
-
 
         public static char GetCharElement()
         {

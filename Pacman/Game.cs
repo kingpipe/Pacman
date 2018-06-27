@@ -6,8 +6,6 @@ using System.Timers;
 
 namespace PacMan
 {
-    public delegate void StopTimers();
-
     public class Game : IGame, IDisposable
     {
         public bool PacmanIsLive { get; set; }
