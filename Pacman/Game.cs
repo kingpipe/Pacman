@@ -6,12 +6,16 @@ using System.Timers;
 
 namespace PacMan
 {
+    public delegate void StopTimers();
+
     public class Game : IGame, IDisposable
     {
+        public event StopTimers StopTimer;
         public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
-        public Blinky Clyde { get; private set; }
+        public Blinky Blinky { get; private set; }
+        public Clyde Clyde { get; private set; }
         public int Score
         {
             get
@@ -26,15 +30,18 @@ namespace PacMan
                 return Pacman.Lives;
             }
         }
-        public Timer ClydeTimer { get; set; }
+        private Timer BlinkyTimer { get; set; }
+        private Timer ClydeTimer { get; set; }
 
         public Game(string path, ISize size)
         {
+            BlinkyTimer = new Timer(500);
             ClydeTimer = new Timer(500);
             PacmanIsLive = true;
             Map = new Map(path, size);
             Pacman = new Pacman(Map);
-            Clyde = new Blinky(Map);
+            Blinky = new Blinky(Map);
+            Clyde = new Clyde(Map);
         }
         public bool Move(Direction direction)
         {
@@ -42,23 +49,37 @@ namespace PacMan
         }
         public void PacmanIsDied()
         {
-            Clyde.SinkAboutEatPacman -= PacmanIsKilled;
+            Blinky.SinkAboutEatPacman -= PacmanIsKilled;
             Pacman.Lives--;
             RemovePlayers();
             Pacman.StartPosition();
-            Clyde.StartPosition();
+            Blinky.StartPosition();
             CreatePlayers();
             PacmanIsLive = true;
         }
 
         public async void Start()
         {
+            Blinky.SinkAboutEatPacman += PacmanIsKilled;
             Clyde.SinkAboutEatPacman += PacmanIsKilled;
-            await Clyde.StartAsync(500);
+
+            StopTimer += Game_StopTimer;
+            //Blinky.Start(BlinkyTimer);
+            //Clyde.Start(ClydeTimer);
+
+            Clyde.StartAsync(500);
+            await Blinky.StartAsync(500);
+        }
+
+        private void Game_StopTimer()
+        {
+            BlinkyTimer.Stop();
+            ClydeTimer.Stop();
         }
 
         private void CreatePlayers()
         {
+            Map.SetElement(new Clyde(Map));
             Map.SetElement(new Blinky(Map));
             Map.SetElement(new Pacman(Map));
         }
@@ -66,6 +87,7 @@ namespace PacMan
         private void RemovePlayers()
         {
             Map.SetElement(new Empty(Clyde.Position));
+            Map.SetElement(new Empty(Blinky.Position));
             Map.SetElement(new Empty(Pacman.Position));
         }
 
@@ -87,6 +109,7 @@ namespace PacMan
         private void PacmanIsKilled()
         {
             PacmanIsLive = false;
+            StopTimer();
         }
     }
 }

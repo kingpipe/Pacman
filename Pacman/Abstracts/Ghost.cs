@@ -12,6 +12,7 @@ namespace PacMan.Abstracts
         protected Position PacmanPosition { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
+        protected bool PacmanIsLive = true;
 
         public Ghost(Map map) : base(map)
         {

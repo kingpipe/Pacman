@@ -12,7 +12,7 @@ namespace PacMan.Players
         public Pacman(Map map) : base(map)
         {
             Count = 0;
-            Lives = 3;
+            Lives = 6;
             StartPosition();
         }
 
