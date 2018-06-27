@@ -12,6 +12,7 @@ namespace PacMan.Players
 {
     public class Blinky : Ghost
     {
+        public object obj = new object();
         public override event Action SinkAboutEatPacman;
 
         public Blinky(Map map) : base(map)
@@ -24,21 +25,21 @@ namespace PacMan.Players
         {
             Position = new Position(15, 11);
         }
-        public void Start(System.Timers.Timer clydeTimer)
+
+        public void Start(System.Timers.Timer blinkyTimer)
         {
-            clydeTimer.Elapsed += ClydeTimer_Elapsed;
-            clydeTimer.Start();
-        }
-        public void Stop(System.Timers.Timer clydeTimer)
-        {
-            clydeTimer.Stop();
+            blinkyTimer.Elapsed += BlinkyTimer_Elapsed;
+            blinkyTimer.Start();
         }
 
-        private void ClydeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void BlinkyTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            bool PacmanIsLive = Move();
+            PacmanIsLive = Move();
             if (PacmanIsLive == false)
+            {
+                //((System.Timers.Timer)sender).Stop();
                 SinkAboutEatPacman();
+            }
         }
 
 
@@ -47,25 +48,25 @@ namespace PacMan.Players
         {
             await Task.Run(() =>
             {
-                PacmanPosition = SearchPacman();
-                while (pacmanIsLive)
+                lock (obj)
                 {
-                    pacmanIsLive = Move();
-                    if (pacmanIsLive == false)
+                    while (true)
                     {
-                        if (SinkAboutEatPacman != null)
+                        PacmanIsLive = Move();
+                        if (PacmanIsLive == false && SinkAboutEatPacman != null)
+                        {
                             SinkAboutEatPacman();
-                        else
-                            throw new NullReferenceException();
+                            break;
+                        }
+                        Thread.Sleep(time);
                     }
-                    Thread.Sleep(time);
                 }
             });
         }
 
         public override bool Move()
         {
-            lock (this)
+            lock (obj)
             {
                 PacmanPosition = SearchPacman();
 

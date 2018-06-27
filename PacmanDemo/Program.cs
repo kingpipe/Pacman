@@ -111,12 +111,8 @@ namespace PacmanDemo
             Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
             Console.WriteLine(Blinky.GetCharElement());
 
-
             Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
             Console.WriteLine(Clyde.GetCharElement());
-
-            Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
-            Console.WriteLine(Blinky.GetCharElement());
         }
 
         private static void RemoveElements(Game game)
@@ -129,6 +125,9 @@ namespace PacmanDemo
             Console.WriteLine(Empty.GetCharElement());
 
             Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
+            Console.WriteLine(Empty.GetCharElement());
+
+            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
         }

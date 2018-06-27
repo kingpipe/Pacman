@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
-using PacMan.Algorithms.Astar;
 using PacMan.Foods;
 using PacMan.Interfaces;
 
@@ -12,10 +11,10 @@ namespace PacMan.Players
 {
     public class Clyde : Ghost
     {
-        private Stack<Position> list = new Stack<Position>();
+        private object obj = new object();
         public override event Action SinkAboutEatPacman;
-        IStrategy random = new RandomMoving();
-
+        private Stack<Position> list = new Stack<Position>();
+        private IStrategy random = new RandomMoving();
         public Clyde(Map map) : base(map)
         {
             StartPosition();
@@ -26,30 +25,45 @@ namespace PacMan.Players
         {
             Position = new Position(19, 11);
         }
+        public void Start(System.Timers.Timer clydeTimer)
+        {
+            clydeTimer.Elapsed += ClydeTimer_Elapsed;
+            clydeTimer.Start();
+        }
 
-        public virtual async Task StartAsync(int time)
+        private void ClydeTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            PacmanIsLive = Move();
+            if (PacmanIsLive == false)
+            {
+                //((System.Timers.Timer)sender).Stop();
+                SinkAboutEatPacman();
+            }
+        }
+
+        public async Task StartAsync(int time)
         {
             await Task.Run(() =>
             {
-                PacmanPosition = SearchPacman();
-                while (pacmanIsLive)
+                lock (obj)
                 {
-                    pacmanIsLive = Move();
-                    if (pacmanIsLive == false)
+                    while (true)
                     {
-                        if (SinkAboutEatPacman != null)
+                        PacmanIsLive = Move();
+                        if (PacmanIsLive == false && SinkAboutEatPacman != null)
+                        {
                             SinkAboutEatPacman();
-                        else
-                            throw new NullReferenceException();
+                            break;
+                        }
+                        Thread.Sleep(time);
                     }
-                    Thread.Sleep(time);
                 }
             });
         }
 
         public override bool Move()
         {
-            lock (this)
+            lock (obj)
             {
                 PacmanPosition = SearchPacman();
 
