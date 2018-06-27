@@ -4,7 +4,6 @@ namespace PacMan
 {
     public class Position : IPosition
     {
-
         public static Position None = new Position(-1, -1);
 
         public int X { get; set; }

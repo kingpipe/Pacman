@@ -17,6 +17,13 @@ namespace PacMan
             Width = map.GetLength(0);
             Height = map.GetLength(1);
         }
+        public bool OnBoard(IPosition position)
+        {
+            if (position.X > 0 && position.X <= Width
+                && position.Y > 0 && position.Y <= Height)
+                return true;
+            return false;
+        }
 
         public ICoord GetElement(IPosition position)
         {
@@ -85,6 +92,9 @@ namespace PacMan
                             break;
                         case '7':
                             map[x, y] = new Blinky(this);
+                            break;
+                        case '8':
+                            map[x, y] = new Inky(this);
                             break;
                         default:
                             continue;

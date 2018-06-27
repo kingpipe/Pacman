@@ -1,4 +1,5 @@
-﻿using PacMan.Interfaces;
+﻿using PacMan.Foods;
+using PacMan.Interfaces;
 using PacMan.Players;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace PacMan.Abstracts
         public Ghost(Map map) : base(map)
         {
             PacmanPosition = SearchPacman();
+            oldcoord = new Empty(Position);
             Score = 200;
             IsLive = true;
             Frightened = false;

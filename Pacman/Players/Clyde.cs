@@ -16,7 +16,6 @@ namespace PacMan.Players
         public Clyde(Map map) : base(map)
         {
             StartPosition();
-            oldcoord = new Empty(Position);
         }
 
         public override void StartPosition()

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 
 namespace PacMan.Algorithms
@@ -19,23 +17,23 @@ namespace PacMan.Algorithms
                 switch (direction)
                 {
                     case Direction.Right:
-                        GoStraightRight(new Position(start.X + 1, start.Y), map.map, ref Shadow);
+                        GoStraightRight(new Position(start.X + 1, start.Y), map, ref Shadow);
                         break;
                     case Direction.Left:
-                        GoStraightLeft(new Position(start.X - 1, start.Y), map.map, ref Shadow);
+                        GoStraightLeft(new Position(start.X - 1, start.Y), map, ref Shadow);
                         break;
                     case Direction.Up:
-                        GoStraightUp(new Position(start.X, start.Y - 1), map.map, ref Shadow);
+                        GoStraightUp(new Position(start.X, start.Y - 1), map, ref Shadow);
                         break;
                     case Direction.Down:
-                        GoStraightDown(new Position(start.X, start.Y + 1), map.map, ref Shadow);
+                        GoStraightDown(new Position(start.X, start.Y + 1), map, ref Shadow);
                         break;
                 }
             }
             return Shadow;
         }
 
-        private void GoStraightLeft(Position position, ICoord[,] map, ref Stack<Position> swadow)
+        private void GoStraightLeft(Position position, IMap map, ref Stack<Position> swadow)
         {
             if (CanMove(position, map))
             {
@@ -44,7 +42,7 @@ namespace PacMan.Algorithms
             }
         }
 
-        private void GoStraightRight(Position position, ICoord[,] map, ref Stack<Position> swadow)
+        private void GoStraightRight(Position position, IMap map, ref Stack<Position> swadow)
         {
             if (CanMove(position, map))
             {
@@ -53,7 +51,7 @@ namespace PacMan.Algorithms
             }
         }
 
-        private void GoStraightUp(Position position, ICoord[,] map, ref Stack<Position> swadow)
+        private void GoStraightUp(Position position, IMap map, ref Stack<Position> swadow)
         {
             if (CanMove(position, map))
             {
@@ -62,7 +60,7 @@ namespace PacMan.Algorithms
             }
         }
 
-        private void GoStraightDown(Position position, ICoord[,] map, ref Stack<Position> swadow)
+        private void GoStraightDown(Position position, IMap map, ref Stack<Position> swadow)
         {
             if (CanMove(position, map))
             {
@@ -71,9 +69,11 @@ namespace PacMan.Algorithms
             }
         }
 
-        private bool CanMove(Position position, ICoord[,] map)
+        private bool CanMove(Position position, IMap map)
         {
-            return !(map[position.X, position.Y] is Wall) && !(map[position.X, position.Y] is IGhost);
+            return !(map.map[position.X, position.Y] is Wall) &&
+                   !(map.map[position.X, position.Y] is IGhost) &&
+                   map.OnBoard(position);
         }
     }
 }

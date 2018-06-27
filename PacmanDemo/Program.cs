@@ -113,6 +113,9 @@ namespace PacmanDemo
 
             Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
             Console.WriteLine(Clyde.GetCharElement());
+
+            Console.SetCursorPosition(game.Inky.Position.X, game.Inky.Position.Y);
+            Console.WriteLine(Inky.GetCharElement());
         }
 
         private static void RemoveElements(Game game)
@@ -127,7 +130,7 @@ namespace PacmanDemo
             Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
-            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
+            Console.SetCursorPosition(game.Inky.Position.X, game.Inky.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
         }
@@ -167,7 +170,10 @@ namespace PacmanDemo
                     {
                         Console.Write(Clyde.GetCharElement());
                     }
-
+                    if (array[x, y] is Inky)
+                    {
+                        Console.Write(Inky.GetCharElement());
+                    }
                 }
                 Console.WriteLine();
             }
