@@ -45,7 +45,7 @@ namespace PacMan.Algorithms.Astar
                     }
                 }
             }
-            return null;
+            return new Stack<Position>();
         }
         private int GetHeuristicPathLength(Position from, Position to)
         {

@@ -11,11 +11,11 @@ namespace PacMan.Players
     public class Clyde : Ghost
     {
         public override event Action SinkAboutEatPacman;
-        private Stack<Position> list = new Stack<Position>();
-        private IStrategy random = new RandomMoving();
+
         public Clyde(Map map) : base(map)
         {
             StartPosition();
+            strategy = new RandomMoving();
         }
 
         public override void StartPosition()
@@ -42,7 +42,7 @@ namespace PacMan.Players
                 {
                     if (list.Count == 0)
                     {
-                        list = random.FindPath(Map, Position, PacmanPosition);
+                        list = strategy.FindPath(Map, Position, PacmanPosition);
                     }
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)

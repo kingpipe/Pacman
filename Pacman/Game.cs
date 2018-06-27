@@ -8,12 +8,12 @@ namespace PacMan
 {
     public class Game : IGame, IDisposable
     {
+        private const int TIME = 500;
+        private Timer Timer { get; set; }
         public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
         public Pacman Pacman { get; private set; }
-        public Blinky Blinky { get; private set; }
-        public Clyde Clyde { get; private set; }
-        public Inky Inky { get; private set; }
+        public ColectionGhosts Ghosts { get; private set; }
         public int Score
         {
             get
@@ -28,77 +28,54 @@ namespace PacMan
                 return Pacman.Lives;
             }
         }
-        private Timer BlinkyTimer { get; set; }
-        private Timer ClydeTimer { get; set; }
-        private Timer InkyTimer { get; set; }
 
         public Game(string path, ISize size)
         {
-            BlinkyTimer = new Timer(500);
-            ClydeTimer = new Timer(500);
-            InkyTimer = new Timer(500);
-
             PacmanIsLive = true;
             Map = new Map(path, size);
-
+            Timer = new Timer(TIME);
             Pacman = new Pacman(Map);
-            Blinky = new Blinky(Map);
-            Clyde = new Clyde(Map);
-            Inky = new Inky(Map);
+            Ghosts = new ColectionGhosts(Map);
         }
+
         public bool Move(Direction direction)
         {
             return Pacman.Move(direction);
         }
+
         public void PacmanIsDied()
         {
-            Blinky.Stop(BlinkyTimer);
-            Clyde.Stop(ClydeTimer);
-            Inky.Stop(InkyTimer);
-
-            Blinky.SinkAboutEatPacman -= PacmanIsKilled;
-            Clyde.SinkAboutEatPacman -= PacmanIsKilled;
-            Inky.SinkAboutEatPacman -= PacmanIsKilled;
+            Ghosts.StopTimer(Timer);
+            Ghosts.RemoveHandler(PacmanIsKilled);
             Pacman.Lives--;
             RemovePlayers();
             Pacman.StartPosition();
-            Blinky.StartPosition();
-            Clyde.StartPosition();
-            Inky.StartPosition();
+            Ghosts.StartPosition();
             CreatePlayers();
             PacmanIsLive = true;
         }
 
         public void Start()
         {
-            Blinky.SinkAboutEatPacman += PacmanIsKilled;
-            Clyde.SinkAboutEatPacman += PacmanIsKilled;
-            Inky.SinkAboutEatPacman += PacmanIsKilled;
+            Ghosts.AddHandler(PacmanIsKilled);
 
-            Blinky.Start(BlinkyTimer);
-            Clyde.Start(ClydeTimer);
-            Inky.Start(InkyTimer);
+            Ghosts.StartTimer(Timer);
         }
 
         private void CreatePlayers()
         {
-            Map.SetElement(new Clyde(Map));
-            Map.SetElement(new Blinky(Map));
             Map.SetElement(new Pacman(Map));
-            Map.SetElement(new Inky(Map));
+            Ghosts.SetGhosts();
         }
 
         private void RemovePlayers()
         {
             Map.SetElement(new Empty(Pacman.Position));
-            Map.SetElement(new Empty(Blinky.Position));
-            Map.SetElement(new Empty(Clyde.Position));
-            Map.SetElement(new Empty(Inky.Position));
+            Ghosts.RemoveGhosts();
         }
 
         public void Stop()
         {
-
         }
 
         public void End()

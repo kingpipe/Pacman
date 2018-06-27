@@ -11,11 +11,10 @@ namespace PacMan.Players
     public class Inky : Ghost
     {
         public override event Action SinkAboutEatPacman;
-        private Stack<Position> list = new Stack<Position>();
-        private IStrategy random = new GoAway();
-
+        
         public Inky(Map map) : base(map)
         {
+            strategy = new GoAway();
             StartPosition();
         }
         public override void StartPosition()
@@ -41,7 +40,7 @@ namespace PacMan.Players
                 if (PacmanPosition != Position)
                 {
 
-                    list = random.FindPath(Map, Position, PacmanPosition);
+                    list = strategy.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
                     {

@@ -108,29 +108,29 @@ namespace PacmanDemo
             Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
             Console.WriteLine(Pacman.GetCharElement());
 
-            Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Blinky.Position.X, game.Ghosts.Blinky.Position.Y);
             Console.WriteLine(Blinky.GetCharElement());
 
-            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Clyde.Position.X, game.Ghosts.Clyde.Position.Y);
             Console.WriteLine(Clyde.GetCharElement());
 
-            Console.SetCursorPosition(game.Inky.Position.X, game.Inky.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Inky.Position.X, game.Ghosts.Inky.Position.Y);
             Console.WriteLine(Inky.GetCharElement());
         }
 
         private static void RemoveElements(Game game)
         {
 
-            Console.SetCursorPosition(game.Clyde.Position.X, game.Clyde.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Clyde.Position.X, game.Ghosts.Clyde.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
             Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
-            Console.SetCursorPosition(game.Blinky.Position.X, game.Blinky.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Blinky.Position.X, game.Ghosts.Blinky.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
-            Console.SetCursorPosition(game.Inky.Position.X, game.Inky.Position.Y);
+            Console.SetCursorPosition(game.Ghosts.Inky.Position.X, game.Ghosts.Inky.Position.Y);
             Console.WriteLine(Empty.GetCharElement());
 
         }

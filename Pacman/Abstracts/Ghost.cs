@@ -16,6 +16,8 @@ namespace PacMan.Abstracts
         protected object obj = new object();
         protected bool pacmanIsLive = true;
         protected ICoord oldcoord;
+        protected Stack<Position> list;
+        protected IStrategy strategy;
 
         protected Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
@@ -25,7 +27,9 @@ namespace PacMan.Abstracts
         public Ghost(Map map) : base(map)
         {
             PacmanPosition = SearchPacman();
+            list = new Stack<Position>();
             oldcoord = new Empty(Position);
+
             Score = 200;
             IsLive = true;
             Frightened = false;
