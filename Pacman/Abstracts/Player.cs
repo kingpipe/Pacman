@@ -68,15 +68,19 @@ namespace PacMan.Abstracts
         {
             var value = Map.GetElement(Position);
             Map.SetElement(new Empty(Position));
-            Position.X = x;
+            Position position = Position;
+            position.X = x;
+            Position = position;
             Map.SetElement(value, Position);
         }
         private void SwapPlacesY(int y)
         {
             var value = Map.GetElement(Position);
             Map.SetElement(new Empty(Position));
-            Position.Y = y;
-            Map.SetElement(value, Position);
+            Position position = Position;
+            position.Y = y;
+            Position = position;
+            Map.SetElement(value, Position);   
         }
 
         public virtual char GetCharElement()

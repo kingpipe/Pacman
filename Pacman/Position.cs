@@ -2,7 +2,7 @@
 
 namespace PacMan
 {
-    public class Position : IPosition
+    public struct Position : IPosition
     {
         public static Position None = new Position(-1, -1);
 

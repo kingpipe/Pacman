@@ -63,11 +63,11 @@ namespace PacMan.Abstracts
 
         protected virtual ICoord Go(Stack<Position> list, ICoord coord)
         {
-            Map.SetElement(coord, Position);
+            Map.SetElement(coord);
             if (list.Count != 0)
                 Position = list.Pop();
             ICoord old = Map.GetElement(Position);
-            Map.SetElement(this, Position);
+            Map.SetElement(this);
             return old;
         }
         public override char GetCharElement()

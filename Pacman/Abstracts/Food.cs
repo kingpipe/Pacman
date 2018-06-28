@@ -10,6 +10,7 @@ namespace PacMan.Abstracts
 
         public Food(Position position)
         {
+            Position = position;
             IsLive = true;
         }
 

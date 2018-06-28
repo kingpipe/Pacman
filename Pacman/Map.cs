@@ -55,8 +55,9 @@ namespace PacMan
             map[coord.Position.X, coord.Position.Y] = coord;
         }
 
-        public void SetElement(ICoord coord, IPosition position)
+        public void SetElement(ICoord coord, Position position)
         {
+            coord.Position = position;
             map[position.X, position.Y] = coord;
         }
 

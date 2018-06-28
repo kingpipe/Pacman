@@ -59,9 +59,11 @@ namespace PacMan.Players
         {
             if (Position.X + 3 > Map.Width)
             {
-                Map.SetElement(new Empty(Position), Position);
-                Position.X = 0;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(new Empty(Position));
+                Position position = Position;
+                position.X = 0;
+                Position = position;
+                Map.SetElement(new Pacman(Map));
                 return true;
             }
             else
@@ -77,9 +79,11 @@ namespace PacMan.Players
         {
             if (Position.X - 1 < 0)
             {
-                Map.SetElement(new Empty(Position), Position);
-                Position.X = Map.Width - 1;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(new Empty(Position));
+                Position position = Position;
+                position.X = Map.Height-1;
+                Position = position;
+                Map.SetElement(new Pacman(Map));
                 return true;
             }
             else
