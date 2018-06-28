@@ -7,11 +7,15 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Inky : Ghost
+    public class Inky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Moving;
         public override event Action<ICoord> Moved;
+
+        public Inky()
+        {
+        }
 
         public Inky(Map map) : base(map)
         {
@@ -60,7 +64,7 @@ namespace PacMan.Players
             }
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return 'I';
         }

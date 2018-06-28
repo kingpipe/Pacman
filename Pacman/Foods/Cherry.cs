@@ -3,7 +3,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
-    public class Cherry:Food
+    public class Cherry:Food, IGetChar
     {
         public Cherry(Position position) : base(position)
         {
@@ -11,7 +11,7 @@ namespace PacMan.Foods
             Score = 100;
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return 'A';
         }

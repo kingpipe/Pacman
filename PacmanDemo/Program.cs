@@ -62,25 +62,25 @@ namespace PacmanDemo
         private static void Inky_Moved(ICoord obj)
         {
             Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-            Console.WriteLine(Inky.GetCharElement());
+            Console.WriteLine(new Inky().GetCharElement());
         }
 
         private static void Clyde_Moved(ICoord obj)
         {
             Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-            Console.WriteLine(Clyde.GetCharElement());
+            Console.WriteLine(new Clyde().GetCharElement());
         }
 
         private static void Blinky_Moved(ICoord obj)
         {
             Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-            Console.WriteLine(Blinky.GetCharElement());
+            Console.WriteLine(new Blinky().GetCharElement());
         }
 
         private static void Moving(ICoord obj)
         {
             Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
+            Console.WriteLine(new Empty(obj.Position).GetCharElement());
         }
 
         private static void TheEnd(Game game)
@@ -129,12 +129,12 @@ namespace PacmanDemo
         private static bool MovePacman(Game game, Direction direction)
         {
             Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
+            Console.WriteLine(new Empty(game.Pacman.Position).GetCharElement());
 
             bool value = game.Move(direction);
 
             Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(Pacman.GetCharElement());
+            Console.WriteLine(game.Pacman.GetCharElement());
 
             return value;
 
@@ -143,36 +143,20 @@ namespace PacmanDemo
         private static void CreateElements(Game game)
         {
             Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(Pacman.GetCharElement());
+            Console.WriteLine(game.Pacman.GetCharElement());
 
             Console.SetCursorPosition(game.Ghosts.Blinky.Position.X, game.Ghosts.Blinky.Position.Y);
-            Console.WriteLine(Blinky.GetCharElement());
+            Console.WriteLine(game.Ghosts.Blinky.GetCharElement());
 
             Console.SetCursorPosition(game.Ghosts.Clyde.Position.X, game.Ghosts.Clyde.Position.Y);
-            Console.WriteLine(Clyde.GetCharElement());
+            Console.WriteLine(game.Ghosts.Clyde.GetCharElement());
 
             Console.SetCursorPosition(game.Ghosts.Inky.Position.X, game.Ghosts.Inky.Position.Y);
-            Console.WriteLine(Inky.GetCharElement());
+            Console.WriteLine(game.Ghosts.Inky.GetCharElement());
         }
 
-        private static void RemoveElements(Game game)
-        {
 
-            Console.SetCursorPosition(game.Ghosts.Clyde.Position.X, game.Ghosts.Clyde.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
-
-            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
-
-            Console.SetCursorPosition(game.Ghosts.Blinky.Position.X, game.Ghosts.Blinky.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
-
-            Console.SetCursorPosition(game.Ghosts.Inky.Position.X, game.Ghosts.Inky.Position.Y);
-            Console.WriteLine(Empty.GetCharElement());
-
-        }
-
-        private static void ShowMap(IMap map)
+        private static void ShowMap(Map map)
         {
             ICoord[,] array = map.map;
             for (int y = 0; y < map.Height; y++)
@@ -181,35 +165,35 @@ namespace PacmanDemo
                 {
                     if (array[x, y] is Empty)
                     {
-                        Console.Write(Empty.GetCharElement());
+                        Console.Write(new Empty(new Position(x, y)).GetCharElement());
                     }
                     if (array[x, y] is Wall)
                     {
-                        Console.Write(Wall.GetCharElement());
+                        Console.Write(new Wall(new Position(x, y)).GetCharElement());
                     }
                     if (array[x, y] is LittleGoal)
                     {
-                        Console.Write(LittleGoal.GetCharElement());
+                        Console.Write(new LittleGoal(new Position(x, y)).GetCharElement());
                     }
                     if (array[x, y] is BigGoal)
                     {
-                        Console.Write(BigGoal.GetCharElement());
+                        Console.Write(new BigGoal(new Position(x, y)).GetCharElement());
                     }
                     if (array[x, y] is Pacman)
                     {
-                        Console.Write(Pacman.GetCharElement());
+                        Console.Write(new Pacman(map).GetCharElement());
                     }
                     if (array[x, y] is Blinky)
                     {
-                        Console.Write(Blinky.GetCharElement());
+                        Console.Write(new Blinky(map).GetCharElement());
                     }
                     if (array[x, y] is Clyde)
                     {
-                        Console.Write(Clyde.GetCharElement());
+                        Console.Write(new Clyde(map).GetCharElement());
                     }
                     if (array[x, y] is Inky)
                     {
-                        Console.Write(Inky.GetCharElement());
+                        Console.Write(new Inky(map).GetCharElement());
                     }
                 }
                 Console.WriteLine();

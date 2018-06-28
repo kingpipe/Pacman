@@ -7,11 +7,15 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    public class Clyde : Ghost
+    public class Clyde : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Moving;
         public override event Action<ICoord> Moved;
+
+        public Clyde()
+        {
+        }
 
         public Clyde(Map map) : base(map)
         {
@@ -63,7 +67,7 @@ namespace PacMan.Players
             }
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return 'C';
         }

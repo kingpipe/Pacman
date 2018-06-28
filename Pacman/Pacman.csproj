@@ -54,6 +54,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\ICoord.cs" />
     <Compile Include="Interfaces\IEateble.cs" />
+    <Compile Include="Interfaces\IGetChar.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Map.cs" />

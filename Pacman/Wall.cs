@@ -3,7 +3,7 @@
 
 namespace PacMan
 {
-    public class Wall: ICoord
+    public class Wall: ICoord, IGetChar
     {
         public Position Position { get; set; }
 
@@ -12,7 +12,7 @@ namespace PacMan
             Position = position;
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return '#';
         }

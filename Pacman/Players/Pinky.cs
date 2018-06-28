@@ -5,11 +5,15 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pinky : Ghost
+    public class Pinky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Moving;
         public override event Action<ICoord> Moved;
+
+        public Pinky()
+        {
+        }
 
         public Pinky(Map map):base(map)
         {
@@ -26,7 +30,7 @@ namespace PacMan.Players
             throw new NotImplementedException();
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return 'N';
         }

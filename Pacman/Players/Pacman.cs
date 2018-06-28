@@ -4,10 +4,14 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman, IEateble
+    public class Pacman : Player, IPacman, IEateble, IGetChar
     {
         public int Lives { get; set; }
         public int Count { get; set; }
+
+        public Pacman()
+        {
+        }
 
         public Pacman(Map map) : base(map)
         {
@@ -99,7 +103,7 @@ namespace PacMan.Players
                 Eat(Map.GetElementUp(Position));
             return base.MoveUp();
         }
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return 'P';
         }

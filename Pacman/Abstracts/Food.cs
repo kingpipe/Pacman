@@ -1,6 +1,5 @@
 ﻿using PacMan.Interfaces;
 
-
 namespace PacMan.Abstracts
 {
     abstract public class Food: IFood

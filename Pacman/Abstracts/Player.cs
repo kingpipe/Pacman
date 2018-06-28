@@ -8,6 +8,9 @@ namespace PacMan.Abstracts
         public Map Map { get; set; }
         public Position Position { get; set; }
         public Direction Direction { get; set; }
+        public Player()
+        {
+        }
 
         public Player(Map map)
         {

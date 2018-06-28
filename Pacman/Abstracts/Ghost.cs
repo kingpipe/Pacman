@@ -36,6 +36,9 @@ namespace PacMan.Abstracts
             IsLive = true;
             Frightened = false;
         }
+        public Ghost()
+        {
+        }
 
         protected Position SearchPacman()
         {
