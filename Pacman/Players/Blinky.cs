@@ -4,12 +4,15 @@ using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
+using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
     public class Blinky : Ghost
     {
         public override event Action SinkAboutEatPacman;
+        public override event Action<ICoord> Moving;
+        public override event Action<ICoord> Moved;
 
         public Blinky(Map map) : base(map)
         {
@@ -22,7 +25,9 @@ namespace PacMan.Players
         }
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
+            Moving(Map.GetElement(Position));
             pacmanIsLive = Move();
+            Moved(Map.GetElement(Position));
             if (pacmanIsLive == false)
             {
                 SinkAboutEatPacman();

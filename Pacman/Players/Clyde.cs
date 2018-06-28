@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
@@ -11,6 +10,8 @@ namespace PacMan.Players
     public class Clyde : Ghost
     {
         public override event Action SinkAboutEatPacman;
+        public override event Action<ICoord> Moving;
+        public override event Action<ICoord> Moved;
 
         public Clyde(Map map) : base(map)
         {
@@ -25,7 +26,9 @@ namespace PacMan.Players
         
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
+            Moving(Map.GetElement(Position));
             pacmanIsLive = Move();
+            Moved(Map.GetElement(Position));
             if (pacmanIsLive == false)
             {
                 SinkAboutEatPacman();

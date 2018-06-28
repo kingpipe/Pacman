@@ -10,6 +10,8 @@ namespace PacMan.Abstracts
     abstract public class Ghost : Player, IGhost, IFood, IEventSink
     {
         public abstract event Action SinkAboutEatPacman;
+        public abstract event Action<ICoord> Moving;
+        public abstract event Action<ICoord> Moved;
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
         public abstract bool Move();
 

@@ -63,19 +63,19 @@ namespace PacmanDemo
             ConsoleKeyInfo key = Console.ReadKey(true);
             if (key.Key == ConsoleKey.LeftArrow)
             {
-                Move(game, Direction.Left);
+                MovePacman(game, Direction.Left);
             }
             if (key.Key == ConsoleKey.RightArrow)
             {
-                Move(game, Direction.Right);
+                MovePacman(game, Direction.Right);
             }
             if (key.Key == ConsoleKey.UpArrow)
             {
-                Move(game, Direction.Up);
+                MovePacman(game, Direction.Up);
             }
             if (key.Key == ConsoleKey.DownArrow)
             {
-                Move(game, Direction.Down);
+                MovePacman(game, Direction.Down);
             }
             WriteScore(game.Pacman.Count);
         }
@@ -94,11 +94,16 @@ namespace PacmanDemo
             Console.WriteLine($"{LiveorLives} {game.Pacman.Lives} ");
         }
 
-        private static bool Move(Game game, Direction direction)
+        private static bool MovePacman(Game game, Direction direction)
         {
-            RemoveElements(game);
+            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
+            Console.WriteLine(Empty.GetCharElement());
+
             bool value = game.Move(direction);
-            CreateElements(game);
+
+            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
+            Console.WriteLine(Pacman.GetCharElement());
+
             return value;
 
         }
