@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.Interfaces;
 using System;
 using System.Timers;
 
@@ -7,6 +8,8 @@ namespace PacMan.Players
     public class Pinky : Ghost
     {
         public override event Action SinkAboutEatPacman;
+        public override event Action<ICoord> Moving;
+        public override event Action<ICoord> Moved;
 
         public Pinky(Map map):base(map)
         {

@@ -13,6 +13,13 @@ namespace PacmanDemo
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             DrawMap(game);
+            game.Ghosts.Blinky.Moving += Moving;
+            game.Ghosts.Blinky.Moved += Blinky_Moved;
+            game.Ghosts.Clyde.Moving += Moving;
+            game.Ghosts.Clyde.Moved += Clyde_Moved;
+            game.Ghosts.Inky.Moving += Moving;
+            game.Ghosts.Inky.Moved += Inky_Moved;
+
             Console.CursorVisible = false;
             Console.WriteLine($"Score={game.Score}");
             game.Start();
@@ -51,6 +58,31 @@ namespace PacmanDemo
             }
             Console.ReadLine();
         }
+
+        private static void Inky_Moved(ICoord obj)
+        {
+            Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
+            Console.WriteLine(Inky.GetCharElement());
+        }
+
+        private static void Clyde_Moved(ICoord obj)
+        {
+            Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
+            Console.WriteLine(Clyde.GetCharElement());
+        }
+
+        private static void Blinky_Moved(ICoord obj)
+        {
+            Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
+            Console.WriteLine(Blinky.GetCharElement());
+        }
+
+        private static void Moving(ICoord obj)
+        {
+            Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
+            Console.WriteLine(Empty.GetCharElement());
+        }
+
         private static void TheEnd(Game game)
         {
             Console.Clear();
