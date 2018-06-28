@@ -10,8 +10,7 @@ namespace PacMan.Players
     public class Inky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
-        public override event Action<ICoord> Moving;
-        public override event Action<ICoord> Moved;
+        public override event Action<ICoord> Movement;
 
         public Inky()
         {
@@ -29,9 +28,9 @@ namespace PacMan.Players
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Moving(oldcoord);
+            Movement(oldcoord);
             pacmanIsLive = Move();
-            Moved(Map.GetElement(Position));
+            Movement(Map.GetElement(Position));
             if (pacmanIsLive == false)
             {
                 SinkAboutEatPacman();

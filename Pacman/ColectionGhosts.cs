@@ -69,8 +69,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Moving += action;
-                ghost.Moved += action;
+                ghost.Movement += action;
             }
         }
 

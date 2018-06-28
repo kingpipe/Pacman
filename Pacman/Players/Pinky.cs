@@ -8,8 +8,7 @@ namespace PacMan.Players
     public class Pinky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
-        public override event Action<ICoord> Moving;
-        public override event Action<ICoord> Moved;
+        public override event Action<ICoord> Movement;
 
         public Pinky()
         {

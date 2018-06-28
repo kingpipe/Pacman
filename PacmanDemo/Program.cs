@@ -10,6 +10,7 @@ namespace PacmanDemo
     {
         static void Main(string[] args)
         {
+            object obj = new object();
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             DrawMap(game);
@@ -56,8 +57,11 @@ namespace PacmanDemo
 
         private static void EventMoving(ICoord obj)
         {
-            Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-            Console.WriteLine(obj.GetCharElement());
+            lock (obj)
+            {
+                Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
+                Console.WriteLine(obj.GetCharElement());
+            }
         }
 
         private static void TheEnd(Game game)
