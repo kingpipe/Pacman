@@ -30,7 +30,7 @@ namespace PacMan.Players
             throw new NotImplementedException();
         }
 
-        public char GetCharElement()
+        public override char GetCharElement()
         {
             return 'N';
         }

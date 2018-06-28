@@ -103,7 +103,7 @@ namespace PacMan.Players
                 Eat(Map.GetElementUp(Position));
             return base.MoveUp();
         }
-        public char GetCharElement()
+        public override char GetCharElement()
         {
             return 'P';
         }

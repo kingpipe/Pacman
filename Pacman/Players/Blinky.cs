@@ -29,7 +29,7 @@ namespace PacMan.Players
         }
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Moving(Map.GetElement(Position));
+            Moving(oldcoord);
             pacmanIsLive = Move();
             Moved(Map.GetElement(Position));
             if (pacmanIsLive == false)
@@ -64,7 +64,7 @@ namespace PacMan.Players
             }
         }
 
-        public char GetCharElement()
+        public override char GetCharElement()
         {
             return 'B';
         }

@@ -1,5 +1,6 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Foods;
+using PacMan.Interfaces;
 using PacMan.Players;
 using System;
 using System.Collections.ObjectModel;
@@ -49,7 +50,7 @@ namespace PacMan
                 Map.SetElement(new Empty(ghost.Position));
             }
         }
-        public void AddHandler(Action action)
+        public void AddSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)
             {
@@ -57,11 +58,19 @@ namespace PacMan
             }
         }
 
-        public void RemoveHandler(Action action)
+        public void RemoveSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)
             {
                 ghost.SinkAboutEatPacman -= action;
+            }
+        }
+        public void AddMoveHandler(Action<ICoord> action)
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Moving += action;
+                ghost.Moved += action;
             }
         }
 

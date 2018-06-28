@@ -11,7 +11,7 @@ namespace PacMan.Foods
             Score = 10;
         }
 
-        public char GetCharElement()
+        public override char GetCharElement()
         {
             return (char)183;
         }

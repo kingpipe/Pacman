@@ -78,6 +78,11 @@ namespace PacMan.Abstracts
             Position.Y = y;
             Map.SetElement(value, Position);
         }
+
+        public virtual char GetCharElement()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

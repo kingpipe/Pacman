@@ -11,7 +11,7 @@ namespace PacMan.Foods
             Position = position;
             Score = 0;
         }
-        public char GetCharElement()
+        public override char GetCharElement()
         {
             return ' ';
         }

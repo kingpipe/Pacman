@@ -70,5 +70,9 @@ namespace PacMan.Abstracts
             Map.SetElement(this, Position);
             return old;
         }
+        public override char GetCharElement()
+        {
+            return ' ';
+        }
     }
 }

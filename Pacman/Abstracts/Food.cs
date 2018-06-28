@@ -12,5 +12,10 @@ namespace PacMan.Abstracts
         {
             IsLive = true;
         }
+
+        public virtual char GetCharElement()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
