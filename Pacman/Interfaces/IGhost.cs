@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    interface IGhost: ISelfMovable
+    interface IGhost: IMovable
     {
         bool Frightened { get; set; }
     }

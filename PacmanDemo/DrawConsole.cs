@@ -40,15 +40,22 @@ namespace PacmanDemo
             }
         }
 
-        public void EventMoving(ICoord obj)
+        public void EventMoving(ICoord coord)
         {
             lock (obj)
             {
-                Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-                Console.WriteLine(obj.GetCharElement());
+                Console.SetCursorPosition(coord.Position.X, coord.Position.Y);
+                Console.WriteLine(coord.GetCharElement());
             }
         }
-
+        public void PacmanMoving(ICoord coord)
+        {
+           lock(obj)
+            {
+                EventMoving(coord);
+                WriteScore();
+            }
+        }
         private void ShowMap()
         {
             ICoord[,] array = Game.Map.map;

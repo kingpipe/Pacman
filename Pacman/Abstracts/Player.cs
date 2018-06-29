@@ -5,6 +5,9 @@ namespace PacMan.Abstracts
 {
     abstract public class Player : IMovable
     {
+        public abstract char GetCharElement();
+        public abstract bool Move();
+
         public Map Map { get; set; }
         public Position Position { get; set; }
         public Player()
@@ -79,11 +82,6 @@ namespace PacMan.Abstracts
             position.Y = y;
             Position = position;
             Map.SetElement(value, Position);   
-        }
-
-        public virtual char GetCharElement()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

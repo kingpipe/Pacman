@@ -15,7 +15,7 @@ namespace PacmanDemo
 
             drawConsole.DrawMap();
             game.Ghosts.AddMoveHandler(drawConsole.EventMoving);
-            game.Pacman.Movement += drawConsole.EventMoving;
+            game.Pacman.Movement += drawConsole.PacmanMoving;
             game.Start();
             while (true)
             {

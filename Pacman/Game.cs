@@ -38,11 +38,6 @@ namespace PacMan
             Ghosts = new ColectionGhosts(Map);
         }
 
-        public bool Move(Direction direction)
-        {
-            return Pacman.Move(direction);
-        }
-
         public void PacmanIsDied()
         {
             Pacman.Stop(Timer);

@@ -46,7 +46,7 @@ namespace PacMan.Players
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(new Empty(Position));
-            value = Move(direction);
+            value = Move();
             Movement(Map.GetElement(Position));
         }
 
@@ -64,7 +64,7 @@ namespace PacMan.Players
             }
 
         }
-        public bool Move(Direction direction)
+        public override bool Move()
         {
             switch (direction)
             {

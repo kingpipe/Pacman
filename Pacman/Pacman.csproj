@@ -70,9 +70,7 @@
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IPacman.cs" />
     <Compile Include="Interfaces\IPosition.cs" />
-    <Compile Include="Interfaces\ISelfMovable.cs" />
     <Compile Include="Interfaces\ISize.cs" />
-    <Compile Include="Interfaces\IUserMovalbe.cs" />
     <Compile Include="Abstracts\Player.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Players\Pacman.cs" />

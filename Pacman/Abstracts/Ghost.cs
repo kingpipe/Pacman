@@ -12,7 +12,6 @@ namespace PacMan.Abstracts
         public abstract event Action SinkAboutEatPacman;
         public abstract event Action<ICoord> Movement;
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
-        public abstract bool Move();
 
         protected object obj = new object();
         protected bool pacmanIsLive = true;
@@ -68,10 +67,6 @@ namespace PacMan.Abstracts
             ICoord old = Map.GetElement(Position);
             Map.SetElement(this);
             return old;
-        }
-        public override char GetCharElement()
-        {
-            return ' ';
         }
     }
 }

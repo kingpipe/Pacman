@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IPacman
+    public interface IPacman : IMovable
     {
         int Lives { get; set; }
         int Count { get; set; }
