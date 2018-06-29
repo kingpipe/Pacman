@@ -1,8 +1,5 @@
 ﻿using PacMan;
-using PacMan.Interfaces;
-using PacMan.Foods;
 using System;
-using PacMan.Players;
 
 namespace PacmanDemo
 {
@@ -18,6 +15,7 @@ namespace PacmanDemo
 
             drawConsole.DrawMap();
             game.Ghosts.AddMoveHandler(drawConsole.EventMoving);
+            game.Pacman.Movement += drawConsole.EventMoving;
             game.Start();
             while (true)
             {
@@ -51,21 +49,21 @@ namespace PacmanDemo
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.LeftArrow)
                 {
-                    drawConsole.MovePacman(game, Direction.Left);
+                    game.Pacman.direction = Direction.Left;
                 }
                 if (key.Key == ConsoleKey.RightArrow)
                 {
-                    drawConsole.MovePacman(game, Direction.Right);
+                    game.Pacman.direction = Direction.Right;
                 }
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    drawConsole.MovePacman(game, Direction.Up);
+                    game.Pacman.direction = Direction.Up;
                 }
                 if (key.Key == ConsoleKey.DownArrow)
                 {
-                    drawConsole.MovePacman(game, Direction.Down);
+                    game.Pacman.direction = Direction.Down;
                 }
-                drawConsole.WriteScore(game.Pacman.Count);
+                drawConsole.WriteScore();
             }
             Console.ReadLine();
         }

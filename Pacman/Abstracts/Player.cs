@@ -7,7 +7,6 @@ namespace PacMan.Abstracts
     {
         public Map Map { get; set; }
         public Position Position { get; set; }
-        public Direction Direction { get; set; }
         public Player()
         {
         }
@@ -16,7 +15,6 @@ namespace PacMan.Abstracts
         {
             StartPosition();
             Map = map;
-            Direction = Direction.None;
         }
 
         public virtual void StartPosition()

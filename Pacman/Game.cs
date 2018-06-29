@@ -45,6 +45,7 @@ namespace PacMan
 
         public void PacmanIsDied()
         {
+            Pacman.Stop(Timer);
             Ghosts.StopTimer(Timer);
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
             Pacman.Lives--;
@@ -58,8 +59,8 @@ namespace PacMan
         public void Start()
         {
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
-
             Ghosts.StartTimer(Timer);
+            Pacman.Start(Timer);
         }
 
         private void CreatePlayers()

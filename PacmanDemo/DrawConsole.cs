@@ -31,12 +31,12 @@ namespace PacmanDemo
             Console.WriteLine($"Score={Game.Pacman.Count}");
         }
 
-        public void WriteScore(int count)
+        public void WriteScore()
         {
             lock (obj)
             {
                 Console.SetCursorPosition(6, 32);
-                Console.WriteLine(count);
+                Console.WriteLine(Game.Pacman.Count);
             }
         }
 
@@ -46,22 +46,6 @@ namespace PacmanDemo
             {
                 Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
                 Console.WriteLine(obj.GetCharElement());
-            }
-        }
-
-        public bool MovePacman(Game game, Direction direction)
-        {
-            lock (obj)
-            {
-                Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-                Console.WriteLine(new Empty(game.Pacman.Position).GetCharElement());
-
-                bool value = game.Move(direction);
-
-                Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-                Console.WriteLine(game.Pacman.GetCharElement());
-
-                return value;
             }
         }
 

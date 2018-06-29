@@ -1,11 +1,17 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Foods;
 using PacMan.Interfaces;
+using System;
+using System.Timers;
 
 namespace PacMan.Players
 {
     public class Pacman : Player, IPacman, IEateble, IGetChar
     {
+        private bool value;
+
+        public event Action<ICoord> Movement;
+        public Direction direction { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
 
@@ -15,6 +21,7 @@ namespace PacMan.Players
 
         public Pacman(Map map) : base(map)
         {
+            direction = Direction.None;
             Count = 0;
             Lives = 3;
         }
@@ -22,6 +29,25 @@ namespace PacMan.Players
         public override void StartPosition()
         {
             Position = new Position(15, 23);
+        }
+
+        public void Start(Timer timer)
+        {
+            timer.Elapsed += TimerElapsed;
+            timer.Start();
+        }
+
+        public void Stop(Timer timer)
+        {
+            timer.Elapsed -= TimerElapsed;
+            timer.Stop();
+        }
+
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Movement(new Empty(Position));
+            value = Move(direction);
+            Movement(Map.GetElement(Position));
         }
 
         public void Eat(ICoord coord)
@@ -43,16 +69,23 @@ namespace PacMan.Players
             switch (direction)
             {
                 case Direction.Left:
-                    return MoveLeft();
+                    value = MoveLeft();
+                    break;
                 case Direction.Right:
-                    return MoveRight();
+                    value = MoveRight();
+                    break;
                 case Direction.Up:
-                    return MoveUp();
+                    value = MoveUp();
+                    break;
                 case Direction.Down:
-                    return MoveDown();
+                    value = MoveDown();
+                    break;
                 default:
-                    return false;
+                    direction = Direction.None;
+                    value = false;
+                    break;
             }
+            return value;
         }
         public override bool MoveRight()
         {
@@ -80,7 +113,7 @@ namespace PacMan.Players
             {
                 Map.SetElement(new Empty(Position));
                 Position position = Position;
-                position.X = Map.Height-2;
+                position.X = Map.Height - 2;
                 Position = position;
                 Map.SetElement(new Pacman(Map), Position);
                 return true;
