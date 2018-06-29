@@ -17,7 +17,6 @@ namespace PacMan.Players
         {
             Count = 0;
             Lives = 3;
-            StartPosition();
         }
 
         public override void StartPosition()
@@ -57,13 +56,13 @@ namespace PacMan.Players
         }
         public override bool MoveRight()
         {
-            if (Position.X + 3 > Map.Width)
+            if (Position.X + 2 > Map.Width)
             {
                 Map.SetElement(new Empty(Position));
                 Position position = Position;
                 position.X = 0;
                 Position = position;
-                Map.SetElement(new Pacman(Map));
+                Map.SetElement(new Pacman(Map), Position);
                 return true;
             }
             else
@@ -81,9 +80,9 @@ namespace PacMan.Players
             {
                 Map.SetElement(new Empty(Position));
                 Position position = Position;
-                position.X = Map.Height-1;
+                position.X = Map.Height-2;
                 Position = position;
-                Map.SetElement(new Pacman(Map));
+                Map.SetElement(new Pacman(Map), Position);
                 return true;
             }
             else

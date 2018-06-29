@@ -3,14 +3,15 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
+using System.Threading;
 
 namespace PacmanDemo
 {
     class Program
     {
+        static object obj = new object();
         static void Main(string[] args)
-        {
-            object obj = new object();
+        {   
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             DrawMap(game);
@@ -40,7 +41,6 @@ namespace PacmanDemo
                                 break;
                             }
                         }
-                        CreateElements(game);
                         game.Start();
                     }
                     else
@@ -91,12 +91,15 @@ namespace PacmanDemo
                 MovePacman(game, Direction.Down);
             }
             WriteScore(game.Pacman.Count);
-        }
+         }
 
         private static void WriteScore(int count)
         {
-            Console.SetCursorPosition(6, 32);
-            Console.WriteLine(count);
+            lock (obj)
+            {
+                Console.SetCursorPosition(6, 32);
+                Console.WriteLine(count);
+            }
         }
 
         private static void DrawMap(Game game)

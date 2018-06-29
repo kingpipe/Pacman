@@ -19,7 +19,7 @@ namespace PacMan.Players
 
         public Blinky(Map map) : base(map)
         {
-            StartPosition();
+            strategy = new AstarAlgorithm();
         }
 
         public override void StartPosition()
@@ -45,8 +45,7 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    var astar = new AstarAlgorithm();
-                    Stack<Position> list = astar.FindPath(Map, Position, PacmanPosition);
+                    list = strategy.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(list, oldcoord);
                     if (PacmanPosition == Position)
                     {

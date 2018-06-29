@@ -7,7 +7,6 @@ namespace PacMan.Foods
     {
         public Cherry(Position position) : base(position)
         {
-            Position = position;
             Score = 100;
         }
 

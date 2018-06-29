@@ -18,7 +18,6 @@ namespace PacMan.Players
 
         public Clyde(Map map) : base(map)
         {
-            StartPosition();
             strategy = new RandomMoving();
         }
 
