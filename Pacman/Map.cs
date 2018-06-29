@@ -10,12 +10,55 @@ namespace PacMan
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-       
-        public Map(string path,ISize size)
+
+        public Map(string path, ISize size)
         {
             map = LoadMap(path, size);
             Width = map.GetLength(0);
             Height = map.GetLength(1);
+        }
+        public bool OnBoard(IPosition position)
+        {
+            if (position.X > 0 && position.X <= Width
+                && position.Y > 0 && position.Y <= Height)
+                return true;
+            return false;
+        }
+
+        public ICoord GetElement(IPosition position)
+        {
+            return map[position.X, position.Y];
+        }
+
+        public ICoord GetElementLeft(IPosition position)
+        {
+            return map[position.X - 1, position.Y];
+        }
+
+        public ICoord GetElementRight(IPosition position)
+        {
+            return map[position.X + 1, position.Y];
+        }
+
+        public ICoord GetElementUp(IPosition position)
+        {
+            return map[position.X, position.Y - 1];
+        }
+
+        public ICoord GetElementDown(IPosition position)
+        {
+            return map[position.X, position.Y + 1];
+        }
+
+        public void SetElement(ICoord coord)
+        {
+            map[coord.Position.X, coord.Position.Y] = coord;
+        }
+
+        public void SetElement(ICoord coord, Position position)
+        {
+            coord.Position = position;
+            map[position.X, position.Y] = coord;
         }
 
         private ICoord[,] LoadMap(string path, ISize size)
@@ -31,7 +74,7 @@ namespace PacMan
                     switch (array[counter++])
                     {
                         case '0':
-                            map[x, y] = new Empty(new Position(x,y));
+                            map[x, y] = new Empty(new Position(x, y));
                             break;
                         case '1':
                             map[x, y] = new Wall(new Position(x, y));
@@ -43,10 +86,16 @@ namespace PacMan
                             map[x, y] = new BigGoal(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = new Pacman(new Position(x, y));
+                            map[x, y] = new Pacman(this);
+                            break;
+                        case '6':
+                            map[x, y] = new Clyde(this);
                             break;
                         case '7':
-                            map[x, y] = new Clyde(new Position(x, y));
+                            map[x, y] = new Blinky(this);
+                            break;
+                        case '8':
+                            map[x, y] = new Inky(this);
                             break;
                         default:
                             continue;

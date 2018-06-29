@@ -1,8 +1,8 @@
 ﻿
 namespace PacMan.Interfaces
 {
-    public interface ICoord
+    public interface ICoord : IGetChar
     {
-        Position position { get; set; }
+        Position Position { get; set; }
     }
 }

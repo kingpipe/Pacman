@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace PacMan.Algorithms.Astar
 {
-    class AstarAlgorithm
+    class AstarAlgorithm : IStrategy
     {
-        public Stack<Position> FindPath(ICoord[,] map, Position start, Position goal)
+        public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             var closedSet = new Collection<PathNode>();
             var openSet = new Collection<PathNode>();
@@ -29,7 +29,7 @@ namespace PacMan.Algorithms.Astar
                     return GetPathForNode(currentNode);
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
-                foreach (var neighbourNode in GetNeighbours(currentNode, goal, map))
+                foreach (var neighbourNode in GetNeighbours(currentNode, goal, map.map))
                 {
                     if (closedSet.Count(node => node.position == neighbourNode.position) > 0)
                         continue;
@@ -45,13 +45,13 @@ namespace PacMan.Algorithms.Astar
                     }
                 }
             }
-            return null;
+            return new Stack<Position>();
         }
         private int GetHeuristicPathLength(Position from, Position to)
         {
             return Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
         }
-        private Collection<PathNode> GetNeighbours(PathNode pathNode,  Position goal, ICoord[,] field)
+        private Collection<PathNode> GetNeighbours(PathNode pathNode, Position goal, ICoord[,] field)
         {
             var result = new Collection<PathNode>();
 
@@ -67,7 +67,7 @@ namespace PacMan.Algorithms.Astar
                     continue;
                 if (point.Y < 0 || point.Y >= field.GetLength(1))
                     continue;
-                if (field[point.X, point.Y] is Wall)
+                if (field[point.X, point.Y] is Wall || field[point.X, point.Y] is IGhost)
                     continue;
                 var neighbourNode = new PathNode()
                 {

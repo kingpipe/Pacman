@@ -1,77 +1,89 @@
 ﻿using PacMan.Foods;
 using PacMan.Interfaces;
-using PacMan.Players;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player:IMovable
+    abstract public class Player : IMovable
     {
-        public Position position { get; set; }
-        public Direction direction { get; set; }
-
+        public Map Map { get; set; }
+        public Position Position { get; set; }
         public Player()
         {
-            direction = Direction.None;
+        }
+
+        public Player(Map map)
+        {
+            StartPosition();
+            Map = map;
         }
 
         public virtual void StartPosition()
         {
-            position = Position.None;
+            Position = Position.None;
         }
 
-        public virtual bool MoveLeft(ICoord [,] map)
+        public virtual bool MoveLeft()
         {
-            if (!(map[position.X - 1, position.Y] is Wall))
+            if (!(Map.GetElementLeft(Position) is Wall))
             {
-                SwapPlacesX(map, position.X - 1);
+                SwapPlacesX(Position.X - 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveRight(ICoord[,] map)
+        public virtual bool MoveRight()
         {
-            if (!(map[position.X + 1, position.Y] is Wall))
+            if (!(Map.GetElementRight(Position) is Wall))
             {
-                SwapPlacesX(map, position.X+1);
+                SwapPlacesX(Position.X + 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveUp(ICoord[,] map)
+        public virtual bool MoveUp()
         {
-            if (!(map[position.X, position.Y - 1] is Wall))
+            if (!(Map.GetElementUp(Position) is Wall))
             {
-                SwapPlacesY(map,position.Y-1);
+                SwapPlacesY(Position.Y - 1);
                 return true;
             }
             return false;
         }
 
-        public virtual bool MoveDown(ICoord[,] map)
+        public virtual bool MoveDown()
         {
-            if (!(map[position.X, position.Y + 1] is Wall))
+            if (!(Map.GetElementDown(Position) is Wall))
             {
-                SwapPlacesY(map, position.Y + 1);
+                SwapPlacesY(Position.Y + 1);
                 return true;
             }
             return false;
         }
 
-        private void SwapPlacesX(ICoord[,] map, int x)
+        private void SwapPlacesX(int x)
         {
-            var value = map[position.X, position.Y];
-            map[position.X, position.Y] = new Empty(position);//map[x, position.Y];
-            map[x, position.Y] = value;
+            var value = Map.GetElement(Position);
+            Map.SetElement(new Empty(Position));
+            Position position = Position;
             position.X = x;
+            Position = position;
+            Map.SetElement(value, Position);
         }
-        private void SwapPlacesY(ICoord[,] map, int y)
+        private void SwapPlacesY(int y)
         {
-            var value = map[position.X, position.Y];
-            map[position.X, position.Y] = new Empty(position);//map[position.X, y];
-            map[position.X, y] = value;
+            var value = Map.GetElement(Position);
+            Map.SetElement(new Empty(Position));
+            Position position = Position;
             position.Y = y;
+            Position = position;
+            Map.SetElement(value, Position);   
+        }
+
+        public virtual char GetCharElement()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

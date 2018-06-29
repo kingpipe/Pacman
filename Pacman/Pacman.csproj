@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColectionGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
+    <Compile Include="Algorithms\GoAway.cs" />
+    <Compile Include="Algorithms\RandomMoving.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Foods\BigGoal.cs" />
     <Compile Include="Foods\Cherry.cs" />
@@ -51,10 +54,12 @@
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\ICoord.cs" />
     <Compile Include="Interfaces\IEateble.cs" />
+    <Compile Include="Interfaces\IGetChar.cs" />
     <Compile Include="Interfaces\IMap.cs" />
+    <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="Players\Blinky.cs" />
     <Compile Include="Players\Clyde.cs" />
+    <Compile Include="Players\Blinky.cs" />
     <Compile Include="Abstracts\Ghost.cs" />
     <Compile Include="Players\Inky.cs" />
     <Compile Include="Players\Pinky.cs" />

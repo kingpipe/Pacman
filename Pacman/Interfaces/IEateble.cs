@@ -1,8 +1,8 @@
 ﻿
 namespace PacMan.Interfaces
 {
-    public interface IEateble
+    interface IEateble
     {
-        void Eat(int[,] map);
+        void Eat(ICoord coord);
     }
 }

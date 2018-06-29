@@ -1,6 +1,9 @@
-﻿namespace PacMan.Interfaces
+﻿using System;
+
+namespace PacMan.Interfaces
 {
-    public interface IEventSink
+    interface IEventSink
     {
+        event Action SinkAboutEatPacman;
     }
 }

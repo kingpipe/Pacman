@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IFood:ICoord
+    interface IFood:ICoord
     {
         int Score { get; set; }
 

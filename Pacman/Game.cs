@@ -1,56 +1,97 @@
 ﻿using PacMan.Interfaces;
 using PacMan.Players;
 using PacMan.Foods;
-
+using System;
+using System.Timers;
 
 namespace PacMan
 {
-    public class Game:IGame
+    public class Game : IGame, IDisposable
     {
-        public Map map { get; set; }
-        public Pacman pacman { get; private set; }
-        public Clyde clyde { get; private set; }
+        private const int TIME = 500;
+        private Timer Timer { get; set; }
+        public bool PacmanIsLive { get; set; }
+        public Map Map { get; set; }
+        public Pacman Pacman { get; private set; }
+        public ColectionGhosts Ghosts { get; private set; }
+        public int Score
+        {
+            get
+            {
+                return Pacman.Count;
+            }
+        }
+        public int Lives
+        {
+            get
+            {
+                return Pacman.Lives;
+            }
+        }
 
         public Game(string path, ISize size)
         {
-            pacman = new Pacman();
-            clyde = new Clyde();
-            map = new Map(path, size);
+            PacmanIsLive = true;
+            Map = new Map(path, size);
+            Timer = new Timer(TIME);
+            Pacman = new Pacman(Map);
+            Ghosts = new ColectionGhosts(Map);
         }
+
         public bool Move(Direction direction)
         {
-            pacman.Move(direction, map.map);
-            return clyde.Move(map.map);
+            return Pacman.Move(direction);
         }
+
+        public void PacmanIsDied()
+        {
+            Pacman.Stop(Timer);
+            Ghosts.StopTimer(Timer);
+            Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
+            Pacman.Lives--;
+            RemovePlayers();
+            Pacman.StartPosition();
+            Ghosts.StartPosition();
+            CreatePlayers();
+            PacmanIsLive = true;
+        }
+
         public void Start()
         {
-            RemovePlayers();
-            pacman.StartPosition();
-            clyde.StartPosition();
-            CreatePlayers();
+            Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
+            Ghosts.StartTimer(Timer);
+            Pacman.Start(Timer);
         }
 
         private void CreatePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = new Clyde(clyde.position);
-            map.map[pacman.position.X, pacman.position.Y] = new Pacman(pacman.position);
+            Map.SetElement(new Pacman(Map));
+            Ghosts.SetGhosts();
         }
 
-        public void RemovePlayers()
+        private void RemovePlayers()
         {
-            map.map[clyde.position.X, clyde.position.Y] = new Empty(clyde.position);
-            map.map[pacman.position.X, pacman.position.Y] = new Empty(pacman.position);
+            Map.SetElement(new Empty(Pacman.Position));
+            Ghosts.RemoveGhosts();
         }
 
         public void Stop()
         {
-            throw new System.NotImplementedException();
         }
 
         public void End()
         {
-            throw new System.NotImplementedException();
+            Dispose();
         }
 
+        public void Dispose()
+        {
+            GC.SuppressFinalize(true);
+        }
+
+        private void PacmanIsKilled()
+        {
+            PacmanIsLive = false;
+        }
     }
 }

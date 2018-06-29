@@ -3,16 +3,16 @@
 
 namespace PacMan
 {
-    public class Wall: ICoord
+    public class Wall: ICoord, IGetChar
     {
-        public Position position { get; set; }
+        public Position Position { get; set; }
 
         public Wall(Position position)
         {
-            this.position = position;
+            Position = position;
         }
 
-        public static char GetCharElement()
+        public char GetCharElement()
         {
             return '#';
         }
