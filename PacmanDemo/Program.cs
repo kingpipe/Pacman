@@ -3,22 +3,21 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
-using System.Threading;
 
 namespace PacmanDemo
 {
     class Program
     {
-        static object obj = new object();
         static void Main(string[] args)
-        {   
+        {
+            Console.CursorVisible = false;
+
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
-            DrawMap(game);
-            game.Ghosts.AddMoveHandler(EventMoving);
+            var drawConsole = new DrawConsole(game);
 
-            Console.CursorVisible = false;
-            Console.WriteLine($"Score={game.Score}");
+            drawConsole.DrawMap();
+            game.Ghosts.AddMoveHandler(drawConsole.EventMoving);
             game.Start();
             while (true)
             {
@@ -36,8 +35,7 @@ namespace PacmanDemo
                             ConsoleKeyInfo space = Console.ReadKey(true);
                             if (space.Key == ConsoleKey.Spacebar)
                             {
-                                DrawMap(game);
-                                Console.WriteLine($"Score={game.Score}");
+                                drawConsole.DrawMap();
                                 break;
                             }
                         }
@@ -45,143 +43,31 @@ namespace PacmanDemo
                     }
                     else
                     {
-                        TheEnd(game);
+                        drawConsole.TheEnd();
                         game.End();
                         break;
                     }
                 }
-                ChoiceDirectionMovePacman(game);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.LeftArrow)
+                {
+                    drawConsole.MovePacman(game, Direction.Left);
+                }
+                if (key.Key == ConsoleKey.RightArrow)
+                {
+                    drawConsole.MovePacman(game, Direction.Right);
+                }
+                if (key.Key == ConsoleKey.UpArrow)
+                {
+                    drawConsole.MovePacman(game, Direction.Up);
+                }
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+                    drawConsole.MovePacman(game, Direction.Down);
+                }
+                drawConsole.WriteScore(game.Pacman.Count);
             }
             Console.ReadLine();
-        }
-
-        private static void EventMoving(ICoord obj)
-        {
-            lock (obj)
-            {
-                Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-                Console.WriteLine(obj.GetCharElement());
-            }
-        }
-
-        private static void TheEnd(Game game)
-        {
-            Console.Clear();
-            Console.WriteLine("You lost");
-            Console.WriteLine($"Score={game.Pacman.Count}");
-        }
-
-        private static void ChoiceDirectionMovePacman(Game game)
-        {
-            ConsoleKeyInfo key = Console.ReadKey(true);
-            if (key.Key == ConsoleKey.LeftArrow)
-            {
-                MovePacman(game, Direction.Left);
-            }
-            if (key.Key == ConsoleKey.RightArrow)
-            {
-                MovePacman(game, Direction.Right);
-            }
-            if (key.Key == ConsoleKey.UpArrow)
-            {
-                MovePacman(game, Direction.Up);
-            }
-            if (key.Key == ConsoleKey.DownArrow)
-            {
-                MovePacman(game, Direction.Down);
-            }
-            WriteScore(game.Pacman.Count);
-         }
-
-        private static void WriteScore(int count)
-        {
-            lock (obj)
-            {
-                Console.SetCursorPosition(6, 32);
-                Console.WriteLine(count);
-            }
-        }
-
-        private static void DrawMap(Game game)
-        {
-            Console.Clear();
-            ShowMap(game.Map);
-            string LiveorLives = game.Pacman.Lives == 1 ? "Live" : "Lives";
-            Console.WriteLine($"{LiveorLives} {game.Pacman.Lives} ");
-        }
-
-        private static bool MovePacman(Game game, Direction direction)
-        {
-            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(new Empty(game.Pacman.Position).GetCharElement());
-
-            bool value = game.Move(direction);
-
-            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(game.Pacman.GetCharElement());
-
-            return value;
-
-        }
-
-        private static void CreateElements(Game game)
-        {
-            Console.SetCursorPosition(game.Pacman.Position.X, game.Pacman.Position.Y);
-            Console.WriteLine(game.Pacman.GetCharElement());
-
-            Console.SetCursorPosition(game.Ghosts.Blinky.Position.X, game.Ghosts.Blinky.Position.Y);
-            Console.WriteLine(game.Ghosts.Blinky.GetCharElement());
-
-            Console.SetCursorPosition(game.Ghosts.Clyde.Position.X, game.Ghosts.Clyde.Position.Y);
-            Console.WriteLine(game.Ghosts.Clyde.GetCharElement());
-
-            Console.SetCursorPosition(game.Ghosts.Inky.Position.X, game.Ghosts.Inky.Position.Y);
-            Console.WriteLine(game.Ghosts.Inky.GetCharElement());
-        }
-
-
-        private static void ShowMap(Map map)
-        {
-            ICoord[,] array = map.map;
-            for (int y = 0; y < map.Height; y++)
-            {
-                for (int x = 0; x < map.Width; x++)
-                {
-                    if (array[x, y] is Empty)
-                    {
-                        Console.Write(new Empty(new Position(x, y)).GetCharElement());
-                    }
-                    if (array[x, y] is Wall)
-                    {
-                        Console.Write(new Wall(new Position(x, y)).GetCharElement());
-                    }
-                    if (array[x, y] is LittleGoal)
-                    {
-                        Console.Write(new LittleGoal(new Position(x, y)).GetCharElement());
-                    }
-                    if (array[x, y] is BigGoal)
-                    {
-                        Console.Write(new BigGoal(new Position(x, y)).GetCharElement());
-                    }
-                    if (array[x, y] is Pacman)
-                    {
-                        Console.Write(new Pacman(map).GetCharElement());
-                    }
-                    if (array[x, y] is Blinky)
-                    {
-                        Console.Write(new Blinky(map).GetCharElement());
-                    }
-                    if (array[x, y] is Clyde)
-                    {
-                        Console.Write(new Clyde(map).GetCharElement());
-                    }
-                    if (array[x, y] is Inky)
-                    {
-                        Console.Write(new Inky(map).GetCharElement());
-                    }
-                }
-                Console.WriteLine();
-            }
         }
     }
 }
