@@ -1,6 +1,5 @@
 ﻿using PacMan.Interfaces;
 
-
 namespace PacMan
 {
     public class Wall: ICoord, IGetChar

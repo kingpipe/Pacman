@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms.Astar;
@@ -14,8 +13,7 @@ namespace PacMan.Players
         public override event Action<ICoord> Movement;
 
         public Blinky()
-        {
-        }
+        { }
 
         public Blinky(Map map) : base(map)
         {
@@ -26,7 +24,8 @@ namespace PacMan.Players
         {
             Position = new Position(15, 11);
         }
-        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
             pacmanIsLive = Move();
@@ -45,8 +44,8 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    list = strategy.FindPath(Map, Position, PacmanPosition);
-                    oldcoord = Go(list, oldcoord);
+                    path = strategy.FindPath(Map, Position, PacmanPosition);
+                    oldcoord = Go(path, oldcoord);
                     if (PacmanPosition == Position)
                     {
                         oldcoord = new Empty(Position);

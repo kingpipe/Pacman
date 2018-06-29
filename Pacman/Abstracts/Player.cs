@@ -1,18 +1,22 @@
-﻿using PacMan.Foods;
+﻿using System;
+using System.Timers;
+using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player : IMovable
+    abstract public class Player : IMovable, ISinkMoving, ITimer
     {
+        public abstract event Action<ICoord> Movement;
         public abstract char GetCharElement();
         public abstract bool Move();
+        public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
         public Map Map { get; set; }
         public Position Position { get; set; }
+
         public Player()
-        {
-        }
+        { }
 
         public Player(Map map)
         {
@@ -23,6 +27,18 @@ namespace PacMan.Abstracts
         public virtual void StartPosition()
         {
             Position = Position.None;
+        }
+
+        public virtual void Start(Timer timer)
+        {
+            timer.Elapsed += TimerElapsed;
+            timer.Start();
+        }
+
+        public virtual void Stop(Timer timer)
+        {
+            timer.Elapsed -= TimerElapsed;
+            timer.Stop();
         }
 
         public virtual bool MoveLeft()
@@ -74,6 +90,7 @@ namespace PacMan.Abstracts
             Position = position;
             Map.SetElement(value, Position);
         }
+
         private void SwapPlacesY(int y)
         {
             var value = Map.GetElement(Position);
@@ -85,4 +102,3 @@ namespace PacMan.Abstracts
         }
     }
 }
-

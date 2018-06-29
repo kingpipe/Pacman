@@ -11,15 +11,12 @@ namespace PacMan.Players
         public override event Action<ICoord> Movement;
 
         public Pinky()
-        {
-        }
+        { }
 
         public Pinky(Map map):base(map)
-        {
+        { }
 
-        }
-
-        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             throw new NotImplementedException();
         }

@@ -2,7 +2,7 @@
 
 namespace PacMan.Interfaces
 {
-    interface IEventSink
+    interface ISinkAboutEatPacman : ISinkMoving
     {
         event Action SinkAboutEatPacman;
     }

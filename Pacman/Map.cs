@@ -17,6 +17,7 @@ namespace PacMan
             Width = map.GetLength(0);
             Height = map.GetLength(1);
         }
+
         public bool OnBoard(IPosition position)
         {
             if (position.X > 0 && position.X <= Width

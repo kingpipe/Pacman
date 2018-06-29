@@ -8,16 +8,13 @@ namespace PacMan.Players
 {
     public class Pacman : Player, IPacman, IEateble, IGetChar
     {
-        private bool value;
-
-        public event Action<ICoord> Movement;
+        public override event Action<ICoord> Movement;
         public Direction direction { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
 
         public Pacman()
-        {
-        }
+        { }
 
         public Pacman(Map map) : base(map)
         {
@@ -30,23 +27,11 @@ namespace PacMan.Players
         {
             Position = new Position(15, 23);
         }
-
-        public void Start(Timer timer)
-        {
-            timer.Elapsed += TimerElapsed;
-            timer.Start();
-        }
-
-        public void Stop(Timer timer)
-        {
-            timer.Elapsed -= TimerElapsed;
-            timer.Stop();
-        }
-
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(new Empty(Position));
-            value = Move();
+            Move();
             Movement(Map.GetElement(Position));
         }
 
@@ -60,7 +45,6 @@ namespace PacMan.Players
             else
             {
                 Count += ((IFood)coord).Score;
-                ((IFood)coord).IsLive = false;
             }
 
         }
@@ -69,24 +53,19 @@ namespace PacMan.Players
             switch (direction)
             {
                 case Direction.Left:
-                    value = MoveLeft();
-                    break;
+                    return MoveLeft();
                 case Direction.Right:
-                    value = MoveRight();
-                    break;
+                    return MoveRight();
                 case Direction.Up:
-                    value = MoveUp();
-                    break;
+                    return MoveUp();
                 case Direction.Down:
-                    value = MoveDown();
-                    break;
+                    return MoveDown();
                 default:
                     direction = Direction.None;
-                    value = false;
-                    break;
+                    return false;
             }
-            return value;
         }
+
         public override bool MoveRight()
         {
             if (Position.X + 2 > Map.Width)
@@ -139,10 +118,10 @@ namespace PacMan.Players
                 Eat(Map.GetElementUp(Position));
             return base.MoveUp();
         }
+
         public override char GetCharElement()
         {
             return 'P';
         }
-
     }
 }

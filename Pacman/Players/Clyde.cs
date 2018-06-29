@@ -13,8 +13,7 @@ namespace PacMan.Players
         public override event Action<ICoord> Movement;
 
         public Clyde()
-        {
-        }
+        { }
 
         public Clyde(Map map) : base(map)
         {
@@ -26,7 +25,7 @@ namespace PacMan.Players
             Position = new Position(19, 11);
         }
         
-        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
             pacmanIsLive = Move();
@@ -45,11 +44,11 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    if (list.Count == 0)
+                    if (path.Count == 0)
                     {
-                        list = strategy.FindPath(Map, Position, PacmanPosition);
+                        path = strategy.FindPath(Map, Position, PacmanPosition);
                     }
-                    oldcoord = Go(list, oldcoord);
+                    oldcoord = Go(path, oldcoord);
                     if (PacmanPosition == Position)
                     {
                         oldcoord = new Empty(Position);

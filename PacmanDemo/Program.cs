@@ -8,36 +8,69 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
+            ConsoleKeyInfo key;
 
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             var drawConsole = new DrawConsole(game);
 
             drawConsole.DrawMap();
-            game.Ghosts.AddMoveHandler(drawConsole.EventMoving);
-            game.Pacman.Movement += drawConsole.PacmanMoving;
+            game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
+            game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
             game.Start();
+
             while (true)
             {
+                key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                {
+                    game.Stop();
+                    drawConsole.InformationAfterStop();
+                    while (true)
+                    {
+                        key = Console.ReadKey(true);
+                        if (key.Key == ConsoleKey.Spacebar)
+                        {
+                            drawConsole.DrawMap();
+                            game.Start();
+                            break;
+                        }
+                    }
+                }
+                if (key.Key == ConsoleKey.LeftArrow)
+                {
+                    game.SetDirection(Direction.Left);
+                }
+                if (key.Key == ConsoleKey.RightArrow)
+                {
+                    game.SetDirection(Direction.Right);
+                }
+                if (key.Key == ConsoleKey.UpArrow)
+                {
+                    game.SetDirection(Direction.Up);
+                }
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+                    game.SetDirection(Direction.Down);
+                }
+                drawConsole.WriteScore();
+
                 if (game.PacmanIsLive == false)
                 {
-                    game.PacmanIsDied();
-                    Console.Clear();
+                    game.Stop();
                     if (game.Lives > 0)
                     {
-                        string liveorlives = game.Lives == 1 ? "live" : "lives";
-                        Console.WriteLine($"You lost,you have more {game.Lives} {liveorlives}");
-                        Console.WriteLine("Press the spacebar to continue the game");
+                        drawConsole.InformationAfterKilled();
                         while (true)
                         {
-                            ConsoleKeyInfo space = Console.ReadKey(true);
-                            if (space.Key == ConsoleKey.Spacebar)
+                            key = Console.ReadKey(true);
+                            if (key.Key == ConsoleKey.Spacebar)
                             {
                                 drawConsole.DrawMap();
+                                game.Start();
                                 break;
                             }
                         }
-                        game.Start();
                     }
                     else
                     {
@@ -46,24 +79,6 @@ namespace PacmanDemo
                         break;
                     }
                 }
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.LeftArrow)
-                {
-                    game.Pacman.direction = Direction.Left;
-                }
-                if (key.Key == ConsoleKey.RightArrow)
-                {
-                    game.Pacman.direction = Direction.Right;
-                }
-                if (key.Key == ConsoleKey.UpArrow)
-                {
-                    game.Pacman.direction = Direction.Up;
-                }
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-                    game.Pacman.direction = Direction.Down;
-                }
-                drawConsole.WriteScore();
             }
             Console.ReadLine();
         }

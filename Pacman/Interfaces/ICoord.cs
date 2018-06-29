@@ -1,5 +1,4 @@
-﻿
-namespace PacMan.Interfaces
+﻿namespace PacMan.Interfaces
 {
     public interface ICoord : IGetChar
     {

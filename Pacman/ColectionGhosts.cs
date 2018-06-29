@@ -35,6 +35,7 @@ namespace PacMan
             Map.SetElement(new Blinky(Map));
             Map.SetElement(new Inky(Map));
         }
+
         public void StartPosition()
         {
             foreach (var ghost in Ghosts)
@@ -50,6 +51,7 @@ namespace PacMan
                 Map.SetElement(new Empty(ghost.Position));
             }
         }
+
         public void AddSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)
@@ -65,6 +67,7 @@ namespace PacMan
                 ghost.SinkAboutEatPacman -= action;
             }
         }
+
         public void AddMoveHandler(Action<ICoord> action)
         {
             foreach (var ghost in Ghosts)

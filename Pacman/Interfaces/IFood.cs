@@ -1,10 +1,7 @@
 ﻿namespace PacMan.Interfaces
 {
-    interface IFood:ICoord
+    interface IFood : ICoord
     {
         int Score { get; set; }
-
-        bool IsLive { get; set; }
-
     }
 }

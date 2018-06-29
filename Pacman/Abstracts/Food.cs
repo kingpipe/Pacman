@@ -10,6 +10,9 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
+        public Food()
+        { }
+
         public Food(Position position)
         {
             Position = position;

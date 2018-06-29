@@ -5,6 +5,9 @@ namespace PacMan.Foods
 {
     public class BigGoal : Food, IGetChar
     {
+        public BigGoal()
+        { }
+
         public BigGoal(Position position):base(position)
         {
             Score = 50;

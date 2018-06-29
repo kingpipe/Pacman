@@ -6,14 +6,15 @@ using System.Timers;
 
 namespace PacMan
 {
-    public class Game : IGame, IDisposable
+    public class Game : IGame
     {
         private const int TIME = 500;
         private Timer Timer { get; set; }
+        private Pacman Pacman { get; set; }
+        private ColectionGhosts Ghosts { get; set; }
+
         public bool PacmanIsLive { get; set; }
         public Map Map { get; set; }
-        public Pacman Pacman { get; private set; }
-        public ColectionGhosts Ghosts { get; private set; }
         public int Score
         {
             get
@@ -38,17 +39,19 @@ namespace PacMan
             Ghosts = new ColectionGhosts(Map);
         }
 
-        public void PacmanIsDied()
+        public void AddMoveHandlerToGhosts(Action<ICoord> action)
         {
-            Pacman.Stop(Timer);
-            Ghosts.StopTimer(Timer);
-            Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
-            Pacman.Lives--;
-            RemovePlayers();
-            Pacman.StartPosition();
-            Ghosts.StartPosition();
-            CreatePlayers();
-            PacmanIsLive = true;
+            Ghosts.AddMoveHandler(action);
+        }
+
+        public void AddMoveHandlerToPacman(Action<ICoord> action)
+        {
+            Pacman.Movement += action;
+        }
+
+        public void SetDirection(Direction direction)
+        {
+            Pacman.direction = direction;
         }
 
         public void Start()
@@ -56,6 +59,34 @@ namespace PacMan
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
             Ghosts.StartTimer(Timer);
             Pacman.Start(Timer);
+        }
+
+        public void Stop()
+        {
+            Pacman.direction = Direction.None;
+            Pacman.Stop(Timer);
+            Ghosts.StopTimer(Timer);
+            Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
+
+            if (PacmanIsLive == false)
+            {
+                Pacman.Lives--;
+                PacmanIsLive = true;
+                RemovePlayers();
+                Pacman.StartPosition();
+                Ghosts.StartPosition();
+                CreatePlayers();
+            }
+        }
+
+        public void End()
+        {
+            GC.SuppressFinalize(true);
+        }
+
+        private void PacmanIsKilled()
+        {
+            PacmanIsLive = false;
         }
 
         private void CreatePlayers()
@@ -68,25 +99,6 @@ namespace PacMan
         {
             Map.SetElement(new Empty(Pacman.Position));
             Ghosts.RemoveGhosts();
-        }
-
-        public void Stop()
-        {
-        }
-
-        public void End()
-        {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(true);
-        }
-
-        private void PacmanIsKilled()
-        {
-            PacmanIsLive = false;
         }
     }
 }

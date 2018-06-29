@@ -1,5 +1,4 @@
-﻿
-namespace PacMan
+﻿namespace PacMan
 {
     public enum Direction
     {

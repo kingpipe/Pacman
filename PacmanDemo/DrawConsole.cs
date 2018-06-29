@@ -10,6 +10,7 @@ namespace PacmanDemo
     {
         private object obj = new object();
         private Game Game { get; }
+
         public DrawConsole(Game game)
         {
             Game = game;
@@ -19,8 +20,8 @@ namespace PacmanDemo
         {
             Console.Clear();
             ShowMap();
-            string LiveorLives = Game.Pacman.Lives == 1 ? "Live" : "Lives";
-            Console.WriteLine($"{LiveorLives} {Game.Pacman.Lives} ");
+            string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
+            Console.WriteLine($"{LiveorLives} {Game.Lives} ");
             Console.WriteLine($"Score={Game.Score}");
         }
 
@@ -28,7 +29,7 @@ namespace PacmanDemo
         {
             Console.Clear();
             Console.WriteLine("You lost");
-            Console.WriteLine($"Score={Game.Pacman.Count}");
+            Console.WriteLine($"Score={Game.Score}");
         }
 
         public void WriteScore()
@@ -36,7 +37,7 @@ namespace PacmanDemo
             lock (obj)
             {
                 Console.SetCursorPosition(6, 32);
-                Console.WriteLine(Game.Pacman.Count);
+                Console.WriteLine(Game.Score);
             }
         }
 
@@ -48,14 +49,33 @@ namespace PacmanDemo
                 Console.WriteLine(coord.GetCharElement());
             }
         }
+
         public void PacmanMoving(ICoord coord)
         {
-           lock(obj)
+            lock (obj)
             {
                 EventMoving(coord);
                 WriteScore();
             }
         }
+
+        public void InformationAfterStop()
+        {
+            Console.Clear();
+            string liveorlives = Game.Lives == 1 ? "live" : "lives";
+            Console.WriteLine($"You have {Game.Lives} {liveorlives}");
+            Console.WriteLine($"You score is {Game.Score}");
+            Console.WriteLine("Press the spacebar to continue the game");
+        }
+
+        public void InformationAfterKilled()
+        {
+            Console.Clear();
+            string liveorlives = Game.Lives == 1 ? "live" : "lives";
+            Console.WriteLine($"You lost,you have more {Game.Lives} {liveorlives}");
+            Console.WriteLine("Press the spacebar to continue the game");
+        }
+
         private void ShowMap()
         {
             ICoord[,] array = Game.Map.map;
@@ -99,6 +119,5 @@ namespace PacmanDemo
                 Console.WriteLine();
             }
         }
-
     }
 }
