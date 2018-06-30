@@ -2,8 +2,6 @@
 using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
-using PacMan.Algorithms.Astar;
-using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -47,19 +45,22 @@ namespace PacMan.Players
                 {
                     path = strategy.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(path, oldcoord);
-                    if (PacmanPosition == Position)
+                    if (PacmanPosition != Position)
                     {
-                        return false;
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        return GhostIsFrightened();
+                    }
                 }
                 else
                 {
-                    return false;
+                    return GhostIsFrightened();
                 }
             }
         }
-
+        
         public override char GetCharElement()
         {
             return 'B';

@@ -47,15 +47,15 @@ namespace PacMan.Players
 
                     path = strategy.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(path, oldcoord);
-                    if (PacmanPosition == Position)
+                    if (PacmanPosition != Position)
                     {
-                        return false;
+                        return true;
                     }
-                    return true;
+                    return GhostIsFrightened();
                 }
                 else
                 {
-                    return false;
+                    return GhostIsFrightened();
                 }
             }
         }

@@ -51,5 +51,13 @@ namespace PacMan.Abstracts
             Map.SetElement(this);
             return old;
         }
+
+        protected bool GhostIsFrightened()
+        {
+            if (Frightened)
+                return true;
+            else
+                return false;
+        }
     }
 }
