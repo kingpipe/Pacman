@@ -71,9 +71,9 @@ namespace PacMan.Algorithms
 
         private bool CanMove(Position position, IMap map)
         {
-            return !(map.map[position.X, position.Y] is Wall) &&
-                   !(map.map[position.X, position.Y] is IGhost) &&
-                   map.OnBoard(position);
+            return map.OnBoard(position) &&
+                   !(map.map[position.X, position.Y] is Wall) &&
+                   !(map.map[position.X, position.Y] is IGhost);
         }
     }
 }

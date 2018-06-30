@@ -24,7 +24,7 @@ namespace PacMan.Players
         {
             Position = new Position(19, 11);
         }
-        
+
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
@@ -44,21 +44,16 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    if (path.Count == 0)
-                    {
-                        path = strategy.FindPath(Map, Position, PacmanPosition);
-                    }
+                    path = strategy.FindPath(Map, Position, PacmanPosition);
                     oldcoord = Go(path, oldcoord);
                     if (PacmanPosition == Position)
                     {
-                        oldcoord = new Empty(Position);
                         return false;
                     }
                     return true;
                 }
                 else
                 {
-                    oldcoord = new Empty(Position);
                     return false;
                 }
             }

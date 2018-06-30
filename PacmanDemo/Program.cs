@@ -1,4 +1,5 @@
 ﻿using PacMan;
+using PacMan.Interfaces;
 using System;
 
 namespace PacmanDemo
@@ -8,8 +9,8 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            ConsoleKeyInfo key;
 
+            ConsoleKeyInfo key;
             var size = new Size(30, 31);
             var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
             var drawConsole = new DrawConsole(game);
@@ -54,7 +55,6 @@ namespace PacmanDemo
                     game.SetDirection(Direction.Down);
                 }
                 drawConsole.WriteScore();
-
                 if (game.PacmanIsLive == false)
                 {
                     game.Stop();
@@ -76,11 +76,9 @@ namespace PacmanDemo
                     {
                         drawConsole.TheEnd();
                         game.End();
-                        break;
                     }
                 }
             }
-            Console.ReadLine();
         }
     }
 }

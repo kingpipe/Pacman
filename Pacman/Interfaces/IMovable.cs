@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IMovable : ICoord, IStartPosition
+    interface IMovable : ICoord, IStartPosition
     {
         bool MoveLeft();
         bool MoveRight();

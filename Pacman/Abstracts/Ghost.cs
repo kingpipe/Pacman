@@ -12,10 +12,10 @@ namespace PacMan.Abstracts
         
         protected object obj = new object();
         protected bool pacmanIsLive = true;
-        protected ICoord oldcoord;
         protected Stack<Position> path;
         protected IStrategy strategy;
 
+        public ICoord oldcoord;
         public Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
         public int Score { get; set; }

@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman, IEateble, IGetChar
+    public class Pacman : Player, IPacman, IGetChar
     {
         public override event Action<ICoord> Movement;
         public Direction direction { get; set; }

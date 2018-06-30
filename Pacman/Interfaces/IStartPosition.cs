@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IStartPosition
+    interface IStartPosition
     {
         void StartPosition();
     }

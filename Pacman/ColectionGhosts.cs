@@ -11,7 +11,7 @@ namespace PacMan
     public class ColectionGhosts
     {
         private Map Map { get; set; }
-        public Collection<Ghost> Ghosts { get; set; }
+        private Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
         public Inky Inky { get; set; }
@@ -43,7 +43,7 @@ namespace PacMan
                 ghost.StartPosition();
             }
         }
-
+        
         public void RemoveGhosts()
         {
             foreach (var ghost in Ghosts)

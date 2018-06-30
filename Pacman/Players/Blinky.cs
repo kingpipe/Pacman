@@ -48,14 +48,12 @@ namespace PacMan.Players
                     oldcoord = Go(path, oldcoord);
                     if (PacmanPosition == Position)
                     {
-                        oldcoord = new Empty(Position);
                         return false;
                     }
                     return true;
                 }
                 else
                 {
-                    oldcoord = new Empty(Position);
                     return false;
                 }
             }

@@ -18,18 +18,24 @@ namespace PacmanDemo
 
         public void DrawMap()
         {
-            Console.Clear();
-            ShowMap();
-            string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
-            Console.WriteLine($"{LiveorLives} {Game.Lives} ");
-            Console.WriteLine($"Score={Game.Score}");
+            lock (obj)
+            {
+                Console.Clear();
+                ShowMap();
+                string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
+                Console.WriteLine($"{LiveorLives} {Game.Lives} ");
+                Console.WriteLine($"Score={Game.Score}");
+            }
         }
 
         public void TheEnd()
         {
-            Console.Clear();
-            Console.WriteLine("You lost");
-            Console.WriteLine($"Score={Game.Score}");
+            lock (obj)
+            {
+                Console.Clear();
+                Console.WriteLine("You lost");
+                Console.WriteLine($"Score={Game.Score}");
+            }
         }
 
         public void WriteScore()
@@ -61,19 +67,25 @@ namespace PacmanDemo
 
         public void InformationAfterStop()
         {
-            Console.Clear();
-            string liveorlives = Game.Lives == 1 ? "live" : "lives";
-            Console.WriteLine($"You have {Game.Lives} {liveorlives}");
-            Console.WriteLine($"You score is {Game.Score}");
-            Console.WriteLine("Press the spacebar to continue the game");
+            lock (obj)
+            {
+                Console.Clear();
+                string liveorlives = Game.Lives == 1 ? "live" : "lives";
+                Console.WriteLine($"You have {Game.Lives} {liveorlives}");
+                Console.WriteLine($"You score is {Game.Score}");
+                Console.WriteLine("Press the spacebar to continue the game");
+            }
         }
 
         public void InformationAfterKilled()
         {
-            Console.Clear();
-            string liveorlives = Game.Lives == 1 ? "live" : "lives";
-            Console.WriteLine($"You lost,you have more {Game.Lives} {liveorlives}");
-            Console.WriteLine("Press the spacebar to continue the game");
+            lock (obj)
+            {
+                Console.Clear();
+                string liveorlives = Game.Lives == 1 ? "live" : "lives";
+                Console.WriteLine($"You lost,you have more {Game.Lives} {liveorlives}");
+                Console.WriteLine("Press the spacebar to continue the game");
+            }
         }
 
         private void ShowMap()

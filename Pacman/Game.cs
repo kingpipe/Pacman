@@ -8,13 +8,13 @@ namespace PacMan
 {
     public class Game : IGame
     {
-        private const int TIME = 500;
+        private const int TIME = 250;
         private Timer Timer { get; set; }
         private Pacman Pacman { get; set; }
         private ColectionGhosts Ghosts { get; set; }
 
-        public bool PacmanIsLive { get; set; }
-        public Map Map { get; set; }
+        public bool PacmanIsLive { get; private set; }
+        public Map Map { get; private set; }
         public int Score
         {
             get
