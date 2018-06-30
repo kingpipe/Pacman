@@ -16,7 +16,8 @@ namespace PacMan
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
         public Inky Inky { get; set; }
-        public IState State;
+        public IState State { get; set; }
+        private ChangeStateGhosts Time { get; }
 
         public ColectionGhosts(Map map)
         {
@@ -29,8 +30,10 @@ namespace PacMan
             Inky = new Inky(map);
 
             AddGhostsInCollection();
+
+            Time = new ChangeStateGhosts(this);
         }
-        
+
         public void SetGhosts()
         {
             Map.SetElement(new Clyde(Map));
@@ -84,6 +87,7 @@ namespace PacMan
             {
                 ghost.Start(timer);
             }
+            Time.Start();
         }
 
         public void StopTimer(Timer timer)
@@ -92,6 +96,7 @@ namespace PacMan
             {
                 ghost.Stop(timer);
             }
+            Time.Stop();
         }
 
         private void AddGhostsInCollection()

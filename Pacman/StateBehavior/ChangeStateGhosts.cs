@@ -3,12 +3,12 @@ using System.Timers;
 
 namespace PacMan
 {
-    public class Time
+    public class ChangeStateGhosts
     {
         private ColectionGhosts Ghosts;
         private Queue<int> listoftime;
         private Timer timer;
-        public Time(ColectionGhosts ghosts)
+        public ChangeStateGhosts(ColectionGhosts ghosts)
         {
             Ghosts=ghosts;
             listoftime = new Queue<int>();
@@ -29,16 +29,16 @@ namespace PacMan
 
         public void Start()
         {
-            timer.Elapsed += Timer_Elapsed;
+            timer.Elapsed += TimerElapsed;
             timer.Start();
         }
         public void Stop()
         {
             timer.Start();
-            timer.Elapsed -= Timer_Elapsed;
+            timer.Elapsed -= TimerElapsed;
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (listoftime.Count != 0)
                 ((Timer)sender).Interval = listoftime.Dequeue();
