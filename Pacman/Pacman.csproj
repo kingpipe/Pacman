@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="ColectionGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Interfaces\IGetChar.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\ISinkMoving.cs" />
+    <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Interfaces\IStartPosition.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\ITimer.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Players\Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Size.cs" />
+    <Compile Include="StateBehavior\StateAttack.cs" />
+    <Compile Include="StateBehavior\Time.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup />

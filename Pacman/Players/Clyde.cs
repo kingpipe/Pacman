@@ -2,7 +2,6 @@
 using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
-using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -24,7 +23,7 @@ namespace PacMan.Players
         {
             Position = new Position(19, 11);
         }
-
+        
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
@@ -44,7 +43,10 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    path = strategy.FindPath(Map, Position, PacmanPosition);
+                    if (path.Count == 0)
+                    {
+                        path = strategy.FindPath(Map, Position, PacmanPosition);
+                    }
                     oldcoord = Go(path, oldcoord);
                     if (PacmanPosition == Position)
                     {
