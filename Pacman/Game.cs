@@ -8,10 +8,11 @@ namespace PacMan
 {
     public class Game : IGame
     {
-        private const int TIME = 250;
+        private const int TIME = 400;
         private Timer Timer { get; set; }
         private Pacman Pacman { get; set; }
         private ColectionGhosts Ghosts { get; set; }
+        private Time Time { get; }
 
         public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
@@ -37,6 +38,7 @@ namespace PacMan
             Timer = new Timer(TIME);
             Pacman = new Pacman(Map);
             Ghosts = new ColectionGhosts(Map);
+            Time = new Time(Ghosts);
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)
@@ -59,6 +61,7 @@ namespace PacMan
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
             Ghosts.StartTimer(Timer);
             Pacman.Start(Timer);
+            Time.Start();
         }
 
         public void Stop()
@@ -67,6 +70,7 @@ namespace PacMan
             Pacman.Stop(Timer);
             Ghosts.StopTimer(Timer);
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
+            Time.Stop();
 
             if (PacmanIsLive == false)
             {

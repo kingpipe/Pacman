@@ -20,8 +20,8 @@ namespace PacMan
 
         public bool OnBoard(IPosition position)
         {
-            if (position.X > 0 && position.X <= Width
-                && position.Y > 0 && position.Y <= Height)
+            if (position.X > 0 && position.X < Width
+                && position.Y > 0 && position.Y < Height)
                 return true;
             return false;
         }

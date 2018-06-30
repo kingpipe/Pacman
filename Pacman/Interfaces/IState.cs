@@ -1,9 +1,7 @@
-﻿using PacMan;
-
-namespace Pacman.Interfaces
+﻿namespace PacMan.Interfaces
 {
-    interface IState
+    public interface IState
     {
-        void ChangeBehavior(Time time);
+        void ChangeBehavior(ColectionGhosts ghosts);
     }
 }

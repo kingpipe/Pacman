@@ -2,6 +2,7 @@
 using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
+using PacMan.StateBehavior;
 using System;
 using System.Collections.ObjectModel;
 using System.Timers;
@@ -11,24 +12,25 @@ namespace PacMan
     public class ColectionGhosts
     {
         private Map Map { get; set; }
-        private Collection<Ghost> Ghosts { get; set; }
+        public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
         public Inky Inky { get; set; }
+        public IState State;
 
         public ColectionGhosts(Map map)
         {
             Map = map;
 
             Ghosts = new Collection<Ghost>();
-
+            State = new StateScatter();
             Blinky = new Blinky(map);
             Clyde = new Clyde(map);
             Inky = new Inky(map);
 
             AddGhostsInCollection();
         }
-
+        
         public void SetGhosts()
         {
             Map.SetElement(new Clyde(Map));
@@ -43,7 +45,7 @@ namespace PacMan
                 ghost.StartPosition();
             }
         }
-        
+
         public void RemoveGhosts()
         {
             foreach (var ghost in Ghosts)

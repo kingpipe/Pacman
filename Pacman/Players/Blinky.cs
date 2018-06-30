@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using PacMan.Abstracts;
+using PacMan.Algorithms;
 using PacMan.Algorithms.Astar;
 using PacMan.Foods;
 using PacMan.Interfaces;
@@ -17,7 +18,7 @@ namespace PacMan.Players
 
         public Blinky(Map map) : base(map)
         {
-            strategy = new AstarAlgorithm();
+            strategy = new RandomMoving();
         }
 
         public override void StartPosition()

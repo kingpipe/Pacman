@@ -17,7 +17,7 @@ namespace PacMan.Players
 
         public Inky(Map map) : base(map)
         {
-            strategy = new GoAway();
+            strategy = new RandomMoving();
         }
 
         public override void StartPosition()
