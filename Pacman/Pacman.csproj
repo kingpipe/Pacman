@@ -47,7 +47,7 @@
     <Compile Include="Algorithms\GoAway.cs" />
     <Compile Include="Algorithms\RandomMoving.cs" />
     <Compile Include="Direction.cs" />
-    <Compile Include="Foods\BigGoal.cs" />
+    <Compile Include="Foods\Energizer.cs" />
     <Compile Include="Foods\Cherry.cs" />
     <Compile Include="Abstracts\Food.cs" />
     <Compile Include="Foods\Empty.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="StateBehavior\StateAttack.cs" />
-    <Compile Include="StateBehavior\Time.cs" />
+    <Compile Include="StateBehavior\ChangeStateGhosts.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup />

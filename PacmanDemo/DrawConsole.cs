@@ -107,9 +107,9 @@ namespace PacmanDemo
                     {
                         Console.Write(new LittleGoal(new Position(x, y)).GetCharElement());
                     }
-                    if (array[x, y] is BigGoal)
+                    if (array[x, y] is Energizer)
                     {
-                        Console.Write(new BigGoal(new Position(x, y)).GetCharElement());
+                        Console.Write(new Energizer(new Position(x, y)).GetCharElement());
                     }
                     if (array[x, y] is Pacman)
                     {

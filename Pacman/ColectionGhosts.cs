@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
@@ -39,6 +40,24 @@ namespace PacMan
             Map.SetElement(new Clyde(Map));
             Map.SetElement(new Blinky(Map));
             Map.SetElement(new Inky(Map));
+        }
+
+        public void GhostsAreFrightened()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Frightened = true;
+                ghost.strategy = new GoAway();
+            }
+        }
+
+
+        public void GhostsArenotFrightened()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Frightened = false;
+            }
         }
 
         public void StartPosition()
@@ -87,7 +106,7 @@ namespace PacMan
             {
                 ghost.Start(timer);
             }
-            Time.Start();
+            //Time.Start();
         }
 
         public void StopTimer(Timer timer)
@@ -96,7 +115,7 @@ namespace PacMan
             {
                 ghost.Stop(timer);
             }
-            Time.Stop();
+            //Time.Stop();
         }
 
         private void AddGhostsInCollection()

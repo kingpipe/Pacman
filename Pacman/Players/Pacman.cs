@@ -9,6 +9,7 @@ namespace PacMan.Players
     public class Pacman : Player, IPacman, IGetChar
     {
         public override event Action<ICoord> Movement;
+        public event Action SinkAboutEatEnergizer;
         public Direction direction { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
@@ -45,6 +46,10 @@ namespace PacMan.Players
             else
             {
                 Count += ((IFood)coord).Score;
+                if(coord is Energizer)
+                {
+                    SinkAboutEatEnergizer();
+                }
             }
 
         }

@@ -84,7 +84,7 @@ namespace PacMan
                             map[x, y] = new LittleGoal(new Position(x, y));
                             break;
                         case '3':
-                            map[x, y] = new BigGoal(new Position(x, y));
+                            map[x, y] = new Energizer(new Position(x, y));
                             break;
                         case '5':
                             map[x, y] = new Pacman(this);

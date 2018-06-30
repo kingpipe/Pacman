@@ -9,7 +9,9 @@ namespace PacMan
     public class Game : IGame
     {
         private const int TIME = 400;
+        private const int TIMEFORPACMAN = 200;
         private Timer Timer { get; set; }
+        private Timer PacmanTimer { get; set; }
         private Pacman Pacman { get; set; }
         private ColectionGhosts Ghosts { get; set; }
         
@@ -35,8 +37,10 @@ namespace PacMan
             PacmanIsLive = true;
             Map = new Map(path, size);
             Timer = new Timer(TIME);
+            PacmanTimer = new Timer(TIMEFORPACMAN);
             Pacman = new Pacman(Map);
             Ghosts = new ColectionGhosts(Map);
+            Pacman.SinkAboutEatEnergizer += Ghosts.GhostsAreFrightened;
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)
@@ -58,13 +62,13 @@ namespace PacMan
         {
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
             Ghosts.StartTimer(Timer);
-            Pacman.Start(Timer);
+            Pacman.Start(PacmanTimer);
         }
 
         public void Stop()
         {
             Pacman.direction = Direction.None;
-            Pacman.Stop(Timer);
+            Pacman.Stop(PacmanTimer);
             Ghosts.StopTimer(Timer);
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
            
