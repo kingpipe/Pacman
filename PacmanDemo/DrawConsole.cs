@@ -35,6 +35,7 @@ namespace PacmanDemo
                 Console.Clear();
                 Console.WriteLine("You lost");
                 Console.WriteLine($"Score={Game.Score}");
+                Console.ReadKey();
             }
         }
 

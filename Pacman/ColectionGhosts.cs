@@ -44,6 +44,7 @@ namespace PacMan
             foreach(var ghost in Ghosts)
             {
                 Map.SetElement(ghost);
+                Map.SetElement(ghost.oldcoord);
                 ghost.oldcoord = new Empty(ghost.Position);
             }
         }

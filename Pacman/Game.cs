@@ -14,7 +14,8 @@ namespace PacMan
         private Timer PacmanTimer { get; set; }
         private Pacman Pacman { get; set; }
         private ColectionGhosts Ghosts { get; set; }
-        
+
+        public event Action PacmanIsDied;
         public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
         public int Score
@@ -91,11 +92,12 @@ namespace PacMan
         private void PacmanIsKilled()
         {
             PacmanIsLive = false;
+            PacmanIsDied();
         }
 
         private void CreatePlayers()
         {
-            Map.SetElement(new Pacman(Map));
+            Map.SetElement(Pacman);
             Ghosts.SetGhosts();
         }
 
