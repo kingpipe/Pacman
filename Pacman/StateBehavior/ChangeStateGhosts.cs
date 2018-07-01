@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Timers;
+using PacMan.ExtensionClasses;
 
 namespace PacMan
 {
@@ -29,13 +30,11 @@ namespace PacMan
 
         public void Start()
         {
-            timer.Elapsed += TimerElapsed;
-            timer.Start();
+            timer.Start(TimerElapsed);
         }
         public void Stop()
         {
-            timer.Start();
-            timer.Elapsed -= TimerElapsed;
+            timer.Start(TimerElapsed);
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)

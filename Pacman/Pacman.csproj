@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="ColectionGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />

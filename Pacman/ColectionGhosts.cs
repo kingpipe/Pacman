@@ -1,4 +1,5 @@
-﻿using PacMan.Abstracts;
+﻿using PacMan.ExtensionClasses;
+using PacMan.Abstracts;
 using PacMan.Algorithms;
 using PacMan.Foods;
 using PacMan.Interfaces;
@@ -13,15 +14,18 @@ namespace PacMan
     public class ColectionGhosts
     {
         private Map Map { get; set; }
+        private ChangeStateGhosts ChangeStateChosts { get; }
+        private Timer timer;
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
         public Inky Inky { get; set; }
         public IState State { get; set; }
-        private ChangeStateGhosts Time { get; }
-
+        
         public ColectionGhosts(Map map)
         {
+            timer = new Timer(10000);
+
             Map = map;
 
             Ghosts = new Collection<Ghost>();
@@ -32,7 +36,7 @@ namespace PacMan
 
             AddGhostsInCollection();
 
-            Time = new ChangeStateGhosts(this);
+            ChangeStateChosts = new ChangeStateGhosts(this);
         }
 
         public void SetGhosts()
@@ -49,8 +53,10 @@ namespace PacMan
                 ghost.Frightened = true;
                 ghost.strategy = new GoAway();
             }
-        }
+            timer.Start(Timer_Elapsed);
 
+            ChangeStateChosts.Stop();
+        }
 
         public void GhostsArenotFrightened()
         {
@@ -58,6 +64,14 @@ namespace PacMan
             {
                 ghost.Frightened = false;
             }
+            timer.Stop(Timer_Elapsed);
+
+            ChangeStateChosts.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            GhostsArenotFrightened();
         }
 
         public void StartPosition()
@@ -106,7 +120,7 @@ namespace PacMan
             {
                 ghost.Start(timer);
             }
-            //Time.Start();
+            ChangeStateChosts.Start();
         }
 
         public void StopTimer(Timer timer)
@@ -115,7 +129,7 @@ namespace PacMan
             {
                 ghost.Stop(timer);
             }
-            //Time.Stop();
+            ChangeStateChosts.Stop();
         }
 
         private void AddGhostsInCollection()

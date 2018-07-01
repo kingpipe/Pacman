@@ -1,4 +1,5 @@
 ﻿using System;
+using PacMan.ExtensionClasses;
 using System.Timers;
 using PacMan.Foods;
 using PacMan.Interfaces;
@@ -31,14 +32,12 @@ namespace PacMan.Abstracts
 
         public virtual void Start(Timer timer)
         {
-            timer.Elapsed += TimerElapsed;
-            timer.Start();
+            timer.Start(TimerElapsed);
         }
 
         public virtual void Stop(Timer timer)
         {
-            timer.Elapsed -= TimerElapsed;
-            timer.Stop();
+            timer.Stop(TimerElapsed);
         }
 
         public virtual bool MoveLeft()
