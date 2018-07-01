@@ -57,7 +57,10 @@ namespace PacMan.Abstracts
             if (Frightened)
                 return true;
             else
+            {
+                oldcoord = new Empty(Position);
                 return false;
+            }
         }
     }
 }

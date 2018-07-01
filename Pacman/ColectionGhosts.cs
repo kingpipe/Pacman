@@ -41,9 +41,11 @@ namespace PacMan
 
         public void SetGhosts()
         {
-            Map.SetElement(new Clyde(Map));
-            Map.SetElement(new Blinky(Map));
-            Map.SetElement(new Inky(Map));
+            foreach(var ghost in Ghosts)
+            {
+                Map.SetElement(ghost);
+                ghost.oldcoord = new Empty(ghost.Position);
+            }
         }
 
         public void GhostsAreFrightened()

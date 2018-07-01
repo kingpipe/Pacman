@@ -97,19 +97,19 @@ namespace PacmanDemo
                 {
                     if (array[x, y] is Empty)
                     {
-                        Console.Write(new Empty(new Position(x, y)).GetCharElement());
+                        Console.Write(new Empty().GetCharElement());
                     }
                     if (array[x, y] is Wall)
                     {
-                        Console.Write(new Wall(new Position(x, y)).GetCharElement());
+                        Console.Write(new Wall().GetCharElement());
                     }
                     if (array[x, y] is LittleGoal)
                     {
-                        Console.Write(new LittleGoal(new Position(x, y)).GetCharElement());
+                        Console.Write(new LittleGoal().GetCharElement());
                     }
                     if (array[x, y] is Energizer)
                     {
-                        Console.Write(new Energizer(new Position(x, y)).GetCharElement());
+                        Console.Write(new Energizer().GetCharElement());
                     }
                     if (array[x, y] is Pacman)
                     {
