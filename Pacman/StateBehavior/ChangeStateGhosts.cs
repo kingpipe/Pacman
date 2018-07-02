@@ -34,7 +34,7 @@ namespace PacMan
         }
         public void Stop()
         {
-            timer.Start(TimerElapsed);
+            timer.Stop(TimerElapsed);
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)

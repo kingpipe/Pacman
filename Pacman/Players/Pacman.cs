@@ -28,7 +28,7 @@ namespace PacMan.Players
         {
             Position = new Position(15, 23);
         }
-        
+
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(new Empty(Position));
@@ -41,12 +41,18 @@ namespace PacMan.Players
             if (coord is IGhost)
             {
                 if (((IGhost)coord).Frightened == true)
-                    Count += ((Ghost)coord).Score;
+                {
+                    var ghost = (Ghost)coord;
+                    Count += ghost.Score;
+                    ghost.oldcoord = this;
+                    ghost.StartPosition();
+                    ghost.Frightened = false;
+                }
             }
             else
             {
                 Count += ((IFood)coord).Score;
-                if(coord is Energizer)
+                if (coord is Energizer)
                 {
                     SinkAboutEatEnergizer();
                 }
