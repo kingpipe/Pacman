@@ -20,6 +20,7 @@ namespace PacMan
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
         public Inky Inky { get; set; }
+        public Pinky Pinky { get; set; }
         public IState State { get; set; }
         
         public ColectionGhosts(Map map)
@@ -33,6 +34,7 @@ namespace PacMan
             Blinky = new Blinky(map);
             Clyde = new Clyde(map);
             Inky = new Inky(map);
+            Pinky = new Pinky(map);
 
             AddGhostsInCollection();
 
@@ -140,6 +142,7 @@ namespace PacMan
             Ghosts.Add(Blinky);
             Ghosts.Add(Clyde);
             Ghosts.Add(Inky);
+            Ghosts.Add(Pinky);
         }
     }
 }

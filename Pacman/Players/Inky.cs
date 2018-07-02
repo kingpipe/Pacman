@@ -22,7 +22,7 @@ namespace PacMan.Players
 
         public override void StartPosition()
         {
-            Position = new Position(10, 11);
+            Position = new Position(12, 15);
         }
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)

@@ -86,6 +86,9 @@ namespace PacMan
                         case '3':
                             map[x, y] = new Energizer(new Position(x, y));
                             break;
+                        case '4':
+                            map[x, y] = new Cherry(new Position(x, y));
+                            break;
                         case '5':
                             map[x, y] = new Pacman(this);
                             break;
@@ -97,6 +100,9 @@ namespace PacMan
                             break;
                         case '8':
                             map[x, y] = new Inky(this);
+                            break;
+                        case '9':
+                            map[x, y] = new Pinky(this);
                             break;
                         default:
                             continue;

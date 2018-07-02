@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 using PacMan.Interfaces;
 using System;
 using System.Timers;
@@ -14,16 +15,49 @@ namespace PacMan.Players
         { }
 
         public Pinky(Map map):base(map)
-        { }
+        {
+            strategy = new RandomMoving();
+        }
+
+
+        public override void StartPosition()
+        {
+            Position = new Position(17, 15);
+        }
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            Movement(oldcoord);
+            pacmanIsLive = Move();
+            Movement(Map.GetElement(Position));
+            if (pacmanIsLive == false)
+            {
+                SinkAboutEatPacman();
+            }
         }
 
         public override bool Move()
         {
-            throw new NotImplementedException();
+            lock (obj)
+            {
+                PacmanPosition = SearchPacman();
+
+                if (PacmanPosition != Position)
+                {
+
+                    path = strategy.FindPath(Map, Position, PacmanPosition);
+                    oldcoord = Go(path, oldcoord);
+                    if (PacmanPosition != Position)
+                    {
+                        return true;
+                    }
+                    return GhostIsFrightened();
+                }
+                else
+                {
+                    return GhostIsFrightened();
+                }
+            }
         }
 
         public override char GetCharElement()

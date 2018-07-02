@@ -112,6 +112,10 @@ namespace PacmanDemo
                     {
                         Console.Write(new Energizer().GetCharElement());
                     }
+                    if (array[x, y] is Cherry)
+                    {
+                        Console.Write(new Cherry().GetCharElement());
+                    }
                     if (array[x, y] is Pacman)
                     {
                         Console.Write(new Pacman().GetCharElement());
@@ -127,6 +131,10 @@ namespace PacmanDemo
                     if (array[x, y] is Inky)
                     {
                         Console.Write(new Inky().GetCharElement());
+                    }
+                    if (array[x, y] is Pinky)
+                    {
+                        Console.Write(new Pinky().GetCharElement());
                     }
                 }
                 Console.WriteLine();
