@@ -5,67 +5,82 @@ namespace PacmanDemo
 {
     class Program
     {
+
+        static ConsoleKeyInfo key;
+        static Size size = new Size(30, 31);
+        static Game game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
+        static DrawConsole drawConsole = new DrawConsole(game);
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
 
-            var size = new Size(30, 31);
-            var game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
-            var drawConsole = new DrawConsole(game);
 
             drawConsole.DrawMap();
-            game.Ghosts.AddMoveHandler(drawConsole.EventMoving);
-            game.Pacman.Movement += drawConsole.EventMoving;
+            game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
+            game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
+            game.PacmanIsDied += Game_PacmanIsDied;
             game.Start();
+
             while (true)
             {
-                if (game.PacmanIsLive == false)
+                if (game.Lives != 0)
                 {
-                    game.PacmanIsDied();
-                    Console.Clear();
-                    if (game.Lives > 0)
+                    key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
                     {
-                        string liveorlives = game.Lives == 1 ? "live" : "lives";
-                        Console.WriteLine($"You lost,you have more {game.Lives} {liveorlives}");
-                        Console.WriteLine("Press the spacebar to continue the game");
+                        game.Stop();
+                        drawConsole.InformationAfterStop();
                         while (true)
                         {
-                            ConsoleKeyInfo space = Console.ReadKey(true);
-                            if (space.Key == ConsoleKey.Spacebar)
+                            key = Console.ReadKey(true);
+                            if (key.Key == ConsoleKey.Spacebar)
                             {
                                 drawConsole.DrawMap();
+                                game.Start();
                                 break;
                             }
                         }
-                        game.Start();
                     }
-                    else
+                    if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        drawConsole.TheEnd();
-                        game.End();
-                        break;
+                        game.SetDirection(Direction.Left);
+                    }
+                    if (key.Key == ConsoleKey.RightArrow)
+                    {
+                        game.SetDirection(Direction.Right);
+                    }
+                    if (key.Key == ConsoleKey.UpArrow)
+                    {
+                        game.SetDirection(Direction.Up);
+                    }
+                    if (key.Key == ConsoleKey.DownArrow)
+                    {
+                        game.SetDirection(Direction.Down);
                     }
                 }
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.LeftArrow)
+                else
                 {
-                    game.Pacman.direction = Direction.Left;
+                    drawConsole.TheEnd();
+                    game.End();
+                    break;
                 }
-                if (key.Key == ConsoleKey.RightArrow)
-                {
-                    game.Pacman.direction = Direction.Right;
-                }
-                if (key.Key == ConsoleKey.UpArrow)
-                {
-                    game.Pacman.direction = Direction.Up;
-                }
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-                    game.Pacman.direction = Direction.Down;
-                }
-                drawConsole.WriteScore();
             }
-            Console.ReadLine();
+        }
+
+        private static void Game_PacmanIsDied()
+        {
+            game.Stop();
+            drawConsole.InformationAfterKilled();
+            while (true)
+            {
+                if (key.Key == ConsoleKey.Spacebar)
+                {
+                    drawConsole.DrawMap();
+                    game.Start();
+                    break;
+                }
+            }
+
         }
     }
 }

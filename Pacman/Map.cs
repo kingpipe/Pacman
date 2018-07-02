@@ -17,10 +17,11 @@ namespace PacMan
             Width = map.GetLength(0);
             Height = map.GetLength(1);
         }
+
         public bool OnBoard(IPosition position)
         {
-            if (position.X > 0 && position.X <= Width
-                && position.Y > 0 && position.Y <= Height)
+            if (position.X > 0 && position.X < Width
+                && position.Y > 0 && position.Y < Height)
                 return true;
             return false;
         }
@@ -83,7 +84,10 @@ namespace PacMan
                             map[x, y] = new LittleGoal(new Position(x, y));
                             break;
                         case '3':
-                            map[x, y] = new BigGoal(new Position(x, y));
+                            map[x, y] = new Energizer(new Position(x, y));
+                            break;
+                        case '4':
+                            map[x, y] = new Cherry(new Position(x, y));
                             break;
                         case '5':
                             map[x, y] = new Pacman(this);
@@ -96,6 +100,9 @@ namespace PacMan
                             break;
                         case '8':
                             map[x, y] = new Inky(this);
+                            break;
+                        case '9':
+                            map[x, y] = new Pinky(this);
                             break;
                         default:
                             continue;

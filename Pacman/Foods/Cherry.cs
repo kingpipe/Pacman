@@ -5,6 +5,9 @@ namespace PacMan.Foods
 {
     public class Cherry:Food, IGetChar
     {
+        public Cherry()
+        { }
+
         public Cherry(Position position) : base(position)
         {
             Score = 100;

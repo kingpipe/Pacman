@@ -2,7 +2,6 @@
 using System.Timers;
 using PacMan.Abstracts;
 using PacMan.Algorithms;
-using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -13,8 +12,7 @@ namespace PacMan.Players
         public override event Action<ICoord> Movement;
 
         public Clyde()
-        {
-        }
+        { }
 
         public Clyde(Map map) : base(map)
         {
@@ -23,10 +21,10 @@ namespace PacMan.Players
 
         public override void StartPosition()
         {
-            Position = new Position(19, 11);
+            Position = new Position(14, 15);
         }
-        
-        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
             pacmanIsLive = Move();
@@ -45,22 +43,17 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    if (list.Count == 0)
+                    path = strategy.FindPath(Map, Position, PacmanPosition);
+                    oldcoord = Go(path, oldcoord);
+                    if (PacmanPosition != Position)
                     {
-                        list = strategy.FindPath(Map, Position, PacmanPosition);
+                        return true;
                     }
-                    oldcoord = Go(list, oldcoord);
-                    if (PacmanPosition == Position)
-                    {
-                        oldcoord = new Empty(Position);
-                        return false;
-                    }
-                    return true;
+                    return GhostIsFrightened();
                 }
                 else
                 {
-                    oldcoord = new Empty(Position);
-                    return false;
+                    return GhostIsFrightened();
                 }
             }
         }

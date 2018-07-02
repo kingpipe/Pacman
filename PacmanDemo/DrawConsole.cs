@@ -10,6 +10,7 @@ namespace PacmanDemo
     {
         private object obj = new object();
         private Game Game { get; }
+
         public DrawConsole(Game game)
         {
             Game = game;
@@ -17,18 +18,25 @@ namespace PacmanDemo
 
         public void DrawMap()
         {
-            Console.Clear();
-            ShowMap();
-            string LiveorLives = Game.Pacman.Lives == 1 ? "Live" : "Lives";
-            Console.WriteLine($"{LiveorLives} {Game.Pacman.Lives} ");
-            Console.WriteLine($"Score={Game.Score}");
+            lock (obj)
+            {
+                Console.Clear();
+                ShowMap();
+                string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
+                Console.WriteLine($"{LiveorLives} {Game.Lives} ");
+                Console.WriteLine($"Score={Game.Score}");
+            }
         }
 
         public void TheEnd()
         {
-            Console.Clear();
-            Console.WriteLine("You lost");
-            Console.WriteLine($"Score={Game.Pacman.Count}");
+            lock (obj)
+            {
+                Console.Clear();
+                Console.WriteLine("You lost");
+                Console.WriteLine($"Score={Game.Score}");
+                Console.ReadKey();
+            }
         }
 
         public void WriteScore()
@@ -36,16 +44,48 @@ namespace PacmanDemo
             lock (obj)
             {
                 Console.SetCursorPosition(6, 32);
-                Console.WriteLine(Game.Pacman.Count);
+                Console.WriteLine(Game.Score);
             }
         }
 
-        public void EventMoving(ICoord obj)
+        public void EventMoving(ICoord coord)
         {
             lock (obj)
             {
-                Console.SetCursorPosition(obj.Position.X, obj.Position.Y);
-                Console.WriteLine(obj.GetCharElement());
+                Console.SetCursorPosition(coord.Position.X, coord.Position.Y);
+                Console.WriteLine(coord.GetCharElement());
+            }
+        }
+
+        public void PacmanMoving(ICoord coord)
+        {
+            lock (obj)
+            {
+                EventMoving(coord);
+                WriteScore();
+            }
+        }
+
+        public void InformationAfterStop()
+        {
+            lock (obj)
+            {
+                Console.Clear();
+                string liveorlives = Game.Lives == 1 ? "live" : "lives";
+                Console.WriteLine($"You have {Game.Lives} {liveorlives}");
+                Console.WriteLine($"You score is {Game.Score}");
+                Console.WriteLine("Press the spacebar to continue the game");
+            }
+        }
+
+        public void InformationAfterKilled()
+        {
+            lock (obj)
+            {
+                Console.Clear();
+                string liveorlives = Game.Lives == 1 ? "live" : "lives";
+                Console.WriteLine($"You lost,you have more {Game.Lives} {liveorlives}");
+                Console.WriteLine("Press the spacebar to continue the game");
             }
         }
 
@@ -58,19 +98,23 @@ namespace PacmanDemo
                 {
                     if (array[x, y] is Empty)
                     {
-                        Console.Write(new Empty(new Position(x, y)).GetCharElement());
+                        Console.Write(new Empty().GetCharElement());
                     }
                     if (array[x, y] is Wall)
                     {
-                        Console.Write(new Wall(new Position(x, y)).GetCharElement());
+                        Console.Write(new Wall().GetCharElement());
                     }
                     if (array[x, y] is LittleGoal)
                     {
-                        Console.Write(new LittleGoal(new Position(x, y)).GetCharElement());
+                        Console.Write(new LittleGoal().GetCharElement());
                     }
-                    if (array[x, y] is BigGoal)
+                    if (array[x, y] is Energizer)
                     {
-                        Console.Write(new BigGoal(new Position(x, y)).GetCharElement());
+                        Console.Write(new Energizer().GetCharElement());
+                    }
+                    if (array[x, y] is Cherry)
+                    {
+                        Console.Write(new Cherry().GetCharElement());
                     }
                     if (array[x, y] is Pacman)
                     {
@@ -88,10 +132,13 @@ namespace PacmanDemo
                     {
                         Console.Write(new Inky().GetCharElement());
                     }
+                    if (array[x, y] is Pinky)
+                    {
+                        Console.Write(new Pinky().GetCharElement());
+                    }
                 }
                 Console.WriteLine();
             }
         }
-
     }
 }

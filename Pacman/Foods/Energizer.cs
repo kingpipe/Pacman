@@ -3,9 +3,12 @@ using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
-    public class BigGoal : Food, IGetChar
+    public class Energizer : Food, IGetChar
     {
-        public BigGoal(Position position):base(position)
+        public Energizer()
+        { }
+
+        public Energizer(Position position):base(position)
         {
             Score = 50;
         }

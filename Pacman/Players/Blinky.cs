@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Timers;
 using PacMan.Abstracts;
-using PacMan.Algorithms.Astar;
-using PacMan.Foods;
+using PacMan.Algorithms;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -14,19 +12,19 @@ namespace PacMan.Players
         public override event Action<ICoord> Movement;
 
         public Blinky()
-        {
-        }
+        { }
 
         public Blinky(Map map) : base(map)
         {
-            strategy = new AstarAlgorithm();
+            strategy = new RandomMoving();
         }
 
         public override void StartPosition()
         {
             Position = new Position(15, 11);
         }
-        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+
+        public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(oldcoord);
             pacmanIsLive = Move();
@@ -45,23 +43,24 @@ namespace PacMan.Players
 
                 if (PacmanPosition != Position)
                 {
-                    list = strategy.FindPath(Map, Position, PacmanPosition);
-                    oldcoord = Go(list, oldcoord);
-                    if (PacmanPosition == Position)
+                    path = strategy.FindPath(Map, Position, PacmanPosition);
+                    oldcoord = Go(path, oldcoord);
+                    if (PacmanPosition != Position)
                     {
-                        oldcoord = new Empty(Position);
-                        return false;
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        return GhostIsFrightened();
+                    }
                 }
                 else
                 {
-                    oldcoord = new Empty(Position);
-                    return false;
+                    return GhostIsFrightened();
                 }
             }
         }
-
+        
         public override char GetCharElement()
         {
             return 'B';
