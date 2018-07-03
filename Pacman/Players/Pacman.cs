@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman, IGetChar
+    public class Pacman : Player, IPacman
     {
         public override event Action<ICoord> Movement;
         public event Action SinkAboutEatEnergizer;
@@ -19,6 +19,7 @@ namespace PacMan.Players
 
         public Pacman(Map map) : base(map)
         {
+            StartPosition();
             direction = Direction.None;
             Count = 0;
             Lives = 3;
@@ -40,11 +41,11 @@ namespace PacMan.Players
         {
             if (coord is IGhost)
             {
-                if (((IGhost)coord).Frightened == true)
+                if (((IGhost)coord).Frightened)
                 {
                     var ghost = (Ghost)coord;
                     Count += ghost.Score;
-                    ghost.oldcoord = this;
+                    ghost.OldCoord = this;
                     ghost.StartPosition();
                     ghost.Frightened = false;
                 }

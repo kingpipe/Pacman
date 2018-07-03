@@ -17,7 +17,7 @@ namespace PacMan.Players
 
         public Inky(Map map) : base(map)
         {
-            strategy = new RandomMoving();
+            Strategy = new RandomMoving();
         }
 
         public override void StartPosition()
@@ -27,10 +27,10 @@ namespace PacMan.Players
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Movement(oldcoord);
+            Movement(OldCoord);
             pacmanIsLive = Move();
             Movement(Map.GetElement(Position));
-            if (pacmanIsLive == false)
+            if (!pacmanIsLive)
             {
                 SinkAboutEatPacman();
             }
@@ -45,8 +45,8 @@ namespace PacMan.Players
                 if (PacmanPosition != Position)
                 {
 
-                    path = strategy.FindPath(Map, Position, PacmanPosition);
-                    oldcoord = Go(path, oldcoord);
+                    path = Strategy.FindPath(Map, Position, PacmanPosition);
+                    OldCoord = Go(path, OldCoord);
                     if (PacmanPosition != Position)
                     {
                         return true;

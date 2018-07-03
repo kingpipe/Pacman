@@ -4,7 +4,7 @@ namespace PacMan
 {
     public struct Position : IPosition
     {
-        public static Position None = new Position(-1, -1);
+        public readonly static Position None = new Position(-1, -1);
 
         public int X { get; set; }
         public int Y { get; set; }

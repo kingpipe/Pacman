@@ -64,10 +64,11 @@ namespace PacMan
 
         private ICoord[,] LoadMap(string path, ISize size)
         {
-            ICoord[,] map = new ICoord[size.Width, size.Height];
+            ICoord[,] maze = new ICoord[size.Width, size.Height];
             int counter = 0;
             StreamReader FileWithMap = new StreamReader(path);
             char[] array = FileWithMap.ReadToEnd().ToCharArray();
+            FileWithMap.Close();
             for (int y = 0; y < size.Height; y++)
             {
                 for (int x = 0; x < size.Width; x++)
@@ -75,34 +76,34 @@ namespace PacMan
                     switch (array[counter++])
                     {
                         case '0':
-                            map[x, y] = new Empty(new Position(x, y));
+                            maze[x, y] = new Empty(new Position(x, y));
                             break;
                         case '1':
-                            map[x, y] = new Wall(new Position(x, y));
+                            maze[x, y] = new Wall(new Position(x, y));
                             break;
                         case '2':
-                            map[x, y] = new LittleGoal(new Position(x, y));
+                            maze[x, y] = new LittleGoal(new Position(x, y));
                             break;
                         case '3':
-                            map[x, y] = new Energizer(new Position(x, y));
+                            maze[x, y] = new Energizer(new Position(x, y));
                             break;
                         case '4':
-                            map[x, y] = new Cherry(new Position(x, y));
+                            maze[x, y] = new Cherry(new Position(x, y));
                             break;
                         case '5':
-                            map[x, y] = new Pacman(this);
+                            maze[x, y] = new Pacman(this);
                             break;
                         case '6':
-                            map[x, y] = new Clyde(this);
+                            maze[x, y] = new Clyde(this);
                             break;
                         case '7':
-                            map[x, y] = new Blinky(this);
+                            maze[x, y] = new Blinky(this);
                             break;
                         case '8':
-                            map[x, y] = new Inky(this);
+                            maze[x, y] = new Inky(this);
                             break;
                         case '9':
-                            map[x, y] = new Pinky(this);
+                            maze[x, y] = new Pinky(this);
                             break;
                         default:
                             continue;
@@ -110,7 +111,7 @@ namespace PacMan
                 }
                 counter += 2;
             }
-            return map;
+            return maze;
         }
     }
 }

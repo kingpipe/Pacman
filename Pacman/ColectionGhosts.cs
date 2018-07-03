@@ -15,7 +15,7 @@ namespace PacMan
     {
         private Map Map { get; set; }
         private ChangeStateGhosts ChangeStateChosts { get; }
-        private Timer timer;
+        private readonly Timer timer;
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
@@ -46,8 +46,8 @@ namespace PacMan
             foreach(var ghost in Ghosts)
             {
                 Map.SetElement(ghost);
-                Map.SetElement(ghost.oldcoord);
-                ghost.oldcoord = new Empty(ghost.Position);
+                Map.SetElement(ghost.OldCoord);
+                ghost.OldCoord = new Empty(ghost.Position);
             }
         }
 
@@ -56,7 +56,7 @@ namespace PacMan
             foreach (var ghost in Ghosts)
             {
                 ghost.Frightened = true;
-                ghost.strategy = new GoAway();
+                ghost.Strategy = new GoAway();
             }
             timer.Start(Timer_Elapsed);
 

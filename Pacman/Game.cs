@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace PacMan
 {
-    public class Game : IGame
+    public sealed class Game : IGame, IDisposable
     {
         private const int TIME = 400;
         private const int TIMEFORPACMAN = 200;
@@ -73,7 +73,7 @@ namespace PacMan
             Ghosts.StopTimer(Timer);
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
            
-            if (PacmanIsLive == false)
+            if (!PacmanIsLive)
             {
                 Pacman.Lives--;
                 PacmanIsLive = true;
@@ -86,7 +86,7 @@ namespace PacMan
 
         public void End()
         {
-            GC.SuppressFinalize(true);
+            Dispose();
         }
 
         private void PacmanIsKilled()
@@ -105,6 +105,11 @@ namespace PacMan
         {
             Map.SetElement(new Empty(Pacman.Position));
             Ghosts.RemoveGhosts();
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(true);
         }
     }
 }

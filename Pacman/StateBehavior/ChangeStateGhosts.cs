@@ -6,9 +6,9 @@ namespace PacMan
 {
     public class ChangeStateGhosts
     {
-        private ColectionGhosts Ghosts;
-        private Queue<int> listoftime;
-        private Timer timer;
+        private readonly ColectionGhosts Ghosts;
+        private readonly Queue<int> listoftime;
+        private readonly Timer timer;
         public ChangeStateGhosts(ColectionGhosts ghosts)
         {
             Ghosts=ghosts;

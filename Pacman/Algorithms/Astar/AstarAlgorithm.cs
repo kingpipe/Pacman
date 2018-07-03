@@ -8,6 +8,7 @@ namespace PacMan.Algorithms.Astar
 {
     class AstarAlgorithm : IStrategy
     {
+        private const int DISTANCE = 1;
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             var closedSet = new Collection<PathNode>();
@@ -37,7 +38,6 @@ namespace PacMan.Algorithms.Astar
                       node.position == neighbourNode.position);
                     if (openNode == null)
                         openSet.Add(neighbourNode);
-                    else
                     if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
                     {
                         openNode.CameFrom = currentNode;
@@ -73,8 +73,7 @@ namespace PacMan.Algorithms.Astar
                 {
                     position = point,
                     CameFrom = pathNode,
-                    PathLengthFromStart = pathNode.PathLengthFromStart +
-                    GetDistanceBetweenNeighbours(),
+                    PathLengthFromStart = pathNode.PathLengthFromStart + DISTANCE,
                     HeuristicEstimatePathLength = GetHeuristicPathLength(point, goal)
                 };
                 result.Add(neighbourNode);
@@ -92,10 +91,6 @@ namespace PacMan.Algorithms.Astar
             }
             result.Pop();
             return result;
-        }
-        private int GetDistanceBetweenNeighbours()
-        {
-            return 1;
         }
     }
 }

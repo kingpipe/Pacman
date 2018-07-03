@@ -9,30 +9,31 @@ namespace PacMan.Abstracts
     abstract public class Ghost : Player, IGhost, IFood, ISinkAboutEatPacman
     {
         public abstract event Action SinkAboutEatPacman;
-        
+
         protected object obj = new object();
         protected bool pacmanIsLive = true;
         protected Stack<Position> path;
 
-        public IStrategy strategy;
-        public ICoord oldcoord;
+        public IStrategy Strategy { get; set; }
+        public ICoord OldCoord { get; set; }
         public Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
         public int Score { get; set; }
 
-        public Ghost()
+        protected Ghost()
         { }
 
-        public Ghost(Map map) : base(map)
+        protected Ghost(Map map) : base(map)
         {
+            StartPosition();
             PacmanPosition = SearchPacman();
             path = new Stack<Position>();
-            oldcoord = new Empty(Position);
+            OldCoord = new Empty(Position);
 
             Score = 200;
             Frightened = false;
         }
-        
+
         protected Position SearchPacman()
         {
             for (int y = 0; y < Map.Height; y++)
@@ -58,7 +59,7 @@ namespace PacMan.Abstracts
                 return true;
             else
             {
-                oldcoord = new Empty(Position);
+                OldCoord = new Empty(Position);
                 return false;
             }
         }
