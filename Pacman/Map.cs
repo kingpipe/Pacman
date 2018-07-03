@@ -88,7 +88,7 @@ namespace PacMan
                             maze[x, y] = new Energizer(new Position(x, y));
                             break;
                         case '4':
-                            maze[x, y] = new Cherry(new Position(x, y));
+                            maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
                         case '5':
                             maze[x, y] = new Pacman(this);

@@ -19,6 +19,7 @@ namespace PacMan.Abstracts
         public Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
         public int Score { get; set; }
+        public bool IsLive { get; set; }
 
         protected Ghost()
         { }
@@ -32,6 +33,7 @@ namespace PacMan.Abstracts
 
             Score = 200;
             Frightened = false;
+            IsLive = true;
         }
 
         protected Position SearchPacman()

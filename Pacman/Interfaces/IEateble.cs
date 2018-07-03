@@ -2,6 +2,6 @@
 {
     interface IEateble
     {
-        void Eat(ICoord coord);
+        void Eat(IFood food);
     }
 }

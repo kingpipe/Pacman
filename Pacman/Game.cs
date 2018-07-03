@@ -13,6 +13,7 @@ namespace PacMan
         private Timer Timer { get; set; }
         private Timer PacmanTimer { get; set; }
         private Pacman Pacman { get; set; }
+        private Cherry Cherry { get; set; }
         private ColectionGhosts Ghosts { get; set; }
 
         public event Action PacmanIsDied;
@@ -40,13 +41,21 @@ namespace PacMan
             Timer = new Timer(TIME);
             PacmanTimer = new Timer(TIMEFORPACMAN);
             Pacman = new Pacman(Map);
+            Cherry = new Cherry(new Position(14, 17), Map);
             Ghosts = new ColectionGhosts(Map);
             Pacman.SinkAboutEatEnergizer += Ghosts.GhostsAreFrightened;
+            Pacman.SinkAboutCreateCherry += Pacman_SinkAboutCreateCherry;
+        }
+
+        private void Pacman_SinkAboutCreateCherry()
+        {
+            Cherry.Start();
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)
         {
             Ghosts.AddMoveHandler(action);
+            Cherry.Movement += action;
         }
 
         public void AddMoveHandlerToPacman(Action<ICoord> action)

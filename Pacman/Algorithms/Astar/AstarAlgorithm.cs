@@ -32,16 +32,19 @@ namespace PacMan.Algorithms.Astar
                 closedSet.Add(currentNode);
                 foreach (var neighbourNode in GetNeighbours(currentNode, goal, map.map))
                 {
-                    if (closedSet.Count(node => node.position == neighbourNode.position) > 0)
+                    if (closedSet.Any(node => node.position == neighbourNode.position))
                         continue;
                     var openNode = openSet.FirstOrDefault(node =>
                       node.position == neighbourNode.position);
                     if (openNode == null)
                         openSet.Add(neighbourNode);
-                    if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
+                    else
                     {
-                        openNode.CameFrom = currentNode;
-                        openNode.PathLengthFromStart = neighbourNode.PathLengthFromStart;
+                        if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
+                        {
+                            openNode.CameFrom = currentNode;
+                            openNode.PathLengthFromStart = neighbourNode.PathLengthFromStart;
+                        }
                     }
                 }
             }
