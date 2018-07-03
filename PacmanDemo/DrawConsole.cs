@@ -13,6 +13,7 @@ namespace PacmanDemo
 
         public DrawConsole(Game game)
         {
+            Console.CursorVisible = false;
             Game = game;
         }
 
@@ -25,6 +26,7 @@ namespace PacmanDemo
                 string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
                 Console.WriteLine($"{LiveorLives} {Game.Lives} ");
                 Console.WriteLine($"Score={Game.Score}");
+                Console.WriteLine($"Level={Game.Level}");
             }
         }
 
@@ -47,7 +49,7 @@ namespace PacmanDemo
                 Console.WriteLine(Game.Score);
             }
         }
-
+        
         public void EventMoving(ICoord coord)
         {
             lock (obj)

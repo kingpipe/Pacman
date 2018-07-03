@@ -1,21 +1,30 @@
 ﻿using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
+using System;
 using System.IO;
 
 namespace PacMan
 {
-    public class Map : IMap
+    public class Map : IMap, ICloneable
     {
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int CountLittleGoal { get; set; }
 
         public Map(string path, ISize size)
         {
             map = LoadMap(path, size);
             Width = map.GetLength(0);
             Height = map.GetLength(1);
+        }
+
+        public object Clone()
+        {
+            Map board = (Map)MemberwiseClone();
+            board.map = (ICoord[,])map.Clone();
+            return board;
         }
 
         public bool OnBoard(IPosition position)
@@ -83,6 +92,7 @@ namespace PacMan
                             break;
                         case '2':
                             maze[x, y] = new LittleGoal(new Position(x, y));
+                            CountLittleGoal++;
                             break;
                         case '3':
                             maze[x, y] = new Energizer(new Position(x, y));

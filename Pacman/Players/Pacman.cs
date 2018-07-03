@@ -6,14 +6,16 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman
+    public class Pacman : Player, IPacman, ISinkMoving
     {
         public override event Action<ICoord> Movement;
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
+        public event Action SinkAboutNextLevel;
         public Direction direction { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
+        public int Level { get; set; }
 
         public Pacman()
         { }
@@ -24,6 +26,7 @@ namespace PacMan.Players
             direction = Direction.None;
             Count = 0;
             Lives = 3;
+            Level = 1;
         }
 
         public override void StartPosition()
@@ -56,13 +59,22 @@ namespace PacMan.Players
                 {
                     SinkAboutEatEnergizer();
                 }
+                if(food is LittleGoal)
+                {
+                    Map.CountLittleGoal--;
+                }
             }
             Count += food.Score;
             food.IsLive = false;
 
-            if (Count%1000==700)
+            if (Count % 1000 == 700)
             {
                 SinkAboutCreateCherry();
+            }
+            if(Map.CountLittleGoal==0)
+            {
+                Level++;
+                SinkAboutNextLevel();
             }
 
         }
@@ -97,8 +109,9 @@ namespace PacMan.Players
             }
             else
             {
-                if (Map.GetElementRight(Position) is IFood)
-                    Eat((IFood)Map.GetElementRight(Position));
+                IFood food = Map.GetElementRight(Position) as IFood;
+                if (food != null)
+                    Eat(food);
                 return base.MoveRight();
             }
 
@@ -117,23 +130,25 @@ namespace PacMan.Players
             }
             else
             {
-                if (Map.GetElementLeft(Position) is IFood)
-                    Eat((IFood)Map.GetElementLeft(Position));
+                IFood food = Map.GetElementLeft(Position) as IFood;
+                if (food != null)
+                    Eat(food);
                 return base.MoveLeft();
 
             }
         }
         public override bool MoveDown()
         {
-            if (Map.GetElementDown(Position) is IFood)
-                Eat((IFood)Map.GetElementDown(Position));
+            IFood food = Map.GetElementDown(Position) as IFood;
+            if (food != null)
+                Eat(food);
             return base.MoveDown();
         }
         public override bool MoveUp()
         {
-
-            if (Map.GetElementUp(Position) is IFood)
-                Eat((IFood)Map.GetElementUp(Position));
+            IFood food = Map.GetElementUp(Position) as IFood;
+            if (food != null)
+                Eat(food);
             return base.MoveUp();
         }
 

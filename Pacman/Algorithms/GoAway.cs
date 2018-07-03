@@ -1,13 +1,19 @@
 ﻿using System.Collections.Generic;
 using PacMan.Interfaces;
 using PacMan.Algorithms.Astar;
+using System;
 
 namespace PacMan.Algorithms
 {
     class GoAway : IStrategy
     {
-        private readonly IStrategy astar = new AstarAlgorithm();
+        private readonly IStrategy astar;
 
+        public GoAway()
+        {
+            astar = new AstarAlgorithm();
+        }
+        
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             int x = map.Width / 2;

@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace PacMan
 {
-    public class ColectionGhosts
+    public class MenegerGhosts
     {
         private Map Map { get; set; }
         private ChangeStateGhosts ChangeStateChosts { get; }
@@ -22,8 +22,8 @@ namespace PacMan
         public Inky Inky { get; set; }
         public Pinky Pinky { get; set; }
         public IState State { get; set; }
-        
-        public ColectionGhosts(Map map)
+
+        public MenegerGhosts(Map map)
         {
             timer = new Timer(10000);
 

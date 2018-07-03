@@ -12,8 +12,6 @@ namespace PacmanDemo
         static DrawConsole drawConsole = new DrawConsole(game);
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-
 
             drawConsole.DrawMap();
             game.AddMoveHandlerToGhosts(drawConsole.EventMoving);

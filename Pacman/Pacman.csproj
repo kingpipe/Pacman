@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
-    <Compile Include="ColectionGhosts.cs" />
+    <Compile Include="ManagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />

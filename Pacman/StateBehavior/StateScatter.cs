@@ -5,7 +5,7 @@ namespace PacMan.StateBehavior
 {
     class StateScatter : IState
     {
-        public void ChangeBehavior(ColectionGhosts ghosts)
+        public void ChangeBehavior(MenegerGhosts ghosts)
         {
             foreach (var ghost in ghosts.Ghosts)
             {

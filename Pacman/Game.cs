@@ -14,11 +14,12 @@ namespace PacMan
         private Timer PacmanTimer { get; set; }
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
-        private ColectionGhosts Ghosts { get; set; }
+        private MenegerGhosts Ghosts { get; set; }
 
         public event Action PacmanIsDied;
         public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
+        public Map DefaultMap { get; private set; }
         public int Score
         {
             get
@@ -33,23 +34,32 @@ namespace PacMan
                 return Pacman.Lives;
             }
         }
+        public int Level
+        {
+            get
+            {
+                return Pacman.Level;
+            }
+        }
 
         public Game(string path, ISize size)
         {
             PacmanIsLive = true;
             Map = new Map(path, size);
+            DefaultMap = (Map)Map.Clone();
             Timer = new Timer(TIME);
             PacmanTimer = new Timer(TIMEFORPACMAN);
             Pacman = new Pacman(Map);
             Cherry = new Cherry(new Position(14, 17), Map);
-            Ghosts = new ColectionGhosts(Map);
+            Ghosts = new MenegerGhosts(Map);
             Pacman.SinkAboutEatEnergizer += Ghosts.GhostsAreFrightened;
-            Pacman.SinkAboutCreateCherry += Pacman_SinkAboutCreateCherry;
+            Pacman.SinkAboutCreateCherry += ()=> Cherry.Start();
+            Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
         }
 
-        private void Pacman_SinkAboutCreateCherry()
+        private void Pacman_SinkAboutNextLevel()
         {
-            Cherry.Start();
+            Map = DefaultMap;
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)
