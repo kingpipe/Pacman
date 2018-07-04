@@ -59,7 +59,7 @@ namespace PacMan.Players
                 {
                     SinkAboutEatEnergizer();
                 }
-                if(food is LittleGoal)
+                if (food is LittleGoal)
                 {
                     Map.CountLittleGoal--;
                 }
@@ -71,7 +71,7 @@ namespace PacMan.Players
             {
                 SinkAboutCreateCherry();
             }
-            if(Map.CountLittleGoal==0)
+            if (Map.CountLittleGoal == 0)
             {
                 Level++;
                 SinkAboutNextLevel();

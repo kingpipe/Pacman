@@ -17,6 +17,7 @@ namespace PacMan
         private MenegerGhosts Ghosts { get; set; }
 
         public event Action PacmanIsDied;
+        public event Action UpdateMap;
         public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
         public Map DefaultMap { get; private set; }
@@ -59,7 +60,15 @@ namespace PacMan
 
         private void Pacman_SinkAboutNextLevel()
         {
-            Map = DefaultMap;
+            Map = (Map)DefaultMap.Clone();
+            Pacman.Map = Map;
+            Ghosts.Map = Map;
+            SetDirection(Direction.None);
+            RemovePlayers();
+            Pacman.StartPosition();
+            Ghosts.StartPosition();
+            CreatePlayers();
+            UpdateMap();
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)
@@ -91,7 +100,6 @@ namespace PacMan
             Pacman.Stop(PacmanTimer);
             Ghosts.StopTimer(Timer);
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
-           
             if (!PacmanIsLive)
             {
                 Pacman.Lives--;

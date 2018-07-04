@@ -13,9 +13,9 @@ namespace PacMan
 {
     public class MenegerGhosts
     {
-        private Map Map { get; set; }
         private ChangeStateGhosts ChangeStateChosts { get; }
         private readonly Timer timer;
+        public Map Map { get; set; }
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }

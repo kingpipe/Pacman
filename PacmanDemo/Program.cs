@@ -17,6 +17,7 @@ namespace PacmanDemo
             game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
             game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
             game.PacmanIsDied += Game_PacmanIsDied;
+            game.UpdateMap += drawConsole.DrawMap;
             game.Start();
 
             while (true)
