@@ -101,19 +101,19 @@ namespace PacMan
                             maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
                         case '5':
-                            maze[x, y] = new Pacman(this,100);
+                            maze[x, y] = new Pacman(this, 100);
                             break;
                         case '6':
-                            maze[x, y] = new Clyde(this,100);
+                            maze[x, y] = new Clyde(this, 100);
                             break;
                         case '7':
-                            maze[x, y] = new Blinky(this,100);
+                            maze[x, y] = new Blinky(this, 100);
                             break;
                         case '8':
-                            maze[x, y] = new Inky(this,100);
+                            maze[x, y] = new Inky(this, 100);
                             break;
                         case '9':
-                            maze[x, y] = new Pinky(this,100);
+                            maze[x, y] = new Pinky(this, 100);
                             break;
                         default:
                             continue;

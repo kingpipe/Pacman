@@ -4,7 +4,7 @@
     {
         int Lives { get; set; }
         int Count { get; set; }
-        Direction direction { get; set; }
+        Direction Direction { get; set; }
         int Level { get; set; } 
     }
 }

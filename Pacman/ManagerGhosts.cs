@@ -43,7 +43,7 @@ namespace PacMan
 
         public void SetGhosts()
         {
-            foreach(var ghost in Ghosts)
+            foreach (var ghost in Ghosts)
             {
                 Map.SetElement(ghost);
                 Map.SetElement(ghost.OldCoord);
@@ -55,7 +55,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SetInterval(2);
+                ghost.SpeedUpAt(2);
                 ghost.Frightened = true;
                 ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new GoAway();
@@ -69,9 +69,8 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SetInterval();
+                ghost.DefaultTime();
                 ghost.Strategy = ghost.OldStrategy;
-                ghost.OldStrategy = null;
                 ghost.Frightened = false;
             }
             timeFrightened.Stop(Timer_Elapsed);

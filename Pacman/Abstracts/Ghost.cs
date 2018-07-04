@@ -1,4 +1,5 @@
-﻿using PacMan.Foods;
+﻿using PacMan.Algorithms;
+using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
 using System;
@@ -29,6 +30,7 @@ namespace PacMan.Abstracts
         protected Ghost(Map map, int time) : base(map, time)
         {
             Timer = new Timer(time);
+            Strategy = new RandomMoving();
             StartPosition();
             PacmanPosition = SearchPacman();
             path = new Stack<Position>();
@@ -37,6 +39,48 @@ namespace PacMan.Abstracts
             Score = 200;
             Frightened = false;
             IsLive = true;
+        }
+        
+        public void DefaultTime()
+        {
+            Timer.Interval = Time;
+        }
+
+        public void SpeedUpAt(double n)
+        {
+            Timer.Interval = Time * n;
+        }
+
+        public override bool Move()
+        {
+            lock (obj)
+            {
+                PacmanPosition = SearchPacman();
+
+                if (PacmanPosition != Position)
+                {
+                    path = Strategy.FindPath(Map, Position, PacmanPosition);
+                    OldCoord = Go(path, OldCoord);
+                    if (PacmanPosition != Position)
+                    {
+                        return true;
+                    }
+                    return GhostIsFrightened();
+                }
+                else
+                {
+                    return GhostIsFrightened();
+                }
+            }
+        }
+
+        public void Restart()
+        {
+            DefaultTime();
+            OldCoord = this;
+            Strategy = OldStrategy;
+            StartPosition();
+            Frightened = false;
         }
 
         protected Position SearchPacman()
@@ -61,12 +105,15 @@ namespace PacMan.Abstracts
         protected bool GhostIsFrightened()
         {
             if (Frightened)
+            {
                 return true;
+            }
             else
             {
                 OldCoord = new Empty(Position);
                 return false;
             }
         }
+
     }
 }

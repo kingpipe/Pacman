@@ -3,6 +3,7 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
+using System.Threading;
 
 namespace PacmanDemo
 {
@@ -72,6 +73,7 @@ namespace PacmanDemo
         {
             lock (obj)
             {
+                Thread.Sleep(100);
                 Console.Clear();
                 string liveorlives = Game.Lives == 1 ? "live" : "lives";
                 Console.WriteLine($"You have {Game.Lives} {liveorlives}");

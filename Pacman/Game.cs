@@ -2,7 +2,6 @@
 using PacMan.Players;
 using PacMan.Foods;
 using System;
-using System.Timers;
 
 namespace PacMan
 {
@@ -81,7 +80,7 @@ namespace PacMan
 
         public void SetDirection(Direction direction)
         {
-            Pacman.direction = direction;
+            Pacman.Direction = direction;
         }
 
         public void Start()
@@ -93,7 +92,7 @@ namespace PacMan
 
         public void Stop()
         {
-            Pacman.direction = Direction.None;
+            Pacman.Direction = Direction.None;
             Pacman.Stop();
             Ghosts.StopTimer();
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);

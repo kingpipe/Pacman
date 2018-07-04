@@ -16,7 +16,7 @@ namespace PacMan.Abstracts
 
         public Map Map { get; set; }
         public Position Position { get; set; }
-        public Direction direction { get; set; }
+        public Direction Direction { get; set; }
         public Timer Timer { get; set; }
         public int Time { get; set; }
 
@@ -28,16 +28,7 @@ namespace PacMan.Abstracts
             Time = time;
             Map = map;
         }
-        public void SetInterval()
-        {
-            Timer.Interval = Time;
-        }
-
-        public void SetInterval(double n)
-        {
-            Timer.Interval = Time*n;
-        }
-
+        
         public virtual void Start()
         {
             Timer.Start(TimerElapsed);

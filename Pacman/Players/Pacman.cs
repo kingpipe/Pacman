@@ -23,7 +23,7 @@ namespace PacMan.Players
         {
             Timer = new Timer(time);
             StartPosition();
-            direction = Direction.None;
+            Direction = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;
@@ -43,15 +43,11 @@ namespace PacMan.Players
 
         public void Eat(IFood food)
         {
-            if (food is IGhost)
+            if (food is IGhost ghost)
             {
-                if (((IGhost)food).Frightened)
+                if (ghost.Frightened)
                 {
-                    var ghost = (Ghost)food;
-                    ghost.OldCoord = this;
-                    ghost.Strategy = ghost.OldStrategy;
-                    ghost.StartPosition();
-                    ghost.Frightened = false;
+                    ghost.Restart();
                 }
             }
             else
@@ -77,11 +73,11 @@ namespace PacMan.Players
                 Level++;
                 SinkAboutNextLevel();
             }
-
         }
+
         public override bool Move()
         {
-            switch (direction)
+            switch (Direction)
             {
                 case Direction.Left:
                     return MoveLeft();
@@ -92,7 +88,6 @@ namespace PacMan.Players
                 case Direction.Down:
                     return MoveDown();
                 default:
-                    direction = Direction.None;
                     return false;
             }
         }

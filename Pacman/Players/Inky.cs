@@ -1,6 +1,4 @@
 ﻿using PacMan.Abstracts;
-using PacMan.Algorithms;
-using PacMan.Foods;
 using PacMan.Interfaces;
 using System;
 using System.Timers;
@@ -16,9 +14,7 @@ namespace PacMan.Players
         { }
 
         public Inky(Map map, int time) : base(map, time)
-        {
-            Strategy = new RandomMoving();
-        }
+        { }
 
         public override void StartPosition()
         {
@@ -33,30 +29,6 @@ namespace PacMan.Players
             if (!pacmanIsLive)
             {
                 SinkAboutEatPacman();
-            }
-        }
-
-        public override bool Move()
-        {
-            lock (obj)
-            {
-                PacmanPosition = SearchPacman();
-
-                if (PacmanPosition != Position)
-                {
-
-                    path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    OldCoord = Go(path, OldCoord);
-                    if (PacmanPosition != Position)
-                    {
-                        return true;
-                    }
-                    return GhostIsFrightened();
-                }
-                else
-                {
-                    return GhostIsFrightened();
-                }
             }
         }
 

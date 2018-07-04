@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Timers;
 using PacMan.Abstracts;
-using PacMan.Algorithms;
 using PacMan.Interfaces;
 
 namespace PacMan.Players
@@ -15,9 +14,7 @@ namespace PacMan.Players
         { }
 
         public Clyde(Map map, int time) : base(map, time)
-        {
-            Strategy = new RandomMoving();
-        }
+        { }
 
         public override void StartPosition()
         {
@@ -32,29 +29,6 @@ namespace PacMan.Players
             if (!pacmanIsLive)
             {
                 SinkAboutEatPacman();
-            }
-        }
-
-        public override bool Move()
-        {
-            lock (obj)
-            {
-                PacmanPosition = SearchPacman();
-
-                if (PacmanPosition != Position)
-                {
-                    path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    OldCoord = Go(path, OldCoord);
-                    if (PacmanPosition != Position)
-                    {
-                        return true;
-                    }
-                    return GhostIsFrightened();
-                }
-                else
-                {
-                    return GhostIsFrightened();
-                }
             }
         }
 
