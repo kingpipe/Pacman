@@ -3,6 +3,7 @@ using PacMan.Interfaces;
 using PacMan.Players;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace PacMan.Abstracts
 {
@@ -25,8 +26,9 @@ namespace PacMan.Abstracts
         protected Ghost()
         { }
 
-        protected Ghost(Map map) : base(map)
+        protected Ghost(Map map, int time) : base(map, time)
         {
+            Timer = new Timer(time);
             StartPosition();
             PacmanPosition = SearchPacman();
             path = new Stack<Position>();

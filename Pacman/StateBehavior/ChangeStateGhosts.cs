@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Timers;
 using PacMan.ExtensionClasses;
+using PacMan.Interfaces;
 
 namespace PacMan
 {
-    public class ChangeStateGhosts
+    public class ChangeStateGhosts : ITimer
     {
         private readonly MenegerGhosts Ghosts;
         private readonly Timer timer;
@@ -45,7 +46,7 @@ namespace PacMan
             timer.Stop(TimerElapsed);
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (Listoftime.Count != 0)
                 ((Timer)sender).Interval = Listoftime.Dequeue();

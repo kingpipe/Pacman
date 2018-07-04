@@ -1,6 +1,6 @@
 ﻿using System;
-using PacMan.ExtensionClasses;
 using System.Timers;
+using PacMan.ExtensionClasses;
 using PacMan.Foods;
 using PacMan.Interfaces;
 
@@ -17,23 +17,35 @@ namespace PacMan.Abstracts
         public Map Map { get; set; }
         public Position Position { get; set; }
         public Direction direction { get; set; }
+        public Timer Timer { get; set; }
+        public int Time { get; set; }
 
         protected Player()
         { }
 
-        protected Player(Map map)
+        protected Player(Map map, int time)
         {
+            Time = time;
             Map = map;
         }
-
-        public virtual void Start(Timer timer)
+        public void SetInterval()
         {
-            timer.Start(TimerElapsed);
+            Timer.Interval = Time;
         }
 
-        public virtual void Stop(Timer timer)
+        public void SetInterval(double n)
         {
-            timer.Stop(TimerElapsed);
+            Timer.Interval = Time*n;
+        }
+
+        public virtual void Start()
+        {
+            Timer.Start(TimerElapsed);
+        }
+
+        public virtual void Stop()
+        {
+            Timer.Stop(TimerElapsed);
         }
 
         public virtual bool MoveLeft()

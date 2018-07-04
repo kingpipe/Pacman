@@ -19,8 +19,9 @@ namespace PacMan.Players
         public Pacman()
         { }
 
-        public Pacman(Map map) : base(map)
+        public Pacman(Map map, int time) : base(map, time)
         {
+            Timer = new Timer(time);
             StartPosition();
             direction = Direction.None;
             Count = 0;
@@ -104,7 +105,7 @@ namespace PacMan.Players
                 Position position = Position;
                 position.X = 0;
                 Position = position;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(this, Position);
                 return true;
             }
             else
@@ -124,7 +125,7 @@ namespace PacMan.Players
                 Position position = Position;
                 position.X = Map.Height - 2;
                 Position = position;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(this, Position);
                 return true;
             }
             else

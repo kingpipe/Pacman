@@ -14,7 +14,7 @@ namespace PacMan.Players
         public Pinky()
         { }
 
-        public Pinky(Map map):base(map)
+        public Pinky(Map map, int time) :base(map, time)
         {
             Strategy = new RandomMoving();
         }

@@ -1,6 +1,6 @@
-﻿using PacMan.ExtensionClasses;
-using PacMan.Abstracts;
+﻿using PacMan.Abstracts;
 using PacMan.Algorithms;
+using PacMan.ExtensionClasses;
 using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
@@ -23,7 +23,7 @@ namespace PacMan
         public Pinky Pinky { get; set; }
         public IState State { get; set; }
 
-        public MenegerGhosts(Map map)
+        public MenegerGhosts(Map map, int time)
         {
             timeFrightened = new Timer(7500);
 
@@ -31,10 +31,10 @@ namespace PacMan
 
             Ghosts = new Collection<Ghost>();
             State = new StateScatter();
-            Blinky = new Blinky(map);
-            Clyde = new Clyde(map);
-            Inky = new Inky(map);
-            Pinky = new Pinky(map);
+            Blinky = new Blinky(map, time);
+            Clyde = new Clyde(map, time);
+            Inky = new Inky(map, time);
+            Pinky = new Pinky(map, time);
 
             AddGhostsInCollection();
 
@@ -55,6 +55,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
+                ghost.SetInterval(2);
                 ghost.Frightened = true;
                 ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new GoAway();
@@ -68,6 +69,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
+                ghost.SetInterval();
                 ghost.Strategy = ghost.OldStrategy;
                 ghost.OldStrategy = null;
                 ghost.Frightened = false;
@@ -81,6 +83,7 @@ namespace PacMan
         {
             GhostsArenotFrightened();
         }
+
 
         public void StartPosition()
         {
@@ -122,20 +125,20 @@ namespace PacMan
             }
         }
 
-        public void StartTimer(Timer timer)
+        public void StartTimer()
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Start(timer);
+                ghost.Start();
             }
             ChangeStateChosts.Start();
         }
 
-        public void StopTimer(Timer timer)
+        public void StopTimer()
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Stop(timer);
+                ghost.Stop();
             }
             ChangeStateChosts.Stop();
         }

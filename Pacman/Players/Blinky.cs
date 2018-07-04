@@ -14,7 +14,7 @@ namespace PacMan.Players
         public Blinky()
         { }
 
-        public Blinky(Map map) : base(map)
+        public Blinky(Map map, int time) : base(map, time)
         {
             Strategy = new RandomMoving();
             countMove = 0;

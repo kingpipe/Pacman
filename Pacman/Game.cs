@@ -10,17 +10,15 @@ namespace PacMan
     {
         private const int TIME = 300;
         private const int TIMEFORPACMAN = 200;
-        private Timer Timer { get; set; }
-        private Timer PacmanTimer { get; set; }
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
         private MenegerGhosts Ghosts { get; set; }
+        private Map DefaultMap { get; set; }
 
         public event Action PacmanIsDied;
         public event Action UpdateMap;
         public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
-        public Map DefaultMap { get; private set; }
         public int Score
         {
             get
@@ -48,13 +46,12 @@ namespace PacMan
             PacmanIsLive = true;
             Map = new Map(path, size);
             DefaultMap = (Map)Map.Clone();
-            Timer = new Timer(TIME);
-            PacmanTimer = new Timer(TIMEFORPACMAN);
-            Pacman = new Pacman(Map);
+            Pacman = new Pacman(Map, TIMEFORPACMAN);
             Cherry = new Cherry(new Position(14, 17), Map);
-            Ghosts = new MenegerGhosts(Map);
+            Ghosts = new MenegerGhosts(Map, TIME);
+
             Pacman.SinkAboutEatEnergizer += Ghosts.GhostsAreFrightened;
-            Pacman.SinkAboutCreateCherry += ()=> Cherry.Start();
+            Pacman.SinkAboutCreateCherry += () => Cherry.Start();
             Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
         }
 
@@ -90,15 +87,15 @@ namespace PacMan
         public void Start()
         {
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
-            Ghosts.StartTimer(Timer);
-            Pacman.Start(PacmanTimer);
+            Ghosts.StartTimer();
+            Pacman.Start();
         }
 
         public void Stop()
         {
             Pacman.direction = Direction.None;
-            Pacman.Stop(PacmanTimer);
-            Ghosts.StopTimer(Timer);
+            Pacman.Stop();
+            Ghosts.StopTimer();
             Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
             if (!PacmanIsLive)
             {

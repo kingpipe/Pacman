@@ -14,7 +14,7 @@ namespace PacMan.Players
         public Clyde()
         { }
 
-        public Clyde(Map map) : base(map)
+        public Clyde(Map map, int time) : base(map, time)
         {
             Strategy = new RandomMoving();
         }

@@ -15,7 +15,7 @@ namespace PacMan.Players
         public Inky()
         { }
 
-        public Inky(Map map) : base(map)
+        public Inky(Map map, int time) : base(map, time)
         {
             Strategy = new RandomMoving();
         }
