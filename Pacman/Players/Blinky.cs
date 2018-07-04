@@ -10,13 +10,14 @@ namespace PacMan.Players
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
-
+        private int countMove;
         public Blinky()
         { }
 
         public Blinky(Map map) : base(map)
         {
             Strategy = new RandomMoving();
+            countMove = 0;
         }
 
         public override void StartPosition()
@@ -45,14 +46,12 @@ namespace PacMan.Players
                 {
                     path = Strategy.FindPath(Map, Position, PacmanPosition);
                     OldCoord = Go(path, OldCoord);
+                    countMove++;
                     if (PacmanPosition != Position)
                     {
                         return true;
                     }
-                    else
-                    {
-                        return GhostIsFrightened();
-                    }
+                    return GhostIsFrightened();
                 }
                 else
                 {

@@ -14,7 +14,7 @@ namespace PacMan
     public class MenegerGhosts
     {
         private ChangeStateGhosts ChangeStateChosts { get; }
-        private readonly Timer timer;
+        private readonly Timer timeFrightened;
         public Map Map { get; set; }
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
@@ -25,7 +25,7 @@ namespace PacMan
 
         public MenegerGhosts(Map map)
         {
-            timer = new Timer(10000);
+            timeFrightened = new Timer(5000);
 
             Map = map;
 
@@ -56,9 +56,10 @@ namespace PacMan
             foreach (var ghost in Ghosts)
             {
                 ghost.Frightened = true;
+                ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new GoAway();
             }
-            timer.Start(Timer_Elapsed);
+            timeFrightened.Start(Timer_Elapsed);
 
             ChangeStateChosts.Stop();
         }
@@ -67,9 +68,11 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
+                ghost.Strategy = ghost.OldStrategy;
+                ghost.OldStrategy = null;
                 ghost.Frightened = false;
             }
-            timer.Stop(Timer_Elapsed);
+            timeFrightened.Stop(Timer_Elapsed);
 
             ChangeStateChosts.Start();
         }

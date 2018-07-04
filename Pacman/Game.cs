@@ -8,7 +8,7 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 400;
+        private const int TIME = 300;
         private const int TIMEFORPACMAN = 200;
         private Timer Timer { get; set; }
         private Timer PacmanTimer { get; set; }
@@ -60,15 +60,15 @@ namespace PacMan
 
         private void Pacman_SinkAboutNextLevel()
         {
-            Map = (Map)DefaultMap.Clone();
-            Pacman.Map = Map;
-            Ghosts.Map = Map;
             SetDirection(Direction.None);
             RemovePlayers();
             Pacman.StartPosition();
             Ghosts.StartPosition();
-            CreatePlayers();
+            Map = (Map)DefaultMap.Clone();
+            Pacman.Map = Map;
+            Ghosts.Map = Map;
             UpdateMap();
+            CreatePlayers();
         }
 
         public void AddMoveHandlerToGhosts(Action<ICoord> action)

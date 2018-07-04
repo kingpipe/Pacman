@@ -109,8 +109,7 @@ namespace PacMan.Players
             }
             else
             {
-                IFood food = Map.GetElementRight(Position) as IFood;
-                if (food != null)
+                if (Map.GetElementRight(Position) is IFood food)
                     Eat(food);
                 return base.MoveRight();
             }
@@ -130,8 +129,7 @@ namespace PacMan.Players
             }
             else
             {
-                IFood food = Map.GetElementLeft(Position) as IFood;
-                if (food != null)
+                if (Map.GetElementLeft(Position) is IFood food)
                     Eat(food);
                 return base.MoveLeft();
 
@@ -139,15 +137,13 @@ namespace PacMan.Players
         }
         public override bool MoveDown()
         {
-            IFood food = Map.GetElementDown(Position) as IFood;
-            if (food != null)
+            if (Map.GetElementDown(Position) is IFood food)
                 Eat(food);
             return base.MoveDown();
         }
         public override bool MoveUp()
         {
-            IFood food = Map.GetElementUp(Position) as IFood;
-            if (food != null)
+            if (Map.GetElementUp(Position) is IFood food)
                 Eat(food);
             return base.MoveUp();
         }

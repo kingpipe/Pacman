@@ -7,25 +7,33 @@ namespace PacMan
     public class ChangeStateGhosts
     {
         private readonly MenegerGhosts Ghosts;
-        private readonly Queue<int> listoftime;
         private readonly Timer timer;
+
+        public Queue<int> Listoftime { get; set; }
+
         public ChangeStateGhosts(MenegerGhosts ghosts)
         {
-            Ghosts=ghosts;
-            listoftime = new Queue<int>();
+            Ghosts = ghosts;
+            Listoftime = new Queue<int>();
             InitQueue();
-            timer= new Timer(listoftime.Dequeue());
+            timer = new Timer(Listoftime.Dequeue());
+        }
+
+        public ChangeStateGhosts(MenegerGhosts ghosts, Queue<int> Listoftime)
+        {
+            Ghosts = ghosts;
+            timer = new Timer(Listoftime.Dequeue());
         }
 
         private void InitQueue()
         {
-            listoftime.Enqueue(7000);
-            listoftime.Enqueue(10000);
-            listoftime.Enqueue(7000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
+            Listoftime.Enqueue(7000);
+            Listoftime.Enqueue(10000);
+            Listoftime.Enqueue(7000);
+            Listoftime.Enqueue(20000);
+            Listoftime.Enqueue(5000);
+            Listoftime.Enqueue(20000);
+            Listoftime.Enqueue(5000);
         }
 
         public void Start()
@@ -39,8 +47,8 @@ namespace PacMan
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (listoftime.Count != 0)
-                ((Timer)sender).Interval = listoftime.Dequeue();
+            if (Listoftime.Count != 0)
+                ((Timer)sender).Interval = Listoftime.Dequeue();
             else
                 ((Timer)sender).Stop();
             Ghosts.State.ChangeBehavior(Ghosts);
