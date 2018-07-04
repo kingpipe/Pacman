@@ -9,6 +9,7 @@ namespace PacMan.StateBehavior
         {
             foreach (var ghost in ghosts.Ghosts)
             {
+                ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new RandomMoving();
             }
             ghosts.State = new StateScatter();

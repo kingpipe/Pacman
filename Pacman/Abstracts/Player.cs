@@ -16,6 +16,7 @@ namespace PacMan.Abstracts
 
         public Map Map { get; set; }
         public Position Position { get; set; }
+        public Direction direction { get; set; }
 
         protected Player()
         { }

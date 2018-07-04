@@ -12,7 +12,6 @@ namespace PacMan.Players
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
-        public Direction direction { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
         public int Level { get; set; }
@@ -49,6 +48,7 @@ namespace PacMan.Players
                 {
                     var ghost = (Ghost)food;
                     ghost.OldCoord = this;
+                    ghost.Strategy = ghost.OldStrategy;
                     ghost.StartPosition();
                     ghost.Frightened = false;
                 }

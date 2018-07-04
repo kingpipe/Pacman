@@ -25,7 +25,7 @@ namespace PacMan
 
         public MenegerGhosts(Map map)
         {
-            timeFrightened = new Timer(5000);
+            timeFrightened = new Timer(7500);
 
             Map = map;
 
