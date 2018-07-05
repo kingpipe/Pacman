@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using System;
 using System.Timers;
@@ -7,11 +8,12 @@ namespace PacMan.Foods
 {
     public class Cherry : Food, IGetChar, ISinkMoving
     {
+        private const int TIMELIFE = 10000;
         private readonly Timer timer;
 
         public event Action<ICoord> Movement;
-
         public Map Map { get; set; }
+
         public Cherry()
         { }
 
@@ -19,7 +21,7 @@ namespace PacMan.Foods
         {
             Map = map;
             Score = 100;
-            timer = new Timer(10000);
+            timer = new Timer(TIMELIFE);
         }
 
         public override char GetCharElement()
@@ -31,14 +33,12 @@ namespace PacMan.Foods
         {
             Map.SetElement(this);
             Movement(this);
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
+            timer.Start(TimerElapsed);
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            ((Timer)sender).Stop();
-            ((Timer)sender).Elapsed -= Timer_Elapsed;
+            ((Timer)sender).Stop(TimerElapsed);
             if (IsLive)
             {
                 Map.SetElement(new Empty(Position));

@@ -102,9 +102,7 @@ namespace PacmanDemo
                     {
                         Console.Write(new Empty().GetCharElement());
                     }
-#pragma warning disable CS0436 // Type conflicts with imported type
                     if (array[x, y] is Wall)
-#pragma warning restore CS0436 // Type conflicts with imported type
                     {
                         Console.Write(new Wall().GetCharElement());
                     }

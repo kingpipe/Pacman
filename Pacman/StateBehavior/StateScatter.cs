@@ -9,7 +9,6 @@ namespace PacMan.StateBehavior
         {
             foreach (var ghost in ghosts.Ghosts)
             {
-                ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new AstarAlgorithm();
             }
             ghosts.State = new StateAttack();

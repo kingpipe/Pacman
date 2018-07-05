@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Timers;
 using PacMan.Abstracts;
-using PacMan.Algorithms;
 using PacMan.Interfaces;
 
 namespace PacMan.Players

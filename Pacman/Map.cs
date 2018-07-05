@@ -11,7 +11,7 @@ namespace PacMan
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        
+
         public Map(string path, ISize size)
         {
             map = LoadMap(path, size);

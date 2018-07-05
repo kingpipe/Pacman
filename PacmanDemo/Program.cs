@@ -5,14 +5,13 @@ namespace PacmanDemo
 {
     class Program
     {
-
         static ConsoleKeyInfo key;
         static readonly Size size = new Size(30, 31);
         static Game game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
         static DrawConsole drawConsole = new DrawConsole(game);
+
         static void Main(string[] args)
         {
-
             drawConsole.DrawMap();
             game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
             game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
@@ -79,7 +78,6 @@ namespace PacmanDemo
                     break;
                 }
             }
-
         }
     }
 }

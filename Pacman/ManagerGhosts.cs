@@ -14,6 +14,7 @@ namespace PacMan
     {
         private ChangeStateGhosts ChangeStateChosts { get; }
         private readonly Timer timeFrightened;
+
         public Map Map { get; set; }
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
@@ -41,11 +42,13 @@ namespace PacMan
         }
         public void SetDefaultMap(Map map)
         {
+            Map = map;
             foreach (var ghost in Ghosts)
             {
                 ghost.Map = map;
             }
         }
+
         public void SetStrategy(IStrategy strategy)
         {
             foreach (var ghost in Ghosts)
@@ -69,7 +72,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SpeedUpAt(2);
+                ghost.SpeedDownAt(1.5);
                 ghost.Frightened = true;
                 ghost.OldStrategy = ghost.Strategy;
                 ghost.Strategy = new GoAway();
@@ -91,12 +94,6 @@ namespace PacMan
 
             ChangeStateChosts.Start();
         }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            GhostsArenotFrightened();
-        }
-
 
         public void StartPosition()
         {
@@ -121,15 +118,7 @@ namespace PacMan
                 ghost.SinkAboutEatPacman += action;
             }
         }
-
-        public void RemoveSinkAboutEatPacmanHandler(Action action)
-        {
-            foreach (var ghost in Ghosts)
-            {
-                ghost.SinkAboutEatPacman -= action;
-            }
-        }
-
+        
         public void AddMoveHandler(Action<ICoord> action)
         {
             foreach (var ghost in Ghosts)
@@ -162,6 +151,11 @@ namespace PacMan
             Ghosts.Add(Clyde);
             Ghosts.Add(Inky);
             Ghosts.Add(Pinky);
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            GhostsArenotFrightened();
         }
     }
 }

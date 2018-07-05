@@ -8,7 +8,7 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 400;
+        private const int TIME = 200;
         private const int TIMEFORPACMAN = 150;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
@@ -53,6 +53,7 @@ namespace PacMan
             Pacman.SinkAboutEatEnergizer += Ghosts.GhostsAreFrightened;
             Pacman.SinkAboutCreateCherry += () => Cherry.Start();
             Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
+            Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
         private void Pacman_SinkAboutNextLevel()
@@ -86,7 +87,6 @@ namespace PacMan
 
         public void Start()
         {
-            Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
             Ghosts.StartTimer();
             Pacman.Start();
         }
@@ -96,7 +96,6 @@ namespace PacMan
             Pacman.Direction = Direction.None;
             Pacman.Stop();
             Ghosts.StopTimer();
-            Ghosts.RemoveSinkAboutEatPacmanHandler(PacmanIsKilled);
             if (!PacmanIsLive)
             {
                 Pacman.Lives--;
@@ -106,7 +105,6 @@ namespace PacMan
                 Ghosts.StartPosition();
                 CreatePlayers();
             }
-            Thread.Sleep(300);
         }
 
         public void End()

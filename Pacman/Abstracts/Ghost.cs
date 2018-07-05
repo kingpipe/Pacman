@@ -1,5 +1,4 @@
 ﻿using PacMan.Algorithms;
-using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
 using System;
@@ -42,7 +41,7 @@ namespace PacMan.Abstracts
             IsLive = true;
         }
 
-        public async Task Restart()
+        public async void Restart()
         {
             StartPosition();
             DefaultTime();
@@ -52,19 +51,12 @@ namespace PacMan.Abstracts
             await SleepAsync();
         }
 
-        private async Task SleepAsync()
-        {
-            Timer.Stop();
-            await Task.Run(() => System.Threading.Thread.Sleep(Time * 30));
-            Timer.Start();
-        }
-
         public void DefaultTime()
         {
             Timer.Interval = Time;
         }
 
-        public void SpeedUpAt(double n)
+        public void SpeedDownAt(double n)
         {
             Timer.Interval = Time * n;
         }
@@ -124,5 +116,11 @@ namespace PacMan.Abstracts
             }
         }
 
+        private async Task SleepAsync()
+        {
+            Timer.Stop();
+            await Task.Run(() => System.Threading.Thread.Sleep(Time * 20));
+            Timer.Start();
+        }
     }
 }

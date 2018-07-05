@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Timers;
 using PacMan.ExtensionClasses;
-using PacMan.Foods;
 using PacMan.Interfaces;
 
 namespace PacMan.Abstracts
