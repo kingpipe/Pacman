@@ -2,6 +2,7 @@
 using PacMan.Players;
 using PacMan.Foods;
 using System;
+using System.Threading;
 
 namespace PacMan
 {
@@ -105,6 +106,7 @@ namespace PacMan
                 Ghosts.StartPosition();
                 CreatePlayers();
             }
+            Thread.Sleep(300);
         }
 
         public void End()

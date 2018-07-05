@@ -2,6 +2,7 @@
 using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
+using PacMan.Algorithms.Astar;
 
 namespace PacMan
 {
@@ -49,10 +50,15 @@ namespace PacMan
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (Listoftime.Count != 0)
+            {
                 ((Timer)sender).Interval = Listoftime.Dequeue();
+                Ghosts.State.ChangeBehavior(Ghosts);
+            }
             else
+            {
                 ((Timer)sender).Stop();
-            Ghosts.State.ChangeBehavior(Ghosts);
+                Ghosts.SetStrategy(new AstarAlgorithm());
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Algorithms;
 using PacMan.ExtensionClasses;
-using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
 using PacMan.StateBehavior;
@@ -46,6 +45,14 @@ namespace PacMan
             {
                 ghost.Map = map;
             }
+        }
+        public void SetStrategy(IStrategy strategy)
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Strategy = strategy;
+            }
+
         }
 
         public void SetGhosts()
