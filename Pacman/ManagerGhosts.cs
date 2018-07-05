@@ -25,7 +25,7 @@ namespace PacMan
 
         public MenegerGhosts(Map map, int time)
         {
-            timeFrightened = new Timer(7500);
+            timeFrightened = new Timer(10000);
 
             Map = map;
 
@@ -39,6 +39,13 @@ namespace PacMan
             AddGhostsInCollection();
 
             ChangeStateChosts = new ChangeStateGhosts(this);
+        }
+        public void SetDefaultMap(Map map)
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Map = map;
+            }
         }
 
         public void SetGhosts()

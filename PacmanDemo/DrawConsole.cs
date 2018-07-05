@@ -3,13 +3,12 @@ using PacMan.Interfaces;
 using PacMan.Foods;
 using System;
 using PacMan.Players;
-using System.Threading;
 
 namespace PacmanDemo
 {
     class DrawConsole
     {
-        private object obj = new object();
+        private readonly object obj = new object();
         private Game Game { get; }
 
         public DrawConsole(Game game)
@@ -73,7 +72,6 @@ namespace PacmanDemo
         {
             lock (obj)
             {
-                Thread.Sleep(100);
                 Console.Clear();
                 string liveorlives = Game.Lives == 1 ? "live" : "lives";
                 Console.WriteLine($"You have {Game.Lives} {liveorlives}");
@@ -104,7 +102,9 @@ namespace PacmanDemo
                     {
                         Console.Write(new Empty().GetCharElement());
                     }
+#pragma warning disable CS0436 // Type conflicts with imported type
                     if (array[x, y] is Wall)
+#pragma warning restore CS0436 // Type conflicts with imported type
                     {
                         Console.Write(new Wall().GetCharElement());
                     }

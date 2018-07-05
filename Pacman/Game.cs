@@ -7,8 +7,8 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 300;
-        private const int TIMEFORPACMAN = 200;
+        private const int TIME = 400;
+        private const int TIMEFORPACMAN = 150;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
         private MenegerGhosts Ghosts { get; set; }
@@ -58,12 +58,12 @@ namespace PacMan
         {
             SetDirection(Direction.None);
             RemovePlayers();
-            Pacman.StartPosition();
-            Ghosts.StartPosition();
             Map = (Map)DefaultMap.Clone();
             Pacman.Map = Map;
-            Ghosts.Map = Map;
+            Ghosts.SetDefaultMap(Map);
             UpdateMap();
+            Pacman.StartPosition();
+            Ghosts.StartPosition();
             CreatePlayers();
         }
 

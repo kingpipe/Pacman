@@ -2,6 +2,8 @@
 using PacMan.Foods;
 using PacMan.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 namespace PacMan.Players
@@ -43,7 +45,7 @@ namespace PacMan.Players
 
         public void Eat(IFood food)
         {
-            if (food is IGhost ghost)
+            if (food is Ghost ghost)
             {
                 if (ghost.Frightened)
                 {
@@ -56,19 +58,23 @@ namespace PacMan.Players
                 {
                     SinkAboutEatEnergizer();
                 }
-                if (food is LittleGoal)
-                {
-                    Map.CountLittleGoal--;
-                }
             }
             Count += food.Score;
             food.IsLive = false;
+            Map.SetElement(this, Position);
 
             if (Count % 1000 == 700)
             {
                 SinkAboutCreateCherry();
             }
-            if (Map.CountLittleGoal == 0)
+        }
+
+        private void IfNextLevelSinkAboutIt()
+        {
+            var coords = Map.map.OfType<ICoord>().ToList();
+            var quaryable = coords.AsQueryable();
+            var IsLittleGoal = quaryable.Any(m => m is LittleGoal);
+            if (!IsLittleGoal)
             {
                 Level++;
                 SinkAboutNextLevel();
@@ -77,6 +83,7 @@ namespace PacMan.Players
 
         public override bool Move()
         {
+            IfNextLevelSinkAboutIt();
             switch (Direction)
             {
                 case Direction.Left:

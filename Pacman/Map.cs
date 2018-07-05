@@ -11,8 +11,7 @@ namespace PacMan
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int CountLittleGoal { get; set; }
-
+        
         public Map(string path, ISize size)
         {
             map = LoadMap(path, size);
@@ -92,7 +91,6 @@ namespace PacMan
                             break;
                         case '2':
                             maze[x, y] = new LittleGoal(new Position(x, y));
-                            CountLittleGoal++;
                             break;
                         case '3':
                             maze[x, y] = new Energizer(new Position(x, y));

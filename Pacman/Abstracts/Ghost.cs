@@ -4,6 +4,7 @@ using PacMan.Interfaces;
 using PacMan.Players;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace PacMan.Abstracts
@@ -40,7 +41,24 @@ namespace PacMan.Abstracts
             Frightened = false;
             IsLive = true;
         }
-        
+
+        public async Task Restart()
+        {
+            StartPosition();
+            DefaultTime();
+            OldCoord = new Empty(Position);
+            Strategy = OldStrategy;
+            Frightened = false;
+            await SleepAsync();
+        }
+
+        private async Task SleepAsync()
+        {
+            Timer.Stop();
+            await Task.Run(() => System.Threading.Thread.Sleep(Time * 30));
+            Timer.Start();
+        }
+
         public void DefaultTime()
         {
             Timer.Interval = Time;
@@ -72,15 +90,6 @@ namespace PacMan.Abstracts
                     return GhostIsFrightened();
                 }
             }
-        }
-
-        public void Restart()
-        {
-            DefaultTime();
-            OldCoord = this;
-            Strategy = OldStrategy;
-            StartPosition();
-            Frightened = false;
         }
 
         protected Position SearchPacman()
