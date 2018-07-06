@@ -1,18 +1,17 @@
 ﻿using PacMan;
 using PacMan.Interfaces;
-using PacMan.Foods;
 using System;
-using PacMan.Players;
 
 namespace PacmanDemo
 {
     class DrawConsole
     {
-        private object obj = new object();
+        private readonly object obj = new object();
         private Game Game { get; }
 
         public DrawConsole(Game game)
         {
+            Console.CursorVisible = false;
             Game = game;
         }
 
@@ -25,6 +24,7 @@ namespace PacmanDemo
                 string LiveorLives = Game.Lives == 1 ? "Live" : "Lives";
                 Console.WriteLine($"{LiveorLives} {Game.Lives} ");
                 Console.WriteLine($"Score={Game.Score}");
+                Console.WriteLine($"Level={Game.Level}");
             }
         }
 
@@ -96,46 +96,7 @@ namespace PacmanDemo
             {
                 for (int x = 0; x < Game.Map.Width; x++)
                 {
-                    if (array[x, y] is Empty)
-                    {
-                        Console.Write(new Empty().GetCharElement());
-                    }
-                    if (array[x, y] is Wall)
-                    {
-                        Console.Write(new Wall().GetCharElement());
-                    }
-                    if (array[x, y] is LittleGoal)
-                    {
-                        Console.Write(new LittleGoal().GetCharElement());
-                    }
-                    if (array[x, y] is Energizer)
-                    {
-                        Console.Write(new Energizer().GetCharElement());
-                    }
-                    if (array[x, y] is Cherry)
-                    {
-                        Console.Write(new Cherry().GetCharElement());
-                    }
-                    if (array[x, y] is Pacman)
-                    {
-                        Console.Write(new Pacman().GetCharElement());
-                    }
-                    if (array[x, y] is Blinky)
-                    {
-                        Console.Write(new Blinky().GetCharElement());
-                    }
-                    if (array[x, y] is Clyde)
-                    {
-                        Console.Write(new Clyde().GetCharElement());
-                    }
-                    if (array[x, y] is Inky)
-                    {
-                        Console.Write(new Inky().GetCharElement());
-                    }
-                    if (array[x, y] is Pinky)
-                    {
-                        Console.Write(new Pinky().GetCharElement());
-                    }
+                    Console.Write(array[x, y].GetCharElement());
                 }
                 Console.WriteLine();
             }

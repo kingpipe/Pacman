@@ -1,43 +1,41 @@
 ﻿using System;
-using PacMan.ExtensionClasses;
 using System.Timers;
-using PacMan.Foods;
+using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player : IMovable, ISinkMoving, ITimer
+    abstract class Player : IMovable, ISinkMoving, ITimer
     {
         public abstract event Action<ICoord> Movement;
+        public abstract void StartPosition();
         public abstract char GetCharElement();
         public abstract bool Move();
         public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
         public Map Map { get; set; }
         public Position Position { get; set; }
+        public Direction Direction { get; set; }
+        public Timer Timer { get; set; }
+        public int Time { get; set; }
 
-        public Player()
+        protected Player()
         { }
 
-        public Player(Map map)
+        protected Player(Map map, int time)
         {
-            StartPosition();
+            Time = time;
             Map = map;
         }
-
-        public virtual void StartPosition()
+        
+        public virtual void Start()
         {
-            Position = Position.None;
+            Timer.Start(TimerElapsed);
         }
 
-        public virtual void Start(Timer timer)
+        public virtual void Stop()
         {
-            timer.Start(TimerElapsed);
-        }
-
-        public virtual void Stop(Timer timer)
-        {
-            timer.Stop(TimerElapsed);
+            Timer.Stop(TimerElapsed);
         }
 
         public virtual bool MoveLeft()

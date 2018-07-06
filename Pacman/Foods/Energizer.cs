@@ -3,7 +3,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
-    public class Energizer : Food, IGetChar
+    class Energizer : Food, IGetChar
     {
         public Energizer()
         { }

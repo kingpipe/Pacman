@@ -2,26 +2,34 @@
 using PacMan.Foods;
 using PacMan.Interfaces;
 using System;
+using System.Linq;
 using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman, IGetChar
+    class Pacman : Player, IPacman, ISinkMoving
     {
         public override event Action<ICoord> Movement;
+        public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
-        public Direction direction { get; set; }
+        public event Action SinkAboutNextLevel;
+        public Direction OldDirection { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
+        public int Level { get; set; }
 
         public Pacman()
         { }
 
-        public Pacman(Map map) : base(map)
+        public Pacman(Map map, int time) : base(map, time)
         {
-            direction = Direction.None;
+            Timer = new Timer(time);
+            StartPosition();
+            Direction = Direction.None;
+            OldDirection = Direction.None;
             Count = 0;
             Lives = 3;
+            Level = 1;
         }
 
         public override void StartPosition()
@@ -31,37 +39,57 @@ namespace PacMan.Players
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Movement(new Empty(Position));
-            Move();
-            Movement(Map.GetElement(Position));
-        }
 
-        public void Eat(ICoord coord)
-        {
-            if (coord is IGhost)
+            Movement(new Empty(Position));
+            if (OldDirection != Direction)
             {
-                if (((IGhost)coord).Frightened == true)
+                bool value = Move();
+                if (value)
                 {
-                    var ghost = (Ghost)coord;
-                    Count += ghost.Score;
-                    ghost.oldcoord = this;
-                    ghost.StartPosition();
-                    ghost.Frightened = false;
+                    OldDirection = Direction;
+                }
+                else
+                {
+                    Direction = OldDirection;
                 }
             }
             else
             {
-                Count += ((IFood)coord).Score;
-                if (coord is Energizer)
+                Move();
+            }
+            Movement(Map.GetElement(Position));
+            MaybeNextLevel();
+        }
+
+        public void Eat(IFood food)
+        {
+            if (food is IGhost ghost)
+            {
+                if (ghost.Frightened)
+                {
+                    ghost.Restart();
+                }
+            }
+            else
+            {
+                if (food is Energizer)
                 {
                     SinkAboutEatEnergizer();
                 }
             }
+            Count += food.Score;
+            food.IsLive = false;
+            Map.SetElement(this, Position);
 
+            if (Count % 1000 == 700)
+            {
+                SinkAboutCreateCherry();
+            }
         }
+
         public override bool Move()
         {
-            switch (direction)
+            switch (Direction)
             {
                 case Direction.Left:
                     return MoveLeft();
@@ -72,7 +100,6 @@ namespace PacMan.Players
                 case Direction.Down:
                     return MoveDown();
                 default:
-                    direction = Direction.None;
                     return false;
             }
         }
@@ -85,13 +112,13 @@ namespace PacMan.Players
                 Position position = Position;
                 position.X = 0;
                 Position = position;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(this, Position);
                 return true;
             }
             else
             {
-                if (Map.GetElementRight(Position) is IFood)
-                    Eat(Map.GetElementRight(Position));
+                if (Map.GetElementRight(Position) is IFood food)
+                    Eat(food);
                 return base.MoveRight();
             }
 
@@ -105,34 +132,47 @@ namespace PacMan.Players
                 Position position = Position;
                 position.X = Map.Height - 2;
                 Position = position;
-                Map.SetElement(new Pacman(Map), Position);
+                Map.SetElement(this, Position);
                 return true;
             }
             else
             {
-                if (Map.GetElementLeft(Position) is IFood)
-                    Eat(Map.GetElementLeft(Position));
+                if (Map.GetElementLeft(Position) is IFood food)
+                    Eat(food);
                 return base.MoveLeft();
 
             }
         }
+
         public override bool MoveDown()
         {
-            if (Map.GetElementDown(Position) is IFood)
-                Eat(Map.GetElementDown(Position));
+            if (Map.GetElementDown(Position) is IFood food)
+                Eat(food);
             return base.MoveDown();
         }
+
         public override bool MoveUp()
         {
-
-            if (Map.GetElementUp(Position) is IFood)
-                Eat(Map.GetElementUp(Position));
+            if (Map.GetElementUp(Position) is IFood food)
+                Eat(food);
             return base.MoveUp();
         }
 
         public override char GetCharElement()
         {
             return 'P';
+        }
+
+        private void MaybeNextLevel()
+        {
+            var coords = Map.map.OfType<ICoord>().ToList();
+            var quaryable = coords.AsQueryable();
+            var IsLittleGoal = quaryable.Any(m => m is LittleGoal);
+            if (!IsLittleGoal)
+            {
+                Level++;
+                SinkAboutNextLevel();
+            }
         }
     }
 }

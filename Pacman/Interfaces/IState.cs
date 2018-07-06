@@ -1,7 +1,7 @@
 ﻿namespace PacMan.Interfaces
 {
-    public interface IState
+    interface IState
     {
-        void ChangeBehavior(ColectionGhosts ghosts);
+        void ChangeBehavior(MenegerGhosts ghosts);
     }
 }

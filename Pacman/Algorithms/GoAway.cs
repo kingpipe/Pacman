@@ -6,8 +6,13 @@ namespace PacMan.Algorithms
 {
     class GoAway : IStrategy
     {
-        private IStrategy astar = new AstarAlgorithm();
+        private readonly IStrategy astar;
 
+        public GoAway()
+        {
+            astar = new AstarAlgorithm();
+        }
+        
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             int x = map.Width / 2;

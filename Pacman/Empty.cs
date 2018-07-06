@@ -1,22 +1,23 @@
-﻿using PacMan.Interfaces;
+﻿using PacMan.Abstracts;
+using PacMan.Interfaces;
 
 namespace PacMan
 {
-    class Wall: ICoord
+    class Empty : ICoord
     {
         public Position Position { get; set; }
 
-        public Wall()
+        public Empty()
         { }
 
-        public Wall(Position position)
+        public Empty(Position position)
         {
             Position = position;
         }
 
         public char GetCharElement()
         {
-            return '#';
+            return ' ';
         }
     }
 }

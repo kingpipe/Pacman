@@ -1,20 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Timers;
 using PacMan.ExtensionClasses;
+using PacMan.Interfaces;
+using PacMan.Algorithms.Astar;
 
 namespace PacMan
 {
-    public class ChangeStateGhosts
+    class ChangeStateGhosts : ITimer
     {
-        private ColectionGhosts Ghosts;
-        private Queue<int> listoftime;
-        private Timer timer;
-        public ChangeStateGhosts(ColectionGhosts ghosts)
+        private readonly MenegerGhosts Ghosts;
+        private readonly Timer timer;
+        private readonly Queue<int> listoftime;
+
+        public ChangeStateGhosts(MenegerGhosts ghosts)
         {
-            Ghosts=ghosts;
+            Ghosts = ghosts;
             listoftime = new Queue<int>();
             InitQueue();
-            timer= new Timer(listoftime.Dequeue());
+            timer = new Timer(listoftime.Dequeue());
+        }
+
+        public ChangeStateGhosts(MenegerGhosts ghosts, Queue<int> Listoftime)
+        {
+            Ghosts = ghosts;
+            timer = new Timer(Listoftime.Dequeue());
         }
 
         private void InitQueue()
@@ -37,13 +46,18 @@ namespace PacMan
             timer.Stop(TimerElapsed);
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (listoftime.Count != 0)
+            {
                 ((Timer)sender).Interval = listoftime.Dequeue();
+                Ghosts.State.ChangeBehavior(Ghosts);
+            }
             else
+            {
                 ((Timer)sender).Stop();
-            Ghosts.State.ChangeBehavior(Ghosts);
+                Ghosts.SetStrategy(new AstarAlgorithm());
+            }
         }
     }
 }

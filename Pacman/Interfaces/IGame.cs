@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    interface IGame
+    public interface IGame
     {
         void Start();
         void Stop();

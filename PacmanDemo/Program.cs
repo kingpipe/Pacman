@@ -5,20 +5,18 @@ namespace PacmanDemo
 {
     class Program
     {
-
         static ConsoleKeyInfo key;
-        static Size size = new Size(30, 31);
+        static readonly Size size = new Size(30, 31);
         static Game game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
         static DrawConsole drawConsole = new DrawConsole(game);
+
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-
-
             drawConsole.DrawMap();
             game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
             game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
             game.PacmanIsDied += Game_PacmanIsDied;
+            game.UpdateMap += drawConsole.DrawMap;
             game.Start();
 
             while (true)
@@ -80,7 +78,6 @@ namespace PacmanDemo
                     break;
                 }
             }
-
         }
     }
 }

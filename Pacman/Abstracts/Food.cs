@@ -2,7 +2,7 @@
 
 namespace PacMan.Abstracts
 {
-    abstract public class Food: IFood
+    abstract class Food: IFood
     {
         public abstract char GetCharElement();
 
@@ -10,10 +10,10 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        public Food()
+        protected Food()
         { }
 
-        public Food(Position position)
+        protected Food(Position position)
         {
             Position = position;
             IsLive = true;

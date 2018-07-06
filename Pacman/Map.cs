@@ -1,11 +1,12 @@
 ﻿using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
+using System;
 using System.IO;
 
 namespace PacMan
 {
-    public class Map : IMap
+    public class Map : IMap, ICloneable
     {
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
@@ -18,14 +19,13 @@ namespace PacMan
             Height = map.GetLength(1);
         }
 
-        public bool OnBoard(IPosition position)
+        public object Clone()
         {
-            if (position.X > 0 && position.X < Width
-                && position.Y > 0 && position.Y < Height)
-                return true;
-            return false;
+            Map board = (Map)MemberwiseClone();
+            board.map = (ICoord[,])map.Clone();
+            return board;
         }
-
+        
         public ICoord GetElement(IPosition position)
         {
             return map[position.X, position.Y];
@@ -64,10 +64,11 @@ namespace PacMan
 
         private ICoord[,] LoadMap(string path, ISize size)
         {
-            ICoord[,] map = new ICoord[size.Width, size.Height];
+            ICoord[,] maze = new ICoord[size.Width, size.Height];
             int counter = 0;
             StreamReader FileWithMap = new StreamReader(path);
             char[] array = FileWithMap.ReadToEnd().ToCharArray();
+            FileWithMap.Close();
             for (int y = 0; y < size.Height; y++)
             {
                 for (int x = 0; x < size.Width; x++)
@@ -75,34 +76,34 @@ namespace PacMan
                     switch (array[counter++])
                     {
                         case '0':
-                            map[x, y] = new Empty(new Position(x, y));
+                            maze[x, y] = new Empty(new Position(x, y));
                             break;
                         case '1':
-                            map[x, y] = new Wall(new Position(x, y));
+                            maze[x, y] = new Wall(new Position(x, y));
                             break;
                         case '2':
-                            map[x, y] = new LittleGoal(new Position(x, y));
+                            maze[x, y] = new LittleGoal(new Position(x, y));
                             break;
                         case '3':
-                            map[x, y] = new Energizer(new Position(x, y));
+                            maze[x, y] = new Energizer(new Position(x, y));
                             break;
                         case '4':
-                            map[x, y] = new Cherry(new Position(x, y));
+                            maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
                         case '5':
-                            map[x, y] = new Pacman(this);
+                            maze[x, y] = new Pacman(this, 100);
                             break;
                         case '6':
-                            map[x, y] = new Clyde(this);
+                            maze[x, y] = new Clyde(this, 100);
                             break;
                         case '7':
-                            map[x, y] = new Blinky(this);
+                            maze[x, y] = new Blinky(this, 100);
                             break;
                         case '8':
-                            map[x, y] = new Inky(this);
+                            maze[x, y] = new Inky(this, 100);
                             break;
                         case '9':
-                            map[x, y] = new Pinky(this);
+                            maze[x, y] = new Pinky(this, 100);
                             break;
                         default:
                             continue;
@@ -110,7 +111,7 @@ namespace PacMan
                 }
                 counter += 2;
             }
-            return map;
+            return maze;
         }
     }
 }

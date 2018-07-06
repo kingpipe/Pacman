@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
-    <Compile Include="ColectionGhosts.cs" />
+    <Compile Include="ManagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />
@@ -51,7 +51,7 @@
     <Compile Include="Foods\Energizer.cs" />
     <Compile Include="Foods\Cherry.cs" />
     <Compile Include="Abstracts\Food.cs" />
-    <Compile Include="Foods\Empty.cs" />
+    <Compile Include="Empty.cs" />
     <Compile Include="Foods\LittleGoal.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\ICoord.cs" />
@@ -86,6 +86,13 @@
     <Compile Include="StateBehavior\ChangeStateGhosts.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.3.0.5690\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.3.0.5690\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.3.0.5690\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
