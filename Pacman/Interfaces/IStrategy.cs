@@ -2,7 +2,7 @@
 
 namespace PacMan.Interfaces
 {
-    public interface IStrategy
+    interface IStrategy
     {
         Stack<Position> FindPath(IMap map, Position start, Position goal);
     }

@@ -5,7 +5,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    public class Clyde : Ghost, IGetChar
+    class Clyde : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;

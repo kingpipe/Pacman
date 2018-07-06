@@ -5,7 +5,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Player : IMovable, ISinkMoving, ITimer
+    abstract class Player : IMovable, ISinkMoving, ITimer
     {
         public abstract event Action<ICoord> Movement;
         public abstract void StartPosition();

@@ -3,7 +3,7 @@ using PacMan.Interfaces;
 
 namespace PacMan
 {
-    public class Empty : ICoord
+    class Empty : ICoord
     {
         public Position Position { get; set; }
 

@@ -1,6 +1,5 @@
 ﻿using PacMan.Algorithms;
 using PacMan.Interfaces;
-using PacMan.Players;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,14 +7,14 @@ using System.Timers;
 
 namespace PacMan.Abstracts
 {
-    abstract public class Ghost : Player, IGhost, IFood, ISinkAboutEatPacman
+    abstract class Ghost : Player, IGhost, IFood, ISinkAboutEatPacman
     {
         public abstract event Action SinkAboutEatPacman;
 
         protected object obj = new object();
         protected bool pacmanIsLive = true;
         protected Stack<Position> path;
-        
+
         public IStrategy Strategy { get; set; }
         public IStrategy OldStrategy { get; set; }
         public ICoord OldCoord { get; set; }
@@ -88,7 +87,7 @@ namespace PacMan.Abstracts
         {
             for (int y = 0; y < Map.Height; y++)
                 for (int x = 0; x < Map.Width; x++)
-                    if (Map.map[x, y] is Pacman)
+                    if (Map.map[x, y] is IPacman)
                         return new Position(x, y);
             return PacmanPosition;
         }
@@ -119,7 +118,7 @@ namespace PacMan.Abstracts
         private async Task SleepAsync()
         {
             Timer.Stop();
-            await Task.Run(() => System.Threading.Thread.Sleep(Time * 20));
+            await Task.Delay(Time * 20);
             Timer.Start();
         }
     }

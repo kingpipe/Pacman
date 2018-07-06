@@ -1,8 +1,6 @@
 ﻿using PacMan;
 using PacMan.Interfaces;
-using PacMan.Foods;
 using System;
-using PacMan.Players;
 
 namespace PacmanDemo
 {
@@ -49,7 +47,7 @@ namespace PacmanDemo
                 Console.WriteLine(Game.Score);
             }
         }
-        
+
         public void EventMoving(ICoord coord)
         {
             lock (obj)
@@ -98,46 +96,7 @@ namespace PacmanDemo
             {
                 for (int x = 0; x < Game.Map.Width; x++)
                 {
-                    if (array[x, y] is Empty)
-                    {
-                        Console.Write(new Empty().GetCharElement());
-                    }
-                    if (array[x, y] is Wall)
-                    {
-                        Console.Write(new Wall().GetCharElement());
-                    }
-                    if (array[x, y] is LittleGoal)
-                    {
-                        Console.Write(new LittleGoal().GetCharElement());
-                    }
-                    if (array[x, y] is Energizer)
-                    {
-                        Console.Write(new Energizer().GetCharElement());
-                    }
-                    if (array[x, y] is Cherry)
-                    {
-                        Console.Write(new Cherry().GetCharElement());
-                    }
-                    if (array[x, y] is Pacman)
-                    {
-                        Console.Write(new Pacman().GetCharElement());
-                    }
-                    if (array[x, y] is Blinky)
-                    {
-                        Console.Write(new Blinky().GetCharElement());
-                    }
-                    if (array[x, y] is Clyde)
-                    {
-                        Console.Write(new Clyde().GetCharElement());
-                    }
-                    if (array[x, y] is Inky)
-                    {
-                        Console.Write(new Inky().GetCharElement());
-                    }
-                    if (array[x, y] is Pinky)
-                    {
-                        Console.Write(new Pinky().GetCharElement());
-                    }
+                    Console.Write(array[x, y].GetCharElement());
                 }
                 Console.WriteLine();
             }

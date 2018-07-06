@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace PacMan
 {
-    public class MenegerGhosts
+    class MenegerGhosts
     {
         private ChangeStateGhosts ChangeStateChosts { get; }
         private readonly Timer timeFrightened;

@@ -5,7 +5,7 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Inky : Ghost, IGetChar
+    class Inky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;

@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    public class Pacman : Player, IPacman, ISinkMoving
+    class Pacman : Player, IPacman, ISinkMoving
     {
         public override event Action<ICoord> Movement;
         public event Action SinkAboutCreateCherry;
