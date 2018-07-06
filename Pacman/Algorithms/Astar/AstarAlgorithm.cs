@@ -34,10 +34,14 @@ namespace PacMan.Algorithms.Astar
                 {
                     if (closedSet.Any(node => node.position == neighbourNode.position))
                         continue;
+
                     var openNode = openSet.FirstOrDefault(node =>
                       node.position == neighbourNode.position);
+
                     if (openNode == null)
+                    {
                         openSet.Add(neighbourNode);
+                    }
                     else
                     {
                         if (openNode.PathLengthFromStart > neighbourNode.PathLengthFromStart)
@@ -83,6 +87,7 @@ namespace PacMan.Algorithms.Astar
             }
             return result;
         }
+
         private Stack<Position> GetPathForNode(PathNode pathNode)
         {
             var result = new Stack<Position>();

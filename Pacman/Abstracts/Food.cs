@@ -2,7 +2,7 @@
 
 namespace PacMan.Abstracts
 {
-    abstract public class Food: IFood
+    abstract class Food: IFood
     {
         public abstract char GetCharElement();
 

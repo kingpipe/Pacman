@@ -25,15 +25,7 @@ namespace PacMan
             board.map = (ICoord[,])map.Clone();
             return board;
         }
-
-        public bool OnBoard(IPosition position)
-        {
-            if (position.X > 0 && position.X < Width
-                && position.Y > 0 && position.Y < Height)
-                return true;
-            return false;
-        }
-
+        
         public ICoord GetElement(IPosition position)
         {
             return map[position.X, position.Y];

@@ -3,7 +3,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
-    public class LittleGoal: Food, IGetChar
+    class LittleGoal: Food, IGetChar
     {
         public LittleGoal()
         { }

@@ -19,7 +19,6 @@ namespace PacMan.Algorithms
 
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
-
             switch (direction)
             {
                 case Direction.Right:
@@ -51,10 +50,9 @@ namespace PacMan.Algorithms
             }
         }
 
-
         private bool CanMove(Position position, IMap map)
         {
-            return map.OnBoard(position) &&
+            return map.map[position.X, position.Y] is ICoord &&
                    !(map.map[position.X, position.Y] is Wall) &&
                    !(map.map[position.X, position.Y] is IGhost);
         }

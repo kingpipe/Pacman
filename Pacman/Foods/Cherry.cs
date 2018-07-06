@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace PacMan.Foods
 {
-    public class Cherry : Food, IGetChar, ISinkMoving
+    class Cherry : Food, IGetChar, ISinkMoving
     {
         private const int TIMELIFE = 10000;
         private readonly Timer timer;

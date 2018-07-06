@@ -2,7 +2,7 @@
 
 namespace PacMan
 {
-    public class Wall: ICoord
+    class Wall: ICoord
     {
         public Position Position { get; set; }
 

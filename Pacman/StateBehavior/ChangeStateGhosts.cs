@@ -6,7 +6,7 @@ using PacMan.Algorithms.Astar;
 
 namespace PacMan
 {
-    public class ChangeStateGhosts : ITimer
+    class ChangeStateGhosts : ITimer
     {
         private readonly MenegerGhosts Ghosts;
         private readonly Timer timer;

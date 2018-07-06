@@ -5,7 +5,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    public class Blinky : Ghost, IGetChar
+    class Blinky : Ghost, IGetChar
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
