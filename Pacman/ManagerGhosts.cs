@@ -68,7 +68,7 @@ namespace PacMan
             }
         }
 
-        public void GhostsAreFrightened()
+        public void AreFrightened()
         {
             foreach (var ghost in Ghosts)
             {
@@ -82,7 +82,7 @@ namespace PacMan
             ChangeStateChosts.Stop();
         }
 
-        public void GhostsArenotFrightened()
+        public void ArenotFrightened()
         {
             foreach (var ghost in Ghosts)
             {
@@ -155,7 +155,7 @@ namespace PacMan
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            GhostsArenotFrightened();
+            ArenotFrightened();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace PacMan.Players
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
+        public Direction OldDirection { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
         public int Level { get; set; }
@@ -25,6 +26,7 @@ namespace PacMan.Players
             Timer = new Timer(time);
             StartPosition();
             Direction = Direction.None;
+            OldDirection = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;
@@ -37,9 +39,26 @@ namespace PacMan.Players
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
+
             Movement(new Empty(Position));
-            Move();
+            if (OldDirection != Direction)
+            {
+                bool value = Move();
+                if (value)
+                {
+                    OldDirection = Direction;
+                }
+                else
+                {
+                    Direction = OldDirection;
+                }
+            }
+            else
+            {
+                Move();
+            }
             Movement(Map.GetElement(Position));
+            MaybeNextLevel();
         }
 
         public void Eat(IFood food)
@@ -67,10 +86,9 @@ namespace PacMan.Players
                 SinkAboutCreateCherry();
             }
         }
-        
+
         public override bool Move()
         {
-            MaybeNextLevel();
             switch (Direction)
             {
                 case Direction.Left:
