@@ -8,3 +8,7 @@ Pacman/bin/
 Pacman/obj/
 
 \.vs/
+
+PacmanWeb/bin/
+
+PacmanWeb/obj/

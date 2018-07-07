@@ -7,7 +7,7 @@
     <ProjectGuid>{CDFF2872-A473-4724-BFC2-E0C6E19CEF32}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pacman</RootNamespace>
+    <RootNamespace>PacMan</RootNamespace>
     <AssemblyName>Pacman</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
