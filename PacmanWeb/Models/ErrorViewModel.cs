@@ -1,5 +1,3 @@
-using System;
-
 namespace PacmanWeb.Models
 {
     public class ErrorViewModel
