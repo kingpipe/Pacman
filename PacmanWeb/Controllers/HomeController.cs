@@ -1,18 +1,12 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PacmanWeb.Models;
-using PacMan;
 
 namespace PacmanWeb.Controllers
 {
     public class HomeController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Map()
         {
             return View();
         }
@@ -34,6 +28,11 @@ namespace PacmanWeb.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Map()
+        {
+            return View();
         }
     }
 }

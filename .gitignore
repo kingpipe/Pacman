@@ -12,3 +12,7 @@ Pacman/obj/
 PacmanWeb/bin/
 
 PacmanWeb/obj/
+
+PacMan\.Tests/obj/
+
+PacMan\.Tests/bin/

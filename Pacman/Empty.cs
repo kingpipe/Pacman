@@ -1,5 +1,4 @@
-﻿using PacMan.Abstracts;
-using PacMan.Interfaces;
+﻿using PacMan.Interfaces;
 
 namespace PacMan
 {
