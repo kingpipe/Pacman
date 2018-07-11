@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PacmanWeb.Data;
 using PacmanWeb.Models;
 using PacmanWeb.Services;
+using PacmanWeb.ManagerPacman;
 
 namespace PacmanWeb
 {
@@ -35,6 +32,8 @@ namespace PacmanWeb
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddSignalR();
 
             services.AddMvc();
         }
@@ -62,6 +61,11 @@ namespace PacmanWeb
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<PacmanHub>("/Game");
             });
         }
     }
