@@ -17,5 +17,10 @@ namespace PacMan.Foods
         {
             return '*';
         }
+
+        public override string GetId()
+        {
+            return "energizer";
+        }
     }
 }

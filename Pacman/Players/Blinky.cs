@@ -5,7 +5,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    class Blinky : Ghost, IGetChar
+    class Blinky : Ghost
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
@@ -35,6 +35,11 @@ namespace PacMan.Players
         public override char GetCharElement()
         {
             return 'B';
+        }
+
+        public override string GetId()
+        {
+            return "blinky";
         }
     }
 }

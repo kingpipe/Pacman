@@ -18,5 +18,10 @@ namespace PacMan
         {
             return '#';
         }
+
+        public string GetId()
+        {
+            return "wall";
+        }
     }
 }

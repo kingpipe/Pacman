@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
+    <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="ManagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />

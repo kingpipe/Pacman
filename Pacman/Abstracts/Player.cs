@@ -9,6 +9,7 @@ namespace PacMan.Abstracts
     {
         public abstract event Action<ICoord> Movement;
         public abstract void StartPosition();
+        public abstract string GetId();
         public abstract char GetCharElement();
         public abstract bool Move();
         public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
@@ -27,7 +28,7 @@ namespace PacMan.Abstracts
             Time = time;
             Map = map;
         }
-        
+
         public virtual void Start()
         {
             Timer.Start(TimerElapsed);
@@ -95,7 +96,7 @@ namespace PacMan.Abstracts
             Position position = Position;
             position.Y = y;
             Position = position;
-            Map.SetElement(value, Position);   
+            Map.SetElement(value, Position);
         }
     }
 }

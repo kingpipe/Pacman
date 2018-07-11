@@ -17,5 +17,10 @@ namespace PacMan.Foods
         {
             return (char)183;
         }
+
+        public override string GetId()
+        {
+            return "littlegoal";
+        }
     }
 }

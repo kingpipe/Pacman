@@ -5,7 +5,7 @@ using PacMan.Interfaces;
 
 namespace PacMan.Players
 {
-    class Clyde : Ghost, IGetChar
+    class Clyde : Ghost
     {
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
@@ -35,6 +35,11 @@ namespace PacMan.Players
         public override char GetCharElement()
         {
             return 'C';
+        }
+
+        public override string GetId()
+        {
+            return "clyde";
         }
     }
 }

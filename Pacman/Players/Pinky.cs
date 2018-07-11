@@ -37,5 +37,9 @@ namespace PacMan.Players
             return 'N';
         }
 
+        public override string GetId()
+        {
+            return "pinky";
+        }
     }
 }

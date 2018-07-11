@@ -29,6 +29,11 @@ namespace PacMan.Foods
             return '0';
         }
 
+        public override string GetId()
+        {
+            return "cherry";
+        }
+
         public void Start()
         {
             Map.SetElement(this);

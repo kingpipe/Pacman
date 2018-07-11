@@ -163,6 +163,11 @@ namespace PacMan.Players
             return 'P';
         }
 
+        public override string GetId()
+        {
+            return "pacman";
+        }
+
         private void MaybeNextLevel()
         {
             var coords = Map.map.OfType<ICoord>().ToList();
