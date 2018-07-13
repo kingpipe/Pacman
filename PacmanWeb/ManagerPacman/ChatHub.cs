@@ -5,9 +5,9 @@ namespace PacmanWeb.ManagerPacman
 {
     public class ChatHub : Hub
     {
-        public async Task Send(string nick, string message)
+        public async Task Send(string message)
         {
-            await Clients.All.SendAsync("Send", nick, message);
+            await Clients.Caller.SendAsync("Send", message);
         }
     }
 }
