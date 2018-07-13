@@ -6,11 +6,11 @@ namespace PacmanWeb.ManagerPacman
 {
     public class PacmanHub : Hub
     {
-        private Game Game { get; set; }
+        public Game Game { get; set; }
 
-        public PacmanHub()
+        public PacmanHub(Game game)
         {
-            Game = new Game("", new Size(30, 31));
+            Game = game;
         }
         public void Start()
         {
@@ -19,9 +19,10 @@ namespace PacmanWeb.ManagerPacman
             Game.Start();
         }
          
-        public void HandlerToPlayers(ICoord obj)
+        public async void HandlerToPlayers(ICoord obj)
         {
-            Clients.All.SendAsync("HandlerToPlayer", obj.Position.X, obj.Position.Y, obj.GetCharElement());
+           await  Clients.Caller.SendAsync("EventToPlayer", obj.Position.X, obj.Position.Y, obj.GetId());
         }
+
     }
 }

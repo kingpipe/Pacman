@@ -16,3 +16,5 @@ PacmanWeb/obj/
 PacMan\.Tests/obj/
 
 PacMan\.Tests/bin/
+
+PacmanWeb/node_modules/

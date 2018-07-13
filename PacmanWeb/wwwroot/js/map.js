@@ -1,10 +1,11 @@
 ﻿var canvas = document.getElementById('map');
+context = canvas.getContext('2d');
 
 var width = canvas.width;
 var height = canvas.height;
 
 var spriteX = width / 30;
-var spriteY = height / 31
+var spriteY = height / 31;
 
 function DrawWall(x, y) {
     context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
@@ -21,7 +22,6 @@ function SetStyleToWall() {
 function SetStyleToEmtry() {
     context.fillStyle = "black";
 }
-context = canvas.getContext('2d');
 //1line
 var line = 0;
 SetStyleToWall();
@@ -30,7 +30,7 @@ for (var i = 0; i < 30; i++) {
 }
 //2line
 line = 1;
-DrawWall(0, line)
+DrawWall(0, line);
 DrawWall(1, line);
 DrawWall(14, line);
 DrawWall(15, line);
@@ -227,7 +227,7 @@ for (var i = 22; i < 28; i++) {
     DrawEmtry(i, line);
 }
 //line10
-line = 9
+line = 9;
 SetStyleToWall();
 for (var i = 0; i < 7; i++) {
     DrawWall(i, line);
@@ -250,7 +250,7 @@ DrawEmtry(13, line);
 DrawEmtry(16, line);
 DrawEmtry(22, line);
 //line11
-line = 10
+line = 10;
 SetStyleToWall();
 DrawWall(5, line);
 DrawWall(6, line);
@@ -278,7 +278,7 @@ for (var i = 25; i < 30; i++) {
     DrawEmtry(i, line);
 }
 //line12
-line = 11
+line = 11;
 SetStyleToWall();
 DrawWall(5, line);
 DrawWall(6, line);
@@ -302,7 +302,7 @@ for (var i = 25; i < 30; i++) {
     DrawEmtry(i, line);
 }
 //line13
-line = 12
+line = 12;
 SetStyleToWall();
 DrawWall(5, line);
 DrawWall(6, line);
@@ -334,7 +334,7 @@ for (var i = 25; i < 30; i++) {
     DrawEmtry(i, line);
 }
 //line14
-line = 13
+line = 13;
 SetStyleToWall();
 for (var i = 0; i < 7; i++) {
     DrawWall(i, line);
@@ -360,7 +360,7 @@ DrawEmtry(15, line);
 DrawEmtry(19, line);
 DrawEmtry(22, line);
 //line15
-line = 14
+line = 14;
 SetStyleToWall();
 DrawWall(11, line);
 DrawWall(18, line);
@@ -475,7 +475,7 @@ for (var i = 25; i < 30; i++) {
     DrawEmtry(i, line);
 }
 //line20
-line = 19
+line = 19;
 SetStyleToWall();
 for (var i = 0; i < 7; i++) {
     DrawWall(i, line);
@@ -499,7 +499,7 @@ DrawEmtry(22, line);
 //line21
 line = 20;
 SetStyleToWall();
-DrawWall(0, line)
+DrawWall(0, line);
 DrawWall(1, line);
 DrawWall(14, line);
 DrawWall(15, line);
@@ -734,20 +734,3 @@ SetStyleToWall();
 for (var i = 0; i < 30; i++) {
     DrawWall(i, line);
 }
-
-
-
-function SetElement(id, x, y) {
-
-    var element = document.getElementById(id);
-    context.drawImage(element, x, y, spriteX, spriteY);
-}
-SetElement('blinky', 15 * spriteX, 11 * spriteY);
-SetElement('inky', 15 * spriteX, 15 * spriteY);
-SetElement('pinky', 17 * spriteX, 15 * spriteY);
-SetElement('clyde', 13 * spriteX, 15 * spriteY);
-SetElement('pacman', 15 * spriteX, 23 * spriteY);
-SetElement('energaizer', 2 * spriteX, 3 * spriteY);
-SetElement('energaizer', 27 * spriteX, 3 * spriteY);
-SetElement('energaizer', 2 * spriteX, 23 * spriteY);
-SetElement('energaizer', 27 * spriteX, 23 * spriteY);

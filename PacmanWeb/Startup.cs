@@ -32,10 +32,10 @@ namespace PacmanWeb
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+           
+            services.AddMvc();
 
             services.AddSignalR();
-
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,16 +56,16 @@ namespace PacmanWeb
 
             app.UseAuthentication();
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<PacmanHub>("/Game");
             });
         }
     }
