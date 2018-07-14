@@ -58,7 +58,7 @@ namespace PacmanWeb
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<PacmanHub>("/chat");
+                routes.MapHub<PacmanHub>("/game");
             });
 
             app.UseMvc(routes =>

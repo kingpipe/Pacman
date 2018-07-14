@@ -8,7 +8,7 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 300;
+        private const int TIME = 1000;
         private const int TIMEFORPACMAN = 200;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }

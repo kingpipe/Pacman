@@ -1,58 +1,30 @@
 ﻿using System;
-using System.IO;
-using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
-using PacmanWeb.ManagerPacman;
-using PacmanWeb.Models;
 using PacMan.Interfaces;
-using System.Threading;
+using PacmanWeb.ManagerPacman;
 
-namespace PacmanWeb.Controllers
+namespace PacmanWeb.Filter
 {
-    public class HomeController : Controller
+    public class FilterToInitMap : Attribute, IResultFilter
     {
         private readonly IHubContext<PacmanHub> hubContext;
-        private readonly IHostingEnvironment hostingEnvironment;
         private readonly Game game;
 
-        public HomeController(IHubContext<PacmanHub> hubContext, IHostingEnvironment hostingEnvironment)
+        public FilterToInitMap(IHubContext<PacmanHub> hubContext, Game game)
         {
             this.hubContext = hubContext;
-            this.hostingEnvironment = hostingEnvironment;
-            var path = hostingEnvironment.ContentRootPath;
-            var allpath = Path.Combine(path + "\\wwwroot" + "\\map.txt");
-            game = new Game(allpath, new Size(30, 31));
+            this.game = game;
         }
 
-        public IActionResult Index()
+        public void OnResultExecuted(ResultExecutedContext context)
         {
-            return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult Map()
+        public void OnResultExecuting(ResultExecutingContext context)
         {
             var timer = new System.Timers.Timer(1000);
             timer.Elapsed += Timer_Elapsed;
@@ -61,7 +33,6 @@ namespace PacmanWeb.Controllers
             game.AddMoveHandlerToPacman(Move);
             Thread.Sleep(10000);
             game.Start();
-            return View();
         }
 
         private void Move(ICoord coord)
