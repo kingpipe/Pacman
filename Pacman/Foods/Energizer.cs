@@ -20,7 +20,7 @@ namespace PacMan.Foods
 
         public override string GetId()
         {
-            return "energizer";
+            return "energaizer";
         }
     }
 }

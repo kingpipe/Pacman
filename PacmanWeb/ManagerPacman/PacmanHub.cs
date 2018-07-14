@@ -1,15 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using PacMan;
-using PacMan.Interfaces;
 
 namespace PacmanWeb.ManagerPacman
 {
     public class PacmanHub : Hub
     {         
-        public async void HandlerToPlayers(ICoord obj)
+        public async Task InitMap(int x, int y, string id)
         {
-           await  Clients.Caller.SendAsync("EventToPlayer", obj.Position.X, obj.Position.Y, obj.GetId());
+           await  Clients.Caller.SendAsync("InitMap", x, y, id);
         }
 
         public async Task Send(string message)
