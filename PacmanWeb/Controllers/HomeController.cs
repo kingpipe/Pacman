@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.ManagerPacman;
 using PacmanWeb.Models;
@@ -8,13 +11,15 @@ namespace PacmanWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        private readonly IHubContext<PacmanHub> hubContext;
 
-        public IActionResult Demoo()
+        public HomeController(IHubContext<PacmanHub> hubContext)
         {
+            this.hubContext = hubContext;
+        }
+        public async Task<IActionResult> Index()
+        {
+            await hubContext.Clients.All.SendAsync("Map", $"Home page loaded at: {DateTime.Now}");
             return View();
         }
 
@@ -32,14 +37,6 @@ namespace PacmanWeb.Controllers
             return View();
         }
 
-        public IActionResult Start()
-        {
-            Game game = new Game("wwwroot/map.txt", new Size(30, 31));
-            PacmanHub pacmanHub = new PacmanHub(game);
-            pacmanHub.Start();
-            return View("Map");
-        }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -47,7 +44,15 @@ namespace PacmanWeb.Controllers
 
         public IActionResult Map()
         {
+            var timer = new System.Timers.Timer(2000);
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
             return View();
+        }
+
+        private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            await hubContext.Clients.All.SendAsync("Send", $"Home page loaded at: {DateTime.Now}");
         }
     }
 }
