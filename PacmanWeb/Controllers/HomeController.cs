@@ -1,15 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.ManagerPacman;
 using PacmanWeb.Models;
+using PacmanWeb.Filters;
 using PacMan.Interfaces;
-using System.Threading;
 
 namespace PacmanWeb.Controllers
 {
@@ -17,7 +15,7 @@ namespace PacmanWeb.Controllers
     {
         private readonly IHubContext<PacmanHub> hubContext;
         private readonly IHostingEnvironment hostingEnvironment;
-        private readonly Game game;
+      //  private readonly Game game;
 
         public HomeController(IHubContext<PacmanHub> hubContext, IHostingEnvironment hostingEnvironment)
         {
@@ -25,7 +23,7 @@ namespace PacmanWeb.Controllers
             this.hostingEnvironment = hostingEnvironment;
             var path = hostingEnvironment.ContentRootPath;
             var allpath = Path.Combine(path + "\\wwwroot" + "\\map.txt");
-            game = new Game(allpath, new Size(30, 31));
+         //   game = new Game(allpath, new Size(30, 31));
         }
 
         public IActionResult Index()
@@ -51,46 +49,10 @@ namespace PacmanWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [ServiceFilter(typeof(FilterToInitMap))]
         public IActionResult Map()
         {
-            var timer = new System.Timers.Timer(1000);
-            timer.Elapsed += Timer_Elapsed;
-            timer.Start();
-            game.AddMoveHandlerToGhosts(Move);
-            game.AddMoveHandlerToPacman(Move);
-            Thread.Sleep(10000);
-            game.Start();
             return View();
-        }
-
-        private void Move(ICoord coord)
-        {
-            hubContext.Clients.All.SendAsync("Init", coord.Position.X, coord.Position.Y, coord.GetId());
-        }
-
-        private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            await InitMap();
-            ((System.Timers.Timer)sender).Stop();
-        }
-
-        private async Task InitMap()
-        {
-            ICoord[,] array = game.Map.map;
-            for (int y = 0; y < game.Map.Height; y++)
-            {
-                for (int x = 0; x < game.Map.Width; x++)
-                {
-                    await InitCoord(array[x, y]);
-                }
-            }
-        }
-
-        private async Task InitCoord(ICoord coord)
-        {
-            await hubContext.Clients.All.SendAsync("Init", coord.Position.X, coord.Position.Y, coord.GetId());
-            await Task.Delay(1);
         }
     }
 }

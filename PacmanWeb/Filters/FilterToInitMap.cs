@@ -1,25 +1,29 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Interfaces;
 using PacmanWeb.ManagerPacman;
 
-namespace PacmanWeb.Filter
+namespace PacmanWeb.Filters
 {
     public class FilterToInitMap : Attribute, IResultFilter
     {
-        private readonly IHubContext<PacmanHub> hubContext;
-        private readonly Game game;
+        public readonly IHubContext<PacmanHub> hubContext;
+        public readonly Game game;
 
-        public FilterToInitMap(IHubContext<PacmanHub> hubContext, Game game)
+        public FilterToInitMap(IHubContext<PacmanHub> hubContext,IHostingEnvironment hostingEnvironment)
         {
             this.hubContext = hubContext;
-            this.game = game;
+            var path = hostingEnvironment.ContentRootPath;
+            var allpath = Path.Combine(path + "\\wwwroot" + "\\map.txt");
+            this.hubContext = hubContext;
+            game = new Game(allpath, new Size(30, 31));
         }
-
         public void OnResultExecuted(ResultExecutedContext context)
         {
         }
