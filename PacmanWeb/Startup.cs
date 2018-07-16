@@ -39,6 +39,8 @@ namespace PacmanWeb
             services.AddSignalR();
 
             services.AddMvc();
+
+            services.AddTransient(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30,31)));
             
             services.AddScoped<FilterToInitMap>();
         }

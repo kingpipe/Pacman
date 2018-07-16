@@ -13,13 +13,18 @@ var height = canvas.height;
 var spriteX = width / 30;
 var spriteY = height / 31;
 
-
-connection.on('Init', (x, y, id) => {
+connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
 function SetElement(id, x, y) {
+    context.fillStyle = "black";
+    canvas.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
+    var element = document.getElementById(id);
+    context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
+}
 
+function InitElement(id, x, y) {
     var element = document.getElementById(id);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
 }

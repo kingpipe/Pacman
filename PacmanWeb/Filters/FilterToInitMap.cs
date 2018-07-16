@@ -16,13 +16,10 @@ namespace PacmanWeb.Filters
         public readonly IHubContext<PacmanHub> hubContext;
         public readonly Game game;
 
-        public FilterToInitMap(IHubContext<PacmanHub> hubContext,IHostingEnvironment hostingEnvironment)
+        public FilterToInitMap(IHubContext<PacmanHub> hubContext, Game game)
         {
             this.hubContext = hubContext;
-            var path = hostingEnvironment.ContentRootPath;
-            var allpath = Path.Combine(path + "\\wwwroot" + "\\map.txt");
-            this.hubContext = hubContext;
-            game = new Game(allpath, new Size(30, 31));
+            this.game = game;
         }
         public void OnResultExecuted(ResultExecutedContext context)
         {
@@ -30,19 +27,11 @@ namespace PacmanWeb.Filters
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            var timer = new System.Timers.Timer(1000);
+            var timer = new System.Timers.Timer(2000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
-            game.AddMoveHandlerToGhosts(Move);
-            game.AddMoveHandlerToPacman(Move);
-            Thread.Sleep(10000);
-            game.Start();
         }
 
-        private void Move(ICoord coord)
-        {
-            hubContext.Clients.All.SendAsync("Init", coord.Position.X, coord.Position.Y, coord.GetId());
-        }
 
         private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -52,20 +41,8 @@ namespace PacmanWeb.Filters
 
         private async Task InitMap()
         {
-            ICoord[,] array = game.Map.map;
-            for (int y = 0; y < game.Map.Height; y++)
-            {
-                for (int x = 0; x < game.Map.Width; x++)
-                {
-                    await InitCoord(array[x, y]);
-                }
-            }
+            await hubContext.Clients.All.SendAsync("Init");
         }
 
-        private async Task InitCoord(ICoord coord)
-        {
-            await hubContext.Clients.All.SendAsync("Init", coord.Position.X, coord.Position.Y, coord.GetId());
-            await Task.Delay(1);
-        }
     }
 }

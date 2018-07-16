@@ -1,29 +1,23 @@
 ﻿using System.IO;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.ManagerPacman;
 using PacmanWeb.Models;
 using PacmanWeb.Filters;
-using PacMan.Interfaces;
 
 namespace PacmanWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHubContext<PacmanHub> hubContext;
-        private readonly IHostingEnvironment hostingEnvironment;
-      //  private readonly Game game;
+        private readonly Game game;
 
-        public HomeController(IHubContext<PacmanHub> hubContext, IHostingEnvironment hostingEnvironment)
+        public HomeController(IHubContext<PacmanHub> hubContext, Game game)
         {
             this.hubContext = hubContext;
-            this.hostingEnvironment = hostingEnvironment;
-            var path = hostingEnvironment.ContentRootPath;
-            var allpath = Path.Combine(path + "\\wwwroot" + "\\map.txt");
-         //   game = new Game(allpath, new Size(30, 31));
+            this.game = game;
         }
 
         public IActionResult Index()
