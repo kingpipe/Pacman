@@ -12,31 +12,31 @@
 <img src="~/images/allelements/energaizer.png" width="128" height="128" id="energaizer" hidden="hidden">
 <img src="~/images/allelements/littlegoal.png" width="128" height="128" id="littlegoal" hidden="hidden">
 
-<div id="information">
+<div id="all">
     <div>
         <div>
-            <h4>Score: </h4>
-            <h4 id="score">0</h4>
-        </div>
-        <div>
-            <h4>Live: </h4>
-            <h4 id="live">3</h4>
+            <div id="information">
+                <h4>Score: </h4>
+                <h4 id="score">0</h4>
+            </div>
+            <div id="information">
+                <h4>Live: </h4>
+                <h4 id="live">3</h4>
+            </div>
         </div>
     </div>
-</div>
-
-<div id="game">
-    <canvas id="map" height="589" width="570"></canvas>
+    <div id="game">
+        <canvas id="map" height="589" width="570"></canvas>
+    </div>
     <div id="buttons">
         <form>
-            <input type="submit" id="start" value="Start" class="start" />
+            <input type="submit" id="start" value="Start" />
         </form>
         <form>
-            <input type="submit" id="stop" value="Stop" class="stop" />
+            <input type="submit" id="stop" value="Stop" />
         </form>
     </div>
 </div>
-
 <script src="~/js/map.js"></script>
 <script src="~/js/initmap.js"></script>
 <script src="~/lib/signalr.min.js"></script>
