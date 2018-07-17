@@ -23,7 +23,7 @@ namespace PacmanWeb.ManagerPacman
         public void Start()
         {
             game.AddMoveHandlerToGhosts(Move);
-            game.AddMoveHandlerToPacman(Move);
+            game.AddMoveHandlerToPacman(PacmanMove);
             game.PacmanIsDied += Game_PacmanIsDied;
             game.Start();
         }
@@ -38,10 +38,16 @@ namespace PacmanWeb.ManagerPacman
             Task.Run(() => hubContext.Clients.All.SendAsync("Move", coord.Position.X, coord.Position.Y, coord.GetId()));
         }
 
+        private void PacmanMove(ICoord coord)
+        {
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove", coord.Position.X, coord.Position.Y, coord.GetId(), game.Score));
+        }
+
         public void Update()
         {
             Task.Run(() => hubContext.Clients.All.SendAsync("Init"));
         }
+
         public void PacmanDirection(string direction)
         {
             switch(direction)

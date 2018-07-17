@@ -25,6 +25,8 @@ namespace PacMan.Players
         {
             Timer = new Timer(time);
             StartPosition();
+            Direction = Direction.None;
+            OldDirection = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;

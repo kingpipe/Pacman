@@ -12,6 +12,19 @@
 <img src="~/images/allelements/energaizer.png" width="128" height="128" id="energaizer" hidden="hidden">
 <img src="~/images/allelements/littlegoal.png" width="128" height="128" id="littlegoal" hidden="hidden">
 
+<div id="information">
+    <div>
+        <div>
+            <h4>Score: </h4>
+            <h4 id="score">0</h4>
+        </div>
+        <div>
+            <h4>Live: </h4>
+            <h4 id="live">3</h4>
+        </div>
+    </div>
+</div>
+
 <div id="game">
     <canvas id="map" height="589" width="570"></canvas>
     <div id="buttons">
@@ -29,4 +42,3 @@
 <script src="~/lib/signalr.min.js"></script>
 <script src="~/js/movement.js"></script>
 <script src="~/js/updatemap.js"></script>
-<script src="~/js/move.js"></script>

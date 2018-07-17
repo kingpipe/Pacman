@@ -6,7 +6,6 @@ using PacMan.Players;
 using PacMan.StateBehavior;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace PacMan
@@ -132,7 +131,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                Task.Delay(ghost.Time / Ghosts.Count);
+                System.Threading.Thread.Sleep(ghost.Time / Ghosts.Count);
                 ghost.Start();
             }
             ChangeStateChosts.Start();
