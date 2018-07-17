@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.ManagerPacman;
 using PacmanWeb.Models;
+using PacMan.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace PacmanWeb.Controllers
 {
@@ -12,13 +15,11 @@ namespace PacmanWeb.Controllers
     {
         private readonly IHubContext<PacmanHub> hubContext;
         private readonly Game game;
-        private readonly Drawing drawing;
-
+        
         public HomeController(IHubContext<PacmanHub> hubContext, Game game)
         {
             this.hubContext = hubContext;
             this.game = game;
-            drawing = new Drawing(hubContext, game);
         }
 
         public IActionResult Index()

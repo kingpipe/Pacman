@@ -23,11 +23,19 @@ document.getElementById("stop").addEventListener("click", event => {
     event.preventDefault();
 });
 
+addEventListener("keydown", function (event) {
+    if (event.keyCode > 36 && event.keyCode < 41)
+        connection.invoke("PacmanDirection", event.keyCode).catch(err => console.error(err.toString()));
+    event.preventDefault();
+});
+
 connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
 function SetElement(id, x, y) {
+    context.fillStyle = "black";
+    context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
     var element = document.getElementById(id);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
 }

@@ -25,8 +25,6 @@ namespace PacMan.Players
         {
             Timer = new Timer(time);
             StartPosition();
-            Direction = Direction.None;
-            OldDirection = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;
@@ -39,7 +37,6 @@ namespace PacMan.Players
 
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-
             Movement(new Empty(Position));
             if (OldDirection != Direction)
             {
