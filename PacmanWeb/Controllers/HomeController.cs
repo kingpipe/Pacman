@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.ManagerPacman;
 using PacmanWeb.Models;
-using PacmanWeb.Filters;
 
 namespace PacmanWeb.Controllers
 {
@@ -13,11 +12,13 @@ namespace PacmanWeb.Controllers
     {
         private readonly IHubContext<PacmanHub> hubContext;
         private readonly Game game;
+        private readonly Drawing drawing;
 
         public HomeController(IHubContext<PacmanHub> hubContext, Game game)
         {
             this.hubContext = hubContext;
             this.game = game;
+            drawing = new Drawing(hubContext, game);
         }
 
         public IActionResult Index()
@@ -43,7 +44,7 @@ namespace PacmanWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [ServiceFilter(typeof(FilterToInitMap))]
+
         public IActionResult Map()
         {
             return View();

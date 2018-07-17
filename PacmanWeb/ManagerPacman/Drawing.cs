@@ -1,29 +1,47 @@
-﻿using PacMan;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using PacMan;
 using PacMan.Interfaces;
 
 namespace PacmanWeb.ManagerPacman
 {
     public class Drawing
     {
-        private Game Game { get; }
-        private PacmanHub PacmanHub { get; }
+        private readonly IHubContext<PacmanHub> hubContext;
+        private readonly Game game;
 
-        public Drawing(PacmanHub hub)
+        public Drawing(IHubContext<PacmanHub> hubContext, Game game)
         {
-           // Game = hub.Game;
-            PacmanHub = hub;
+            this.hubContext = hubContext;
+            this.game = game;
+            game.AddMoveHandlerToGhosts(Move);
+            game.AddMoveHandlerToPacman(Move);
+            game.UpdateMap += Update;
+            game.PacmanIsDied += Game_PacmanIsDied;
         }
 
-        public void ShowMap()
+        private void Game_PacmanIsDied()
         {
-            ICoord[,] array = Game.Map.map;
-            for (int y = 0; y < Game.Map.Height; y++)
-            {
-                for (int x = 0; x < Game.Map.Width; x++)
-                {
-                 //   PacmanHub.HandlerToPlayers(array[x, y]);
-                }
-            }
+        }
+
+        public void Start()
+        {
+            game.Start();
+        }
+
+        public void Stop()
+        {
+            game.Stop();
+        }
+
+        private void Move(ICoord coord)
+        {
+            Task.Run(() => hubContext.Clients.All.SendAsync("Move", coord.Position.X, coord.Position.Y, coord.GetId()));
+        }
+
+        private void Update()
+        {
+            Task.Run(() => hubContext.Clients.All.SendAsync("Init"));
         }
     }
 }

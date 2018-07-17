@@ -1,0 +1,12 @@
+﻿canvas {
+    position: relative;
+    left: 25%;
+}
+
+#buttons {
+    position:relative;
+    left:80%;
+}
+#game{
+    display:inline;
+}

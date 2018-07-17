@@ -1,14 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Map";
 }
 <h6></h6>
-<canvas id="map" height="589" width="570"></canvas>
-
-<script src="~/js/map.js"></script>
-<script src="~/lib/signalr.min.js"></script>
-<script src="~/js/initmap.js"></script>
-<script src="~/js/movement.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/game.css" />
 
 <img src="~/images/allelements/blinky.png" width="128" height="128" id="blinky" hidden="hidden">
 <img src="~/images/allelements/clyde.png" width="128" height="128" id="clyde" hidden="hidden">
@@ -17,3 +11,22 @@
 <img src="~/images/allelements/pacman.png" width="128" height="128" id="pacman" hidden="hidden">
 <img src="~/images/allelements/energaizer.png" width="128" height="128" id="energaizer" hidden="hidden">
 <img src="~/images/allelements/littlegoal.png" width="128" height="128" id="littlegoal" hidden="hidden">
+
+<div id="game">
+    <canvas id="map" height="589" width="570"></canvas>
+    <div id="buttons">
+        <form>
+            <input type="submit" id="start" value="Start" class="start" />
+        </form>
+        <form>
+            <input type="submit" id="stop" value="Stop" class="stop" />
+        </form>
+    </div>
+</div>
+
+<script src="~/js/map.js"></script>
+<script src="~/js/initmap.js"></script>
+<script src="~/lib/signalr.min.js"></script>
+<script src="~/js/movement.js"></script>
+<script src="~/js/updatemap.js"></script>
+<script src="~/js/move.js"></script>

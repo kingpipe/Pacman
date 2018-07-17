@@ -13,16 +13,6 @@ var height = canvas.height;
 var spriteX = width / 30;
 var spriteY = height / 31;
 
-document.getElementById("start").addEventListener("click", event => {
-    connection.invoke("Start").catch(err => console.error(err.toString()));
-    event.preventDefault();
-});
-
-document.getElementById("stop").addEventListener("click", event => {
-    connection.invoke("Stop").catch(err => console.error(err.toString()));
-    event.preventDefault();
-});
-
 connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
