@@ -33,6 +33,12 @@ connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
+connection.on('PacmanIsKilled', (live) => {
+    var element = document.getElementById("live");
+    element.innerText = live;
+});
+
+
 connection.on('PacmanMove', (x, y, id, score) => {
     var count = document.getElementById("score");
     count.innerText = score;

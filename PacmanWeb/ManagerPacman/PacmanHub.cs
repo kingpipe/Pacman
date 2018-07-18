@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
+using PacMan.Enums;
 using PacMan.Interfaces;
 
 namespace PacmanWeb.ManagerPacman
@@ -18,19 +19,28 @@ namespace PacmanWeb.ManagerPacman
 
         private void Game_PacmanIsDied()
         {
+            game.Stop();
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
         }
 
         public void Start()
         {
-            game.AddMoveHandlerToGhosts(Move);
-            game.AddMoveHandlerToPacman(PacmanMove);
-            game.PacmanIsDied += Game_PacmanIsDied;
-            game.Start();
+            if (game.Status == GameStatus.ReadyToStart)
+            {
+                game.AddMoveHandlerToGhosts(Move);
+                game.AddMoveHandlerToPacman(PacmanMove);
+                game.PacmanIsDied += Game_PacmanIsDied;
+                game.UpdateMap += Update;
+                game.Start();
+            }
         }
 
         public void Stop()
         {
-            game.Stop();
+            if (game.Status == GameStatus.InProcess)
+            {
+                game.Stop();
+            }
         }
 
         private void Move(ICoord coord)

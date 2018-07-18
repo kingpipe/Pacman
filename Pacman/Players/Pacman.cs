@@ -1,6 +1,7 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Foods;
 using PacMan.Interfaces;
+using PacMan.Enums;
 using System;
 using System.Linq;
 using System.Timers;

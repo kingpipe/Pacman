@@ -1,4 +1,5 @@
 ﻿using PacMan;
+using PacMan.Enums;
 using System;
 
 namespace PacmanDemo

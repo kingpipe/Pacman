@@ -2,6 +2,7 @@
 using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
+using PacMan.Enums;
 
 namespace PacMan.Abstracts
 {

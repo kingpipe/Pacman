@@ -1,4 +1,6 @@
-﻿namespace PacMan.Interfaces
+﻿using PacMan.Enums;
+
+namespace PacMan.Interfaces
 {
     interface IPacman : IMovable, IEateble
     {

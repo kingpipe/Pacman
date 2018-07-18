@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PacMan.Interfaces;
+using PacMan.Enums;
 
 namespace PacMan.Algorithms
 {

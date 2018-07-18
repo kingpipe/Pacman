@@ -42,13 +42,14 @@
   <ItemGroup>
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="Interfaces\IGetId.cs" />
+    <Compile Include="Enums\GameStatus.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="ManagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />
     <Compile Include="Algorithms\RandomMoving.cs" />
-    <Compile Include="Direction.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Foods\Energizer.cs" />
     <Compile Include="Foods\Cherry.cs" />
     <Compile Include="Abstracts\Food.cs" />

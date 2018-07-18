@@ -3,6 +3,7 @@ using PacMan.Players;
 using PacMan.Foods;
 using System;
 using System.Threading;
+using PacMan.Enums;
 
 namespace PacMan
 {
@@ -18,6 +19,7 @@ namespace PacMan
         public event Action PacmanIsDied;
         public event Action UpdateMap;
         public bool PacmanIsLive { get; private set; }
+        public GameStatus Status { get; set; }
         public Map Map { get; private set; }
         public int Score
         {
@@ -50,6 +52,7 @@ namespace PacMan
 
         public Game(string path, ISize size)
         {
+            Status = GameStatus.ReadyToStart;
             PacmanIsLive = true;
             Map = new Map(path, size);
             DefaultMap = (Map)Map.Clone();
@@ -96,6 +99,7 @@ namespace PacMan
 
         public void Start()
         {
+            Status = GameStatus.InProcess;
             Pacman.Direction = Direction.Left;
             Ghosts.StartTimer();
             Pacman.Start();
@@ -103,6 +107,7 @@ namespace PacMan
 
         public void Stop()
         {
+            Status = GameStatus.ReadyToStart;
             Pacman.Direction = Direction.None;
             Pacman.Stop();
             Ghosts.StopTimer();
@@ -115,11 +120,11 @@ namespace PacMan
                 Ghosts.StartPosition();
                 CreatePlayers();
             }
-            Thread.Sleep(200);
         }
 
         public void End()
         {
+            Status = GameStatus.TheEnd;
             Dispose();
         }
 
