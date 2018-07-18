@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
-using PacmanWeb.ManagerPacman;
+using PacmanWeb.MenagerPacman;
 using PacmanWeb.Models;
 using PacMan.Interfaces;
 using System;

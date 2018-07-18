@@ -44,7 +44,7 @@
     <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="Enums\GameStatus.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
-    <Compile Include="ManagerGhosts.cs" />
+    <Compile Include="MenagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />

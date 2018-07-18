@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace PacMan
 {
-    class MenegerGhosts
+    class MenagerGhosts
     {
         private ChangeStateGhosts ChangeStateChosts { get; }
         private readonly Timer timeFrightened;
@@ -23,7 +23,7 @@ namespace PacMan
         public Pinky Pinky { get; set; }
         public IState State { get; set; }
 
-        public MenegerGhosts(Map map, int time)
+        public MenagerGhosts(Map map, int time)
         {
             timeFrightened = new Timer(10000);
 

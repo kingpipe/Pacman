@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Interfaces;
 
-namespace PacmanWeb.ManagerPacman
+namespace PacmanWeb.MenagerPacman
 {
     public class Drawing
     {

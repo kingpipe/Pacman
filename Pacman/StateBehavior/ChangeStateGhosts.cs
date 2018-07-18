@@ -8,11 +8,11 @@ namespace PacMan
 {
     class ChangeStateGhosts : ITimer
     {
-        private readonly MenegerGhosts Ghosts;
+        private readonly MenagerGhosts Ghosts;
         private readonly Timer timer;
         private readonly Queue<int> listoftime;
 
-        public ChangeStateGhosts(MenegerGhosts ghosts)
+        public ChangeStateGhosts(MenagerGhosts ghosts)
         {
             Ghosts = ghosts;
             listoftime = new Queue<int>();
@@ -20,7 +20,7 @@ namespace PacMan
             timer = new Timer(listoftime.Dequeue());
         }
 
-        public ChangeStateGhosts(MenegerGhosts ghosts, Queue<int> Listoftime)
+        public ChangeStateGhosts(MenagerGhosts ghosts, Queue<int> Listoftime)
         {
             Ghosts = ghosts;
             timer = new Timer(Listoftime.Dequeue());

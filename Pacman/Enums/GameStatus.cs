@@ -4,6 +4,7 @@
     {
         ReadyToStart,
         InProcess,
-        TheEnd
+        TheEnd,
+        Stop
     }
 }

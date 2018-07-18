@@ -4,7 +4,7 @@ using PacMan;
 using PacMan.Enums;
 using PacMan.Interfaces;
 
-namespace PacmanWeb.ManagerPacman
+namespace PacmanWeb.MenagerPacman
 {
     public class PacmanHub : Hub
     {
@@ -31,6 +31,10 @@ namespace PacmanWeb.ManagerPacman
                 game.AddMoveHandlerToPacman(PacmanMove);
                 game.PacmanIsDied += Game_PacmanIsDied;
                 game.UpdateMap += Update;
+                game.Start();
+            }
+            else if(game.Status==GameStatus.Stop)
+            {
                 game.Start();
             }
         }
