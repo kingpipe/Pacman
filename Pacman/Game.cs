@@ -26,6 +26,13 @@ namespace PacMan
                 return Pacman.Count;
             }
         }
+        public Direction Direction
+        {
+            get
+            {
+                return Pacman.Direction;
+            }
+        }
         public int Lives
         {
             get

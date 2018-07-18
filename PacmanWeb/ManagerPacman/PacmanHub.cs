@@ -40,7 +40,27 @@ namespace PacmanWeb.ManagerPacman
 
         private void PacmanMove(ICoord coord)
         {
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove", coord.Position.X, coord.Position.Y, coord.GetId(), game.Score));
+            string direction;
+            switch (game.Direction)
+            {
+
+                case Direction.Right:
+                    direction = "right";
+                    break;
+                case Direction.Left:
+                    direction = "left";
+                    break;
+                case Direction.Up:
+                    direction = "up";
+                    break;
+                case Direction.Down:
+                    direction = "down";
+                    break;
+                default:
+                    direction = "";
+                    break;
+            }
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove", coord.Position.X, coord.Position.Y, coord.GetId() + direction, game.Score));
         }
 
         public void Update()
@@ -50,7 +70,7 @@ namespace PacmanWeb.ManagerPacman
 
         public void PacmanDirection(string direction)
         {
-            switch(direction)
+            switch (direction)
             {
                 case "37":
                     game.SetDirection(Direction.Left);

@@ -50,45 +50,5 @@ namespace PacmanWeb.Controllers
         {
             return View();
         }
-        
-        private void Game_PacmanIsDied()
-        {
-        }
-
-        private void Move(ICoord coord)
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Move", coord.Position.X, coord.Position.Y, coord.GetId()));
-        }
-
-        private void PacmanMove(ICoord coord)
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove", coord.Position.X, coord.Position.Y, coord.GetId(), game.Score));
-        }
-
-        public void Update()
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Init"));
-        }
-
-        public void PacmanDirection(string direction)
-        {
-            switch (direction)
-            {
-                case "37":
-                    game.SetDirection(Direction.Left);
-                    break;
-                case "38":
-                    game.SetDirection(Direction.Up);
-                    break;
-                case "39":
-                    game.SetDirection(Direction.Right);
-                    break;
-                case "40":
-                    game.SetDirection(Direction.Down);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }
