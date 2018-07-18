@@ -38,7 +38,7 @@ namespace PacmanWeb
 
             services.AddMvc();
 
-            services.AddTransient(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30,31)));
+            services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30,31)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

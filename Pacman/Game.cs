@@ -8,8 +8,8 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 10000;
-        private const int TIMEFORPACMAN = 600;
+        private const int TIME = 1000;
+        private const int TIMEFORPACMAN = 300;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
         private MenegerGhosts Ghosts { get; set; }

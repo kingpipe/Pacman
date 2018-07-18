@@ -131,7 +131,6 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                System.Threading.Thread.Sleep(ghost.Time / Ghosts.Count);
                 ghost.Start();
             }
             ChangeStateChosts.Start();
