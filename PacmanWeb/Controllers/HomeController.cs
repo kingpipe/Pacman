@@ -1,13 +1,9 @@
-﻿using System.IO;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacmanWeb.MenagerPacman;
 using PacmanWeb.Models;
-using PacMan.Interfaces;
-using System;
-using System.Threading.Tasks;
 
 namespace PacmanWeb.Controllers
 {

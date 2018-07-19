@@ -26,6 +26,12 @@ namespace PacMan
             return board;
         }
         
+        public bool OnMap(IPosition position)
+        {
+            return position.X >= 0 && position.X < Width &&
+                position.Y >= 0 && position.Y < Height;
+        }
+
         public ICoord GetElement(IPosition position)
         {
             return map[position.X, position.Y];

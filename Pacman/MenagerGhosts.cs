@@ -62,9 +62,16 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                Map.SetElement(ghost);
-                Map.SetElement(ghost.OldCoord);
+                ghost.SeteOnMap();
                 ghost.OldCoord = new Empty(ghost.Position);
+            }
+        }
+
+        public void RemoveGhosts()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.RemoveFromMap();
             }
         }
 
@@ -94,23 +101,7 @@ namespace PacMan
 
             ChangeStateChosts.Start();
         }
-
-        public void StartPosition()
-        {
-            foreach (var ghost in Ghosts)
-            {
-                ghost.StartPosition();
-            }
-        }
-
-        public void RemoveGhosts()
-        {
-            foreach (var ghost in Ghosts)
-            {
-                Map.SetElement(new Empty(ghost.Position));
-            }
-        }
-
+        
         public void AddSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)

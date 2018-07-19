@@ -57,7 +57,6 @@ namespace PacmanWeb.MenagerPacman
             string direction;
             switch (game.Direction)
             {
-
                 case Direction.Right:
                     direction = "right";
                     break;

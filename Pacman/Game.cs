@@ -74,8 +74,7 @@ namespace PacMan
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
             UpdateMap();
-            Pacman.StartPosition();
-            Ghosts.StartPosition();
+            //RemovePlayers();
             Ghosts.ArenotFrightened();
             CreatePlayers();
         }
@@ -112,11 +111,9 @@ namespace PacMan
             Ghosts.StopTimer();
             if (!PacmanIsLive)
             {
+                RemovePlayers();
                 Pacman.Lives--;
                 PacmanIsLive = true;
-                RemovePlayers();
-                Pacman.StartPosition();
-                Ghosts.StartPosition();
                 CreatePlayers();
             }
         }
@@ -135,13 +132,13 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            Map.SetElement(Pacman);
+            Pacman.SeteOnMap();
             Ghosts.SetGhosts();
         }
 
         private void RemovePlayers()
         {
-            Map.SetElement(new Empty(Pacman.Position));
+            Pacman.RemoveFromMap();
             Ghosts.RemoveGhosts();
         }
 

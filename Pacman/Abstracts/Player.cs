@@ -13,6 +13,8 @@ namespace PacMan.Abstracts
         public abstract string GetId();
         public abstract char GetCharElement();
         public abstract bool Move();
+        public abstract void RemoveFromMap();
+        public abstract void SeteOnMap();
         public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
         public Map Map { get; set; }

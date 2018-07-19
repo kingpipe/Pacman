@@ -38,6 +38,19 @@ namespace PacMan.Players
             Position = new Position(15, 23);
         }
 
+        public override void RemoveFromMap()
+        {
+            Map.SetElement(new Empty(Position));
+            Movement(new Empty(Position));
+        }
+
+        public override void SeteOnMap()
+        {
+            StartPosition();
+            Map.SetElement(this);
+            Movement(this);
+        }
+
         public override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(new Empty(Position));

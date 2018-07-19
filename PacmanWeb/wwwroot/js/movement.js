@@ -46,8 +46,6 @@ connection.on('PacmanMove', (x, y, id, score) => {
 
 function SetElement(id, x, y) {
     var element = document.getElementById(id);
-    context.fillStyle = "black";
-    context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
 }
 
