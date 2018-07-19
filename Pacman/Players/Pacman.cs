@@ -44,7 +44,7 @@ namespace PacMan.Players
             Movement(new Empty(Position));
         }
 
-        public override void SeteOnMap()
+        public override void SetOnMap()
         {
             StartPosition();
             Map.SetElement(this);

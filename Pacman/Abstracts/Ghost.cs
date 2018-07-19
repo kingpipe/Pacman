@@ -13,7 +13,9 @@ namespace PacMan.Abstracts
 
         protected object obj = new object();
         protected bool pacmanIsLive = true;
+        protected string idFrightened;
         protected Stack<Position> path;
+        protected string id;
 
         public IStrategy Strategy { get; set; }
         public IStrategy OldStrategy { get; set; }
@@ -22,12 +24,13 @@ namespace PacMan.Abstracts
         public bool Frightened { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-
+        
         protected Ghost()
         { }
 
         protected Ghost(Map map, int time) : base(map, time)
         {
+            idFrightened = "frightened";
             Timer = new Timer(time);
             Strategy = new RandomMoving();
             StartPosition();
@@ -49,7 +52,7 @@ namespace PacMan.Abstracts
             Frightened = false;
             await SleepAsync();
         }
-
+        
         public void DefaultTime()
         {
             Timer.Interval = Time;
@@ -58,6 +61,18 @@ namespace PacMan.Abstracts
         public void SpeedDownAt(double n)
         {
             Timer.Interval = Time * n;
+        }
+
+        public override string GetId()
+        {
+            if (Frightened)
+            {
+                return idFrightened;
+            }
+            else
+            {
+                return id;
+            }
         }
 
         public override bool Move()

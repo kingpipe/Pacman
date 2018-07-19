@@ -132,7 +132,7 @@ namespace PacMan
 
         private void CreatePlayers()
         {
-            Pacman.SeteOnMap();
+            Pacman.SetOnMap();
             Ghosts.SetGhosts();
         }
 

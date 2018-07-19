@@ -62,7 +62,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SeteOnMap();
+                ghost.SetOnMap();
                 ghost.OldCoord = new Empty(ghost.Position);
             }
         }

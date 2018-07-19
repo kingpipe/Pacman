@@ -14,7 +14,9 @@ namespace PacMan.Players
         { }
 
         public Pinky(Map map, int time) : base(map, time)
-        { }
+        {
+            id = "pinky";
+        }
 
         public override void StartPosition()
         {
@@ -27,7 +29,7 @@ namespace PacMan.Players
             Movement(OldCoord);
         }
 
-        public override void SeteOnMap()
+        public override void SetOnMap()
         {
             StartPosition();
             Map.SetElement(this);
@@ -48,11 +50,6 @@ namespace PacMan.Players
         public override char GetCharElement()
         {
             return 'N';
-        }
-
-        public override string GetId()
-        {
-            return "pinky";
         }
     }
 }
