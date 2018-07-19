@@ -74,7 +74,6 @@ namespace PacMan
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
             UpdateMap();
-            //RemovePlayers();
             Ghosts.ArenotFrightened();
             CreatePlayers();
         }
@@ -113,8 +112,15 @@ namespace PacMan
             {
                 RemovePlayers();
                 Pacman.Lives--;
-                PacmanIsLive = true;
-                CreatePlayers();
+                if (Pacman.Lives > 0)
+                {
+                    PacmanIsLive = true;
+                    CreatePlayers();
+                }
+                else
+                {
+                    Status = GameStatus.TheEnd;
+                }
             }
         }
 

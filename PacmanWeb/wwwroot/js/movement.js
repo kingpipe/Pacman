@@ -18,8 +18,20 @@ document.getElementById("start").addEventListener("click", event => {
     event.preventDefault();
 });
 
+addEventListener("keydown", function (event) {
+    if (event.keyCode == 32)
+        connection.invoke("Start").catch(err => console.error(err.toString()));
+    event.preventDefault();
+});
+
 document.getElementById("stop").addEventListener("click", event => {
     connection.invoke("Stop").catch(err => console.error(err.toString()));
+    event.preventDefault();
+});
+
+addEventListener("keydown", function (event) {
+    if (event.keyCode == 13)
+        connection.invoke("Stop").catch(err => console.error(err.toString()));
     event.preventDefault();
 });
 
@@ -48,11 +60,18 @@ function SetElement(id, x, y) {
     var element = document.getElementById(id);
     context.fillStyle = "black";
     context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
-    context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY); }
+    context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
+}
 
-connection.on('Init', () => {
+connection.on('Init', (level) => {
     InitMap();
+    UpdateLevel(level);
 });
+
+function UpdateLevel(level) {
+    var element = document.getElementById("level");
+    element.innerText = level;
+}
 
 function InitMap() {
     var pacman = 'pacman';

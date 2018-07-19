@@ -3,9 +3,14 @@
 [
   {
     "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
       "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/game.min.css",
+    "inputFiles": [
+      "wwwroot/css/game.css"
     ]
   },
   {
@@ -13,12 +18,46 @@
     "inputFiles": [
       "wwwroot/js/site.js"
     ],
-    // Optionally specify minification options
     "minify": {
       "enabled": true,
       "renameLocals": true
     },
-    // Optionally generate .map file
+    "sourceMap": false
+  },
+
+  {
+    "outputFileName": "wwwroot/js/drawmap.min.js",
+    "inputFiles": [
+      "wwwroot/js/drawmap.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+
+  {
+    "outputFileName": "wwwroot/js/initmap.min.js",
+    "inputFiles": [
+      "wwwroot/js/initmap.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+
+  {
+    "outputFileName": "wwwroot/js/movement.min.js",
+    "inputFiles": [
+      "wwwroot/js/movement.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
     "sourceMap": false
   }
 ]

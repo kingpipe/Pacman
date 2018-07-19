@@ -2,7 +2,7 @@
     ViewData["Title"] = "Map";
 }
 <h6></h6>
-<link rel="stylesheet" type="text/css" href="~/css/game.css" />мс
+<link rel="stylesheet" type="text/css" href="~/css/game.css" />
 <img src="~/images/allelements/blinky.png" id="blinky" hidden="hidden">
 <img src="~/images/allelements/frightened.png" id="frightened" hidden="hidden" />
 <img src="~/images/allelements/emtry.jpg" id="emtry" hidden="hidden" />
@@ -21,6 +21,10 @@
 <div id="all">
     <div>
         <div>
+            <div id="information">
+                <h4>Level: </h4>
+                <h4 id="level">1</h4>
+            </div>
             <div id="information">
                 <h4>Score: </h4>
                 <h4 id="score">0</h4>
@@ -43,7 +47,7 @@
         </form>
     </div>
 </div>
-<script src="~/js/map.js"></script>
+<script src="~/js/drawmap.js"></script>
 <script src="~/js/initmap.js"></script>
 <script src="~/lib/signalr.min.js"></script>
 <script src="~/js/movement.js"></script>

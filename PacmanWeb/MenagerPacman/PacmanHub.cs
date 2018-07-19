@@ -33,7 +33,7 @@ namespace PacmanWeb.MenagerPacman
                 game.UpdateMap += Update;
                 game.Start();
             }
-            else if(game.Status==GameStatus.Stop)
+            else if (game.Status == GameStatus.Stop)
             {
                 game.Start();
             }
@@ -78,7 +78,7 @@ namespace PacmanWeb.MenagerPacman
 
         public void Update()
         {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Init"));
+            Task.Run(() => hubContext.Clients.All.SendAsync("Init", game.Level));
         }
 
         public void PacmanDirection(string direction)
