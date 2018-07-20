@@ -17,21 +17,17 @@ namespace PacmanWeb.MenagerPacman
             this.hubContext = hubContext;
         }
 
-        private void Game_PacmanIsDied()
-        {
-            game.Stop();
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
-        }
-
         public void Start()
         {
             if (game.Status == GameStatus.ReadyToStart)
             {
+                Task.Run(() => UpdateMap());
                 game.AddMoveHandlerToGhosts(Move);
                 game.AddMoveHandlerToPacman(PacmanMove);
                 game.PacmanIsDied += Game_PacmanIsDied;
-                game.UpdateMap += Update;
+                game.UpdateMap += UpdateMap;
                 game.Start();
+
             }
             else if (game.Status == GameStatus.Stop)
             {
@@ -45,11 +41,58 @@ namespace PacmanWeb.MenagerPacman
             {
                 game.Stop();
             }
+            Task.Run(() => UpdateMap());
+        }
+
+        public void Restart()
+        {
+            Task.Run(() => UpdateMap());
+            game.Restart();
+        }
+
+        public void PacmanDirection(string direction)
+        {
+            switch (direction)
+            {
+                case "37":
+                    game.SetDirection(Direction.Left);
+                    break;
+                case "38":
+                    game.SetDirection(Direction.Up);
+                    break;
+                case "39":
+                    game.SetDirection(Direction.Right);
+                    break;
+                case "40":
+                    game.SetDirection(Direction.Down);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Game_PacmanIsDied()
+        {
+            game.Stop();
+            Task.Run(() => UpdateMap());
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
+        }
+
+        private void UpdateMap()
+        {
+            hubContext.Clients.All.SendAsync("Map",
+                game.Map.GetArrayPositionX(),
+                game.Map.GetArrayPositionY(),
+                game.Map.GetArrayID(),
+                game.Level);
         }
 
         private void Move(ICoord coord)
         {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Move", coord.Position.X, coord.Position.Y, coord.GetId()));
+            Task.Run(() => hubContext.Clients.All.SendAsync("Move",
+                coord.Position.X,
+                coord.Position.Y,
+                coord.GetId()));
         }
 
         private void PacmanMove(ICoord coord)
@@ -73,33 +116,11 @@ namespace PacmanWeb.MenagerPacman
                     direction = "";
                     break;
             }
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove", coord.Position.X, coord.Position.Y, coord.GetId() + direction, game.Score));
-        }
-
-        public void Update()
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Init", game.Level));
-        }
-
-        public void PacmanDirection(string direction)
-        {
-            switch (direction)
-            {
-                case "37":
-                    game.SetDirection(Direction.Left);
-                    break;
-                case "38":
-                    game.SetDirection(Direction.Up);
-                    break;
-                case "39":
-                    game.SetDirection(Direction.Right);
-                    break;
-                case "40":
-                    game.SetDirection(Direction.Down);
-                    break;
-                default:
-                    break;
-            }
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
+                coord.Position.X,
+                coord.Position.Y,
+                coord.GetId() + direction,
+                game.Score));
         }
     }
 }

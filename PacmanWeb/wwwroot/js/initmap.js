@@ -19,6 +19,7 @@ function SetElement(id, x, y) {
     var element = document.getElementById(id);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
 }
+
 InitMap();
 
 function InitMap() {

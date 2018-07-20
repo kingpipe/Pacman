@@ -25,7 +25,46 @@ namespace PacMan
             board.map = (ICoord[,])map.Clone();
             return board;
         }
-        
+
+        public int[,] GetArrayPositionX()
+        {
+            int[,] array = new int[Width, Height];
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    array[x, y] = map[x, y].Position.X;
+                }
+            }
+            return array;
+        }
+
+        public int[,] GetArrayPositionY()
+        {
+            int[,] array = new int[Width, Height];
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    array[x, y] = map[x, y].Position.Y;
+                }
+            }
+            return array;
+        }
+
+        public string[,] GetArrayID()
+        {
+            string[,] array = new string[Width, Height];
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    array[x, y] = map[x, y].GetId();
+                }
+            }
+            return array;
+        }
+
         public bool OnMap(IPosition position)
         {
             return position.X >= 0 && position.X < Width &&

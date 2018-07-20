@@ -47,17 +47,17 @@
       "renameLocals": true
     },
     "sourceMap": false
-  },
-
-  {
-    "outputFileName": "wwwroot/js/movement.min.js",
-    "inputFiles": [
-      "wwwroot/js/movement.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "sourceMap": false
   }
+
+  //{
+  //  "outputFileName": "wwwroot/js/movement.min.js",
+  //  "inputFiles": [
+  //    "wwwroot/js/movement.js"
+  //  ],
+  //  "minify": {
+  //    "enabled": true,
+  //    "renameLocals": true
+  //  },
+  //  "sourceMap": false
+  //}
 ]

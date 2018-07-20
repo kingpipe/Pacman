@@ -6,7 +6,7 @@ using PacMan.Enums;
 
 namespace PacMan
 {
-    public sealed class Game : IGame, IDisposable
+    public sealed class Game : IGame, IDisposable, ICloneable
     {
         private const int TIME = 400;
         private const int TIMEFORPACMAN = 300;
@@ -20,6 +20,7 @@ namespace PacMan
         public bool PacmanIsLive { get; private set; }
         public GameStatus Status { get; set; }
         public Map Map { get; private set; }
+        public Game DefaultGame { get; private set; }
         public int Score
         {
             get
@@ -63,6 +64,18 @@ namespace PacMan
             Pacman.SinkAboutCreateCherry += () => Cherry.Start();
             Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
+
+            DefaultGame = (Game)Clone();
+        }
+
+        public object Clone()
+        {
+            Game clone = (Game)MemberwiseClone();
+            return clone;
+        }
+
+        public void Restart()
+        {
         }
 
         private void Pacman_SinkAboutNextLevel()
@@ -132,6 +145,7 @@ namespace PacMan
 
         private void PacmanIsKilled()
         {
+            RemovePlayers();
             PacmanIsLive = false;
             PacmanIsDied();
         }
