@@ -40,7 +40,7 @@ namespace PacmanWeb
             services.AddSignalR();
 
             services.AddMvc();
-
+            
             services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30, 31)));
 
             services.AddScoped<InitMap>();
