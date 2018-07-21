@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="map.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pacman\PacMan.csproj">

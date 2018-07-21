@@ -20,11 +20,7 @@ namespace PacmanWeb.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            hubContext.Clients.All.SendAsync("Map",
-                game.Map.GetArrayPositionX(),
-                game.Map.GetArrayPositionY(),
-                game.Map.GetArrayID(),
-                game.Level);
+            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -32,12 +28,7 @@ namespace PacmanWeb.Filters
 
         public void OnResultExecuted(ResultExecutedContext context)
         {
-            hubContext.Clients.All.SendAsync("Map",
-            game.Map.GetArrayPositionX(),
-            game.Map.GetArrayPositionY(),
-            game.Map.GetArrayID(),
-            game.Level);
-
+            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
         }
 
         public void OnResultExecuting(ResultExecutingContext context)

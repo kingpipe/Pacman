@@ -8,7 +8,7 @@ namespace PacmanDemo
     {
         static ConsoleKeyInfo key;
         static readonly Size size = new Size(30, 31);
-        static Game game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
+        static Game game = new Game(@"C://Users//fedyu//source//repos//pacman//PacmanDemo//map.json", size);
         static DrawConsole drawConsole = new DrawConsole(game);
 
         static void Main(string[] args)

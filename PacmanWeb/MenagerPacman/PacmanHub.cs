@@ -76,16 +76,13 @@ namespace PacmanWeb.MenagerPacman
         {
             game.Stop();
             Task.Run(() => UpdateMap());
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
+            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }
 
         private void UpdateMap()
         {
-            hubContext.Clients.All.SendAsync("Map",
-                game.Map.GetArrayPositionX(),
-                game.Map.GetArrayPositionY(),
-                game.Map.GetArrayID(),
-                game.Level);
+            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
+            hubContext.Clients.All.SendAsync("Level", game.Level);
         }
 
         private void Move(ICoord coord)

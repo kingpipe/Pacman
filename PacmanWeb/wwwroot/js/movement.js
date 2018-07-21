@@ -50,25 +50,33 @@ connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
-connection.on('Map', (x, y, id, level) => {
+connection.on('DrawMap', (id, level) => {
     UpdateLevel(level);
-    for (var w = 0; w < x.length; w++) {
-        for (var h = 0; h < x[w].length; h++) {
-            SetElement(id[w][h], x[w][h], y[w][h]);
+    for (var w = 0; w < id.length; w++) {
+        for (var h = 0; h < id[w].length; h++) {
+            SetElement(id[w][h], w, h);
         }
     }
 });
 
-connection.on('PacmanIsKilled', (live) => {
+connection.on('Level', (level) => {
+    UpdateLevel(level);
+});
+
+connection.on('Live', (live) => {
     var element = document.getElementById("live");
     element.innerText = live;
 });
 
 connection.on('PacmanMove', (x, y, id, score) => {
-    var count = document.getElementById("score");
-    count.innerText = score;
+    UpdateScore(score);
     SetElement(id, x, y);
 });
+
+function UpdateScore(score) {
+    var count = document.getElementById("score");
+    count.innerText = score;
+}
 
 function SetElement(id, x, y) {
     var element = document.getElementById(id);
