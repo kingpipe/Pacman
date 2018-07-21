@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
+using PacmanWeb.Filters;
 using PacmanWeb.MenagerPacman;
 using PacmanWeb.Models;
 
@@ -42,6 +43,7 @@ namespace PacmanWeb.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [ServiceFilter(typeof(InitMap))]
         public IActionResult Map()
         {
             return View();

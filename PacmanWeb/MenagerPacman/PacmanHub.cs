@@ -46,8 +46,9 @@ namespace PacmanWeb.MenagerPacman
 
         public void Restart()
         {
-            Task.Run(() => UpdateMap());
             game.Restart();
+            Task.Run(() => UpdateMap());
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
         }
 
         public void PacmanDirection(string direction)

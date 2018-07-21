@@ -9,6 +9,7 @@ using PacmanWeb.Models;
 using PacmanWeb.Services;
 using PacmanWeb.MenagerPacman;
 using PacMan;
+using PacmanWeb.Filters;
 
 namespace PacmanWeb
 {
@@ -39,6 +40,8 @@ namespace PacmanWeb
             services.AddMvc();
 
             services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30,31)));
+
+            services.AddScoped<InitMap>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

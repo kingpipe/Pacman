@@ -12,10 +12,11 @@ namespace PacMan
 {
     class MenagerGhosts
     {
-        private ChangeStateGhosts ChangeStateChosts { get; }
+        private ChangeStateGhosts ChangeStateChosts2 { set; get; }
+
+        private ChangeStateGhosts ChangeStateChosts { set; get; }
         private readonly Timer timeFrightened;
 
-        public Map Map { get; set; }
         public Collection<Ghost> Ghosts { get; set; }
         public Blinky Blinky { get; set; }
         public Clyde Clyde { get; set; }
@@ -26,8 +27,6 @@ namespace PacMan
         public MenagerGhosts(Map map, int time)
         {
             timeFrightened = new Timer(10000);
-
-            Map = map;
 
             Ghosts = new Collection<Ghost>();
             State = new StateScatter();
@@ -40,15 +39,28 @@ namespace PacMan
 
             ChangeStateChosts = new ChangeStateGhosts(this);
         }
+
+        public void Restart()
+        {
+            State = new StateScatter();
+            ChangeStateChosts = new ChangeStateGhosts(this);
+        }
+
         public void SetDefaultMap(Map map)
         {
-            Map = map;
             foreach (var ghost in Ghosts)
             {
                 ghost.Map = map;
             }
         }
 
+        public void StartPosition()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.StartPosition();
+            }
+        }
         public void SetStrategy(IStrategy strategy)
         {
             foreach (var ghost in Ghosts)

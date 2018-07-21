@@ -10,9 +10,11 @@ namespace PacMan.Algorithms
         private Stack<Position> shadow;
         private readonly Random random;
         private Direction direction;
+        private int count;
 
         public RandomMoving()
         {
+            count = 0;
             shadow = new Stack<Position>();
             random = new Random();
             direction = (Direction)random.Next(1, 5);
@@ -35,8 +37,14 @@ namespace PacMan.Algorithms
                     GoStraight(new Position(start.X, start.Y + 1), map, ref shadow);
                     break;
             }
-            if(shadow.Count==0)
+            if (shadow.Count == 0)
             {
+                count++;
+                if (count == 10)
+                {
+                    count = 0;
+                    return shadow;
+                }
                 direction = (Direction)random.Next(1, 5);
                 shadow = FindPath(map, start, goal);
             }

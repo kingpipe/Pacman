@@ -29,7 +29,7 @@ namespace PacMan
         private void InitQueue()
         {
             listoftime.Enqueue(7000);
-            listoftime.Enqueue(10000);
+            listoftime.Enqueue(20000);
             listoftime.Enqueue(7000);
             listoftime.Enqueue(20000);
             listoftime.Enqueue(5000);

@@ -6,11 +6,11 @@ namespace PacMan.Algorithms
 {
     class GoAway : IStrategy
     {
-        private readonly IStrategy astar;
+        private readonly IStrategy strategy;
 
         public GoAway()
         {
-            astar = new AstarAlgorithm();
+            strategy = new AstarAlgorithm();
         }
         
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
@@ -28,7 +28,7 @@ namespace PacMan.Algorithms
                 if (goal.X >= x && goal.Y >= y)
                     value = new Position(2, 1);
                
-            return astar.FindPath(map, start, value);
+            return strategy.FindPath(map, start, value);
         }
     }
 }
