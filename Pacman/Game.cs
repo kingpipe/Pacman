@@ -50,11 +50,11 @@ namespace PacMan
             }
         }
 
-        public Game(string path, ISize size)
+        public Game(string path)
         {
             Status = GameStatus.ReadyToStart;
             PacmanIsLive = true;
-            Map = new Map(path, size);
+            Map = new Map(path);
             DefaultMap = (Map)Map.Clone();
             Pacman = new Pacman(Map, TIMEFORPACMAN);
             Cherry = new Cherry(new Position(14, 17), Map);

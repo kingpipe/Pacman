@@ -46,6 +46,7 @@
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="Enums\GameStatus.cs" />
+    <Compile Include="Interfaces\ISize.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="MenagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
@@ -81,12 +82,10 @@
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IPacman.cs" />
     <Compile Include="Interfaces\IPosition.cs" />
-    <Compile Include="Interfaces\ISize.cs" />
     <Compile Include="Abstracts\Player.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Players\Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Size.cs" />
     <Compile Include="StateBehavior\StateAttack.cs" />
     <Compile Include="StateBehavior\ChangeStateGhosts.cs" />
     <Compile Include="Wall.cs" />

@@ -41,7 +41,7 @@ namespace PacmanWeb
 
             services.AddMvc();
             
-            services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value, new Size(30, 31)));
+            services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value));
 
             services.AddScoped<InitMap>();
 

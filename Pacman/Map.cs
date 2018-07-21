@@ -13,9 +13,9 @@ namespace PacMan
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public Map(string path, ISize size)
+        public Map(string path)
         {
-            map = LoadMap(path, size);
+            map = LoadMap(path);
             Width = map.GetLength(0);
             Height = map.GetLength(1);
         }
@@ -82,17 +82,18 @@ namespace PacMan
             map[position.X, position.Y] = coord;
         }
 
-        private ICoord[,] LoadMap(string path, ISize size)
+        private ICoord[,] LoadMap(string path)
         {
-            ICoord[,] maze = new ICoord[size.Width, size.Height];
             StreamReader FileWithMap = new StreamReader(path);
             string all = FileWithMap.ReadToEnd();
             FileWithMap.Close();
             var array = JsonConvert.DeserializeObject<string[,]>(all);
 
-            for (int y = 0; y < size.Height; y++)
+            ICoord[,] maze = new ICoord[array.GetLength(1), array.GetLength(0)];
+
+            for (int y = 0; y < array.GetLength(0); y++)
             {
-                for (int x = 0; x < size.Width; x++)
+                for (int x = 0; x < array.GetLength(1); x++)
                 {
                     switch (array[y, x])
                     {
