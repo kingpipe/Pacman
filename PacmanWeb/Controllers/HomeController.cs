@@ -30,7 +30,6 @@ namespace PacmanWeb.Controllers
 
         public IActionResult Index()
         {
-            var users = context.Users.ToList();
             return View();
         }
 
@@ -54,7 +53,6 @@ namespace PacmanWeb.Controllers
         }
 
         [Authorize]
-        [ServiceFilter(typeof(InitMap))]
         public IActionResult Map()
         {
             return View();

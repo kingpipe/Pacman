@@ -21,13 +21,11 @@ namespace PacmanWeb.MenagerPacman
         {
             if (game.Status == GameStatus.ReadyToStart)
             {
-                Task.Run(() => UpdateMap());
                 game.AddMoveHandlerToGhosts(Move);
                 game.AddMoveHandlerToPacman(PacmanMove);
                 game.PacmanIsDied += Game_PacmanIsDied;
                 game.UpdateMap += UpdateMap;
                 game.Start();
-
             }
             else if (game.Status == GameStatus.Stop)
             {

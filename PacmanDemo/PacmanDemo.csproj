@@ -56,8 +56,5 @@
       <Name>PacMan</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="map.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,11 +24,11 @@
     },
     "sourceMap": false
   },
-
+  
   {
-    "outputFileName": "wwwroot/js/drawmap.min.js",
+    "outputFileName": "wwwroot/js/map.min.js",
     "inputFiles": [
-      "wwwroot/js/drawmap.js"
+      "wwwroot/js/map.js"
     ],
     "minify": {
       "enabled": true,
@@ -38,9 +38,9 @@
   },
 
   {
-    "outputFileName": "wwwroot/js/initmap.min.js",
+    "outputFileName": "wwwroot/js/movement.min.js",
     "inputFiles": [
-      "wwwroot/js/initmap.js"
+      "wwwroot/js/movement.js"
     ],
     "minify": {
       "enabled": true,
@@ -48,16 +48,4 @@
     },
     "sourceMap": false
   }
-
-  //{
-  //  "outputFileName": "wwwroot/js/movement.min.js",
-  //  "inputFiles": [
-  //    "wwwroot/js/movement.js"
-  //  ],
-  //  "minify": {
-  //    "enabled": true,
-  //    "renameLocals": true
-  //  },
-  //  "sourceMap": false
-  //}
 ]

@@ -12,8 +12,6 @@ namespace PacMan
 {
     class MenagerGhosts
     {
-        private ChangeStateGhosts ChangeStateChosts2 { set; get; }
-
         private ChangeStateGhosts ChangeStateChosts { set; get; }
         private readonly Timer timeFrightened;
 
@@ -155,7 +153,7 @@ namespace PacMan
             Ghosts.Add(Inky);
             Ghosts.Add(Pinky);
         }
-
+        
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ArenotFrightened();

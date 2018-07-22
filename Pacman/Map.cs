@@ -106,7 +106,7 @@ namespace PacMan
                         case "littlegoal":
                             maze[x, y] = new LittleGoal(new Position(x, y));
                             break;
-                        case "energizer":
+                        case "energaizer":
                             maze[x, y] = new Energizer(new Position(x, y));
                             break;
                         case "cherry":
