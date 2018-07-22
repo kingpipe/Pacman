@@ -8,8 +8,7 @@ namespace PacmanWeb.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -19,6 +18,6 @@ namespace PacmanWeb.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<RecordsModel> Records { get; set; }
+        public virtual DbSet<RecordsModel> Records { get; set; }
     }
 }

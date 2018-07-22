@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Enums;
 using PacMan.Interfaces;
+using PacmanWeb.Data;
+using PacmanWeb.Models;
 
 namespace PacmanWeb.MenagerPacman
 {
@@ -10,11 +13,13 @@ namespace PacmanWeb.MenagerPacman
     {
         private readonly Game game;
         private readonly IHubContext<PacmanHub> hubContext;
+        private readonly ApplicationDbContext context;
 
-        public PacmanHub(Game game, IHubContext<PacmanHub> hubContext)
+        public PacmanHub(Game game, IHubContext<PacmanHub> hubContext, ApplicationDbContext context)
         {
             this.game = game;
             this.hubContext = hubContext;
+            this.context = context;
         }
 
         public void Start()
@@ -46,7 +51,7 @@ namespace PacmanWeb.MenagerPacman
         {
             game.Restart();
             Task.Run(() => UpdateMap());
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanIsKilled", game.Lives));
+            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }
 
         public void PacmanDirection(string direction)
@@ -73,6 +78,12 @@ namespace PacmanWeb.MenagerPacman
         private void Game_PacmanIsDied()
         {
             game.Stop();
+            if(game.Lives==0)
+            {
+                context.Records.Add(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
+                context.SaveChanges();
+
+            }
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }

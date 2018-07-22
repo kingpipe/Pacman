@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using PacMan;
 using PacmanWeb.Data;
-using PacmanWeb.MenagerPacman;
 using PacmanWeb.Models;
 
 namespace PacmanWeb.Controllers
