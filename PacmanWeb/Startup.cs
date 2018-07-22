@@ -9,9 +9,6 @@ using PacmanWeb.Models;
 using PacmanWeb.Services;
 using PacmanWeb.MenagerPacman;
 using PacMan;
-using PacmanWeb.Filters;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace PacmanWeb
 {
@@ -42,8 +39,6 @@ namespace PacmanWeb
             services.AddMvc();
             
             services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value));
-
-            services.AddScoped<InitMap>();
 
             services.AddAuthentication().AddFacebook(options =>
                 {
