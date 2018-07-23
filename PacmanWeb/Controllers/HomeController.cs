@@ -52,7 +52,8 @@ namespace PacmanWeb.Controllers
 
         public IActionResult Records()
         {
-            return View(context.Records.ToList());
+            var query = context.Records.ToList().OrderByDescending(e=>e.Score);
+            return View(query);
         }
     }
 }

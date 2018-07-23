@@ -55,6 +55,11 @@ namespace PacmanWeb.MenagerPacman
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }
+        public void AddinDB()
+        {
+            context.Records.Add(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
+            context.SaveChanges();
+        }
 
         public void PacmanDirection(string direction)
         {
@@ -80,11 +85,6 @@ namespace PacmanWeb.MenagerPacman
         private void Game_PacmanIsDied()
         {
             game.Stop();
-            if (game.Lives == 0)
-            {
-                //context.Records.Add(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
-                //context.SaveChanges();
-            }
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }

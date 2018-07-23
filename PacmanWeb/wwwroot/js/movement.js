@@ -66,6 +66,8 @@ connection.on('Level', (level) => {
 connection.on('Live', (live) => {
     var element = document.getElementById("live");
     element.innerText = live;
+    if (live == 0)
+        connection.invoke("AddinDB").catch(err => console.error(err.toString()));
 });
 
 connection.on('PacmanMove', (x, y, id, score) => {
