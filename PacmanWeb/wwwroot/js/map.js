@@ -8,6 +8,7 @@ function SetElement(id, x, y) {
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
 }
 
+
 function readTextFile(file, callback) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -27,7 +28,7 @@ readTextFile('./js/map.json', function (text) {
 
     var spriteX = width / data.length;
     var spriteY = height / data[0].length;
-    
+
     for (var w = 0; w < data.length; w++) {
         for (var h = 0; h < data[w].length; h++) {
             SetElement(data[w][h], h, w);

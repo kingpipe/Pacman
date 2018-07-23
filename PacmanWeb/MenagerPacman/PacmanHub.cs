@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using PacMan;
 using PacMan.Enums;
 using PacMan.Interfaces;
@@ -11,7 +12,7 @@ namespace PacmanWeb.MenagerPacman
 {
     public class PacmanHub : Hub
     {
-        private readonly Game game;
+        private Game game;
         private readonly IHubContext<PacmanHub> hubContext;
         private readonly ApplicationDbContext context;
 
@@ -49,7 +50,8 @@ namespace PacmanWeb.MenagerPacman
 
         public void Restart()
         {
-            game.Restart();
+            game.Default();
+            game.Start();
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }
@@ -78,11 +80,10 @@ namespace PacmanWeb.MenagerPacman
         private void Game_PacmanIsDied()
         {
             game.Stop();
-            if(game.Lives==0)
+            if (game.Lives == 0)
             {
                 context.Records.Add(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
                 context.SaveChanges();
-
             }
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
@@ -104,7 +105,20 @@ namespace PacmanWeb.MenagerPacman
 
         private void PacmanMove(ICoord coord)
         {
-            string direction;
+            string direction = string.Empty;
+            if (coord.GetId() == "pacman")
+            {
+                direction = SetDirection(direction);
+            }
+            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
+                coord.Position.X,
+                coord.Position.Y,
+                coord.GetId() + direction,
+                game.Score));
+        }
+
+        private string SetDirection(string direction)
+        {
             switch (game.Direction)
             {
                 case Direction.Right:
@@ -120,14 +134,9 @@ namespace PacmanWeb.MenagerPacman
                     direction = "down";
                     break;
                 default:
-                    direction = "";
                     break;
             }
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
-                coord.Position.X,
-                coord.Position.Y,
-                coord.GetId() + direction,
-                game.Score));
+            return direction;
         }
     }
 }

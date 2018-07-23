@@ -8,8 +8,8 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 400;
-        private const int TIMEFORPACMAN = 300;
+        private const int TIME = 300;
+        private const int TIMEFORPACMAN = 250;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
         private MenagerGhosts Ghosts { get; set; }
@@ -66,23 +66,20 @@ namespace PacMan
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
-        public void Restart()
+        public void Default()
         {
-            Status = GameStatus.InProcess;
-            SetDirection(Direction.None);
+            Pacman.Direction = Direction.None;
+            Pacman.OldDirection = Direction.None;
             Pacman.Stop();
             Ghosts.StopTimer();
             Map = (Map)DefaultMap.Clone();
-            Pacman.StartPosition();
-            Ghosts.StartPosition();
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
+            Pacman.StartPosition();
             Pacman.Level = 1;
             Pacman.Count = 0;
             Pacman.Lives = 3;
             Ghosts.Restart();
-            Pacman.Start();
-            Ghosts.StartTimer();
         }
 
         private void Pacman_SinkAboutNextLevel()

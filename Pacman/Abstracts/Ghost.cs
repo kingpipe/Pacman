@@ -24,7 +24,7 @@ namespace PacMan.Abstracts
         public bool Frightened { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-        
+
         protected Ghost()
         { }
 
@@ -52,7 +52,7 @@ namespace PacMan.Abstracts
             Frightened = false;
             await SleepAsync();
         }
-        
+
         public void DefaultTime()
         {
             Timer.Interval = Time;
@@ -84,7 +84,10 @@ namespace PacMan.Abstracts
                 if (PacmanPosition != Position)
                 {
                     path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    OldCoord = Go(path, OldCoord);
+                    if (path.Count != 0)
+                    {
+                        OldCoord = Go(path, OldCoord);
+                    }
                     if (PacmanPosition != Position)
                     {
                         return true;
@@ -109,12 +112,18 @@ namespace PacMan.Abstracts
 
         protected virtual ICoord Go(Stack<Position> list, ICoord coord)
         {
-            Map.SetElement(coord);
-            if (list.Count != 0)
+            if (list.Count == 0)
+            {
+                return coord;
+            }
+            else
+            {
                 Position = list.Pop();
-            ICoord old = Map.GetElement(Position);
-            Map.SetElement(this);
-            return old;
+                Map.SetElement(coord);
+                ICoord old = Map.GetElement(Position);
+                Map.SetElement(this);
+                return old;
+            }
         }
 
         protected bool GhostIsFrightened()

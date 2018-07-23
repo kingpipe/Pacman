@@ -40,8 +40,27 @@ namespace PacMan
 
         public void Restart()
         {
+            StartPosition();
             State = new StateScatter();
             ChangeStateChosts = new ChangeStateGhosts(this);
+            SetStrategy(new RandomMoving());
+            OldCoordSetEmtry();
+            foreach(var ghost in Ghosts)
+            {
+                if(ghost.Frightened)
+                {
+                    ghost.Frightened = false;
+                    ghost.DefaultTime();
+                }
+            }
+        }
+
+        public void OldCoordSetEmtry()
+        {
+            foreach(var ghost in Ghosts)
+            {
+                ghost.OldCoord = new Empty(ghost.Position);
+            }
         }
 
         public void SetDefaultMap(Map map)
