@@ -10,6 +10,7 @@ using PacmanWeb.Services;
 using PacmanWeb.MenagerPacman;
 using PacMan;
 using System;
+using PacmanWeb.Filters;
 
 namespace PacmanWeb
 {
@@ -36,10 +37,11 @@ namespace PacmanWeb
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSignalR();
-
-            services.AddMvc();
             
-            services.AddSingleton(g => new Game(Configuration.GetSection("AppConfig:MapPath").Value));
+            
+            services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapPath").Value));
+
+            services.AddMvc(options => options.Filters.Add(typeof(DefaultGame)));
 
             services.AddAuthentication().AddFacebook(options =>
                 {

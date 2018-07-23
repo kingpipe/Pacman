@@ -68,6 +68,7 @@ namespace PacMan
 
         public void Default()
         {
+            Status = GameStatus.ReadyToStart;
             Pacman.Direction = Direction.None;
             Pacman.OldDirection = Direction.None;
             Pacman.Stop();

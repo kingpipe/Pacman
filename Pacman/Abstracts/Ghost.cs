@@ -77,27 +77,25 @@ namespace PacMan.Abstracts
 
         public override bool Move()
         {
-            lock (obj)
-            {
-                PacmanPosition = SearchPacman();
 
-                if (PacmanPosition != Position)
+            PacmanPosition = SearchPacman();
+
+            if (PacmanPosition != Position)
+            {
+                lock (obj)
                 {
                     path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    if (path.Count != 0)
-                    {
-                        OldCoord = Go(path, OldCoord);
-                    }
-                    if (PacmanPosition != Position)
-                    {
-                        return true;
-                    }
-                    return GhostIsFrightened();
+                    OldCoord = Go(path, OldCoord);
                 }
-                else
+                if (PacmanPosition != Position)
                 {
-                    return GhostIsFrightened();
+                    return true;
                 }
+                return GhostIsFrightened();
+            }
+            else
+            {
+                return GhostIsFrightened();
             }
         }
 
@@ -116,14 +114,15 @@ namespace PacMan.Abstracts
             {
                 return coord;
             }
-            else
+            if (!(coord is IGhost))
             {
-                Position = list.Pop();
                 Map.SetElement(coord);
-                ICoord old = Map.GetElement(Position);
-                Map.SetElement(this);
-                return old;
             }
+            Position = list.Pop();
+            ICoord old = Map.GetElement(Position);
+            Map.SetElement(this);
+            return old;
+
         }
 
         protected bool GhostIsFrightened()
