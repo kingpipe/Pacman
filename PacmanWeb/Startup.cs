@@ -77,7 +77,7 @@ namespace PacmanWeb
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Game}/{action=Map}/{id?}");
+                    template: "{controller=Game}/{action=DefaultMap}/{id?}");
             });
         }
     }

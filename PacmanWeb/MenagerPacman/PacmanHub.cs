@@ -50,15 +50,19 @@ namespace PacmanWeb.MenagerPacman
 
         public void Restart()
         {
-            game.Default();
-            game.Start();
-            Task.Run(() => UpdateMap());
-            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
+            if (game.Status != GameStatus.ReadyToStart)
+            {
+                game.Default();
+                game.Start();
+                Task.Run(() => UpdateMap());
+                Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
+            }
         }
-        public void AddinDB()
+
+        public async Task AddinDB()
         {
-            context.Records.Add(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
-            context.SaveChanges();
+            await context.Records.AddAsync(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
+            await context.SaveChangesAsync();
         }
 
         public void PacmanDirection(string direction)

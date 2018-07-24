@@ -14,7 +14,13 @@ namespace PacmanWeb.Controllers
         {
             return View();
         }
-        public IActionResult Map()
+
+        public IActionResult DefaultMap()
+        {
+            return View();
+        }
+
+        public IActionResult BigMap()
         {
             return View();
         }
