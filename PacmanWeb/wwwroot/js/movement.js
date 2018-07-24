@@ -1,5 +1,5 @@
 ﻿const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/game")
+    .withUrl("/pacman")
     .build();
 
 connection.start().catch(err => console.error(err.toString()));

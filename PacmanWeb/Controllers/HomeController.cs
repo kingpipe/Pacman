@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PacmanWeb.Data;
@@ -12,12 +10,10 @@ namespace PacmanWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext context;
-        private readonly UserManager<ApplicationUser> user;
 
-        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> user)
+        public HomeController(ApplicationDbContext context)
         {
             this.context = context;
-            this.user = user;
         }
 
         public IActionResult Index()

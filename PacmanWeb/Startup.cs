@@ -39,7 +39,7 @@ namespace PacmanWeb
             services.AddSignalR();
             
             
-            services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapPath").Value));
+            services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapBluePath").Value));
 
             services.AddMvc(options => options.Filters.Add(typeof(DefaultGame)));
 
@@ -70,14 +70,14 @@ namespace PacmanWeb
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<PacmanHub>("/game");
+                routes.MapHub<PacmanHub>("/pacman");
             });
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Game}/{action=DefaultMap}/{id?}");
+                    template: "{controller=Game}/{action=Index}/{id?}");
             });
         }
     }

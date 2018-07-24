@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Configuration;
 using PacMan;
 using PacMan.Enums;
 using PacMan.Interfaces;

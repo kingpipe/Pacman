@@ -33,7 +33,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Game" asp-action="DefaultMap">Game</a></li>
+                    <li><a asp-area="" asp-controller="Game" asp-action="Index">Game</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Records">Records</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -44,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - PacMan</p>
+            <p>&copy; @DateTime.Now.Year - PacMan</p>
         </footer>
     </div>
 
