@@ -45,7 +45,7 @@ namespace PacmanWeb.Controllers
         }
 
         [Authorize]
-        public IActionResult Map()
+        public IActionResult Game()
         {
             return View();
         }

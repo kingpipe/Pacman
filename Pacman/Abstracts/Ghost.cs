@@ -11,7 +11,6 @@ namespace PacMan.Abstracts
     {
         public abstract event Action SinkAboutEatPacman;
 
-        protected object obj = new object();
         protected bool pacmanIsLive = true;
         protected string idFrightened;
         protected Stack<Position> path;
@@ -77,16 +76,12 @@ namespace PacMan.Abstracts
 
         public override bool Move()
         {
-
             PacmanPosition = SearchPacman();
 
             if (PacmanPosition != Position)
             {
-                lock (obj)
-                {
-                    path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    OldCoord = Go(path, OldCoord);
-                }
+                path = Strategy.FindPath(Map, Position, PacmanPosition);
+                OldCoord = Go(path, OldCoord);
                 if (PacmanPosition != Position)
                 {
                     return true;
@@ -110,19 +105,21 @@ namespace PacMan.Abstracts
 
         protected virtual ICoord Go(Stack<Position> list, ICoord coord)
         {
-            if (list.Count == 0)
+            lock (list)
             {
-                return coord;
+                if (list.Count == 0)
+                {
+                    return coord;
+                }
+                if (!(coord is IGhost))
+                {
+                    Map.SetElement(coord);
+                }
+                Position = list.Pop();
+                ICoord old = Map.GetElement(Position);
+                Map.SetElement(this);
+                return old;
             }
-            if (!(coord is IGhost))
-            {
-                Map.SetElement(coord);
-            }
-            Position = list.Pop();
-            ICoord old = Map.GetElement(Position);
-            Map.SetElement(this);
-            return old;
-
         }
 
         protected bool GhostIsFrightened()

@@ -20,7 +20,6 @@ namespace PacMan
         public bool PacmanIsLive { get; private set; }
         public GameStatus Status { get; set; }
         public Map Map { get; private set; }
-        public Game DefaultGame { get; private set; }
         public int Score
         {
             get
@@ -71,8 +70,9 @@ namespace PacMan
             Status = GameStatus.ReadyToStart;
             Pacman.Direction = Direction.None;
             Pacman.OldDirection = Direction.None;
-            Pacman.Stop();
             Ghosts.StopTimer();
+            Pacman.Stop();
+            Ghosts.Restart();
             Map = (Map)DefaultMap.Clone();
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
@@ -80,7 +80,6 @@ namespace PacMan
             Pacman.Level = 1;
             Pacman.Count = 0;
             Pacman.Lives = 3;
-            Ghosts.Restart();
         }
 
         private void Pacman_SinkAboutNextLevel()

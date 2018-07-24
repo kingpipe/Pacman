@@ -40,10 +40,10 @@ namespace PacMan
 
         public void Restart()
         {
+            SetStrategy(new RandomMoving());
             StartPosition();
             State = new StateScatter();
             ChangeStateChosts = new ChangeStateGhosts(this);
-            SetStrategy(new RandomMoving());
             OldCoordSetEmtry();
             foreach(var ghost in Ghosts)
             {
@@ -78,13 +78,13 @@ namespace PacMan
                 ghost.StartPosition();
             }
         }
+
         public void SetStrategy(IStrategy strategy)
         {
             foreach (var ghost in Ghosts)
             {
                 ghost.Strategy = strategy;
             }
-
         }
 
         public void SetGhosts()
