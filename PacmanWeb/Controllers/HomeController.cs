@@ -44,12 +44,6 @@ namespace PacmanWeb.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize]
-        public IActionResult Game()
-        {
-            return View();
-        }
-
         public IActionResult Records()
         {
             var query = context.Records.ToList().OrderByDescending(e=>e.Score);
