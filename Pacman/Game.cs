@@ -65,6 +65,14 @@ namespace PacMan
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
+        public void SetMap(string path)
+        {
+            Map = new Map(path);
+            DefaultMap = (Map)Map.Clone();
+            Pacman.Map = Map;
+            Ghosts.SetDefaultMap(Map);
+        }
+
         public void Default()
         {
             Status = GameStatus.ReadyToStart;
