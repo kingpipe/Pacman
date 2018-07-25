@@ -33,6 +33,7 @@ namespace PacMan.Abstracts
         public void SetTime(int time)
         {
             Timer.Interval = time;
+            Time = time;
         }
 
         public void StartPosition()

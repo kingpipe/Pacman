@@ -20,7 +20,7 @@ function readTextFile(file, callback) {
     }
     rawFile.send(null);
 }
-readTextFile('./js/bluemap.json', function (text) {
+readTextFile('/maps/bluemap.json', function (text) {
     var data = JSON.parse(text);
 
     var width = canvas.width;

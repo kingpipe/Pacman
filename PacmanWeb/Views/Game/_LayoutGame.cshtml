@@ -20,9 +20,9 @@
     <img src="~/images/allelements/cherry.png" id="cherry" hidden="hidden" />
     <img src="~/images/allelements/energaizer.png" id="energaizer" hidden="hidden" />
     <img src="~/images/allelements/littlegoal.png" id="littlegoal" hidden="hidden" />
-    <div>
-        @RenderBody()
-    </div>
+    
+    @RenderBody()
+
     <div id="all">
         <div>
             <div>
@@ -55,7 +55,7 @@
             </form>
         </div>
     </div>
-    <script src="~/js/bluemap.js"></script>
+    @RenderSection("scripts")
     <script src="~/lib/signalr.min.js"></script>
     <script src="~/js/movement.js"></script>
 </body>
