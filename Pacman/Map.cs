@@ -12,9 +12,11 @@ namespace PacMan
         public ICoord[,] map { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public string Name { get; private set; }
 
-        public Map(string path)
+        public Map(string path, string name)
         {
+            Name = name;
             map = LoadMap(path);
             Width = map.GetLength(0);
             Height = map.GetLength(1);

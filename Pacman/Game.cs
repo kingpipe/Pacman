@@ -53,7 +53,7 @@ namespace PacMan
         {
             Status = GameStatus.ReadyToStart;
             PacmanIsLive = true;
-            Map = new Map(path);
+            Map = new Map(path, "BlueMap");
             DefaultMap = (Map)Map.Clone();
             Pacman = new Pacman(Map, TIMEFORPACMAN);
             Cherry = new Cherry(new Position(14, 17), Map);
@@ -65,9 +65,9 @@ namespace PacMan
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
-        public void SetMap(string path)
+        public void SetMap(string path, string name)
         {
-            Map = new Map(path);
+            Map = new Map(path, name);
             DefaultMap = (Map)Map.Clone();
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);

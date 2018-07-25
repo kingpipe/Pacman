@@ -60,7 +60,13 @@ namespace PacmanWeb.MenagerPacman
 
         public async Task AddinDB()
         {
-            await context.Records.AddAsync(new RecordsModel { Level = game.Level, Name = Context.User.Identity.Name, Score = game.Score, Time = DateTime.Now });
+            await context.Records.AddAsync(
+                new RecordsModel {
+                    Level = game.Level,
+                    Name = Context.User.Identity.Name,
+                    Score = game.Score,
+                    Time = DateTime.Now,
+                    Map =game.Map.Name });
             await context.SaveChangesAsync();
         }
 

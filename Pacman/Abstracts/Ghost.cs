@@ -111,15 +111,16 @@ namespace PacMan.Abstracts
                 {
                     return coord;
                 }
-                if (!(coord is IGhost))
-                {
-                    Map.SetElement(coord);
-                }
                 Position = list.Pop();
-                ICoord old = Map.GetElement(Position);
-                Map.SetElement(this);
-                return old;
             }
+            if (!(coord is IGhost))
+            {
+                Map.SetElement(coord);
+            }
+            ICoord old = Map.GetElement(Position);
+            Map.SetElement(this);
+            return old;
+
         }
 
         protected bool GhostIsFrightened()

@@ -18,5 +18,7 @@ namespace PacmanWeb.Models
         public int Level { get; set; }
 
         public DateTime Time { get; set; }
+
+        public string Map { get; set; }
     }
 }
