@@ -9,7 +9,6 @@ namespace PacMan.Abstracts
     abstract class Player : IMovable, ISinkMoving, ITimer
     {
         public abstract event Action<ICoord> Movement;
-        public abstract void StartPosition();
         public abstract string GetId();
         public abstract char GetCharElement();
         public abstract bool Move();
@@ -19,17 +18,26 @@ namespace PacMan.Abstracts
 
         public Map Map { get; set; }
         public Position Position { get; set; }
+        public Position StartCoord { get; set; }
         public Direction Direction { get; set; }
         public Timer Timer { get; set; }
         public int Time { get; set; }
 
-        protected Player()
-        { }
-
-        protected Player(Map map, int time)
+        protected Player(Map map, Position start)
         {
-            Time = time;
             Map = map;
+            StartCoord = start;
+            StartPosition();
+        }
+
+        public void SetTime(int time)
+        {
+            Timer.Interval = time;
+        }
+
+        public void StartPosition()
+        {
+            Position = StartCoord;
         }
 
         public virtual void Start()

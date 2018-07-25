@@ -13,6 +13,11 @@ namespace PacMan
         public int Width { get; set; }
         public int Height { get; set; }
         public string Name { get; private set; }
+        internal Pacman Pacman { get; private set; }
+        internal Inky Inky { get; private set; }
+        internal Pinky Pinky { get; private set; }
+        internal Blinky Blinky { get; private set; }
+        internal Clyde Clyde { get; private set; }
 
         public Map(string path, string name)
         {
@@ -41,7 +46,7 @@ namespace PacMan
             }
             return array;
         }
-
+        
         public bool OnMap(IPosition position)
         {
             return position.X >= 0 && position.X < Width &&
@@ -115,19 +120,24 @@ namespace PacMan
                             maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
                         case "pacman":
-                            maze[x, y] = new Pacman(this, 100);
+                            Pacman = new Pacman(this, new Position(x, y));
+                            maze[x, y] = Pacman;
                             break;
                         case "clyde":
-                            maze[x, y] = new Clyde(this, 100);
+                            Clyde = new Clyde(this, new Position(x, y));
+                            maze[x, y] = Clyde;
                             break;
                         case "blinky":
-                            maze[x, y] = new Blinky(this, 100);
+                            Blinky = new Blinky(this, new Position(x, y));
+                            maze[x, y] = Blinky;
                             break;
                         case "inky":
-                            maze[x, y] = new Inky(this, 100);
+                            Inky = new Inky(this, new Position(x, y));
+                            maze[x, y] = Inky;
                             break;
                         case "pinky":
-                            maze[x, y] = new Pinky(this, 100);
+                            Pinky = new Pinky(this, new Position(x, y));
+                            maze[x, y] = Pinky;
                             break;
                         default:
                             continue;

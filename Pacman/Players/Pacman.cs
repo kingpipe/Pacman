@@ -19,23 +19,14 @@ namespace PacMan.Players
         public int Count { get; set; }
         public int Level { get; set; }
 
-        public Pacman()
-        { }
-
-        public Pacman(Map map, int time) : base(map, time)
+        public Pacman(Map map, Position start) : base(map, start)
         {
-            Timer = new Timer(time);
-            StartPosition();
+            Timer = new Timer();
             Direction = Direction.None;
             OldDirection = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;
-        }
-
-        public override void StartPosition()
-        {
-            Position = new Position(15, 23);
         }
 
         public override void RemoveFromMap()

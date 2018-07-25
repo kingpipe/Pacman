@@ -10,17 +10,9 @@ namespace PacMan.Players
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
 
-        public Pinky()
-        { }
-
-        public Pinky(Map map, int time) : base(map, time)
+        public Pinky(Map map, Position start) : base(map, start)
         {
             id = "pinky";
-        }
-
-        public override void StartPosition()
-        {
-            Position = new Position(17, 15);
         }
 
         public override void RemoveFromMap()

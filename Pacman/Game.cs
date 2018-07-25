@@ -18,7 +18,7 @@ namespace PacMan
         public event Action PacmanIsDied;
         public event Action UpdateMap;
         public bool PacmanIsLive { get; private set; }
-        public GameStatus Status { get; set; }
+        public GameStatus Status { get; private set; }
         public Map Map { get; private set; }
         public int Score
         {
@@ -55,7 +55,8 @@ namespace PacMan
             PacmanIsLive = true;
             Map = new Map(path, "BlueMap");
             DefaultMap = (Map)Map.Clone();
-            Pacman = new Pacman(Map, TIMEFORPACMAN);
+            Pacman = Map.Pacman;
+            Pacman.SetTime(TIMEFORPACMAN);
             Cherry = new Cherry(new Position(14, 17), Map);
             Ghosts = new MenagerGhosts(Map, TIME);
 
@@ -129,22 +130,25 @@ namespace PacMan
 
         public void Stop()
         {
-            Status = GameStatus.Stop;
-            Pacman.Direction = Direction.None;
-            Pacman.Stop();
-            Ghosts.StopTimer();
-            if (!PacmanIsLive)
+            if (Status != GameStatus.TheEnd && Status != GameStatus.Stop)
             {
-                RemovePlayers();
-                Pacman.Lives--;
-                if (Pacman.Lives > 0)
+                Status = GameStatus.Stop;
+                Pacman.Direction = Direction.None;
+                Pacman.Stop();
+                Ghosts.StopTimer();
+                if (!PacmanIsLive)
                 {
-                    PacmanIsLive = true;
-                    CreatePlayers();
-                }
-                else
-                {
-                    Status = GameStatus.TheEnd;
+                    RemovePlayers();
+                    Pacman.Lives--;
+                    if (Pacman.Lives > 0)
+                    {
+                        PacmanIsLive = true;
+                        CreatePlayers();
+                    }
+                    else
+                    {
+                        Status = GameStatus.TheEnd;
+                    }
                 }
             }
         }

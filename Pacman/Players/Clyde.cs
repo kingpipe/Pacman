@@ -10,17 +10,9 @@ namespace PacMan.Players
         public override event Action SinkAboutEatPacman;
         public override event Action<ICoord> Movement;
 
-        public Clyde()
-        { }
-
-        public Clyde(Map map, int time) : base(map, time)
+        public Clyde(Map map, Position start) : base(map, start)
         {
             id = "clyde";
-        }
-
-        public override void StartPosition()
-        {
-            Position = new Position(15, 15);
         }
 
         public override void RemoveFromMap()

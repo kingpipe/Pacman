@@ -28,12 +28,13 @@ namespace PacMan
 
             Ghosts = new Collection<Ghost>();
             State = new StateScatter();
-            Blinky = new Blinky(map, time);
-            Clyde = new Clyde(map, time);
-            Inky = new Inky(map, time);
-            Pinky = new Pinky(map, time);
+            Blinky = map.Blinky;
+            Clyde = map.Clyde;
+            Inky = map.Inky;
+            Pinky = map.Pinky;
 
             AddGhostsInCollection();
+            SetTime(time);
 
             ChangeStateChosts = new ChangeStateGhosts(this);
         }
@@ -52,6 +53,14 @@ namespace PacMan
                     ghost.Frightened = false;
                     ghost.DefaultTime();
                 }
+            }
+        }
+
+        private void SetTime(int time)
+        {
+            foreach(var ghost in Ghosts)
+            {
+                ghost.SetTime(time);
             }
         }
 

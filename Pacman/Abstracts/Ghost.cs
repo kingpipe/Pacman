@@ -24,15 +24,11 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        protected Ghost()
-        { }
-
-        protected Ghost(Map map, int time) : base(map, time)
+        protected Ghost(Map map, Position start) : base(map, start)
         {
             idFrightened = "frightened";
-            Timer = new Timer(time);
+            Timer = new Timer();
             Strategy = new RandomMoving();
-            StartPosition();
             PacmanPosition = SearchPacman();
             path = new Stack<Position>();
             OldCoord = new Empty(Position);
