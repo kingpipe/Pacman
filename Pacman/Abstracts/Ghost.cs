@@ -109,11 +109,12 @@ namespace PacMan.Abstracts
                 }
                 Position = list.Pop();
             }
-            if (!(coord is IGhost))
-            {
-                Map.SetElement(coord);
-            }
             ICoord old = Map.GetElement(Position);
+            Map.SetElement(coord);
+            if (old is IGhost)
+            {
+                Position = coord.Position;
+            }
             Map.SetElement(this);
             return old;
 

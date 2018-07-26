@@ -8,8 +8,8 @@ namespace PacMan
 {
     public sealed class Game : IGame, IDisposable
     {
-        private const int TIME = 300;
-        private const int TIMEFORPACMAN = 250;
+        private const int TIME = 200;
+        private const int TIMEFORPACMAN = 200;
         private Pacman Pacman { get; set; }
         private Cherry Cherry { get; set; }
         private MenagerGhosts Ghosts { get; set; }
@@ -57,7 +57,7 @@ namespace PacMan
             DefaultMap = (Map)Map.Clone();
             Pacman = Map.Pacman;
             Pacman.SetTime(TIMEFORPACMAN);
-            Cherry = new Cherry(new Position(14, 17), Map);
+            Cherry = new Cherry(new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 2), Map);
             Ghosts = new MenagerGhosts(Map, TIME);
 
             Pacman.SinkAboutEatEnergizer += Ghosts.AreFrightened;
@@ -71,15 +71,19 @@ namespace PacMan
             Map = new Map(path, name);
             DefaultMap = (Map)Map.Clone();
             Pacman.Map = Map;
+            Cherry.Position = new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 1);
             Ghosts.SetDefaultMap(Map);
+            Pacman.StartCoord = Map.Pacman.StartCoord;
+            Pacman.Position = Map.Pacman.Position;
+            Ghosts.SetStartCoord(Map);
         }
 
         public void Default()
         {
-            Status = GameStatus.ReadyToStart;
+            Status = GameStatus.Stop;
             Pacman.Direction = Direction.None;
             Pacman.OldDirection = Direction.None;
-            Ghosts.StopTimer();
+            Ghosts.Stop();
             Pacman.Stop();
             Ghosts.Restart();
             Map = (Map)DefaultMap.Clone();
@@ -124,7 +128,7 @@ namespace PacMan
         public void Start()
         {
             Status = GameStatus.InProcess;
-            Ghosts.StartTimer();
+            Ghosts.Start();
             Pacman.Start();
         }
 
@@ -135,7 +139,7 @@ namespace PacMan
                 Status = GameStatus.Stop;
                 Pacman.Direction = Direction.None;
                 Pacman.Stop();
-                Ghosts.StopTimer();
+                Ghosts.Stop();
                 if (!PacmanIsLive)
                 {
                     RemovePlayers();

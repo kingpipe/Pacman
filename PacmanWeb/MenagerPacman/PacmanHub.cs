@@ -21,7 +21,7 @@ namespace PacmanWeb.MenagerPacman
             this.hubContext = hubContext;
             this.context = context;
         }
-
+        
         public void Start()
         {
             if (game.Status == GameStatus.ReadyToStart)

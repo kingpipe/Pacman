@@ -37,6 +37,13 @@ namespace PacmanWeb.Controllers
             return View();
         }
 
+        public IActionResult RedMap()
+        {
+            Game.SetMap(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
+            return View();
+        }
+
+        [AllowAnonymous]
         public IActionResult Records()
         {
             var query = Context.Records.ToList().OrderByDescending(e => e.Score);

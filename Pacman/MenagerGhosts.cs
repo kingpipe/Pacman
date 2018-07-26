@@ -80,6 +80,18 @@ namespace PacMan
             }
         }
 
+        public void SetStartCoord(Map map)
+        {
+            Inky.StartCoord = map.Inky.StartCoord;
+            Inky.Position = map.Inky.Position;
+            Pinky.StartCoord = map.Pinky.StartCoord;
+            Pinky.Position = map.Pinky.Position;
+            Clyde.StartCoord = map.Clyde.StartCoord;
+            Clyde.Position = map.Clyde.Position;
+            Blinky.StartCoord = map.Blinky.StartCoord;
+            Blinky.Position = map.Blinky.Position;
+        }
+
         public void StartPosition()
         {
             foreach (var ghost in Ghosts)
@@ -156,7 +168,7 @@ namespace PacMan
             }
         }
 
-        public void StartTimer()
+        public void Start()
         {
             foreach (var ghost in Ghosts)
             {
@@ -165,7 +177,7 @@ namespace PacMan
             ChangeStateChosts.Start();
         }
 
-        public void StopTimer()
+        public void Stop()
         {
             foreach (var ghost in Ghosts)
             {

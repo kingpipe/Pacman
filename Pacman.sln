@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacMan", "Pacman\PacMan.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacmanDemo", "PacmanDemo\PacmanDemo.csproj", "{58DA4D8B-1793-42D7-93EC-99245A8193FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacMan.Tests", "PacMan.Tests\PacMan.Tests.csproj", "{BE9869A7-E689-4770-9F62-4F88C4743F82}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacmanWeb", "PacmanWeb\PacmanWeb.csproj", "{634F4889-CBDC-43A9-AE0D-5C5E8EF1795A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacmanWeb", "PacmanWeb\PacmanWeb.csproj", "{634F4889-CBDC-43A9-AE0D-5C5E8EF1795A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{58DA4D8B-1793-42D7-93EC-99245A8193FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58DA4D8B-1793-42D7-93EC-99245A8193FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58DA4D8B-1793-42D7-93EC-99245A8193FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE9869A7-E689-4770-9F62-4F88C4743F82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE9869A7-E689-4770-9F62-4F88C4743F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE9869A7-E689-4770-9F62-4F88C4743F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE9869A7-E689-4770-9F62-4F88C4743F82}.Release|Any CPU.Build.0 = Release|Any CPU
 		{634F4889-CBDC-43A9-AE0D-5C5E8EF1795A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{634F4889-CBDC-43A9-AE0D-5C5E8EF1795A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{634F4889-CBDC-43A9-AE0D-5C5E8EF1795A}.Release|Any CPU.ActiveCfg = Release|Any CPU

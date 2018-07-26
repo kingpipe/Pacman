@@ -20,43 +20,47 @@
     <img src="~/images/allelements/cherry.png" id="cherry" hidden="hidden" />
     <img src="~/images/allelements/energaizer.png" id="energaizer" hidden="hidden" />
     <img src="~/images/allelements/littlegoal.png" id="littlegoal" hidden="hidden" />
-    
-    @RenderBody()
 
-    <div id="all">
-        <div>
-            <div>
-                <div id="information">
-                    <h4>Level: </h4>
-                    <h4 id="level">1</h4>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <div id="buttons">
+                    <form>
+                        <input type="submit" id="start" value="Start" />
+                    </form>
+                    <form>
+                        <input type="submit" id="stop" value="Stop" />
+                    </form>
+                    <form>
+                        <input type="submit" id="restart" value="Restart" />
+                    </form>
                 </div>
-                <div id="information">
-                    <h4>Score: </h4>
-                    <h4 id="score">0</h4>
+            </li>
+            <li id="game">
+                @RenderBody()
+            </li>
+            <li id="information">
+                <div>
+                    <ul>
+                        <li class="navbar-collapse collapse">
+                            <h4>Level: </h4>
+                            <h4 id="level">1</h4>
+                        </li>
+                        <li class="navbar-collapse collapse">
+                            <h4>Score: </h4>
+                            <h4 id="score">0</h4>
+                        </li>
+                        <li class="navbar-collapse collapse">
+                            <h4>Live: </h4>
+                            <h4 id="live">3</h4>
+                        </li>
+                    </ul>
                 </div>
-                <div id="information">
-                    <h4>Live: </h4>
-                    <h4 id="live">3</h4>
-                </div>
-            </div>
-        </div>
-        <div id="game">
-            <canvas id="map" height="589" width="570"></canvas>
-        </div>
-        <div id="buttons">
-            <form>
-                <input type="submit" id="start" value="Start" />
-            </form>
-            <form>
-                <input type="submit" id="stop" value="Stop" />
-            </form>
-            <form>
-                <input type="submit" id="restart" value="Restart" />
-            </form>
-        </div>
+            </li>
+        </ul>
     </div>
-    @RenderSection("scripts")
+
     <script src="~/lib/signalr.min.js"></script>
-    <script src="~/js/movement.js"></script>
+    @RenderSection("scripts")
 </body>
 </html>

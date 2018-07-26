@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "BigMap";
+    Layout = "_LayoutGame";
+}
+
+<img src="~/images/allelements/redwall.png" id="wall" hidden="hidden" />
+
+<canvas id="map" height="450" width="810"></canvas>
+
+
+@section scripts{
+    <script src="~/js/redmap.js"></script>
+    <script src="~/js/movementredmap.js"></script>
+
+}
