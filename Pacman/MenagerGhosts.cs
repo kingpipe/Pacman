@@ -90,6 +90,10 @@ namespace PacMan
             Clyde.Position = map.Clyde.Position;
             Blinky.StartCoord = map.Blinky.StartCoord;
             Blinky.Position = map.Blinky.Position;
+            foreach(var ghost in Ghosts)
+            {
+                ghost.OldCoord = new Empty(ghost.Position);
+            }
         }
 
         public void StartPosition()
@@ -127,16 +131,33 @@ namespace PacMan
 
         public void AreFrightened()
         {
+            if (GhostsAlreadyFrightened())
+            {
+                timeFrightened.Stop(Timer_Elapsed);
+                timeFrightened.Start(Timer_Elapsed);
+            }
+            else
+            {
+                foreach (var ghost in Ghosts)
+                {
+                    ghost.SpeedDownAt(1.5);
+                    ghost.Frightened = true;
+                    ghost.OldStrategy = ghost.Strategy;
+                    ghost.Strategy = new GoAway();
+                }
+                timeFrightened.Start(Timer_Elapsed);
+                ChangeStateChosts.Stop();
+            }
+        }
+
+        private bool GhostsAlreadyFrightened()
+        {
             foreach (var ghost in Ghosts)
             {
-                ghost.SpeedDownAt(1.5);
-                ghost.Frightened = true;
-                ghost.OldStrategy = ghost.Strategy;
-                ghost.Strategy = new GoAway();
+                if (ghost.Frightened)
+                    return true;
             }
-            timeFrightened.Start(Timer_Elapsed);
-
-            ChangeStateChosts.Stop();
+            return false;
         }
 
         public void ArenotFrightened()
