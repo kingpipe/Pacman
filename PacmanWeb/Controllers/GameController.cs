@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using PacMan;
 using PacmanWeb.Data;
+using Microsoft.EntityFrameworkCore;
+using PacmanWeb.Models;
 
 namespace PacmanWeb.Controllers
 {
@@ -50,10 +52,10 @@ namespace PacmanWeb.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult Records()
         {
-            var query = Context.Records.ToList().OrderByDescending(e => e.Score);
-            return View(query);
+            return View(Context.Set<RecordsModel>().OrderByDescending(model => model.Score));
         }
     }
 }
