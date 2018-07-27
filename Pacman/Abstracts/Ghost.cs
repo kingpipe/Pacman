@@ -23,15 +23,23 @@ namespace PacMan.Abstracts
         public bool Frightened { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
+        public override Position StartCoord
+        {
+            get => start;
+            set
+            {
+                start = value;
+                StartPosition();
+                OldCoord = new Empty(Position);
+            }
+        }
 
         protected Ghost(Map map, Position start) : base(map, start)
         {
             idFrightened = "frightened";
             Timer = new Timer();
             Strategy = new RandomMoving();
-            PacmanPosition = SearchPacman();
             path = new Stack<Position>();
-            OldCoord = new Empty(Position);
 
             Score = 200;
             Frightened = false;
@@ -46,6 +54,15 @@ namespace PacMan.Abstracts
             Strategy = OldStrategy;
             Frightened = false;
             await SleepAsync();
+        }
+
+        public override void Default(Map map)
+        {
+            base.Default(map);
+            Strategy = new RandomMoving();
+            OldCoord = new Empty(Position);
+            Frightened = false;
+            DefaultTime();
         }
 
         public void DefaultTime()

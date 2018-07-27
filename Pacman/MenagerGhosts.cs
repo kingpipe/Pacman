@@ -39,36 +39,21 @@ namespace PacMan
             ChangeStateChosts = new ChangeStateGhosts(this);
         }
 
-        public void Restart()
+        public void Default(Map map)
         {
-            SetStrategy(new RandomMoving());
-            StartPosition();
             State = new StateScatter();
             ChangeStateChosts = new ChangeStateGhosts(this);
-            OldCoordSetEmtry();
-            foreach(var ghost in Ghosts)
+            foreach (var ghost in Ghosts)
             {
-                if(ghost.Frightened)
-                {
-                    ghost.Frightened = false;
-                    ghost.DefaultTime();
-                }
-            }
+                ghost.Default(map);
+             }
         }
 
         private void SetTime(int time)
         {
-            foreach(var ghost in Ghosts)
+            foreach (var ghost in Ghosts)
             {
                 ghost.SetTime(time);
-            }
-        }
-
-        public void OldCoordSetEmtry()
-        {
-            foreach(var ghost in Ghosts)
-            {
-                ghost.OldCoord = new Empty(ghost.Position);
             }
         }
 
@@ -83,25 +68,9 @@ namespace PacMan
         public void SetStartCoord(Map map)
         {
             Inky.StartCoord = map.Inky.StartCoord;
-            Inky.Position = map.Inky.Position;
             Pinky.StartCoord = map.Pinky.StartCoord;
-            Pinky.Position = map.Pinky.Position;
             Clyde.StartCoord = map.Clyde.StartCoord;
-            Clyde.Position = map.Clyde.Position;
             Blinky.StartCoord = map.Blinky.StartCoord;
-            Blinky.Position = map.Blinky.Position;
-            foreach(var ghost in Ghosts)
-            {
-                ghost.OldCoord = new Empty(ghost.Position);
-            }
-        }
-
-        public void StartPosition()
-        {
-            foreach (var ghost in Ghosts)
-            {
-                ghost.StartPosition();
-            }
         }
 
         public void SetStrategy(IStrategy strategy)
@@ -172,7 +141,7 @@ namespace PacMan
 
             ChangeStateChosts.Start();
         }
-        
+
         public void AddSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)
@@ -180,7 +149,7 @@ namespace PacMan
                 ghost.SinkAboutEatPacman += action;
             }
         }
-        
+
         public void AddMoveHandler(Action<ICoord> action)
         {
             foreach (var ghost in Ghosts)
@@ -214,7 +183,7 @@ namespace PacMan
             Ghosts.Add(Inky);
             Ghosts.Add(Pinky);
         }
-        
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ArenotFrightened();

@@ -29,6 +29,15 @@ namespace PacMan.Players
             Level = 1;
         }
 
+        public override void Default(Map map)
+        {
+            base.Default(map);
+            Direction = Direction.None;
+            Level = 1;
+            Count = 0;
+            Lives = 3;
+        }
+
         public override void RemoveFromMap()
         {
             Map.SetElement(new Empty(Position));

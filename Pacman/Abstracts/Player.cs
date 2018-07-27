@@ -15,10 +15,19 @@ namespace PacMan.Abstracts
         public abstract void RemoveFromMap();
         public abstract void SetOnMap();
         public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
+        protected Position start;
 
         public Map Map { get; set; }
         public Position Position { get; set; }
-        public Position StartCoord { get; set; }
+        public virtual Position StartCoord
+        {
+            get => start;
+            set
+            {
+                start = value;
+                StartPosition();
+            }
+        }
         public Direction Direction { get; set; }
         public Timer Timer { get; set; }
         public int Time { get; set; }
@@ -27,7 +36,6 @@ namespace PacMan.Abstracts
         {
             Map = map;
             StartCoord = start;
-            StartPosition();
         }
 
         public void SetTime(int time)
@@ -49,6 +57,13 @@ namespace PacMan.Abstracts
         public virtual void Stop()
         {
             Timer.Stop(TimerElapsed);
+        }
+
+        public virtual void Default(Map map)
+        {
+            Stop();
+            Map = map;
+            StartPosition();
         }
 
         public virtual bool MoveLeft()

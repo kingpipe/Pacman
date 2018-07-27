@@ -22,31 +22,19 @@ namespace PacMan
         public Map Map { get; private set; }
         public int Score
         {
-            get
-            {
-                return Pacman.Count;
-            }
+            get => Pacman.Count;
         }
         public Direction Direction
         {
-            get
-            {
-                return Pacman.Direction;
-            }
+            get => Pacman.Direction;
         }
         public int Lives
         {
-            get
-            {
-                return Pacman.Lives;
-            }
+            get => Pacman.Lives;
         }
         public int Level
         {
-            get
-            {
-                return Pacman.Level;
-            }
+            get => Pacman.Level;
         }
 
         public Game(string path)
@@ -71,40 +59,29 @@ namespace PacMan
             Map = new Map(path, name);
             DefaultMap = (Map)Map.Clone();
             Pacman.Map = Map;
-            Cherry.Position = new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 1);
-            Ghosts.SetDefaultMap(Map);
             Pacman.StartCoord = Map.Pacman.StartCoord;
-            Pacman.Position = Map.Pacman.Position;
+            Ghosts.SetDefaultMap(Map);
             Ghosts.SetStartCoord(Map);
+            Cherry.Position = new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 1);
         }
 
         public void Default()
         {
             Status = GameStatus.Stop;
-            Pacman.Direction = Direction.None;
-            Pacman.OldDirection = Direction.None;
-            Ghosts.Stop();
-            Pacman.Stop();
-            Ghosts.Restart();
             Map = (Map)DefaultMap.Clone();
-            Pacman.Map = Map;
-            Ghosts.SetDefaultMap(Map);
-            Pacman.StartPosition();
-            Pacman.Level = 1;
-            Pacman.Count = 0;
-            Pacman.Lives = 3;
+            Ghosts.Default(Map);
+            Pacman.Default(Map);
         }
 
         private void Pacman_SinkAboutNextLevel()
         {
             Stop();
-            SetDirection(Direction.None);
             RemovePlayers();
             Map = (Map)DefaultMap.Clone();
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
-            UpdateMap();
             Ghosts.ArenotFrightened();
+            UpdateMap();
             CreatePlayers();
         }
 
@@ -142,7 +119,6 @@ namespace PacMan
                 Ghosts.Stop();
                 if (!PacmanIsLive)
                 {
-                    RemovePlayers();
                     Pacman.Lives--;
                     if (Pacman.Lives > 0)
                     {
