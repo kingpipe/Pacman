@@ -12,8 +12,11 @@ context = canvas.getContext('2d');
 var width = canvas.width;
 var height = canvas.height;
 
-var spriteX = width / 30;
-var spriteY = height / 31;
+var w = Number(document.getElementById('width').innerText);
+var h = Number(document.getElementById('height').innerText);
+
+var spriteX = width / w;
+var spriteY = height / h;
 
 document.getElementById("start").addEventListener("click", event => {
     connection.invoke("Start").catch(err => console.error(err.toString()));

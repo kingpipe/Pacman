@@ -20,6 +20,7 @@ function readTextFile(file, callback) {
     }
     rawFile.send(null);
 }
+
 readTextFile('/maps/bluemap.json', function (text) {
     var data = JSON.parse(text);
 
@@ -28,7 +29,6 @@ readTextFile('/maps/bluemap.json', function (text) {
 
     var spriteX = width / data.length;
     var spriteY = height / data[0].length;
-
     for (var w = 0; w < data.length; w++) {
         for (var h = 0; h < data[w].length; h++) {
             SetElement(data[w][h], h, w);

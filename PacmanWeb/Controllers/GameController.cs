@@ -28,18 +28,24 @@ namespace PacmanWeb.Controllers
         public IActionResult BlueMap()
         {
             Game.SetMap(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
+            ViewBag.Width = Game.Map.Width;
+            ViewBag.Height = Game.Map.Height;
             return View();
         }
 
         public IActionResult GreenMap()
         {
             Game.SetMap(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
+            ViewBag.Width = Game.Map.Width;
+            ViewBag.Height = Game.Map.Height;
             return View();
         }
 
         public IActionResult RedMap()
         {
             Game.SetMap(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
+            ViewBag.Width = Game.Map.Width;
+            ViewBag.Height = Game.Map.Height;
             return View();
         }
 
