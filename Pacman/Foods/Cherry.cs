@@ -14,9 +14,6 @@ namespace PacMan.Foods
         public event Action<ICoord> Movement;
         public Map Map { get; set; }
 
-        public Cherry()
-        { }
-
         public Cherry(Position position, Map map) : base(position)
         {
             Map = map;

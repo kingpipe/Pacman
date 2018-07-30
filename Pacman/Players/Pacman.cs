@@ -14,6 +14,7 @@ namespace PacMan.Players
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
+        public event Action SinkAboutEatGhost;
         public Direction NewDirection { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
@@ -79,7 +80,9 @@ namespace PacMan.Players
             {
                 if (ghost.Frightened)
                 {
+                    Count += food.Score;
                     ghost.Restart();
+                    SinkAboutEatGhost();
                 }
             }
             else
@@ -88,9 +91,8 @@ namespace PacMan.Players
                 {
                     SinkAboutEatEnergizer();
                 }
+                Count += food.Score;
             }
-            Count += food.Score;
-            food.IsLive = false;
             Map.SetElement(this, Position);
 
             if (Count % 1000 == 700)

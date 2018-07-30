@@ -61,6 +61,14 @@ namespace PacMan
             }
         }
 
+        public void EatGhost()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.Score +=ghost.DefaultScore;
+            }
+        }
+
         public void SetStartCoord(Map map)
         {
             Inky.StartCoord = map.Inky.StartCoord;
@@ -105,7 +113,7 @@ namespace PacMan
             {
                 foreach (var ghost in Ghosts)
                 {
-                    ghost.SpeedDownAt(1.5);
+                    ghost.SpeedDownAt(2);
                     ghost.Frightened = true;
                     ghost.OldStrategy = ghost.Strategy;
                     ghost.Strategy = new GoAway();
@@ -132,6 +140,7 @@ namespace PacMan
                 ghost.DefaultTime();
                 ghost.Strategy = ghost.OldStrategy;
                 ghost.Frightened = false;
+                ghost.Score = ghost.DefaultScore;
             }
             timeFrightened.Stop(Timer_Elapsed);
 

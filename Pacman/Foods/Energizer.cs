@@ -5,9 +5,6 @@ namespace PacMan.Foods
 {
     class Energizer : Food, IGetChar
     {
-        public Energizer()
-        { }
-
         public Energizer(Position position):base(position)
         {
             Score = 50;

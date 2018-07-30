@@ -11,9 +11,6 @@ namespace PacMan.Abstracts
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        protected Food()
-        { }
-
         protected Food(Position position)
         {
             Position = position;

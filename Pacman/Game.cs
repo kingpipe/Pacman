@@ -39,6 +39,7 @@ namespace PacMan
             Pacman.SinkAboutEatEnergizer += Ghosts.AreFrightened;
             Pacman.SinkAboutCreateCherry += () => Cherry.Start();
             Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
+            Pacman.SinkAboutEatGhost += Ghosts.EatGhost;
             Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 

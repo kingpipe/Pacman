@@ -43,6 +43,7 @@ namespace PacMan.Abstracts
             path = new Stack<Position>();
 
             Score = 200;
+            DefaultScore = Score;
             Frightened = false;
             IsLive = true;
         }
@@ -129,10 +130,6 @@ namespace PacMan.Abstracts
             }
             ICoord old = Map.GetElement(Position);
             Map.SetElement(coord);
-            if (old is IGhost)
-            {
-                Position = coord.Position;
-            }
             Map.SetElement(this);
             return old;
 
