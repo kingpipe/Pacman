@@ -3,14 +3,17 @@ using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using PacMan.Algorithms.Astar;
+using PacMan.StateBehavior;
 
 namespace PacMan
 {
     class ChangeStateGhosts : ITimer
     {
-        private readonly MenagerGhosts Ghosts;
+        public readonly MenagerGhosts Ghosts;
         private readonly Timer timer;
         private readonly Queue<int> listoftime;
+        public IState State { get; set; }
+
 
         public ChangeStateGhosts(MenagerGhosts ghosts)
         {
@@ -18,6 +21,7 @@ namespace PacMan
             listoftime = new Queue<int>();
             InitQueue();
             timer = new Timer(listoftime.Dequeue());
+            State = new StateScatter();
         }
 
         public ChangeStateGhosts(MenagerGhosts ghosts, Queue<int> Listoftime)
@@ -53,7 +57,7 @@ namespace PacMan
             if (listoftime.Count != 0)
             {
                 ((Timer)sender).Interval = listoftime.Dequeue();
-                Ghosts.State.ChangeBehavior(Ghosts);
+                State.ChangeBehavior(this);
             }
             else
             {

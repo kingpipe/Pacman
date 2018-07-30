@@ -2,6 +2,6 @@
 {
     interface IState
     {
-        void ChangeBehavior(MenagerGhosts ghosts);
+        void ChangeBehavior(ChangeStateGhosts changeState);
     }
 }

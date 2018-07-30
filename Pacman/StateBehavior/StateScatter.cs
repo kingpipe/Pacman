@@ -5,13 +5,13 @@ namespace PacMan.StateBehavior
 {
     class StateScatter : IState
     {
-        public void ChangeBehavior(MenagerGhosts ghosts)
+        public void ChangeBehavior(ChangeStateGhosts changeState)
         {
-            foreach (var ghost in ghosts.Ghosts)
+            foreach (var ghost in changeState.Ghosts.Ghosts)
             {
                 ghost.Strategy = new AstarAlgorithm();
             }
-            ghosts.State = new StateAttack();
+            changeState.State = new StateAttack();
         }
     }
 }

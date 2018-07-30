@@ -20,22 +20,10 @@ namespace PacMan
         public bool PacmanIsLive { get; private set; }
         public GameStatus Status { get; private set; }
         public Map Map { get; private set; }
-        public int Score
-        {
-            get => Pacman.Count;
-        }
-        public Direction Direction
-        {
-            get => Pacman.Direction;
-        }
-        public int Lives
-        {
-            get => Pacman.Lives;
-        }
-        public int Level
-        {
-            get => Pacman.Level;
-        }
+        public int Score => Pacman.Count;
+        public Direction Direction => Pacman.Direction;
+        public int Lives => Pacman.Lives;
+        public int Level => Pacman.Level;
 
         public Game(string path)
         {

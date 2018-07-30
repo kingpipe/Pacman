@@ -14,20 +14,18 @@ namespace PacMan
     {
         private ChangeStateGhosts ChangeStateChosts { set; get; }
         private readonly Timer timeFrightened;
+        private Blinky Blinky { get; set; }
+        private Clyde Clyde { get; set; }
+        private Inky Inky { get; set; }
+        private Pinky Pinky { get; set; }
 
         public Collection<Ghost> Ghosts { get; set; }
-        public Blinky Blinky { get; set; }
-        public Clyde Clyde { get; set; }
-        public Inky Inky { get; set; }
-        public Pinky Pinky { get; set; }
-        public IState State { get; set; }
 
         public MenagerGhosts(Map map, int time)
         {
             timeFrightened = new Timer(10000);
 
             Ghosts = new Collection<Ghost>();
-            State = new StateScatter();
             Blinky = map.Blinky;
             Clyde = map.Clyde;
             Inky = map.Inky;
@@ -41,7 +39,6 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            State = new StateScatter();
             ChangeStateChosts = new ChangeStateGhosts(this);
             foreach (var ghost in Ghosts)
             {
