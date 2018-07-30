@@ -6,9 +6,6 @@ namespace PacMan
     {
         public Position Position { get; set; }
 
-        public Empty()
-        { }
-
         public Empty(Position position)
         {
             Position = position;

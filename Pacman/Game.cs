@@ -86,8 +86,7 @@ namespace PacMan
 
         public void SetDirection(Direction direction)
         {
-            Pacman.OldDirection = Pacman.Direction;
-            Pacman.Direction = direction;
+            Pacman.NewDirection = direction;
         }
 
         public void Start()

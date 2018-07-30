@@ -3,7 +3,6 @@ using PacMan.Algorithms;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using PacMan.Players;
-using PacMan.StateBehavior;
 using System;
 using System.Collections.ObjectModel;
 using System.Timers;

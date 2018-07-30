@@ -21,6 +21,7 @@ namespace PacMan.Abstracts
         public ICoord OldCoord { get; set; }
         public Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
+        public int DefaultScore { get; private set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
         public override Position StartCoord
