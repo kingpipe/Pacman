@@ -7,15 +7,14 @@ using System.Timers;
 
 namespace PacMan.Abstracts
 {
-    abstract class Ghost : Player, IGhost, IFood, ISinkAboutEatPacman
+    abstract class Ghost : Player, IGhost, IFood
     {
-        public abstract event Action SinkAboutEatPacman;
+        public abstract event Action SinkAboutKillPacman;
 
         protected bool pacmanIsLive = true;
         protected string idFrightened;
         protected Stack<Position> path;
-        protected string id;
-
+                
         public IStrategy Strategy { get; set; }
         public IStrategy OldStrategy { get; set; }
         public ICoord OldCoord { get; set; }
@@ -132,7 +131,6 @@ namespace PacMan.Abstracts
             Map[coord.Position]=coord;
             Map[Position] = this;
             return old;
-
         }
 
         protected bool GhostIsFrightened()

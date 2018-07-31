@@ -75,7 +75,6 @@
     <Compile Include="Abstracts\Ghost.cs" />
     <Compile Include="Players\Inky.cs" />
     <Compile Include="Players\Pinky.cs" />
-    <Compile Include="Interfaces\ISinkAboutEatPacman.cs" />
     <Compile Include="Interfaces\IFood.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGhost.cs" />

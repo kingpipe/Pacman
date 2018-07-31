@@ -15,6 +15,7 @@ namespace PacMan.Players
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
         public event Action SinkAboutEatGhost;
+
         public Direction NewDirection { get; set; }
         public int Lives { get; set; }
         public int Count { get; set; }
@@ -22,6 +23,9 @@ namespace PacMan.Players
 
         public Pacman(Map map, Position start) : base(map, start)
         {
+            id = "pacman";
+            idchar = 'P';
+
             Timer = new Timer();
             Direction = Direction.None;
             NewDirection = Direction.None;
@@ -83,6 +87,9 @@ namespace PacMan.Players
                     Count += food.Score;
                     ghost.Restart();
                     SinkAboutEatGhost();
+                }
+                else
+                {
                 }
             }
             else
@@ -175,16 +182,6 @@ namespace PacMan.Players
             if (Map[Position.Up] is IFood food)
                 Eat(food);
             return base.MoveUp();
-        }
-
-        public override char GetCharElement()
-        {
-            return 'P';
-        }
-
-        public override string GetId()
-        {
-            return "pacman";
         }
 
         private void MaybeNextLevel()

@@ -5,14 +5,15 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    class Pinky : Ghost, IGetChar
+    class Pinky : Ghost
     {
-        public override event Action SinkAboutEatPacman;
+        public override event Action SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
         public Pinky(Map map, Position start) : base(map, start)
         {
             id = "pinky";
+            idchar = 'N';
         }
 
         public override void RemoveFromMap()
@@ -35,13 +36,8 @@ namespace PacMan.Players
             Movement(Map[Position]);
             if (!pacmanIsLive)
             {
-                SinkAboutEatPacman();
+                SinkAboutKillPacman();
             }
-        }
-
-        public override char GetCharElement()
-        {
-            return 'N';
         }
     }
 }

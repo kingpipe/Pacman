@@ -11,8 +11,9 @@ namespace PacMan
 {
     class MenagerGhosts
     {
-        private ChangeStateGhosts ChangeStateChosts { set; get; }
         private readonly Timer timeFrightened;
+
+        private ChangeStateGhosts ChangeStateChosts { set; get; }
         private Blinky Blinky { get; set; }
         private Clyde Clyde { get; set; }
         private Inky Inky { get; set; }
@@ -42,7 +43,7 @@ namespace PacMan
             foreach (var ghost in Ghosts)
             {
                 ghost.Default(map);
-             }
+            }
         }
 
         private void SetTime(int time)
@@ -65,7 +66,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Score +=ghost.DefaultScore;
+                ghost.Score += ghost.DefaultScore;
             }
         }
 
@@ -104,35 +105,20 @@ namespace PacMan
 
         public void AreFrightened()
         {
-            if (GhostsAlreadyFrightened())
-            {
-                timeFrightened.Stop(Timer_Elapsed);
-                timeFrightened.Start(Timer_Elapsed);
-            }
-            else
-            {
-                foreach (var ghost in Ghosts)
-                {
-                    ghost.SpeedDownAt(2);
-                    ghost.Frightened = true;
-                    ghost.OldStrategy = ghost.Strategy;
-                    ghost.Strategy = new GoAway();
-                }
-                timeFrightened.Start(Timer_Elapsed);
-                ChangeStateChosts.Stop();
-            }
-        }
+            timeFrightened.Stop(Timer_Elapsed);
 
-        private bool GhostsAlreadyFrightened()
-        {
             foreach (var ghost in Ghosts)
             {
-                if (ghost.Frightened)
-                    return true;
+                ghost.SpeedDownAt(2);
+                ghost.Frightened = true;
+                ghost.OldStrategy = ghost.Strategy;
+                ghost.Strategy = new GoAway();
             }
-            return false;
-        }
+            timeFrightened.Start(Timer_Elapsed);
 
+            ChangeStateChosts.Stop();
+        }
+        
         public void ArenotFrightened()
         {
             foreach (var ghost in Ghosts)
@@ -151,7 +137,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SinkAboutEatPacman += action;
+                ghost.SinkAboutKillPacman += action;
             }
         }
 

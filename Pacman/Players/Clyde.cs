@@ -7,12 +7,13 @@ namespace PacMan.Players
 {
     class Clyde : Ghost
     {
-        public override event Action SinkAboutEatPacman;
+        public override event Action SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
         public Clyde(Map map, Position start) : base(map, start)
         {
             id = "clyde";
+            idchar = 'C';
         }
 
         public override void RemoveFromMap()
@@ -35,13 +36,8 @@ namespace PacMan.Players
             Movement(Map[Position]);
             if (!pacmanIsLive)
             {
-                SinkAboutEatPacman();
+                SinkAboutKillPacman();
             }
-        }
-
-        public override char GetCharElement()
-        {
-            return 'C';
         }
     }
 }
