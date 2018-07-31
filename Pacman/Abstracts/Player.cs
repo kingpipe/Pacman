@@ -68,7 +68,7 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveLeft()
         {
-            if (!(Map.GetElementLeft(Position) is Wall))
+            if (!(Map[Position.Left] is Wall))
             {
                 SwapPlacesX(Position.X - 1);
                 return true;
@@ -78,7 +78,7 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveRight()
         {
-            if (!(Map.GetElementRight(Position) is Wall))
+            if (!(Map[Position.Right] is Wall))
             {
                 SwapPlacesX(Position.X + 1);
                 return true;
@@ -88,7 +88,7 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveUp()
         {
-            if (!(Map.GetElementUp(Position) is Wall))
+            if (!(Map[Position.Up] is Wall))
             {
                 SwapPlacesY(Position.Y - 1);
                 return true;
@@ -98,7 +98,7 @@ namespace PacMan.Abstracts
 
         public virtual bool MoveDown()
         {
-            if (!(Map.GetElementDown(Position) is Wall))
+            if (!(Map[Position.Down] is Wall))
             {
                 SwapPlacesY(Position.Y + 1);
                 return true;
@@ -108,22 +108,28 @@ namespace PacMan.Abstracts
 
         private void SwapPlacesX(int x)
         {
-            var value = Map.GetElement(Position);
-            Map.SetElement(new Empty(Position));
+            var value = Map[Position];
+            Map[Position] = new Empty(Position);
+
             Position position = Position;
             position.X = x;
             Position = position;
-            Map.SetElement(value, Position);
+
+            value.Position = Position;
+            Map[value.Position] = value;
         }
 
         private void SwapPlacesY(int y)
         {
-            var value = Map.GetElement(Position);
-            Map.SetElement(new Empty(Position));
+            var value = Map[Position];
+            Map[Position] = new Empty(Position);
+
             Position position = Position;
             position.Y = y;
             Position = position;
-            Map.SetElement(value, Position);
+
+            value.Position = Position;
+            Map[value.Position] = value;
         }
     }
 }

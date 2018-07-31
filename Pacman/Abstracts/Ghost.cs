@@ -128,9 +128,9 @@ namespace PacMan.Abstracts
                 }
                 Position = list.Pop();
             }
-            ICoord old = Map.GetElement(Position);
-            Map.SetElement(coord);
-            Map.SetElement(this);
+            ICoord old = Map[Position];
+            Map[coord.Position]=coord;
+            Map[Position] = this;
             return old;
 
         }

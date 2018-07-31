@@ -34,6 +34,18 @@ namespace PacMan
             return board;
         }
 
+        public ICoord this[IPosition index]
+        {
+            get
+            {
+                return map[index.X, index.Y];
+            }
+            set
+            {
+                map[index.X, index.Y] = value;
+            }
+        }
+
         public string[,] GetArrayID()
         {
             string[,] array = new string[Width, Height];
@@ -51,42 +63,6 @@ namespace PacMan
         {
             return position.X >= 0 && position.X < Width &&
                 position.Y >= 0 && position.Y < Height;
-        }
-
-        public ICoord GetElement(IPosition position)
-        {
-            return map[position.X, position.Y];
-        }
-
-        public ICoord GetElementLeft(IPosition position)
-        {
-            return map[position.X - 1, position.Y];
-        }
-
-        public ICoord GetElementRight(IPosition position)
-        {
-            return map[position.X + 1, position.Y];
-        }
-
-        public ICoord GetElementUp(IPosition position)
-        {
-            return map[position.X, position.Y - 1];
-        }
-
-        public ICoord GetElementDown(IPosition position)
-        {
-            return map[position.X, position.Y + 1];
-        }
-
-        public void SetElement(ICoord coord)
-        {
-            map[coord.Position.X, coord.Position.Y] = coord;
-        }
-
-        public void SetElement(ICoord coord, Position position)
-        {
-            coord.Position = position;
-            map[position.X, position.Y] = coord;
         }
 
         private ICoord[,] LoadMap(string path)

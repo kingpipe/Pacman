@@ -33,7 +33,7 @@ namespace PacMan.Foods
 
         public void Start()
         {
-            Map.SetElement(this);
+            Map[Position] = this;
             Movement(this);
             timer.Start(TimerElapsed);
         }
@@ -43,7 +43,7 @@ namespace PacMan.Foods
             ((Timer)sender).Stop(TimerElapsed);
             if (IsLive)
             {
-                Map.SetElement(new Empty(Position));
+                Map[Position] = new Empty(Position);
                 Movement(new Empty(Position));
             }
         }

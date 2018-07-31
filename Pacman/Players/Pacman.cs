@@ -41,14 +41,14 @@ namespace PacMan.Players
 
         public override void RemoveFromMap()
         {
-            Map.SetElement(new Empty(Position));
+            Map[Position] = new Empty(Position);
             Movement(new Empty(Position));
         }
 
         public override void SetOnMap()
         {
             StartPosition();
-            Map.SetElement(this);
+            Map[Position] = this;
             Movement(this);
         }
 
@@ -70,7 +70,7 @@ namespace PacMan.Players
             {
                 Move();
             }
-            Movement(Map.GetElement(Position));
+            Movement(Map[Position]);
             MaybeNextLevel();
         }
 
@@ -93,8 +93,7 @@ namespace PacMan.Players
                 }
                 Count += food.Score;
             }
-            Map.SetElement(this, Position);
-
+            
             if (Count % 1000 == 700)
             {
                 SinkAboutCreateCherry();
@@ -128,16 +127,16 @@ namespace PacMan.Players
         {
             if (Position.X + 2 > Map.Width)
             {
-                Map.SetElement(new Empty(Position));
+                Map[Position] = new Empty(Position);
                 Position position = Position;
                 position.X = 0;
                 Position = position;
-                Map.SetElement(this, Position);
+                Map[Position] = this;
                 return true;
             }
             else
             {
-                if (Map.GetElementRight(Position) is IFood food)
+                if (Map[Position.Right] is IFood food)
                     Eat(food);
                 return base.MoveRight();
             }
@@ -148,16 +147,16 @@ namespace PacMan.Players
         {
             if (Position.X - 1 < 0)
             {
-                Map.SetElement(new Empty(Position));
+                Map[Position] = new Empty(Position);
                 Position position = Position;
                 position.X = Map.Height - 2;
                 Position = position;
-                Map.SetElement(this, Position);
+                Map[Position] = this;
                 return true;
             }
             else
             {
-                if (Map.GetElementLeft(Position) is IFood food)
+                if (Map[Position.Left] is IFood food)
                     Eat(food);
                 return base.MoveLeft();
 
@@ -166,14 +165,14 @@ namespace PacMan.Players
 
         public override bool MoveDown()
         {
-            if (Map.GetElementDown(Position) is IFood food)
+            if (Map[Position.Down] is IFood food)
                 Eat(food);
             return base.MoveDown();
         }
 
         public override bool MoveUp()
         {
-            if (Map.GetElementUp(Position) is IFood food)
+            if (Map[Position.Up] is IFood food)
                 Eat(food);
             return base.MoveUp();
         }
@@ -190,9 +189,7 @@ namespace PacMan.Players
 
         private void MaybeNextLevel()
         {
-            var coords = Map.map.OfType<ICoord>().ToList();
-            var quaryable = coords.AsQueryable();
-            var IsLittleGoal = quaryable.Any(m => m is LittleGoal);
+            var IsLittleGoal = Map.map.OfType<ICoord>().AsQueryable().Any(m => m is LittleGoal);
             if (!IsLittleGoal)
             {
                 Level++;

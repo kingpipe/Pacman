@@ -17,14 +17,14 @@ namespace PacMan.Players
 
         public override void RemoveFromMap()
         {
-            Map.SetElement(OldCoord);
+            Map[OldCoord.Position] = OldCoord;
             Movement(OldCoord);
         }
 
         public override void SetOnMap()
         {
             StartPosition();
-            Map.SetElement(this);
+            Map[Position] = this;
             Movement(this);
         }
 
@@ -32,7 +32,7 @@ namespace PacMan.Players
         {
             Movement(OldCoord);
             pacmanIsLive = Move();
-            Movement(Map.GetElement(Position));
+            Movement(Map[Position]);
             if (!pacmanIsLive)
             {
                 SinkAboutEatPacman();
