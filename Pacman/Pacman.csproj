@@ -68,7 +68,6 @@
     <Compile Include="Interfaces\IState.cs" />
     <Compile Include="Interfaces\IStartPosition.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
-    <Compile Include="Interfaces\ITimer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Players\Clyde.cs" />
     <Compile Include="Players\Blinky.cs" />
@@ -76,7 +75,6 @@
     <Compile Include="Players\Inky.cs" />
     <Compile Include="Players\Pinky.cs" />
     <Compile Include="Interfaces\IFood.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGhost.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IPacman.cs" />

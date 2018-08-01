@@ -10,7 +10,8 @@ namespace PacMan.Abstracts
 {
     abstract class Ghost : Player, IGhost, IFood
     {
-        public abstract event Action SinkAboutKillPacman;
+        public event Action SinkAboutKillPacman;
+        public override event Action<ICoord> Movement;
 
         protected bool pacmanIsLive;
         protected string idFrightened;
@@ -53,19 +54,17 @@ namespace PacMan.Abstracts
         public void StrategyRandom() => Strategy = new RandomMoving();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
 
-        public void DefaultTime() => Timer.Interval = Time;
-        public void SpeedDownAt(double n) => Timer.Interval = Time * n;
+        public override void RemoveFromMap()
+        {
+            Map[OldCoord.Position] = OldCoord;
+            Movement(OldCoord);
+        }
 
-        public async void Restart()
+        public override void SetOnMap()
         {
             StartPosition();
-            DefaultTime();
-            OldCoord = new Empty(Position);
-            Strategy = OldStrategy;
-            Frightened = false;
-            Timer.Stop();
-            await Task.Delay(Time * 20);
-            Timer.Start();
+            Map[Position] = this;
+            Movement(this);
         }
 
         public override void Default(Map map)
@@ -77,22 +76,6 @@ namespace PacMan.Abstracts
             DefaultTime();
         }
 
-        public void Scared()
-        {
-            SpeedDownAt(2);
-            Frightened = true;
-            OldStrategy = Strategy;
-            StrategyGoAway();
-        }
-
-        public void NotScared()
-        {
-            DefaultTime();
-            Strategy = OldStrategy;
-            Frightened = false;
-            Score = DefaultScore;
-        }
-                
         public override string GetId()
         {
             if (Frightened)
@@ -123,6 +106,45 @@ namespace PacMan.Abstracts
             {
                 return GhostIsFrightened();
             }
+        }
+
+        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Movement(OldCoord);
+            pacmanIsLive = Move();
+            Movement(Map[Position]);
+            if (!pacmanIsLive)
+            {
+                SinkAboutKillPacman();
+            }
+        }
+
+        public async void Restart()
+        {
+            StartPosition();
+            DefaultTime();
+            OldCoord = new Empty(Position);
+            Strategy = OldStrategy;
+            Frightened = false;
+            Timer.Stop();
+            await Task.Delay(Time * 20);
+            Timer.Start();
+        }
+
+        public void Scared()
+        {
+            SpeedDownAt(2);
+            Frightened = true;
+            OldStrategy = Strategy;
+            StrategyGoAway();
+        }
+
+        public void NotScared()
+        {
+            DefaultTime();
+            Strategy = OldStrategy;
+            Frightened = false;
+            Score = DefaultScore;
         }
 
         protected Position SearchPacman()
@@ -162,5 +184,8 @@ namespace PacMan.Abstracts
                 return false;
             }
         }
+
+        private void DefaultTime() => Timer.Interval = Time;
+        private void SpeedDownAt(double n) => Timer.Interval = Time * n;
     }
 }

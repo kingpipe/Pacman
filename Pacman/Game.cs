@@ -6,7 +6,7 @@ using PacMan.Enums;
 
 namespace PacMan
 {
-    public sealed class Game : IGame, IDisposable
+    public sealed class Game : IDisposable
     {
         private const int TIME = 200;
         private const int TIMEFORPACMAN = 200;

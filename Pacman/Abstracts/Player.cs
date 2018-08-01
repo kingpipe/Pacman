@@ -6,19 +6,23 @@ using PacMan.Enums;
 
 namespace PacMan.Abstracts
 {
-    abstract class Player : IMovable, ISinkMoving, ITimer
+    abstract class Player : IMovable, ISinkMoving
     {
         public abstract event Action<ICoord> Movement;
         public abstract bool Move();
         public abstract void RemoveFromMap();
         public abstract void SetOnMap();
-        public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
+        protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
+
         protected Position start;
         protected string id;
         protected char idchar;
 
         public Map Map { get; set; }
         public Position Position { get; set; }
+        public Direction Direction { get; set; }
+        public Timer Timer { get; set; }
+        public int Time { get; set; }
         public virtual Position StartCoord
         {
             get => start;
@@ -28,10 +32,7 @@ namespace PacMan.Abstracts
                 StartPosition();
             }
         }
-        public Direction Direction { get; set; }
-        public Timer Timer { get; set; }
-        public int Time { get; set; }
-
+        
         protected Player(Map map, Position start)
         {
             Map = map;
@@ -44,12 +45,6 @@ namespace PacMan.Abstracts
 
         public virtual void Start() => Timer.Start(TimerElapsed);
         public virtual void Stop() => Timer.Stop(TimerElapsed);
-
-        public void SetTime(int time)
-        {
-            Timer.Interval = time;
-            Time = time;
-        }
         
         public virtual void Default(Map map)
         {
@@ -58,7 +53,13 @@ namespace PacMan.Abstracts
             StartPosition();
         }
 
-        public virtual bool MoveLeft()
+        public void SetTime(int time)
+        {
+            Timer.Interval = time;
+            Time = time;
+        }
+
+        protected virtual bool MoveLeft()
         {
             if (!(Map[Position.Left] is Wall))
             {
@@ -68,7 +69,7 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveRight()
+        protected virtual bool MoveRight()
         {
             if (!(Map[Position.Right] is Wall))
             {
@@ -78,7 +79,7 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveUp()
+        protected virtual bool MoveUp()
         {
             if (!(Map[Position.Up] is Wall))
             {
@@ -88,7 +89,7 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveDown()
+        protected virtual bool MoveDown()
         {
             if (!(Map[Position.Down] is Wall))
             {

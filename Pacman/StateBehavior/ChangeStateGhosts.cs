@@ -6,7 +6,7 @@ using PacMan.StateBehavior;
 
 namespace PacMan
 {
-    class ChangeStateGhosts : ITimer
+    class ChangeStateGhosts
     {
         public readonly MenagerGhosts Ghosts;
         private readonly Timer timer;

@@ -34,15 +34,6 @@ namespace PacMan.Players
             Level = 1;
         }
 
-        public override void Default(Map map)
-        {
-            base.Default(map);
-            Direction = Direction.None;
-            Level = 1;
-            Count = 0;
-            Lives = 3;
-        }
-
         public override void RemoveFromMap()
         {
             Map[Position] = new Empty(Position);
@@ -56,7 +47,16 @@ namespace PacMan.Players
             Movement(this);
         }
 
-        public override void TimerElapsed(object sender, ElapsedEventArgs e)
+        public override void Default(Map map)
+        {
+            base.Default(map);
+            Direction = Direction.None;
+            Level = 1;
+            Count = 0;
+            Lives = 3;
+        }
+
+        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             Movement(new Empty(Position));
             if (NewDirection != Direction)
@@ -108,26 +108,8 @@ namespace PacMan.Players
         {
             return Move(Direction);
         }
-
-        private bool Move(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Left:
-                    return MoveLeft();
-                case Direction.Right:
-                    return MoveRight();
-                case Direction.Up:
-                    return MoveUp();
-                case Direction.Down:
-                    return MoveDown();
-                default:
-                    return false;
-            }
-        }
-
-
-        public override bool MoveRight()
+        
+        protected override bool MoveRight()
         {
             if (Position.X + 2 > Map.Width)
             {
@@ -147,7 +129,7 @@ namespace PacMan.Players
 
         }
 
-        public override bool MoveLeft()
+        protected override bool MoveLeft()
         {
             if (Position.X - 1 < 0)
             {
@@ -167,14 +149,14 @@ namespace PacMan.Players
             }
         }
 
-        public override bool MoveDown()
+        protected override bool MoveDown()
         {
             if (Map[Position.Down] is IFood food)
                 Eat(food);
             return base.MoveDown();
         }
 
-        public override bool MoveUp()
+        protected override bool MoveUp()
         {
             if (Map[Position.Up] is IFood food)
                 Eat(food);
@@ -190,5 +172,23 @@ namespace PacMan.Players
                 SinkAboutNextLevel();
             }
         }
+
+        private bool Move(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Left:
+                    return MoveLeft();
+                case Direction.Right:
+                    return MoveRight();
+                case Direction.Up:
+                    return MoveUp();
+                case Direction.Down:
+                    return MoveDown();
+                default:
+                    return false;
+            }
+        }
+
     }
 }
