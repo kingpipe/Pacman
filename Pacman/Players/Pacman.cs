@@ -88,9 +88,6 @@ namespace PacMan.Players
                     ghost.Restart();
                     SinkAboutEatGhost();
                 }
-                else
-                {
-                }
             }
             else
             {

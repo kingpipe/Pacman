@@ -38,37 +38,19 @@ namespace PacMan.Abstracts
             StartCoord = start;
         }
 
-        public virtual string GetId()
-        {
-            return id;
-        }
+        public virtual string GetId() => id;
+        public char GetCharElement() => idchar;
+        public void StartPosition() => Position = StartCoord;
 
-        public char GetCharElement()
-        {
-            return idchar;
-        }
+        public virtual void Start() => Timer.Start(TimerElapsed);
+        public virtual void Stop() => Timer.Stop(TimerElapsed);
 
         public void SetTime(int time)
         {
             Timer.Interval = time;
             Time = time;
         }
-
-        public void StartPosition()
-        {
-            Position = StartCoord;
-        }
-
-        public virtual void Start()
-        {
-            Timer.Start(TimerElapsed);
-        }
-
-        public virtual void Stop()
-        {
-            Timer.Stop(TimerElapsed);
-        }
-
+        
         public virtual void Default(Map map)
         {
             Stop();

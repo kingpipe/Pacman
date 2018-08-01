@@ -1,4 +1,5 @@
 ﻿using PacMan.Algorithms;
+using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace PacMan.Abstracts
     {
         public abstract event Action SinkAboutKillPacman;
 
-        protected bool pacmanIsLive = true;
+        protected bool pacmanIsLive;
         protected string idFrightened;
         protected Stack<Position> path;
-                
+
         public IStrategy Strategy { get; set; }
         public IStrategy OldStrategy { get; set; }
         public ICoord OldCoord { get; set; }
@@ -40,12 +41,20 @@ namespace PacMan.Abstracts
             Timer = new Timer();
             Strategy = new RandomMoving();
             path = new Stack<Position>();
+            pacmanIsLive = true;
 
             Score = 200;
             DefaultScore = Score;
             Frightened = false;
             IsLive = true;
         }
+
+        public void StrategyGoAway() => Strategy = new GoAway();
+        public void StrategyRandom() => Strategy = new RandomMoving();
+        public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
+
+        public void DefaultTime() => Timer.Interval = Time;
+        public void SpeedDownAt(double n) => Timer.Interval = Time * n;
 
         public async void Restart()
         {
@@ -54,7 +63,9 @@ namespace PacMan.Abstracts
             OldCoord = new Empty(Position);
             Strategy = OldStrategy;
             Frightened = false;
-            await SleepAsync();
+            Timer.Stop();
+            await Task.Delay(Time * 20);
+            Timer.Start();
         }
 
         public override void Default(Map map)
@@ -66,16 +77,22 @@ namespace PacMan.Abstracts
             DefaultTime();
         }
 
-        public void DefaultTime()
+        public void Scared()
         {
-            Timer.Interval = Time;
+            SpeedDownAt(2);
+            Frightened = true;
+            OldStrategy = Strategy;
+            StrategyGoAway();
         }
 
-        public void SpeedDownAt(double n)
+        public void NotScared()
         {
-            Timer.Interval = Time * n;
+            DefaultTime();
+            Strategy = OldStrategy;
+            Frightened = false;
+            Score = DefaultScore;
         }
-
+                
         public override string GetId()
         {
             if (Frightened)
@@ -117,7 +134,7 @@ namespace PacMan.Abstracts
             return PacmanPosition;
         }
 
-        protected virtual ICoord Go(Stack<Position> list, ICoord coord)
+        protected ICoord Go(Stack<Position> list, ICoord coord)
         {
             lock (list)
             {
@@ -128,7 +145,7 @@ namespace PacMan.Abstracts
                 Position = list.Pop();
             }
             ICoord old = Map[Position];
-            Map[coord.Position]=coord;
+            Map[coord.Position] = coord;
             Map[Position] = this;
             return old;
         }
@@ -144,13 +161,6 @@ namespace PacMan.Abstracts
                 OldCoord = new Empty(Position);
                 return false;
             }
-        }
-
-        private async Task SleepAsync()
-        {
-            Timer.Stop();
-            await Task.Delay(Time * 20);
-            Timer.Start();
         }
     }
 }

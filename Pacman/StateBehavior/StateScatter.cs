@@ -1,5 +1,4 @@
-﻿using PacMan.Algorithms.Astar;
-using PacMan.Interfaces;
+﻿using PacMan.Interfaces;
 
 namespace PacMan.StateBehavior
 {
@@ -7,10 +6,7 @@ namespace PacMan.StateBehavior
     {
         public void ChangeBehavior(ChangeStateGhosts changeState)
         {
-            foreach (var ghost in changeState.Ghosts.Ghosts)
-            {
-                ghost.Strategy = new AstarAlgorithm();
-            }
+            changeState.Ghosts.SetStrategyRunForPacman();
             changeState.State = new StateAttack();
         }
     }

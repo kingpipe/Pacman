@@ -13,6 +13,7 @@ namespace PacMan
         public int Width { get; set; }
         public int Height { get; set; }
         public string Name { get; private set; }
+
         internal Pacman Pacman { get; private set; }
         internal Inky Inky { get; private set; }
         internal Pinky Pinky { get; private set; }

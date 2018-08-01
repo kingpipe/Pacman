@@ -18,8 +18,7 @@ namespace PacMan
         private Clyde Clyde { get; set; }
         private Inky Inky { get; set; }
         private Pinky Pinky { get; set; }
-
-        public Collection<Ghost> Ghosts { get; set; }
+        private Collection<Ghost> Ghosts { get; set; }
 
         public MenagerGhosts(Map map, int time)
         {
@@ -78,11 +77,27 @@ namespace PacMan
             Blinky.StartCoord = map.Blinky.StartCoord;
         }
 
-        public void SetStrategy(IStrategy strategy)
+        public void SetStrategyRunForPacman()
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Strategy = strategy;
+                ghost.StrategyRunForPacman();
+            }
+        }
+
+        public void SetStrategyRandom()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.StrategyRandom();
+            }
+        }
+
+        public void SetStrategyGoAway()
+        {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.StrategyGoAway();
             }
         }
 
@@ -109,10 +124,7 @@ namespace PacMan
 
             foreach (var ghost in Ghosts)
             {
-                ghost.SpeedDownAt(2);
-                ghost.Frightened = true;
-                ghost.OldStrategy = ghost.Strategy;
-                ghost.Strategy = new GoAway();
+                ghost.Scared();
             }
             timeFrightened.Start(Timer_Elapsed);
 
@@ -123,10 +135,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.DefaultTime();
-                ghost.Strategy = ghost.OldStrategy;
-                ghost.Frightened = false;
-                ghost.Score = ghost.DefaultScore;
+                ghost.NotScared();
             }
             timeFrightened.Stop(Timer_Elapsed);
 

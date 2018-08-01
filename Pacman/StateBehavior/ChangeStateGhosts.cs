@@ -2,7 +2,6 @@
 using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
-using PacMan.Algorithms.Astar;
 using PacMan.StateBehavior;
 
 namespace PacMan
@@ -62,7 +61,7 @@ namespace PacMan
             else
             {
                 ((Timer)sender).Stop();
-                Ghosts.SetStrategy(new AstarAlgorithm());
+                Ghosts.SetStrategyRunForPacman();
             }
         }
     }

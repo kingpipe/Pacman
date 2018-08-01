@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace PacMan.Foods
 {
-    class Cherry : Food, IGetChar, ISinkMoving
+    class Cherry : Food, ISinkMoving
     {
         private const int TIMELIFE = 10000;
         private readonly Timer timer;
@@ -16,19 +16,12 @@ namespace PacMan.Foods
 
         public Cherry(Position position, Map map) : base(position)
         {
+            id = "cherry";
+            idchar = '0';
+
             Map = map;
             Score = 100;
             timer = new Timer(TIMELIFE);
-        }
-
-        public override char GetCharElement()
-        {
-            return '0';
-        }
-
-        public override string GetId()
-        {
-            return "cherry";
         }
 
         public void Start()
