@@ -2,6 +2,7 @@
 {
     public enum GameStatus
     {
+        NeedInitEvent,
         ReadyToStart,
         InProcess,
         TheEnd,

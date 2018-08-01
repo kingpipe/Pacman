@@ -26,9 +26,9 @@
   },
   
   {
-    "outputFileName": "wwwroot/js/map.min.js",
+    "outputFileName": "wwwroot/js/movement.min.js",
     "inputFiles": [
-      "wwwroot/js/map.js"
+      "wwwroot/js/movement.js"
     ],
     "minify": {
       "enabled": true,
@@ -36,16 +36,4 @@
     },
     "sourceMap": false
   }
-
-  //{
-  //  "outputFileName": "wwwroot/js/movement.min.js",
-  //  "inputFiles": [
-  //    "wwwroot/js/movement.js"
-  //  ],
-  //  "minify": {
-  //    "enabled": true,
-  //    "renameLocals": true
-  //  },
-  //  "sourceMap": false
-  //}
 ]

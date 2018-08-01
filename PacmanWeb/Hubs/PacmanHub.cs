@@ -7,7 +7,7 @@ using PacMan.Interfaces;
 using PacmanWeb.Data;
 using PacmanWeb.Models;
 
-namespace PacmanWeb.MenagerPacman
+namespace PacmanWeb.Hubs
 {
     public class PacmanHub : Hub
     {
@@ -21,18 +21,15 @@ namespace PacmanWeb.MenagerPacman
             this.hubContext = hubContext;
             this.context = context;
         }
-        
+
         public void Start()
         {
-            if (game.Status == GameStatus.ReadyToStart)
+            if (game.Status == GameStatus.NeedInitEvent)
             {
-                game.AddMoveHandlerToGhosts(Move);
-                game.AddMoveHandlerToPacman(PacmanMove);
-                game.PacmanIsDied += Game_PacmanIsDied;
-                game.UpdateMap += UpdateMap;
+                game.AddHandler(Move, PacmanMove, UpdateMap, Game_PacmanIsDied);
                 game.Start();
             }
-            else if (game.Status == GameStatus.Stop)
+            else if (game.Status == GameStatus.Stop || game.Status == GameStatus.ReadyToStart)
             {
                 game.Start();
             }
@@ -61,12 +58,14 @@ namespace PacmanWeb.MenagerPacman
         public async Task AddinDB()
         {
             await context.Records.AddAsync(
-                new RecordsModel {
+                new RecordsModel
+                {
                     Level = game.Level,
                     Name = Context.User.Identity.Name,
                     Score = game.Score,
                     Time = DateTime.Now,
-                    Map =game.Map.Name });
+                    Map = game.Map.Name
+                });
             await context.SaveChangesAsync();
         }
 

@@ -50,6 +50,7 @@ namespace PacMan.Abstracts
             IsLive = true;
         }
 
+        public void UpScore() => Score += DefaultScore;
         public void StrategyGoAway() => Strategy = new GoAway();
         public void StrategyRandom() => Strategy = new RandomMoving();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();

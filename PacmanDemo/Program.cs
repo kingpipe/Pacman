@@ -13,7 +13,7 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             drawConsole.DrawMap();
-            game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
+            game.AddHandler(drawConsole.EventMoving);
             game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
             game.PacmanIsDied += Game_PacmanIsDied;
             game.UpdateMap += drawConsole.DrawMap;

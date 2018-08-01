@@ -19,7 +19,7 @@ namespace PacmanWeb.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            if (game.Status != GameStatus.ReadyToStart)
+            if (game.Status != GameStatus.ReadyToStart && game.Status != GameStatus.NeedInitEvent)
             {
                 game.Default();
             }

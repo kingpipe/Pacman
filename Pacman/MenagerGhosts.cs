@@ -12,7 +12,7 @@ namespace PacMan
     {
         private readonly Timer timeFrightened;
 
-        private ChangeStateGhosts ChangeStateChosts { set; get; }
+        private ChangeStateGhosts ChangeStateGhosts { set; get; }
         private Blinky Blinky { get; set; }
         private Clyde Clyde { get; set; }
         private Inky Inky { get; set; }
@@ -32,7 +32,7 @@ namespace PacMan
             AddGhostsInCollection();
             SetTime(time);
 
-            ChangeStateChosts = new ChangeStateGhosts(this);
+            ChangeStateGhosts = new ChangeStateGhosts(this);
         }
 
         private void SetTime(int time)
@@ -45,7 +45,7 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            ChangeStateChosts = new ChangeStateGhosts(this);
+            ChangeStateGhosts = new ChangeStateGhosts(this);
             foreach (var ghost in Ghosts)
             {
                 ghost.Default(map);
@@ -72,7 +72,7 @@ namespace PacMan
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.Score += ghost.DefaultScore;
+                ghost.UpScore();
             }
         }
 
@@ -99,7 +99,7 @@ namespace PacMan
             {
                 ghost.Start();
             }
-            ChangeStateChosts.Start();
+            ChangeStateGhosts.Start();
         }
 
         public void Stop()
@@ -108,10 +108,9 @@ namespace PacMan
             {
                 ghost.Stop();
             }
-            ChangeStateChosts.Stop();
+            ChangeStateGhosts.Stop();
         }
 
-        #region Frightened
         public void AreFrightened()
         {
             timeFrightened.Stop(Timer_Elapsed);
@@ -122,7 +121,7 @@ namespace PacMan
             }
             timeFrightened.Start(Timer_Elapsed);
 
-            ChangeStateChosts.Stop();
+            ChangeStateGhosts.Stop();
         }
 
         public void ArenotFrightened()
@@ -133,16 +132,14 @@ namespace PacMan
             }
             timeFrightened.Stop(Timer_Elapsed);
 
-            ChangeStateChosts.Start();
+            ChangeStateGhosts.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ArenotFrightened();
         }
-        #endregion
-
-        #region AddHandler
+        
         public void AddSinkAboutEatPacmanHandler(Action action)
         {
             foreach (var ghost in Ghosts)
@@ -158,9 +155,7 @@ namespace PacMan
                 ghost.Movement += action;
             }
         }
-        #endregion
 
-        #region SetDifferentStrategy
         public void SetStrategyRunForPacman()
         {
             foreach (var ghost in Ghosts)
@@ -184,8 +179,7 @@ namespace PacMan
                 ghost.StrategyGoAway();
             }
         }
-        #endregion
-
+        
         private void AddGhostsInCollection()
         {
             Ghosts.Add(Blinky);

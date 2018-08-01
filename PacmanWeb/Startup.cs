@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PacmanWeb.Data;
 using PacmanWeb.Models;
 using PacmanWeb.Services;
-using PacmanWeb.MenagerPacman;
+using PacmanWeb.Hubs;
 using PacMan;
 using System;
 using PacmanWeb.Filters;

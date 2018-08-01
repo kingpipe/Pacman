@@ -27,7 +27,7 @@ namespace PacMan
 
         public Game(string path)
         {
-            Status = GameStatus.ReadyToStart;
+            Status = GameStatus.NeedInitEvent;
             PacmanIsLive = true;
             Map = new Map(path, "BlueMap");
             DefaultMap = (Map)Map.Clone();
@@ -56,7 +56,7 @@ namespace PacMan
 
         public void Default()
         {
-            Status = GameStatus.Stop;
+            Status = GameStatus.ReadyToStart;
             Map = (Map)DefaultMap.Clone();
             Ghosts.Default(Map);
             Pacman.Default(Map);
@@ -74,15 +74,18 @@ namespace PacMan
             CreatePlayers();
         }
 
-        public void AddMoveHandlerToGhosts(Action<ICoord> action)
+        public void AddHandler(Action<ICoord> ghost, Action<ICoord> pacman, Action updatemap, Action pacmandied)
         {
-            Ghosts.AddMoveHandler(action);
-            Cherry.Movement += action;
-        }
+            Ghosts.AddMoveHandler(ghost);
+            Cherry.Movement += ghost;
 
-        public void AddMoveHandlerToPacman(Action<ICoord> action)
-        {
-            Pacman.Movement += action;
+            Pacman.Movement += pacman;
+
+            UpdateMap += updatemap;
+
+            PacmanIsDied += pacmandied;
+
+            Status = GameStatus.ReadyToStart;
         }
 
         public void SetDirection(Direction direction)
