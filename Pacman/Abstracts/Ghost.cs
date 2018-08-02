@@ -16,6 +16,7 @@ namespace PacMan.Abstracts
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected Stack<Position> path;
+        protected Position homePosition;
 
         public IStrategy Strategy { get; set; }
         public IStrategy OldStrategy { get; set; }

@@ -59,7 +59,7 @@ namespace PacMan
             }
             return array;
         }
-        
+
         public bool OnMap(IPosition position)
         {
             return position.X >= 0 && position.X < Widht &&

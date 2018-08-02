@@ -41,7 +41,7 @@ namespace PacMan.Abstracts
 
         public virtual string GetId() => id;
         public char GetCharElement() => idchar;
-        public void StartPosition() => Position = StartCoord;
+        public virtual void StartPosition() => Position = StartCoord;
 
         public virtual void Start() => Timer.Start(TimerElapsed);
         public virtual void Stop() => Timer.Stop(TimerElapsed);

@@ -11,6 +11,21 @@ namespace PacMan.Players
             idchar = 'I';
         }
 
-        public override void StrategyRandom() => Strategy = new GoToClockwise();
+        public override void StrategyRandom() => Strategy = new GoToCornerForInky();
+
+        public override void StartPosition()
+        {
+            homePosition = new Position(Map.Widht - 4, Map.Height - 5);
+            base.StartPosition();
+        }
+
+        public override bool Move()
+        {
+            if (Position == homePosition && Strategy is GoToCornerForInky)
+            {
+                Strategy = new GoToClockwise();
+            }
+            return base.Move();
+        }
     }
 }

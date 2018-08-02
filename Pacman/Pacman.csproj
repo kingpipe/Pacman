@@ -44,8 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AlgorithmForClyde.cs" />
-    <Compile Include="Algorithms\GoToCircleForBlinky.cs" />
-    <Compile Include="Algorithms\GoToCircleForPinky.cs" />
+    <Compile Include="Algorithms\GoToClockwise.cs" />
+    <Compile Include="Algorithms\GoAgainstClockwise.cs" />
+    <Compile Include="Algorithms\GoToCornerForBlinky.cs" />
+    <Compile Include="Algorithms\GoToCornerForClyde.cs" />
+    <Compile Include="Algorithms\GoToCornerForInky.cs" />
+    <Compile Include="Algorithms\GoToCornerForPinky.cs" />
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="Enums\GameStatus.cs" />
