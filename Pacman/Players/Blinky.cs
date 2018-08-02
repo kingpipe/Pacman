@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 
 namespace PacMan.Players
 {
@@ -9,5 +10,7 @@ namespace PacMan.Players
             id = "blinky";
             idchar = 'B';
         }
+
+        public override void StrategyRandom() => Strategy = new GoToClockwise();
     }
 }

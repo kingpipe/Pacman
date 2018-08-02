@@ -40,7 +40,7 @@ namespace PacMan.Abstracts
         {
             idFrightened = "frightened";
             Timer = new Timer();
-            Strategy = new RandomMoving();
+            StrategyRandom();
             path = new Stack<Position>();
             pacmanIsLive = true;
 
@@ -52,7 +52,7 @@ namespace PacMan.Abstracts
 
         public void UpScore() => Score += DefaultScore;
         public void StrategyGoAway() => Strategy = new GoAway();
-        public void StrategyRandom() => Strategy = new RandomMoving();
+        public virtual void StrategyRandom() => Strategy = new RandomMoving();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
 
         public override void RemoveFromMap()
@@ -71,7 +71,7 @@ namespace PacMan.Abstracts
         public override void Default(Map map)
         {
             base.Default(map);
-            Strategy = new RandomMoving();
+            StrategyRandom();
             OldCoord = new Empty(Position);
             Frightened = false;
             DefaultTime();

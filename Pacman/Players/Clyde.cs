@@ -12,5 +12,6 @@ namespace PacMan.Players
         }
         
         public override void StrategyRunForPacman() => Strategy = new AlgorithmForClyde();
+        public override void StrategyRandom() => Strategy = new GoAgainstClockwise();      
     }
 }
