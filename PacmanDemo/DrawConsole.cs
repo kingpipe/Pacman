@@ -94,7 +94,7 @@ namespace PacmanDemo
             ICoord[,] array = Game.Map.map;
             for (int y = 0; y < Game.Map.Height; y++)
             {
-                for (int x = 0; x < Game.Map.Width; x++)
+                for (int x = 0; x < Game.Map.Widht; x++)
                 {
                     Console.Write(array[x, y].GetCharElement());
                 }

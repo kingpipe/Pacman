@@ -151,7 +151,7 @@ namespace PacMan.Abstracts
         protected Position SearchPacman()
         {
             for (int y = 0; y < Map.Height; y++)
-                for (int x = 0; x < Map.Width; x++)
+                for (int x = 0; x < Map.Widht; x++)
                     if (Map.map[x, y] is IPacman)
                         return new Position(x, y);
             return PacmanPosition;

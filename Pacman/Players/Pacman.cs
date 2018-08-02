@@ -111,7 +111,7 @@ namespace PacMan.Players
         
         protected override bool MoveRight()
         {
-            if (Position.X + 2 > Map.Width)
+            if (Position.X + 2 > Map.Widht)
             {
                 Map[Position] = new Empty(Position);
                 Position position = Position;

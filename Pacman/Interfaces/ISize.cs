@@ -2,7 +2,7 @@
 {
     interface ISize
     {
-        int Width { get; set; }
+        int Widht { get; set; }
         int Height { get; set; }
     }
 }

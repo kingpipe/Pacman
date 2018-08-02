@@ -10,7 +10,7 @@ namespace PacMan
     public class Map : IMap, ICloneable
     {
         public ICoord[,] map { get; set; }
-        public int Width { get; set; }
+        public int Widht { get; set; }
         public int Height { get; set; }
         public string Name { get; private set; }
 
@@ -24,7 +24,7 @@ namespace PacMan
         {
             Name = name;
             map = LoadMap(path);
-            Width = map.GetLength(0);
+            Widht = map.GetLength(0);
             Height = map.GetLength(1);
         }
 
@@ -49,10 +49,10 @@ namespace PacMan
 
         public string[,] GetArrayID()
         {
-            string[,] array = new string[Width, Height];
+            string[,] array = new string[Widht, Height];
             for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < Widht; x++)
                 {
                     array[x, y] = map[x, y].GetId();
                 }
@@ -62,7 +62,7 @@ namespace PacMan
         
         public bool OnMap(IPosition position)
         {
-            return position.X >= 0 && position.X < Width &&
+            return position.X >= 0 && position.X < Widht &&
                 position.Y >= 0 && position.Y < Height;
         }
 

@@ -33,7 +33,7 @@ namespace PacMan
             DefaultMap = (Map)Map.Clone();
             Pacman = Map.Pacman;
             Pacman.SetTime(TIMEFORPACMAN);
-            Cherry = new Cherry(new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 2), Map);
+            Cherry = new Cherry(new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 2), Map);
             Ghosts = new MenagerGhosts(Map, TIME);
 
             Pacman.SinkAboutEatEnergizer += Ghosts.AreFrightened;
@@ -51,7 +51,7 @@ namespace PacMan
             Pacman.StartCoord = Map.Pacman.StartCoord;
             Ghosts.SetDefaultMap(Map);
             Ghosts.SetStartCoord(Map);
-            Cherry.Position = new Position(Map.Width / 2, Map.Height / 2 + Map.Height % 2 + 1);
+            Cherry.Position = new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1);
         }
 
         public void Default()

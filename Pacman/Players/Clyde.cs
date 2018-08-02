@@ -1,4 +1,5 @@
 ﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 
 namespace PacMan.Players
 {
@@ -9,5 +10,7 @@ namespace PacMan.Players
             id = "clyde";
             idchar = 'C';
         }
+        
+        public override void StrategyRunForPacman() => Strategy = new AlgorithmForClyde();
     }
 }
