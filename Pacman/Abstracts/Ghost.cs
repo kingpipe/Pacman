@@ -10,7 +10,9 @@ namespace PacMan.Abstracts
 {
     abstract class Ghost : Player, IGhost, IFood
     {
-        public event Action SinkAboutKillPacman;
+        public abstract void StrategyRandom();
+
+        public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
         protected bool pacmanIsLive;
@@ -41,7 +43,6 @@ namespace PacMan.Abstracts
         {
             idFrightened = "frightened";
             Timer = new Timer();
-            StrategyRandom();
             path = new Stack<Position>();
             pacmanIsLive = true;
 
@@ -53,20 +54,24 @@ namespace PacMan.Abstracts
 
         public void UpScore() => Score += DefaultScore;
         public void StrategyGoAway() => Strategy = new GoAway();
-        public virtual void StrategyRandom() => Strategy = new RandomMoving();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
 
-        public override void RemoveFromMap()
+        public override void StartPosition()
+        {
+            base.StartPosition();
+            OldCoord = new Empty(Position);
+        }
+
+        public override void DefaultPosition()
         {
             Map[OldCoord.Position] = OldCoord;
             Movement(OldCoord);
-        }
 
-        public override void SetOnMap()
-        {
             StartPosition();
             Map[Position] = this;
             Movement(this);
+
+
         }
 
         public override void Default(Map map)
@@ -121,14 +126,14 @@ namespace PacMan.Abstracts
             }
         }
 
-        public async void Restart()
+        public async void Died()
         {
+            Timer.Stop();
             StartPosition();
             DefaultTime();
             OldCoord = new Empty(Position);
             Strategy = OldStrategy;
             Frightened = false;
-            Timer.Stop();
             await Task.Delay(Time * 20);
             Timer.Start();
         }

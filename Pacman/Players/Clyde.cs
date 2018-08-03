@@ -7,6 +7,8 @@ namespace PacMan.Players
     {
         public Clyde(Map map, Position start) : base(map, start)
         {
+            StrategyRandom();
+
             id = "clyde";
             idchar = 'C';
         }

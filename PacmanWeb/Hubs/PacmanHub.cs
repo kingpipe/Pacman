@@ -92,7 +92,6 @@ namespace PacmanWeb.Hubs
 
         private void Game_PacmanIsDied()
         {
-            game.Stop();
             Task.Run(() => UpdateMap());
             Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }

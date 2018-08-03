@@ -3,6 +3,7 @@ using PacMan.Players;
 using PacMan.Foods;
 using System;
 using PacMan.Enums;
+using System.Threading.Tasks;
 
 namespace PacMan
 {
@@ -17,7 +18,6 @@ namespace PacMan
 
         public event Action PacmanIsDied;
         public event Action UpdateMap;
-        public bool PacmanIsLive { get; private set; }
         public GameStatus Status { get; private set; }
         public Map Map { get; private set; }
         public int Score => Pacman.Count;
@@ -28,7 +28,6 @@ namespace PacMan
         public Game(string path)
         {
             Status = GameStatus.NeedInitEvent;
-            PacmanIsLive = true;
             Map = new Map(path, "BlueMap");
             DefaultMap = (Map)Map.Clone();
             Pacman = Map.Pacman;
@@ -60,18 +59,18 @@ namespace PacMan
             Map = (Map)DefaultMap.Clone();
             Ghosts.Default(Map);
             Pacman.Default(Map);
+            DefaultPositions();
         }
 
         private void Pacman_SinkAboutNextLevel()
         {
             Stop();
-            RemovePlayers();
             Map = (Map)DefaultMap.Clone();
             Pacman.Map = Map;
             Ghosts.SetDefaultMap(Map);
             Ghosts.ArenotFrightened();
+            DefaultPositions();
             UpdateMap();
-            CreatePlayers();
         }
 
         public void AddHandler(Action<ICoord> ghost, Action<ICoord> pacman, Action updatemap, Action pacmandied)
@@ -108,19 +107,6 @@ namespace PacMan
                 Pacman.Direction = Direction.None;
                 Pacman.Stop();
                 Ghosts.Stop();
-                if (!PacmanIsLive)
-                {
-                    Pacman.Lives--;
-                    if (Pacman.Lives > 0)
-                    {
-                        PacmanIsLive = true;
-                        CreatePlayers();
-                    }
-                    else
-                    {
-                        Status = GameStatus.TheEnd;
-                    }
-                }
             }
         }
 
@@ -130,23 +116,30 @@ namespace PacMan
             Dispose();
         }
 
-        private void PacmanIsKilled()
+        private void DefaultPositions()
         {
-            RemovePlayers();
-            PacmanIsLive = false;
+            Pacman.DefaultPosition();
+            Ghosts.DefaultPositions();
+        }
+
+        private async Task PacmanIsKilled()
+        {
+            Stop();
+            Pacman.Lives--;
             PacmanIsDied();
-        }
-
-        private void CreatePlayers()
-        {
-            Pacman.SetOnMap();
-            Ghosts.SetGhosts();
-        }
-
-        private void RemovePlayers()
-        {
-            Pacman.RemoveFromMap();
-            Ghosts.RemoveGhosts();
+            if (Pacman.Lives > 0)
+            {
+                DefaultPositions();
+                await Task.Delay(3000);
+                if (Status != GameStatus.InProcess)
+                {
+                    Start();
+                }
+            }
+            else
+            {
+                Status = GameStatus.TheEnd;
+            }
         }
 
         public void Dispose()

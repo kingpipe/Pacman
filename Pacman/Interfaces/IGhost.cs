@@ -3,7 +3,7 @@ namespace PacMan.Interfaces
 {
     interface IGhost: IMovable
     {
-        void Restart();
+        void Died();
         bool Frightened { get; set; }
         Position PacmanPosition { get; set; }
     }

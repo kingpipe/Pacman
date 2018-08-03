@@ -7,6 +7,8 @@ namespace PacMan.Players
     {
         public Inky(Map map, Position start) : base(map, start)
         {
+            StrategyRandom();
+
             id = "inky";
             idchar = 'I';
         }

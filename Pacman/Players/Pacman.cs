@@ -34,14 +34,11 @@ namespace PacMan.Players
             Level = 1;
         }
 
-        public override void RemoveFromMap()
+        public override void DefaultPosition()
         {
             Map[Position] = new Empty(Position);
             Movement(new Empty(Position));
-        }
 
-        public override void SetOnMap()
-        {
             StartPosition();
             Map[Position] = this;
             Movement(this);
@@ -51,6 +48,7 @@ namespace PacMan.Players
         {
             base.Default(map);
             Direction = Direction.None;
+            NewDirection = Direction.None;
             Level = 1;
             Count = 0;
             Lives = 3;
@@ -85,7 +83,7 @@ namespace PacMan.Players
                 if (ghost.Frightened)
                 {
                     Count += food.Score;
-                    ghost.Restart();
+                    ghost.Died();
                     SinkAboutEatGhost();
                 }
             }

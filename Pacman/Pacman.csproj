@@ -59,7 +59,6 @@
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />
-    <Compile Include="Algorithms\RandomMoving.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Foods\Energizer.cs" />
     <Compile Include="Foods\Cherry.cs" />

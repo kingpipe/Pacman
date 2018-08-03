@@ -7,6 +7,8 @@ namespace PacMan.Players
     {
         public Blinky(Map map, Position start) : base(map, start)
         {
+            StrategyRandom();
+
             id = "blinky";
             idchar = 'B';
         }

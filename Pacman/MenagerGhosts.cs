@@ -4,6 +4,7 @@ using PacMan.Interfaces;
 using PacMan.Players;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace PacMan
@@ -57,6 +58,7 @@ namespace PacMan
             foreach (var ghost in Ghosts)
             {
                 ghost.Map = map;
+                ghost.Default(map);
             }
         }
 
@@ -76,20 +78,11 @@ namespace PacMan
             }
         }
 
-        public void SetGhosts()
+        public void DefaultPositions()
         {
             foreach (var ghost in Ghosts)
             {
-                ghost.SetOnMap();
-                ghost.OldCoord = new Empty(ghost.Position);
-            }
-        }
-
-        public void RemoveGhosts()
-        {
-            foreach (var ghost in Ghosts)
-            {
-                ghost.RemoveFromMap();
+                ghost.DefaultPosition();
             }
         }
 
@@ -140,7 +133,7 @@ namespace PacMan
             ArenotFrightened();
         }
         
-        public void AddSinkAboutEatPacmanHandler(Action action)
+        public void AddSinkAboutEatPacmanHandler(Func<Task> action)
         {
             foreach (var ghost in Ghosts)
             {

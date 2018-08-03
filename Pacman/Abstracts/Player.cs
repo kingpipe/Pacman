@@ -10,8 +10,7 @@ namespace PacMan.Abstracts
     {
         public abstract event Action<ICoord> Movement;
         public abstract bool Move();
-        public abstract void RemoveFromMap();
-        public abstract void SetOnMap();
+        public abstract void DefaultPosition();
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
         protected Position start;
