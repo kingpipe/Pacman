@@ -10,17 +10,17 @@ namespace PacMan.Abstracts
     {
         public abstract event Action<ICoord> Movement;
         public abstract bool Move();
-        public abstract void DefaultPosition();
+        public abstract void StartPosition();
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
         protected Position start;
         protected string id;
         protected char idchar;
+        protected Timer timer;
 
         public Map Map { get; set; }
         public Position Position { get; set; }
         public Direction Direction { get; set; }
-        public Timer Timer { get; set; }
         public int Time { get; set; }
         public virtual Position StartCoord
         {
@@ -28,7 +28,7 @@ namespace PacMan.Abstracts
             set
             {
                 start = value;
-                StartPosition();
+                DefaultCoord();
             }
         }
         
@@ -40,21 +40,21 @@ namespace PacMan.Abstracts
 
         public virtual string GetId() => id;
         public char GetCharElement() => idchar;
-        public virtual void StartPosition() => Position = StartCoord;
+        public virtual void DefaultCoord() => Position = StartCoord;
 
-        public virtual void Start() => Timer.Start(TimerElapsed);
-        public virtual void Stop() => Timer.Stop(TimerElapsed);
+        public virtual void Start() => timer.Start(TimerElapsed);
+        public virtual void Stop() => timer.Stop(TimerElapsed);
         
         public virtual void Default(Map map)
         {
             Stop();
             Map = map;
-            StartPosition();
+            DefaultCoord();
         }
 
         public void SetTime(int time)
         {
-            Timer.Interval = time;
+            timer.Interval = time;
             Time = time;
         }
 
@@ -108,7 +108,7 @@ namespace PacMan.Abstracts
             Position = position;
 
             value.Position = Position;
-            Map[value.Position] = value;
+            Map[Position] = value;
         }
 
         private void SwapPlacesY(int y)
@@ -121,7 +121,7 @@ namespace PacMan.Abstracts
             Position = position;
 
             value.Position = Position;
-            Map[value.Position] = value;
+            Map[Position] = value;
         }
     }
 }

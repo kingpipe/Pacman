@@ -26,7 +26,7 @@ namespace PacMan.Players
             id = "pacman";
             idchar = 'P';
 
-            Timer = new Timer();
+            timer = new Timer();
             Direction = Direction.None;
             NewDirection = Direction.None;
             Count = 0;
@@ -34,12 +34,12 @@ namespace PacMan.Players
             Level = 1;
         }
 
-        public override void DefaultPosition()
+        public override void StartPosition()
         {
             Map[Position] = new Empty(Position);
             Movement(new Empty(Position));
 
-            StartPosition();
+            DefaultCoord();
             Map[Position] = this;
             Movement(this);
         }
@@ -187,6 +187,5 @@ namespace PacMan.Players
                     return false;
             }
         }
-
     }
 }

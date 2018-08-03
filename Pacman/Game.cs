@@ -118,8 +118,8 @@ namespace PacMan
 
         private void DefaultPositions()
         {
-            Pacman.DefaultPosition();
-            Ghosts.DefaultPositions();
+            Pacman.StartPosition();
+            Ghosts.StartPositions();
         }
 
         private async Task PacmanIsKilled()

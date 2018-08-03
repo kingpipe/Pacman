@@ -13,32 +13,32 @@ namespace PacMan
     {
         private readonly Timer timeFrightened;
 
-        private ChangeStateGhosts ChangeStateGhosts { set; get; }
-        private Blinky Blinky { get; set; }
-        private Clyde Clyde { get; set; }
-        private Inky Inky { get; set; }
-        private Pinky Pinky { get; set; }
-        private Collection<Ghost> Ghosts { get; set; }
+        private ChangeStateGhosts changeStateGhosts;
+        private readonly Blinky blinky;
+        private readonly Clyde clyde;
+        private readonly Inky inky;
+        private readonly Pinky pinky;
+        private readonly Collection<Ghost> ghosts;
 
         public MenagerGhosts(Map map, int time)
         {
             timeFrightened = new Timer(10000);
 
-            Ghosts = new Collection<Ghost>();
-            Blinky = map.Blinky;
-            Clyde = map.Clyde;
-            Inky = map.Inky;
-            Pinky = map.Pinky;
+            ghosts = new Collection<Ghost>();
+            blinky = map.Blinky;
+            clyde = map.Clyde;
+            inky = map.Inky;
+            pinky = map.Pinky;
 
             AddGhostsInCollection();
             SetTime(time);
 
-            ChangeStateGhosts = new ChangeStateGhosts(this);
+            changeStateGhosts = new ChangeStateGhosts(this);
         }
 
         private void SetTime(int time)
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.SetTime(time);
             }
@@ -46,86 +46,82 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            ChangeStateGhosts = new ChangeStateGhosts(this);
-            foreach (var ghost in Ghosts)
-            {
-                ghost.Default(map);
-            }
+            changeStateGhosts = new ChangeStateGhosts(this);
+            SetDefaultMap(map);
         }
 
         public void SetDefaultMap(Map map)
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
-                ghost.Map = map;
                 ghost.Default(map);
             }
         }
 
         public void SetStartCoord(Map map)
         {
-            Inky.StartCoord = map.Inky.StartCoord;
-            Pinky.StartCoord = map.Pinky.StartCoord;
-            Clyde.StartCoord = map.Clyde.StartCoord;
-            Blinky.StartCoord = map.Blinky.StartCoord;
+            inky.StartCoord = map.Inky.StartCoord;
+            pinky.StartCoord = map.Pinky.StartCoord;
+            clyde.StartCoord = map.Clyde.StartCoord;
+            blinky.StartCoord = map.Blinky.StartCoord;
         }
 
         public void EatGhost()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.UpScore();
             }
         }
 
-        public void DefaultPositions()
+        public void StartPositions()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
-                ghost.DefaultPosition();
+                ghost.StartPosition();
             }
         }
 
         public void Start()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.Start();
             }
-            ChangeStateGhosts.Start();
+            changeStateGhosts.Start();
         }
 
         public void Stop()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.Stop();
             }
-            ChangeStateGhosts.Stop();
+            changeStateGhosts.Stop();
         }
 
         public void AreFrightened()
         {
             timeFrightened.Stop(Timer_Elapsed);
 
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.Scared();
             }
             timeFrightened.Start(Timer_Elapsed);
 
-            ChangeStateGhosts.Stop();
+            changeStateGhosts.Stop();
         }
 
         public void ArenotFrightened()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.NotScared();
             }
             timeFrightened.Stop(Timer_Elapsed);
 
-            ChangeStateGhosts.Start();
+            changeStateGhosts.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -135,7 +131,7 @@ namespace PacMan
         
         public void AddSinkAboutEatPacmanHandler(Func<Task> action)
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.SinkAboutKillPacman += action;
             }
@@ -143,7 +139,7 @@ namespace PacMan
 
         public void AddMoveHandler(Action<ICoord> action)
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.Movement += action;
             }
@@ -151,7 +147,7 @@ namespace PacMan
 
         public void SetStrategyRunForPacman()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.StrategyRunForPacman();
             }
@@ -159,15 +155,15 @@ namespace PacMan
 
         public void SetStrategyRandom()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
-                ghost.StrategyRandom();
+                ghost.StrategyGoToCorner();
             }
         }
 
         public void SetStrategyGoAway()
         {
-            foreach (var ghost in Ghosts)
+            foreach (var ghost in ghosts)
             {
                 ghost.StrategyGoAway();
             }
@@ -175,10 +171,10 @@ namespace PacMan
         
         private void AddGhostsInCollection()
         {
-            Ghosts.Add(Blinky);
-            Ghosts.Add(Clyde);
-            Ghosts.Add(Inky);
-            Ghosts.Add(Pinky);
+            ghosts.Add(blinky);
+            ghosts.Add(clyde);
+            ghosts.Add(inky);
+            ghosts.Add(pinky);
         }
     }
 }

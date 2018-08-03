@@ -8,7 +8,6 @@ namespace PacMan.Foods
         {
             id = "energaizer";
             idchar = '*';
-
             Score = 50;
         }
     }

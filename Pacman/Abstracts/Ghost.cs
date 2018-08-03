@@ -10,7 +10,7 @@ namespace PacMan.Abstracts
 {
     abstract class Ghost : Player, IGhost, IFood
     {
-        public abstract void StrategyRandom();
+        public abstract void StrategyGoToCorner();
 
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
@@ -19,13 +19,13 @@ namespace PacMan.Abstracts
         protected string idFrightened;
         protected Stack<Position> path;
         protected Position homePosition;
+        protected IStrategy Strategy { get; set; }
+        protected IStrategy OldStrategy { get; set; }
+        protected ICoord OldCoord { get; set; }
 
-        public IStrategy Strategy { get; set; }
-        public IStrategy OldStrategy { get; set; }
-        public ICoord OldCoord { get; set; }
-        public Position PacmanPosition { get; set; }
         public bool Frightened { get; set; }
-        public int DefaultScore { get; private set; }
+        public Position PacmanPosition { get; set; }
+        protected int DefaultScore { get; private set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
         public override Position StartCoord
@@ -34,7 +34,7 @@ namespace PacMan.Abstracts
             set
             {
                 start = value;
-                StartPosition();
+                DefaultCoord();
                 OldCoord = new Empty(Position);
             }
         }
@@ -42,7 +42,7 @@ namespace PacMan.Abstracts
         protected Ghost(Map map, Position start) : base(map, start)
         {
             idFrightened = "frightened";
-            Timer = new Timer();
+            timer = new Timer();
             path = new Stack<Position>();
             pacmanIsLive = true;
 
@@ -56,28 +56,26 @@ namespace PacMan.Abstracts
         public void StrategyGoAway() => Strategy = new GoAway();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
 
-        public override void StartPosition()
+        public override void DefaultCoord()
         {
-            base.StartPosition();
+            base.DefaultCoord();
             OldCoord = new Empty(Position);
         }
 
-        public override void DefaultPosition()
+        public override void StartPosition()
         {
             Map[OldCoord.Position] = OldCoord;
             Movement(OldCoord);
 
-            StartPosition();
+            DefaultCoord();
             Map[Position] = this;
             Movement(this);
-
-
         }
 
         public override void Default(Map map)
         {
             base.Default(map);
-            StrategyRandom();
+            StrategyGoToCorner();
             OldCoord = new Empty(Position);
             Frightened = false;
             DefaultTime();
@@ -128,14 +126,14 @@ namespace PacMan.Abstracts
 
         public async void Died()
         {
-            Timer.Stop();
-            StartPosition();
+            timer.Stop();
+            DefaultCoord();
             DefaultTime();
             OldCoord = new Empty(Position);
             Strategy = OldStrategy;
             Frightened = false;
             await Task.Delay(Time * 20);
-            Timer.Start();
+            timer.Start();
         }
 
         public void Scared()
@@ -192,7 +190,7 @@ namespace PacMan.Abstracts
             }
         }
 
-        private void DefaultTime() => Timer.Interval = Time;
-        private void SpeedDownAt(double n) => Timer.Interval = Time * n;
+        private void DefaultTime() => timer.Interval = Time;
+        private void SpeedDownAt(double n) => timer.Interval = Time * n;
     }
 }

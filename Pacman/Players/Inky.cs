@@ -7,18 +7,18 @@ namespace PacMan.Players
     {
         public Inky(Map map, Position start) : base(map, start)
         {
-            StrategyRandom();
+            StrategyGoToCorner();
 
             id = "inky";
             idchar = 'I';
         }
 
-        public override void StrategyRandom() => Strategy = new GoToCornerForInky();
+        public override void StrategyGoToCorner() => Strategy = new GoToCornerForInky();
 
-        public override void StartPosition()
+        public override void DefaultCoord()
         {
             homePosition = new Position(Map.Widht - 4, Map.Height - 5);
-            base.StartPosition();
+            base.DefaultCoord();
         }
 
         public override bool Move()

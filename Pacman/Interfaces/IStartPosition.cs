@@ -2,6 +2,6 @@
 {
     interface IStartPosition
     {
-        void StartPosition();
+        void DefaultCoord();
     }
 }

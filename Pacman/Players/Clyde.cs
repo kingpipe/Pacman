@@ -7,19 +7,19 @@ namespace PacMan.Players
     {
         public Clyde(Map map, Position start) : base(map, start)
         {
-            StrategyRandom();
+            StrategyGoToCorner();
 
             id = "clyde";
             idchar = 'C';
         }
 
         public override void StrategyRunForPacman() => Strategy = new AlgorithmForClyde();
-        public override void StrategyRandom() => Strategy = new GoToCornerForClyde();
+        public override void StrategyGoToCorner() => Strategy = new GoToCornerForClyde();
 
-        public override void StartPosition()
+        public override void DefaultCoord()
         {
             homePosition = new Position(3, Map.Height - 5);
-            base.StartPosition();
+            base.DefaultCoord();
         }
 
         public override bool Move()

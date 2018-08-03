@@ -9,9 +9,10 @@ namespace PacMan
     class ChangeStateGhosts
     {
         public readonly MenagerGhosts Ghosts;
+        public IState State { get; set; }
+
         private readonly Timer timer;
         private readonly Queue<int> listoftime;
-        public IState State { get; set; }
 
 
         public ChangeStateGhosts(MenagerGhosts ghosts)
@@ -21,12 +22,6 @@ namespace PacMan
             InitQueue();
             timer = new Timer(listoftime.Dequeue());
             State = new StateScatter();
-        }
-
-        public ChangeStateGhosts(MenagerGhosts ghosts, Queue<int> Listoftime)
-        {
-            Ghosts = ghosts;
-            timer = new Timer(Listoftime.Dequeue());
         }
 
         private void InitQueue()
