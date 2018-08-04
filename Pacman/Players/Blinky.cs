@@ -5,29 +5,24 @@ namespace PacMan.Players
 {
     class Blinky : Ghost
     {
+        public override Position StartCoord
+        {
+            get => base.StartCoord;
+            set
+            {
+                homePosition = new Position(Map.Widht - 4, 1);
+                base.StartCoord = value;
+            }
+        }
+
         public Blinky(Map map, Position start) : base(map, start)
         {
             StrategyGoToCorner();
 
+            GoToCircle= new GoToClockwise();
+
             id = "blinky";
             idchar = 'B';
-        }
-
-        public override void StrategyGoToCorner() => Strategy = new GoToCornerForBlinky();
-
-        public override void DefaultCoord()
-        {
-            homePosition = new Position(Map.Widht - 4, 1);
-            base.DefaultCoord();
-        }
-
-        public override bool Move()
-        {
-            if (Position == homePosition && Strategy is GoToCornerForBlinky)
-            {
-                Strategy = new GoToClockwise();
-            }
-            return base.Move();
         }
     }
 }

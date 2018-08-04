@@ -10,8 +10,6 @@ namespace PacMan.Abstracts
 {
     abstract class Ghost : Player, IGhost, IFood
     {
-        public abstract void StrategyGoToCorner();
-
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
@@ -21,6 +19,8 @@ namespace PacMan.Abstracts
         protected Position homePosition;
         protected IStrategy Strategy { get; set; }
         protected IStrategy OldStrategy { get; set; }
+        protected IStrategy GoToCorner { get; set; }
+        protected IStrategy GoToCircle { get; set; }
         protected ICoord OldCoord { get; set; }
 
         public bool Frightened { get; set; }
@@ -45,6 +45,7 @@ namespace PacMan.Abstracts
             timer = new Timer();
             path = new Stack<Position>();
             pacmanIsLive = true;
+            GoToCorner = new GoToCorner();
 
             Score = 200;
             DefaultScore = Score;
@@ -55,6 +56,7 @@ namespace PacMan.Abstracts
         public void UpScore() => Score += DefaultScore;
         public void StrategyGoAway() => Strategy = new GoAway();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
+        public void StrategyGoToCorner() => Strategy = GoToCorner;
 
         public override void DefaultCoord()
         {
@@ -95,11 +97,22 @@ namespace PacMan.Abstracts
 
         public override bool Move()
         {
-            PacmanPosition = SearchPacman();
+            if (Strategy is GoToCorner)
+            {
+                path = Strategy.FindPath(Map, Position, homePosition);
+                if (Position == homePosition)
+                {
+                    Strategy = GoToCircle;
+                }
+            }
+            else
+            {
+                PacmanPosition = SearchPacman();
+                path = Strategy.FindPath(Map, Position, PacmanPosition);
+            }
 
             if (PacmanPosition != Position)
             {
-                path = Strategy.FindPath(Map, Position, PacmanPosition);
                 OldCoord = Go(path, OldCoord);
                 if (PacmanPosition != Position)
                 {

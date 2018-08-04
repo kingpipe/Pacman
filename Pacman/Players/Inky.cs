@@ -5,29 +5,23 @@ namespace PacMan.Players
 {
     class Inky : Ghost
     {
+        public override Position StartCoord
+        {
+            get => base.StartCoord;
+            set
+            {
+                homePosition = new Position(Map.Widht - 4, Map.Height - 5);
+                base.StartCoord = value;
+            }
+        }
         public Inky(Map map, Position start) : base(map, start)
         {
             StrategyGoToCorner();
 
+            GoToCircle = new GoToClockwise();
+
             id = "inky";
             idchar = 'I';
-        }
-
-        public override void StrategyGoToCorner() => Strategy = new GoToCornerForInky();
-
-        public override void DefaultCoord()
-        {
-            homePosition = new Position(Map.Widht - 4, Map.Height - 5);
-            base.DefaultCoord();
-        }
-
-        public override bool Move()
-        {
-            if (Position == homePosition && Strategy is GoToCornerForInky)
-            {
-                Strategy = new GoToClockwise();
-            }
-            return base.Move();
         }
     }
 }
