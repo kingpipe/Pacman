@@ -9,8 +9,6 @@ using PacmanWeb.Models;
 using PacmanWeb.Services;
 using PacmanWeb.Hubs;
 using PacMan;
-using System;
-using PacmanWeb.Filters;
 
 namespace PacmanWeb
 {
@@ -37,11 +35,12 @@ namespace PacmanWeb
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSignalR();
-            
-            
+                        
             services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapBluePath").Value));
 
-            services.AddMvc(options => options.Filters.Add(typeof(DefaultGame)));
+            services.AddSingleton<PacmanHubContext>();
+
+            services.AddMvc();
 
             services.AddAuthentication().AddFacebook(options =>
                 {

@@ -6,7 +6,7 @@ namespace PacMan.StateBehavior
     {
         public void ChangeBehavior(ChangeStateGhosts changeState)
         {
-            changeState.Ghosts.SetStrategyRandom();
+            changeState.Ghosts.SetStrategyGoToCorner();
             changeState.State = new StateScatter();
         }
     }

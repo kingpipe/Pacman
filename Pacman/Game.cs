@@ -55,11 +55,18 @@ namespace PacMan
 
         public void Default()
         {
-            Status = GameStatus.ReadyToStart;
-            Map = (Map)DefaultMap.Clone();
-            Ghosts.Default(Map);
-            Pacman.Default(Map);
-            DefaultPositions();
+            if (Status != GameStatus.ReadyToStart && Status != GameStatus.NeedInitEvent)
+            {
+                if (Status != GameStatus.Stop)
+                {
+                    Stop();
+                }
+                Status = GameStatus.ReadyToStart;
+                Map = (Map)DefaultMap.Clone();
+                Ghosts.Default(Map);
+                Pacman.Default(Map);
+                Pacman.DefaultCoord();
+            }
         }
 
         private void Pacman_SinkAboutNextLevel()
@@ -94,17 +101,19 @@ namespace PacMan
 
         public void Start()
         {
-            Status = GameStatus.InProcess;
-            Ghosts.Start();
-            Pacman.Start();
+            if (Status == GameStatus.Stop || Status == GameStatus.ReadyToStart)
+            {
+                Status = GameStatus.InProcess;
+                Ghosts.Start();
+                Pacman.Start();
+            }
         }
 
         public void Stop()
         {
-            if (Status != GameStatus.TheEnd && Status != GameStatus.Stop)
+            if (Status == GameStatus.InProcess)
             {
                 Status = GameStatus.Stop;
-                Pacman.Direction = Direction.None;
                 Pacman.Stop();
                 Ghosts.Stop();
             }

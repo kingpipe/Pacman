@@ -46,8 +46,8 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            changeStateGhosts = new ChangeStateGhosts(this);
             SetDefaultMap(map);
+            changeStateGhosts = new ChangeStateGhosts(this);
         }
 
         public void SetDefaultMap(Map map)
@@ -153,7 +153,7 @@ namespace PacMan
             }
         }
 
-        public void SetStrategyRandom()
+        public void SetStrategyGoToCorner()
         {
             foreach (var ghost in ghosts)
             {

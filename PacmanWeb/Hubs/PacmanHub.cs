@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Enums;
-using PacMan.Interfaces;
 using PacmanWeb.Data;
 using PacmanWeb.Models;
 
@@ -12,13 +11,13 @@ namespace PacmanWeb.Hubs
     public class PacmanHub : Hub
     {
         private Game game;
-        private readonly IHubContext<PacmanHub> hubContext;
+        private readonly PacmanHubContext pacmanHubContext;
         private readonly ApplicationDbContext context;
 
-        public PacmanHub(Game game, IHubContext<PacmanHub> hubContext, ApplicationDbContext context)
+        public PacmanHub(Game game, PacmanHubContext pacmanHubContext, ApplicationDbContext context)
         {
             this.game = game;
-            this.hubContext = hubContext;
+            this.pacmanHubContext = pacmanHubContext;
             this.context = context;
         }
 
@@ -26,33 +25,24 @@ namespace PacmanWeb.Hubs
         {
             if (game.Status == GameStatus.NeedInitEvent)
             {
-                game.AddHandler(Move, PacmanMove, UpdateMap, Game_PacmanIsDied);
-                game.Start();
+                game.AddHandler(pacmanHubContext.Move, pacmanHubContext.PacmanMove,
+                    pacmanHubContext.UpdateMap, pacmanHubContext.Game_PacmanIsDied);
             }
-            else if (game.Status == GameStatus.Stop || game.Status == GameStatus.ReadyToStart)
-            {
-                game.Start();
-            }
+            game.Start();
         }
 
         public void Stop()
         {
-            if (game.Status == GameStatus.InProcess)
-            {
-                game.Stop();
-            }
-            Task.Run(() => UpdateMap());
+            game.Stop();
+            Task.Run(() => pacmanHubContext.UpdateMap());
         }
 
         public void Restart()
         {
-            if (game.Status != GameStatus.ReadyToStart)
-            {
-                game.Default();
-                game.Start();
-                Task.Run(() => UpdateMap());
-                Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
-            }
+            game.Default();
+            game.Start();
+            Task.Run(() => pacmanHubContext.UpdateMap());
+            Task.Run(() => pacmanHubContext.UpdateLive());
         }
 
         public async Task AddinDB()
@@ -90,60 +80,10 @@ namespace PacmanWeb.Hubs
             }
         }
 
-        private void Game_PacmanIsDied()
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            Task.Run(() => UpdateMap());
-            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
-        }
-
-        private void UpdateMap()
-        {
-            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
-            hubContext.Clients.All.SendAsync("Level", game.Level);
-        }
-
-        private void Move(ICoord coord)
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Move",
-                coord.Position.X,
-                coord.Position.Y,
-                coord.GetId()));
-        }
-
-        private void PacmanMove(ICoord coord)
-        {
-            string direction = string.Empty;
-            if (coord.GetId() == "pacman")
-            {
-                direction = SetDirection(direction);
-            }
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
-                coord.Position.X,
-                coord.Position.Y,
-                coord.GetId() + direction,
-                game.Score));
-        }
-
-        private string SetDirection(string direction)
-        {
-            switch (game.Direction)
-            {
-                case Direction.Right:
-                    direction = "right";
-                    break;
-                case Direction.Left:
-                    direction = "left";
-                    break;
-                case Direction.Up:
-                    direction = "up";
-                    break;
-                case Direction.Down:
-                    direction = "down";
-                    break;
-                default:
-                    break;
-            }
-            return direction;
+            game.Default();
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }
