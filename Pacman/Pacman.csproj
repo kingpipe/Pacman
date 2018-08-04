@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AlgorithmForClyde.cs" />
+    <Compile Include="Algorithms\AstarAlgorithmOptimization.cs" />
     <Compile Include="Algorithms\GoToClockwise.cs" />
     <Compile Include="Algorithms\GoAgainstClockwise.cs" />
     <Compile Include="Algorithms\GoToCorner.cs" />

@@ -17,8 +17,6 @@ namespace PacMan.Players
 
         public Blinky(Map map, Position start) : base(map, start)
         {
-            StrategyGoToCorner();
-
             GoToCircle= new GoToClockwise();
 
             id = "blinky";

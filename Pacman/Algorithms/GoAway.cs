@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using PacMan.Interfaces;
-using PacMan.Algorithms.Astar;
+using PacMan.Algorithms;
 
 namespace PacMan.Algorithms
 {
@@ -10,7 +10,7 @@ namespace PacMan.Algorithms
 
         public GoAway()
         {
-            strategy = new AstarAlgorithm();
+            strategy = new AstarAlgorithmOptimization();
         }
         
         public Stack<Position> FindPath(IMap map, Position start, Position goal)

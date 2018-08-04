@@ -6,10 +6,16 @@ namespace PacMan.Algorithms
 {
     class GoToCorner : IStrategy
     {
+        private readonly IStrategy strategy;
+
+        public GoToCorner()
+        {
+            strategy = new AstarAlgorithmOptimization();
+        }
+        
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
-            var astar = new AstarAlgorithm();
-            return astar.FindPath(map, start, goal);
+            return strategy.FindPath(map, start, goal);
         }
     }
 }

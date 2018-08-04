@@ -17,8 +17,6 @@ namespace PacMan.Players
 
         public Clyde(Map map, Position start) : base(map, start)
         {
-            StrategyGoToCorner();
-
             GoToCircle = new GoAgainstClockwise();
 
             id = "clyde";

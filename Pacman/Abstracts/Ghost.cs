@@ -19,7 +19,6 @@ namespace PacMan.Abstracts
         protected Position homePosition;
         protected IStrategy Strategy { get; set; }
         protected IStrategy OldStrategy { get; set; }
-        protected IStrategy GoToCorner { get; set; }
         protected IStrategy GoToCircle { get; set; }
         protected ICoord OldCoord { get; set; }
 
@@ -45,7 +44,8 @@ namespace PacMan.Abstracts
             timer = new Timer();
             path = new Stack<Position>();
             pacmanIsLive = true;
-            GoToCorner = new GoToCorner();
+            StrategyGoToCorner();
+
 
             Score = 200;
             DefaultScore = Score;
@@ -56,7 +56,7 @@ namespace PacMan.Abstracts
         public void UpScore() => Score += DefaultScore;
         public void StrategyGoAway() => Strategy = new GoAway();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
-        public void StrategyGoToCorner() => Strategy = GoToCorner;
+        public void StrategyGoToCorner() => Strategy = new GoToCorner();
 
         public override void DefaultCoord()
         {
@@ -107,9 +107,10 @@ namespace PacMan.Abstracts
             }
             else
             {
-                PacmanPosition = SearchPacman();
                 path = Strategy.FindPath(Map, Position, PacmanPosition);
             }
+
+            PacmanPosition = SearchPacman();
 
             if (PacmanPosition != Position)
             {

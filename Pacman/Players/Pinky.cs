@@ -17,12 +17,11 @@ namespace PacMan.Players
 
         public Pinky(Map map, Position start) : base(map, start)
         {
-            StrategyGoToCorner();
-
             GoToCircle = new GoAgainstClockwise();
 
             id = "pinky";
             idchar = 'N';
         }
+        public override void StrategyRunForPacman() => Strategy = new AstarAlgorithmOptimization();
     }
 }
