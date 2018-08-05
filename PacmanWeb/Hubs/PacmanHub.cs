@@ -26,7 +26,7 @@ namespace PacmanWeb.Hubs
             if (game.Status == GameStatus.NeedInitEvent)
             {
                 game.AddHandler(pacmanHubContext.Move, pacmanHubContext.PacmanMove,
-                    pacmanHubContext.UpdateMap, pacmanHubContext.Game_PacmanIsDied);
+                    pacmanHubContext.UpdateMap);
             }
             game.Start();
         }
@@ -42,7 +42,6 @@ namespace PacmanWeb.Hubs
             game.Default();
             game.Start();
             Task.Run(() => pacmanHubContext.UpdateMap());
-            Task.Run(() => pacmanHubContext.UpdateLive());
         }
 
         public async Task AddinDB()

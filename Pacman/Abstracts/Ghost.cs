@@ -13,6 +13,7 @@ namespace PacMan.Abstracts
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
+        private readonly object obj = new object();
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected Stack<Position> path;
@@ -66,12 +67,15 @@ namespace PacMan.Abstracts
 
         public override void StartPosition()
         {
-            Map[OldCoord.Position] = OldCoord;
-            Movement(OldCoord);
+            lock (obj)
+            {
+                Map[OldCoord.Position] = OldCoord;
+                Movement(OldCoord);
 
-            DefaultCoord();
-            Map[Position] = this;
-            Movement(this);
+                DefaultCoord();
+                Map[Position] = this;
+                Movement(this);
+            }
         }
 
         public override void Default(Map map)
@@ -129,9 +133,12 @@ namespace PacMan.Abstracts
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Movement(OldCoord);
-            pacmanIsLive = Move();
-            Movement(Map[Position]);
+            lock (obj)
+            {
+                Movement(OldCoord);
+                pacmanIsLive = Move();
+                Movement(Map[Position]);
+            }
             if (!pacmanIsLive)
             {
                 SinkAboutKillPacman();

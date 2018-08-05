@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Enums;
@@ -20,15 +17,11 @@ namespace PacmanWeb.Hubs
             this.game = game;
         }
 
-        public void Game_PacmanIsDied()
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
-        }
-
         public void UpdateMap()
         {
             hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
             hubContext.Clients.All.SendAsync("Level", game.Level);
+            hubContext.Clients.All.SendAsync("Live", game.Lives);
         }
 
         public void Move(ICoord coord)
@@ -51,11 +44,6 @@ namespace PacmanWeb.Hubs
                 coord.Position.Y,
                 coord.GetId() + direction,
                 game.Score));
-        }
-
-        public void UpdateLive()
-        {
-            Task.Run(() => hubContext.Clients.All.SendAsync("Live", game.Lives));
         }
 
         private string SetDirection(string direction)

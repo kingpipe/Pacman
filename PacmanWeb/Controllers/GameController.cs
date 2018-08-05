@@ -52,10 +52,9 @@ namespace PacmanWeb.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public IActionResult Records()
         {
-            return View(Context.Set<RecordsModel>().OrderByDescending(model => model.Score));
+            return View(Context.Records.OrderByDescending(model => model.Score));
         }
     }
 }

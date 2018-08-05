@@ -5,7 +5,6 @@
         NeedInitEvent,
         ReadyToStart,
         InProcess,
-        TheEnd,
         Stop
     }
 }

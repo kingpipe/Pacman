@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PacMan
 {
-    public sealed class Game : IDisposable
+    public sealed class Game
     {
         private const int TIME = 200;
         private const int TIMEFORPACMAN = 200;
@@ -16,7 +16,6 @@ namespace PacMan
         private MenagerGhosts Ghosts { get; set; }
         private Map DefaultMap { get; set; }
 
-        public event Action PacmanIsDied;
         public event Action UpdateMap;
         public GameStatus Status { get; private set; }
         public Map Map { get; private set; }
@@ -66,6 +65,7 @@ namespace PacMan
                 Ghosts.Default(Map);
                 Pacman.Default(Map);
                 Pacman.DefaultCoord();
+                Pacman.StartPosition();
             }
         }
 
@@ -73,14 +73,16 @@ namespace PacMan
         {
             Stop();
             Map = (Map)DefaultMap.Clone();
+            Pacman.StartPosition();
             Pacman.Map = Map;
-            Ghosts.SetDefaultMap(Map);
+            Ghosts.StartPositions();
             Ghosts.ArenotFrightened();
-            DefaultPositions();
+            Ghosts.SetDefaultMap(Map);
             UpdateMap();
+            Start();
         }
 
-        public void AddHandler(Action<ICoord> ghost, Action<ICoord> pacman, Action updatemap, Action pacmandied)
+        public void AddHandler(Action<ICoord> ghost, Action<ICoord> pacman, Action updatemap)
         {
             Ghosts.AddMoveHandler(ghost);
             Cherry.Movement += ghost;
@@ -88,8 +90,6 @@ namespace PacMan
             Pacman.Movement += pacman;
 
             UpdateMap += updatemap;
-
-            PacmanIsDied += pacmandied;
 
             Status = GameStatus.ReadyToStart;
         }
@@ -119,26 +119,15 @@ namespace PacMan
             }
         }
 
-        public void End()
-        {
-            Status = GameStatus.TheEnd;
-            Dispose();
-        }
-
-        private void DefaultPositions()
-        {
-            Pacman.StartPosition();
-            Ghosts.StartPositions();
-        }
-
         private async Task PacmanIsKilled()
         {
             Stop();
             Pacman.Lives--;
-            PacmanIsDied();
+            Pacman.StartPosition();
+            Ghosts.StartPositions();
+            UpdateMap();
             if (Pacman.Lives > 0)
             {
-                DefaultPositions();
                 await Task.Delay(3000);
                 if (Status != GameStatus.InProcess)
                 {
@@ -147,13 +136,11 @@ namespace PacMan
             }
             else
             {
-                Status = GameStatus.TheEnd;
+                await Task.Delay(2000);
+                Default();
+                Status = GameStatus.ReadyToStart;
+                UpdateMap();
             }
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(true);
         }
     }
 }
