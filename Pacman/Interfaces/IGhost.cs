@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Interfaces
 {
-    interface IGhost: IMovable
+    interface IGhost: IMovable, IFood
     {
         void Restart();
         bool Frightened { get; set; }

@@ -48,6 +48,7 @@
     <Compile Include="Algorithms\GoToClockwise.cs" />
     <Compile Include="Algorithms\GoAgainstClockwise.cs" />
     <Compile Include="Algorithms\GoToCorner.cs" />
+    <Compile Include="Algorithms\GoToDefaultPosition.cs" />
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="Enums\GameStatus.cs" />

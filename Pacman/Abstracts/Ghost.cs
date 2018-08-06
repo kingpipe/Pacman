@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace PacMan.Abstracts
 {
-    abstract class Ghost : Player, IGhost, IFood
+    abstract class Ghost : Player, IGhost
     {
         protected abstract void GoToCircle();
 
@@ -18,6 +18,7 @@ namespace PacMan.Abstracts
         private readonly object obj = new object();
         protected bool pacmanIsLive;
         protected string idFrightened;
+        protected string idEyes;
         protected Stack<Position> path;
         protected Position homePosition;
         protected IStrategy Strategy { get; set; }
@@ -43,6 +44,7 @@ namespace PacMan.Abstracts
         protected Ghost(Map map, Position start) : base(map, start)
         {
             idFrightened = "frightened";
+            idEyes = "eyes";
             timer = new Timer();
             path = new Stack<Position>();
             pacmanIsLive = true;
@@ -94,6 +96,10 @@ namespace PacMan.Abstracts
             {
                 return idFrightened;
             }
+            else if (!IsLive)
+            {
+                return idEyes;
+            }
             else
             {
                 return id;
@@ -102,19 +108,30 @@ namespace PacMan.Abstracts
 
         public override bool Move()
         {
-            if (Strategy is GoToCorner)
+            if (!IsLive)
             {
-                path = Strategy.FindPath(Map, Position, homePosition);
-                if (Position == homePosition)
+                path = Strategy.FindPath(Map, Position, StartCoord);
+                if (Position == StartCoord)
                 {
-                    GoToCircle();
+                    IsLive = true;
+                    Strategy = OldStrategy;
                 }
             }
             else
             {
-                path = Strategy.FindPath(Map, Position, PacmanPosition);
+                if (Strategy is GoToCorner)
+                {
+                    path = Strategy.FindPath(Map, Position, homePosition);
+                    if (Position == homePosition)
+                    {
+                        GoToCircle();
+                    }
+                }
+                else
+                {
+                    path = Strategy.FindPath(Map, Position, PacmanPosition);
+                }
             }
-
             PacmanPosition = SearchPacman();
 
             if (PacmanPosition != Position)
@@ -146,15 +163,13 @@ namespace PacMan.Abstracts
             }
         }
 
-        public async void Restart()
+        public void Restart()
         {
             timer.Stop();
-            DefaultCoord();
             DefaultTime();
             OldCoord = new Empty(Position);
-            Strategy = OldStrategy;
+            Strategy = new GoToDefaultPosition();
             Frightened = false;
-            await Task.Delay(Time * 20);
             timer.Start();
         }
 
@@ -198,13 +213,16 @@ namespace PacMan.Abstracts
             {
                 Map[coord.Position] = coord;
             }
-            Map[Position] = this;
+            if (!(Map[Position] is IPacman))
+            {
+                Map[Position] = this;
+            }
             return old;
         }
 
         protected bool GhostIsFrightened()
         {
-            if (Frightened)
+            if (Frightened || !IsLive)
             {
                 return true;
             }

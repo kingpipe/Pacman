@@ -83,6 +83,7 @@ namespace PacMan.Players
                 if (ghost.Frightened)
                 {
                     Count += food.Score;
+                    ghost.IsLive = false;
                     ghost.Restart();
                     SinkAboutEatGhost();
                 }
