@@ -22,6 +22,7 @@ namespace PacmanWeb.Controllers
             Game = game;
             Context = context;
         }
+
         public IActionResult Index()
         {
             return View();

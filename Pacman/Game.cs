@@ -86,11 +86,8 @@ namespace PacMan
         {
             Ghosts.AddMoveHandler(ghost);
             Cherry.Movement += ghost;
-
             Pacman.Movement += pacman;
-
             UpdateMap += updatemap;
-
             Status = GameStatus.ReadyToStart;
         }
 
@@ -136,7 +133,7 @@ namespace PacMan
             }
             else
             {
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 Default();
                 Status = GameStatus.ReadyToStart;
                 UpdateMap();

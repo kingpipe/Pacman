@@ -10,6 +10,8 @@ namespace PacMan.Abstracts
 {
     abstract class Ghost : Player, IGhost, IFood
     {
+        protected abstract void GoToCircle();
+
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
@@ -20,7 +22,6 @@ namespace PacMan.Abstracts
         protected Position homePosition;
         protected IStrategy Strategy { get; set; }
         protected IStrategy OldStrategy { get; set; }
-        protected IStrategy GoToCircle { get; set; }
         protected ICoord OldCoord { get; set; }
 
         public bool Frightened { get; set; }
@@ -106,7 +107,7 @@ namespace PacMan.Abstracts
                 path = Strategy.FindPath(Map, Position, homePosition);
                 if (Position == homePosition)
                 {
-                    Strategy = GoToCircle;
+                    GoToCircle();
                 }
             }
             else
@@ -145,7 +146,7 @@ namespace PacMan.Abstracts
             }
         }
 
-        public async void Died()
+        public async void Restart()
         {
             timer.Stop();
             DefaultCoord();
@@ -193,7 +194,10 @@ namespace PacMan.Abstracts
                 Position = list.Pop();
             }
             ICoord old = Map[Position];
-            Map[coord.Position] = coord;
+            if (!(coord is IPacman))
+            {
+                Map[coord.Position] = coord;
+            }
             Map[Position] = this;
             return old;
         }

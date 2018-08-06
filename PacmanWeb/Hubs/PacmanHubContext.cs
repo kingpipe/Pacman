@@ -67,6 +67,5 @@ namespace PacmanWeb.Hubs
             }
             return direction;
         }
-
     }
 }

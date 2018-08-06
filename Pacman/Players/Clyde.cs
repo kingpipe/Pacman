@@ -17,12 +17,12 @@ namespace PacMan.Players
 
         public Clyde(Map map, Position start) : base(map, start)
         {
-            GoToCircle = new GoAgainstClockwise();
-
             id = "clyde";
             idchar = 'C';
         }
 
         public override void StrategyRunForPacman() => Strategy = new AlgorithmForClyde();
+        protected override void GoToCircle() => Strategy = new GoAgainstClockwise();
+
     }
 }

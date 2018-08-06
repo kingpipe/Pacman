@@ -17,10 +17,10 @@ namespace PacMan.Players
 
         public Blinky(Map map, Position start) : base(map, start)
         {
-            GoToCircle= new GoToClockwise();
-
             id = "blinky";
             idchar = 'B';
         }
+
+        protected override void GoToCircle() => Strategy = new GoToClockwise(); 
     }
 }
