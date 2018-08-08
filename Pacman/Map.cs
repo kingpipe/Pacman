@@ -96,7 +96,7 @@ namespace PacMan
                         case "cherry":
                             maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
-                        case "pacman":
+                        case "pacmannone":
                             Pacman = new Pacman(this, new Position(x, y));
                             maze[x, y] = Pacman;
                             break;

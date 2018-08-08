@@ -106,7 +106,10 @@ namespace PacMan
 
             foreach (var ghost in ghosts)
             {
-                ghost.Scared();
+                if (ghost.IsLive)
+                {
+                    ghost.Scared();
+                }
             }
             timeFrightened.Start(Timer_Elapsed);
 

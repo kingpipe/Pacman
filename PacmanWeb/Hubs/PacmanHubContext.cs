@@ -34,38 +34,11 @@ namespace PacmanWeb.Hubs
 
         public void PacmanMove(ICoord coord)
         {
-            string direction = string.Empty;
-            if (coord.GetId() == "pacman")
-            {
-                direction = SetDirection(direction);
-            }
             Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
                 coord.Position.X,
                 coord.Position.Y,
-                coord.GetId() + direction,
+                coord.GetId(),
                 game.Score));
-        }
-
-        private string SetDirection(string direction)
-        {
-            switch (game.Direction)
-            {
-                case Direction.Right:
-                    direction = "right";
-                    break;
-                case Direction.Left:
-                    direction = "left";
-                    break;
-                case Direction.Up:
-                    direction = "up";
-                    break;
-                case Direction.Down:
-                    direction = "down";
-                    break;
-                default:
-                    break;
-            }
-            return direction;
         }
     }
 }

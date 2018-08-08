@@ -47,6 +47,7 @@ namespace PacMan
             DefaultMap = (Map)Map.Clone();
             Pacman.Map = Map;
             Pacman.StartCoord = Map.Pacman.StartCoord;
+            Pacman.Set();
             Ghosts.SetDefaultMap(Map);
             Ghosts.SetStartCoord(Map);
             Cherry.Position = new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1);
@@ -64,9 +65,8 @@ namespace PacMan
                 Map = (Map)DefaultMap.Clone();
                 Ghosts.Default(Map);
                 Pacman.Default(Map);
-                Pacman.DefaultCoord();
                 Pacman.StartPosition();
-            }
+             }
         }
 
         private void Pacman_SinkAboutNextLevel()

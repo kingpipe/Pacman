@@ -46,12 +46,12 @@ namespace PacMan.Players
 
         public override void Default(Map map)
         {
-            base.Default(map);
             Direction = Direction.None;
             NewDirection = Direction.None;
             Level = 1;
             Count = 0;
             Lives = 3;
+            base.Default(map);
         }
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
@@ -187,6 +187,14 @@ namespace PacMan.Players
                 default:
                     return false;
             }
+        }
+        public void Set()
+        {
+            Map[Position] = this;
+        }
+        public override string GetId()
+        {
+            return id + Direction.ToString().ToLower();
         }
     }
 }
