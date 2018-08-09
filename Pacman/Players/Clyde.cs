@@ -10,12 +10,12 @@ namespace PacMan.Players
             get => base.StartCoord;
             set
             {
-                homePosition = new Position(3, Map.Height - 5);
                 base.StartCoord = value;
+                homePosition = new Position(3, Map.Height - 5);
             }
         }
 
-        public Clyde(Map map, Position start) : base(map, start)
+        public Clyde(Position start, Map map) : base(start, map)
         {
             id = "clyde";
             idchar = 'C';

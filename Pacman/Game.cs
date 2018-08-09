@@ -36,7 +36,7 @@ namespace PacMan
 
             _pacman.SinkAboutEatEnergizer += _ghosts.AreFrightened;
             _pacman.SinkAboutCreateCherry += () => _cherry.Start();
-            _pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
+            _pacman.SinkAboutNextLevel += NextLevel;
             _pacman.SinkAboutEatGhost += _ghosts.EatGhost;
             _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
@@ -47,8 +47,7 @@ namespace PacMan
             _defaultMap = (Map)Map.Clone();
             _pacman.Map = Map;
             _pacman.StartCoord = Map.Pacman.StartCoord;
-            _pacman.Set();
-            _ghosts.SetDefaultMap(Map);
+            _ghosts.SetMap(Map);
             _ghosts.SetStartCoord(Map);
             _cherry.Position = new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1);
         }
@@ -69,7 +68,7 @@ namespace PacMan
              }
         }
 
-        private void Pacman_SinkAboutNextLevel()
+        private void NextLevel()
         {
             Stop();
             Map = (Map)_defaultMap.Clone();
@@ -77,7 +76,7 @@ namespace PacMan
             _pacman.Map = Map;
             _ghosts.StartPositions();
             _ghosts.ArenotFrightened();
-            _ghosts.SetDefaultMap(Map);
+            _ghosts.SetMap(Map);
             UpdateMap();
             Start();
         }

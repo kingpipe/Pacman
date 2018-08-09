@@ -37,14 +37,8 @@ namespace PacMan
 
         public ICoord this[IPosition index]
         {
-            get
-            {
-                return map[index.X, index.Y];
-            }
-            set
-            {
-                map[index.X, index.Y] = value;
-            }
+            get => map[index.X, index.Y];
+            set => map[index.X, index.Y] = value;
         }
 
         public string[,] GetArrayID()
@@ -97,23 +91,23 @@ namespace PacMan
                             maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
                         case "pacmannone":
-                            Pacman = new Pacman(this, new Position(x, y));
+                            Pacman = new Pacman(new Position(x, y), this);
                             maze[x, y] = Pacman;
                             break;
                         case "clyde":
-                            Clyde = new Clyde(this, new Position(x, y));
+                            Clyde = new Clyde(new Position(x, y), this);
                             maze[x, y] = Clyde;
                             break;
                         case "blinky":
-                            Blinky = new Blinky(this, new Position(x, y));
+                            Blinky = new Blinky(new Position(x, y), this);
                             maze[x, y] = Blinky;
                             break;
                         case "inky":
-                            Inky = new Inky(this, new Position(x, y));
+                            Inky = new Inky(new Position(x, y), this);
                             maze[x, y] = Inky;
                             break;
                         case "pinky":
-                            Pinky = new Pinky(this, new Position(x, y));
+                            Pinky = new Pinky(new Position(x, y), this);
                             maze[x, y] = Pinky;
                             break;
                         default:

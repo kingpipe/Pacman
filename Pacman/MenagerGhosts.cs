@@ -46,11 +46,11 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            SetDefaultMap(map);
+            SetMap(map);
             _changeStateGhosts = new ChangeStateGhosts(this);
         }
 
-        public void SetDefaultMap(Map map)
+        public void SetMap(Map map)
         {
             foreach (var ghost in _ghosts)
             {

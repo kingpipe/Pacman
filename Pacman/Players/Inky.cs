@@ -10,11 +10,11 @@ namespace PacMan.Players
             get => base.StartCoord;
             set
             {
-                homePosition = new Position(Map.Widht - 4, Map.Height - 5);
                 base.StartCoord = value;
+                homePosition = new Position(Map.Widht - 4, Map.Height - 5);
             }
         }
-        public Inky(Map map, Position start) : base(map, start)
+        public Inky(Position start, Map map) : base(start, map)
         {
             id = "inky";
             idchar = 'I';

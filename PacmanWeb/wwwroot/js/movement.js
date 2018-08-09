@@ -55,8 +55,7 @@ connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
-connection.on('DrawMap', (id, level) => {
-    UpdateLevel(level);
+connection.on('DrawMap', (id) => {
     for (var w = 0; w < id.length; w++) {
         for (var h = 0; h < id[w].length; h++) {
             SetElement(id[w][h], w, h);

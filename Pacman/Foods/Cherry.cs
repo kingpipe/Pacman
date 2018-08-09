@@ -12,21 +12,21 @@ namespace PacMan.Foods
         private readonly Timer _timer;
 
         public event Action<ICoord> Movement;
-        public Map Map { get; set; }
+        private Map _map { get; set; }
 
         public Cherry(Position position, Map map) : base(position)
         {
             id = "cherry";
             idchar = '0';
 
-            Map = map;
+            _map = map;
             Score = 100;
             _timer = new Timer(TIMELIFE);
         }
 
         public void Start()
         {
-            Map[Position] = this;
+            _map[Position] = this;
             Movement(this);
             _timer.Start(TimerElapsed);
         }
@@ -36,7 +36,7 @@ namespace PacMan.Foods
             ((Timer)sender).Stop(TimerElapsed);
             if (IsLive)
             {
-                Map[Position] = new Empty(Position);
+                _map[Position] = new Empty(Position);
                 Movement(new Empty(Position));
             }
         }

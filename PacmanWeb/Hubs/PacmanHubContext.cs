@@ -18,11 +18,9 @@ namespace PacmanWeb.Hubs
 
         public void UpdateMap()
         {
-          Task.Run(()=> {
-              hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
-              hubContext.Clients.All.SendAsync("Level", game.Level);
-              hubContext.Clients.All.SendAsync("Live", game.Lives);
-              });
+            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
+            hubContext.Clients.All.SendAsync("Level", game.Level);
+            hubContext.Clients.All.SendAsync("Live", game.Lives);
         }
 
         public void Move(ICoord coord)

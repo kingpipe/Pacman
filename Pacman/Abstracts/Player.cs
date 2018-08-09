@@ -29,10 +29,12 @@ namespace PacMan.Abstracts
             {
                 start = value;
                 DefaultCoord();
+                if (Map.map != null)
+                    Map[Position] = this;
             }
         }
-        
-        protected Player(Map map, Position start)
+
+        protected Player(Position start, Map map)
         {
             Map = map;
             StartCoord = start;
@@ -45,7 +47,7 @@ namespace PacMan.Abstracts
 
         public virtual void Start() => timer.Start(TimerElapsed);
         public virtual void Stop() => timer.Stop(TimerElapsed);
-        
+
         public virtual void Default(Map map)
         {
             Stop();

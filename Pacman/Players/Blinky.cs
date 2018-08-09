@@ -10,12 +10,12 @@ namespace PacMan.Players
             get => base.StartCoord;
             set
             {
-                homePosition = new Position(Map.Widht - 4, 1);
                 base.StartCoord = value;
+                homePosition = new Position(Map.Widht - 4, 1);
             }
         }
 
-        public Blinky(Map map, Position start) : base(map, start)
+        public Blinky(Position start, Map map) : base(start, map)
         {
             id = "blinky";
             idchar = 'B';

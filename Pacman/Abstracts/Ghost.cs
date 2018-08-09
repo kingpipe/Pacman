@@ -15,7 +15,20 @@ namespace PacMan.Abstracts
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
-        private readonly object obj = new object();
+        public bool Frightened { get; set; }
+        public Position PacmanPosition { get; set; }
+        public int Score { get; set; }
+        public bool IsLive { get; set; }
+        public override Position StartCoord
+        {
+            get => start;
+            set
+            {
+                base.StartCoord = value;
+                OldCoord = new Empty(Position);
+            }
+        }
+
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected string idEyes;
@@ -24,31 +37,17 @@ namespace PacMan.Abstracts
         protected IStrategy Strategy { get; set; }
         protected IStrategy OldStrategy { get; set; }
         protected ICoord OldCoord { get; set; }
-
-        public bool Frightened { get; set; }
-        public Position PacmanPosition { get; set; }
         protected int DefaultScore { get; private set; }
-        public int Score { get; set; }
-        public bool IsLive { get; set; }
-        public override Position StartCoord
-        {
-            get => start;
-            set
-            {
-                start = value;
-                DefaultCoord();
-                OldCoord = new Empty(Position);
-            }
-        }
-
-        protected Ghost(Map map, Position start) : base(map, start)
+        
+        private readonly object _obj = new object();
+        
+        protected Ghost(Position start, Map map) : base(start, map)
         {
             idFrightened = "frightened";
             idEyes = "eyes";
             path = new Stack<Position>();
             pacmanIsLive = true;
             StrategyGoToCorner();
-
 
             Score = 200;
             DefaultScore = Score;
@@ -69,14 +68,14 @@ namespace PacMan.Abstracts
 
         public override void StartPosition()
         {
-            lock (obj)
+            lock (_obj)
             {
                 Map[OldCoord.Position] = OldCoord;
-                Movement(OldCoord);
+                Movement?.Invoke(OldCoord);
 
                 DefaultCoord();
                 Map[Position] = this;
-                Movement(this);
+                Movement?.Invoke(this);
             }
         }
 
@@ -150,11 +149,11 @@ namespace PacMan.Abstracts
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            lock (obj)
+            lock (_obj)
             {
-                Movement(OldCoord);
+                Movement.Invoke(OldCoord);
                 pacmanIsLive = Move();
-                Movement(Map[Position]);
+                Movement.Invoke(Map[Position]);
             }
             if (!pacmanIsLive)
             {
@@ -188,7 +187,7 @@ namespace PacMan.Abstracts
             Score = DefaultScore;
         }
 
-        protected Position SearchPacman()
+        private Position SearchPacman()
         {
             for (int y = 0; y < Map.Height; y++)
                 for (int x = 0; x < Map.Widht; x++)

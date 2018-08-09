@@ -29,10 +29,14 @@ namespace PacMan.Players
             {
                 _count = value;
                 SinkAboutChangeScore?.Invoke();
+                if (_count % 1000 == 700)
+                {
+                    SinkAboutCreateCherry?.Invoke();
+                }
             }
         }
-        
-        public Pacman(Map map, Position start) : base(map, start)
+
+        public Pacman(Position start, Map map) : base(start, map)
         {
             id = "pacman";
             idchar = 'P';
@@ -47,11 +51,11 @@ namespace PacMan.Players
         public override void StartPosition()
         {
             Map[Position] = new Empty(Position);
-            Movement(new Empty(Position));
+            Movement?.Invoke(new Empty(Position));
 
             DefaultCoord();
             Map[Position] = this;
-            Movement(this);
+            Movement?.Invoke(this);
         }
 
         public override void Default(Map map)
@@ -66,7 +70,7 @@ namespace PacMan.Players
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            Movement(new Empty(Position));
+            Movement.Invoke(new Empty(Position));
             if (NewDirection != Direction)
             {
                 if (Move(NewDirection))
@@ -82,7 +86,7 @@ namespace PacMan.Players
             {
                 Move();
             }
-            Movement(Map[Position]);
+            Movement.Invoke(Map[Position]);
             MaybeNextLevel();
         }
 
@@ -95,21 +99,16 @@ namespace PacMan.Players
                     Count += food.Score;
                     ghost.IsLive = false;
                     ghost.Restart();
-                    SinkAboutEatGhost();
+                    SinkAboutEatGhost?.Invoke();
                 }
             }
             else
             {
                 if (food is Energizer)
                 {
-                    SinkAboutEatEnergizer();
+                    SinkAboutEatEnergizer?.Invoke();
                 }
                 Count += food.Score;
-            }
-            
-            if (Count % 1000 == 700)
-            {
-                SinkAboutCreateCherry();
             }
         }
 
@@ -117,7 +116,7 @@ namespace PacMan.Players
         {
             return Move(Direction);
         }
-        
+
         protected override bool MoveRight()
         {
             if (Position.X + 2 > Map.Widht)
@@ -135,7 +134,6 @@ namespace PacMan.Players
                     Eat(food);
                 return base.MoveRight();
             }
-
         }
 
         protected override bool MoveLeft()
@@ -154,7 +152,6 @@ namespace PacMan.Players
                 if (Map[Position.Left] is IFood food)
                     Eat(food);
                 return base.MoveLeft();
-
             }
         }
 
@@ -198,10 +195,12 @@ namespace PacMan.Players
                     return false;
             }
         }
+
         public void Set()
         {
             Map[Position] = this;
         }
+
         public override string GetId()
         {
             return id + Direction.ToString().ToLower();
