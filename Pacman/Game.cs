@@ -24,14 +24,14 @@ namespace PacMan
         public int Lives => _pacman.Lives;
         public int Level => _pacman.Level;
 
-        public Game(string path)
+        public Game(string path, string name)
         {
             _status = GameStatus.NeedInitEvent;
-            Map = new Map(path, "BlueMap");
+            Map = new Map(path, name);
             _defaultMap = (Map)Map.Clone();
             _pacman = Map.Pacman;
             _pacman.SetTime(TIMEFORPACMAN);
-            _cherry = new Cherry(new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 2), Map);
+            _cherry = new Cherry(new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1), Map);
             _ghosts = new MenagerGhosts(Map, TIME);
 
             _pacman.SinkAboutEatEnergizer += _ghosts.AreFrightened;

@@ -7,7 +7,7 @@ namespace PacmanDemo
     class Program
     {
         static ConsoleKeyInfo key;
-        static Game game = new Game(@"C://Users//fedyu//source//repos//pacman//PacmanDemo//map.json");
+        static Game game = new Game(@"C://Users//fedyu//source//repos//pacman//PacmanDemo//map.json", "BlueMap");
         static DrawConsole drawConsole = new DrawConsole(game);
 
         static void Main(string[] args)

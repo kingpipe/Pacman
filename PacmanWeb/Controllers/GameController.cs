@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using PacMan;
 using PacmanWeb.Data;
-using Microsoft.EntityFrameworkCore;
 using PacmanWeb.Models;
 
 namespace PacmanWeb.Controllers
@@ -12,14 +11,14 @@ namespace PacmanWeb.Controllers
     [Authorize]
     public class GameController : Controller
     {
-        public IConfiguration Configuration { get; }
-        private Game Game { get; }
+        private IConfiguration Configuration { get; }
+        private GameCollection GameCollection { get; }
         private ApplicationDbContext Context { get; }
 
-        public GameController(Game game, IConfiguration configuration, ApplicationDbContext context)
+        public GameController(GameCollection gameCollection, IConfiguration configuration, ApplicationDbContext context)
         {
             Configuration = configuration;
-            Game = game;
+            GameCollection = gameCollection;
             Context = context;
         }
 
@@ -30,25 +29,34 @@ namespace PacmanWeb.Controllers
 
         public IActionResult BlueMap()
         {
-            Game.SetMap(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
-            ViewBag.Width = Game.Map.Widht;
-            ViewBag.Height = Game.Map.Height;
+            var key = User.Identity.Name;
+            var game=new Game(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
+            GameCollection.AddGame(key, game);   
+            ViewBag.Width = game.Map.Widht;
+            ViewBag.Height = game.Map.Height;
+            ViewBag.Key = key;
             return View();
         }
 
         public IActionResult GreenMap()
         {
-            Game.SetMap(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
-            ViewBag.Width = Game.Map.Widht;
-            ViewBag.Height = Game.Map.Height;
+            var key = User.Identity.Name;
+            var game = new Game(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
+            GameCollection.AddGame(key, game);
+            ViewBag.Width = game.Map.Widht;
+            ViewBag.Height = game.Map.Height;
+            ViewBag.Key = key;
             return View();
         }
 
         public IActionResult RedMap()
         {
-            Game.SetMap(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
-            ViewBag.Width = Game.Map.Widht;
-            ViewBag.Height = Game.Map.Height;
+            var key = User.Identity.Name;
+            var game = new Game(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
+            GameCollection.AddGame(key, game);
+            ViewBag.Width = game.Map.Widht;
+            ViewBag.Height = game.Map.Height;
+            ViewBag.Key = key;
             return View();
         }
 

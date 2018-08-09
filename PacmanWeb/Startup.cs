@@ -35,8 +35,9 @@ namespace PacmanWeb
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSignalR();
-                        
-            services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapBluePath").Value));
+
+            //services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapBluePath").Value));
+            services.AddSingleton<GameCollection>();
 
             services.AddSingleton<PacmanHubContext>();
 

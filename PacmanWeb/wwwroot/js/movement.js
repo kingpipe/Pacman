@@ -19,35 +19,44 @@ var spriteX = width / w;
 var spriteY = height / h;
 
 document.getElementById("start").addEventListener("click", event => {
-    connection.invoke("Start").catch(err => console.error(err.toString()));
+    var id = document.getElementById("id").innerText;
+    connection.invoke("Start", id).catch(err => console.error(err.toString()));
     event.preventDefault();
 });
 
 addEventListener("keydown", function (event) {
-    if (event.keyCode == 32)
-        connection.invoke("Start").catch(err => console.error(err.toString()));
+    if (event.keyCode == 32) {
+        var id = document.getElementById("id").innerText;
+        connection.invoke("Start", id).catch(err => console.error(err.toString()));
+    }
     event.preventDefault();
 });
 
 document.getElementById("stop").addEventListener("click", event => {
-    connection.invoke("Stop").catch(err => console.error(err.toString()));
+    var id = document.getElementById("id").innerText;
+    connection.invoke("Stop", id).catch(err => console.error(err.toString()));
     event.preventDefault();
 });
 
 addEventListener("keydown", function (event) {
-    if (event.keyCode == 13)
-        connection.invoke("Stop").catch(err => console.error(err.toString()));
+    if (event.keyCode == 13) {
+        var id = document.getElementById("id").innerText;
+        connection.invoke("Stop", id).catch(err => console.error(err.toString()));
+    }
     event.preventDefault();
 });
 
 addEventListener("keydown", function (event) {
-    if (event.keyCode > 36 && event.keyCode < 41)
-        connection.invoke("PacmanDirection", event.keyCode).catch(err => console.error(err.toString()));
+    if (event.keyCode > 36 && event.keyCode < 41) {
+        var id = document.getElementById("id").innerText;
+        connection.invoke("PacmanDirection", event.keyCode, id).catch(err => console.error(err.toString()));
+    }
     event.preventDefault();
 });
 
 document.getElementById("restart").addEventListener("click", event => {
-    connection.invoke("Restart").catch(err => console.error(err.toString()));
+    var id = document.getElementById("id").innerText;
+    connection.invoke("Restart", id).catch(err => console.error(err.toString()));
     event.preventDefault();
 });
 
