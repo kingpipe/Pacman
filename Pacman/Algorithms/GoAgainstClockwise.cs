@@ -6,24 +6,24 @@ namespace PacMan.Algorithms
 {
     class GoAgainstClockwise: IStrategy
     {
-        private Direction direction;
+        private Direction _direction;
 
         public GoAgainstClockwise()
         {
-            direction = Direction.Left;
+            _direction = Direction.Left;
         }
 
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
             Stack<Position> path = new Stack<Position>();
 
-            switch (direction)
+            switch (_direction)
             {
                 case Direction.Down:
                     if (!(map[start.Right] is Wall))
                     {
                         path.Push(start.Right);
-                        direction = Direction.Right;
+                        _direction = Direction.Right;
                     }
                     else
                     {
@@ -34,7 +34,7 @@ namespace PacMan.Algorithms
                         else
                         {
                             path.Push(start.Left);
-                            direction = Direction.Left;
+                            _direction = Direction.Left;
                         }
                     }
                     break;
@@ -42,7 +42,7 @@ namespace PacMan.Algorithms
                     if (!(map[start.Down] is Wall))
                     {
                         path.Push(start.Down);
-                        direction = Direction.Down;
+                        _direction = Direction.Down;
                     }
                     else
                     {
@@ -53,7 +53,7 @@ namespace PacMan.Algorithms
                         else
                         {
                             path.Push(start.Up);
-                            direction = Direction.Up;
+                            _direction = Direction.Up;
                         }
                     }
                     break;
@@ -61,7 +61,7 @@ namespace PacMan.Algorithms
                     if (!(map[start.Left] is Wall))
                     {
                         path.Push(start.Left);
-                        direction = Direction.Left;
+                        _direction = Direction.Left;
                     }
                     else
                     {
@@ -72,7 +72,7 @@ namespace PacMan.Algorithms
                         else
                         {
                             path.Push(start.Right);
-                            direction = Direction.Right;
+                            _direction = Direction.Right;
                         }
                     }
                     break;
@@ -80,7 +80,7 @@ namespace PacMan.Algorithms
                     if (!(map[start.Up] is Wall))
                     {
                         path.Push(start.Up);
-                        direction = Direction.Up;
+                        _direction = Direction.Up;
                     }
                     else
                     {
@@ -91,7 +91,7 @@ namespace PacMan.Algorithms
                         else
                         {
                             path.Push(start.Down);
-                            direction = Direction.Down;
+                            _direction = Direction.Down;
                         }
                     }
                     break;

@@ -23,11 +23,6 @@ namespace PacmanWeb.Hubs
 
         public void Start()
         {
-            if (game.Status == GameStatus.NeedInitEvent)
-            {
-                game.AddHandler(pacmanHubContext.Move, pacmanHubContext.PacmanMove,
-                    pacmanHubContext.UpdateMap);
-            }
             game.Start();
         }
 
@@ -77,6 +72,13 @@ namespace PacmanWeb.Hubs
                 default:
                     break;
             }
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            game.AddHandler(pacmanHubContext.Move, pacmanHubContext.ChangeScore,
+                pacmanHubContext.UpdateMap);
+            return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)

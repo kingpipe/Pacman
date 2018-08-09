@@ -15,18 +15,28 @@ namespace PacMan.Players
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
         public event Action SinkAboutEatGhost;
+        public event Action SinkAboutChangeScore;
+
+        private int _count;
 
         public Direction NewDirection { get; set; }
         public int Lives { get; set; }
-        public int Count { get; set; }
         public int Level { get; set; }
-
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value;
+                SinkAboutChangeScore?.Invoke();
+            }
+        }
+        
         public Pacman(Map map, Position start) : base(map, start)
         {
             id = "pacman";
             idchar = 'P';
 
-            timer = new Timer();
             Direction = Direction.None;
             NewDirection = Direction.None;
             Count = 0;

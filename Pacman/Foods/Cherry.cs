@@ -9,7 +9,7 @@ namespace PacMan.Foods
     class Cherry : Food, ISinkMoving
     {
         private const int TIMELIFE = 10000;
-        private readonly Timer timer;
+        private readonly Timer _timer;
 
         public event Action<ICoord> Movement;
         public Map Map { get; set; }
@@ -21,14 +21,14 @@ namespace PacMan.Foods
 
             Map = map;
             Score = 100;
-            timer = new Timer(TIMELIFE);
+            _timer = new Timer(TIMELIFE);
         }
 
         public void Start()
         {
             Map[Position] = this;
             Movement(this);
-            timer.Start(TimerElapsed);
+            _timer.Start(TimerElapsed);
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)

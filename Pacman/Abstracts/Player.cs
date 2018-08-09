@@ -16,7 +16,7 @@ namespace PacMan.Abstracts
         protected Position start;
         protected string id;
         protected char idchar;
-        protected Timer timer;
+        protected readonly Timer timer;
 
         public Map Map { get; set; }
         public Position Position { get; set; }
@@ -36,6 +36,7 @@ namespace PacMan.Abstracts
         {
             Map = map;
             StartCoord = start;
+            timer = new Timer();
         }
 
         public virtual string GetId() => id;

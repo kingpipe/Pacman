@@ -65,7 +65,8 @@ connection.on('DrawMap', (id, level) => {
 });
 
 connection.on('Level', (level) => {
-    UpdateLevel(level);
+    var element = document.getElementById("level");
+    element.innerText = level;
 });
 
 connection.on('Live', (live) => {
@@ -75,24 +76,14 @@ connection.on('Live', (live) => {
         connection.invoke("AddinDB").catch(err => console.error(err.toString()));
 });
 
-connection.on('PacmanMove', (x, y, id, score) => {
-    UpdateScore(score);
-    SetElement(id, x, y);
-});
-
-function UpdateScore(score) {
+connection.on('Score', (score) => {
     var count = document.getElementById("score");
     count.innerText = score;
-}
+});
 
 function SetElement(id, x, y) {
     var element = document.getElementById(id);
     context.fillStyle = "black";
     context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
-}
-
-function UpdateLevel(level) {
-    var element = document.getElementById("level");
-    element.innerText = level;
 }

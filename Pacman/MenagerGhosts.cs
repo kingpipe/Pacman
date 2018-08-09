@@ -11,34 +11,34 @@ namespace PacMan
 {
     class MenagerGhosts
     {
-        private readonly Timer timeFrightened;
+        private readonly Timer _timeFrightened;
 
-        private ChangeStateGhosts changeStateGhosts;
-        private readonly Blinky blinky;
-        private readonly Clyde clyde;
-        private readonly Inky inky;
-        private readonly Pinky pinky;
-        private readonly Collection<Ghost> ghosts;
+        private ChangeStateGhosts _changeStateGhosts;
+        private readonly Blinky _blinky;
+        private readonly Clyde _clyde;
+        private readonly Inky _inky;
+        private readonly Pinky _pinky;
+        private readonly Collection<Ghost> _ghosts;
 
         public MenagerGhosts(Map map, int time)
         {
-            timeFrightened = new Timer(10000);
+            _timeFrightened = new Timer(10000);
 
-            ghosts = new Collection<Ghost>();
-            blinky = map.Blinky;
-            clyde = map.Clyde;
-            inky = map.Inky;
-            pinky = map.Pinky;
+            _ghosts = new Collection<Ghost>();
+            _blinky = map.Blinky;
+            _clyde = map.Clyde;
+            _inky = map.Inky;
+            _pinky = map.Pinky;
 
             AddGhostsInCollection();
             SetTime(time);
 
-            changeStateGhosts = new ChangeStateGhosts(this);
+            _changeStateGhosts = new ChangeStateGhosts(this);
         }
 
         private void SetTime(int time)
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.SetTime(time);
             }
@@ -47,12 +47,12 @@ namespace PacMan
         public void Default(Map map)
         {
             SetDefaultMap(map);
-            changeStateGhosts = new ChangeStateGhosts(this);
+            _changeStateGhosts = new ChangeStateGhosts(this);
         }
 
         public void SetDefaultMap(Map map)
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.Default(map);
             }
@@ -60,15 +60,15 @@ namespace PacMan
 
         public void SetStartCoord(Map map)
         {
-            inky.StartCoord = map.Inky.StartCoord;
-            pinky.StartCoord = map.Pinky.StartCoord;
-            clyde.StartCoord = map.Clyde.StartCoord;
-            blinky.StartCoord = map.Blinky.StartCoord;
+            _inky.StartCoord = map.Inky.StartCoord;
+            _pinky.StartCoord = map.Pinky.StartCoord;
+            _clyde.StartCoord = map.Clyde.StartCoord;
+            _blinky.StartCoord = map.Blinky.StartCoord;
         }
 
         public void EatGhost()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.UpScore();
             }
@@ -76,7 +76,7 @@ namespace PacMan
 
         public void StartPositions()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.StartPosition();
             }
@@ -84,57 +84,54 @@ namespace PacMan
 
         public void Start()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.Start();
             }
-            changeStateGhosts.Start();
+            _changeStateGhosts.Start();
         }
 
         public void Stop()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.Stop();
             }
-            changeStateGhosts.Stop();
+            _changeStateGhosts.Stop();
         }
 
         public void AreFrightened()
         {
-            timeFrightened.Stop(Timer_Elapsed);
-
-            foreach (var ghost in ghosts)
+            _timeFrightened.Stop(Timer_Elapsed);
+            foreach (var ghost in _ghosts)
             {
                 if (ghost.IsLive)
                 {
                     ghost.Scared();
                 }
             }
-            timeFrightened.Start(Timer_Elapsed);
-
-            changeStateGhosts.Stop();
+            _timeFrightened.Start(Timer_Elapsed);
+            _changeStateGhosts.Stop();
         }
 
         public void ArenotFrightened()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.NotScared();
             }
-            timeFrightened.Stop(Timer_Elapsed);
-
-            changeStateGhosts.Start();
+            _timeFrightened.Stop(Timer_Elapsed);
+            _changeStateGhosts.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ArenotFrightened();
         }
-        
+
         public void AddSinkAboutEatPacmanHandler(Func<Task> action)
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.SinkAboutKillPacman += action;
             }
@@ -142,7 +139,7 @@ namespace PacMan
 
         public void AddMoveHandler(Action<ICoord> action)
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.Movement += action;
             }
@@ -150,7 +147,7 @@ namespace PacMan
 
         public void SetStrategyRunForPacman()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.StrategyRunForPacman();
             }
@@ -158,7 +155,7 @@ namespace PacMan
 
         public void SetStrategyGoToCorner()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.StrategyGoToCorner();
             }
@@ -166,18 +163,18 @@ namespace PacMan
 
         public void SetStrategyGoAway()
         {
-            foreach (var ghost in ghosts)
+            foreach (var ghost in _ghosts)
             {
                 ghost.StrategyGoAway();
             }
         }
-        
+
         private void AddGhostsInCollection()
         {
-            ghosts.Add(blinky);
-            ghosts.Add(clyde);
-            ghosts.Add(inky);
-            ghosts.Add(pinky);
+            _ghosts.Add(_blinky);
+            _ghosts.Add(_clyde);
+            _ghosts.Add(_inky);
+            _ghosts.Add(_pinky);
         }
     }
 }

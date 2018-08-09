@@ -13,7 +13,7 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             drawConsole.DrawMap();
-            game.AddHandler(drawConsole.EventMoving, drawConsole.PacmanMoving, drawConsole.DrawMap);
+            game.AddHandler(drawConsole.EventMoving, drawConsole.DrawMap, drawConsole.DrawMap);
             game.Start();
 
             while (true)

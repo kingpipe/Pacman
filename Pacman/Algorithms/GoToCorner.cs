@@ -5,16 +5,16 @@ namespace PacMan.Algorithms
 {
     class GoToCorner : IStrategy
     {
-        private readonly IStrategy strategy;
+        private readonly IStrategy _strategy;
 
         public GoToCorner()
         {
-            strategy = new AstarAlgorithmOptimization();
+            _strategy = new AstarAlgorithmOptimization();
         }
         
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
-            return strategy.FindPath(map, start, goal);
+            return _strategy.FindPath(map, start, goal);
         }
     }
 }

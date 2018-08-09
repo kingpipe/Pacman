@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using PacMan.Interfaces;
-using PacMan.Algorithms;
 
 namespace PacMan.Algorithms
 {
     class GoAway : IStrategy
     {
-        private readonly IStrategy strategy;
+        private readonly IStrategy _strategy;
 
         public GoAway()
         {
-            strategy = new AstarAlgorithmOptimization();
+            _strategy = new AstarAlgorithmOptimization();
         }
         
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
@@ -28,7 +27,7 @@ namespace PacMan.Algorithms
                 if (goal.X >= x && goal.Y >= y)
                     value = new Position(2, 1);
                
-            return strategy.FindPath(map, start, value);
+            return _strategy.FindPath(map, start, value);
         }
     }
 }

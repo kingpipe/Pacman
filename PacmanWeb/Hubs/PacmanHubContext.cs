@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan;
-using PacMan.Enums;
 using PacMan.Interfaces;
 
 namespace PacmanWeb.Hubs
@@ -19,9 +18,11 @@ namespace PacmanWeb.Hubs
 
         public void UpdateMap()
         {
-            hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
-            hubContext.Clients.All.SendAsync("Level", game.Level);
-            hubContext.Clients.All.SendAsync("Live", game.Lives);
+          Task.Run(()=> {
+              hubContext.Clients.All.SendAsync("DrawMap", game.Map.GetArrayID());
+              hubContext.Clients.All.SendAsync("Level", game.Level);
+              hubContext.Clients.All.SendAsync("Live", game.Lives);
+              });
         }
 
         public void Move(ICoord coord)
@@ -32,13 +33,9 @@ namespace PacmanWeb.Hubs
                 coord.GetId()));
         }
 
-        public void PacmanMove(ICoord coord)
+        public void ChangeScore()
         {
-            Task.Run(() => hubContext.Clients.All.SendAsync("PacmanMove",
-                coord.Position.X,
-                coord.Position.Y,
-                coord.GetId(),
-                game.Score));
+            Task.Run(() => hubContext.Clients.All.SendAsync("Score", game.Score));
         }
     }
 }

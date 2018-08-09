@@ -11,44 +11,44 @@ namespace PacMan
         public readonly MenagerGhosts Ghosts;
         public IState State { get; set; }
 
-        private readonly Timer timer;
-        private readonly Queue<int> listoftime;
+        private readonly Timer _timer;
+        private readonly Queue<int> _listoftime;
 
 
         public ChangeStateGhosts(MenagerGhosts ghosts)
         {
             Ghosts = ghosts;
-            listoftime = new Queue<int>();
+            _listoftime = new Queue<int>();
             InitQueue();
-            timer = new Timer(listoftime.Dequeue());
+            _timer = new Timer(_listoftime.Dequeue());
             State = new StateScatter();
         }
 
         private void InitQueue()
         {
-            listoftime.Enqueue(10000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(7000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
+            _listoftime.Enqueue(10000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(7000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(5000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(5000);
         }
 
         public void Start()
         {
-            timer.Start(TimerElapsed);
+            _timer.Start(TimerElapsed);
         }
         public void Stop()
         {
-            timer.Stop(TimerElapsed);
+            _timer.Stop(TimerElapsed);
         }
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (listoftime.Count != 0)
+            if (_listoftime.Count != 0)
             {
-                ((Timer)sender).Interval = listoftime.Dequeue();
+                ((Timer)sender).Interval = _listoftime.Dequeue();
                 State.ChangeBehavior(this);
             }
             else

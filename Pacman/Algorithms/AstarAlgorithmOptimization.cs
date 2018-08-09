@@ -6,7 +6,7 @@ namespace PacMan.Algorithms
 {
     class AstarAlgorithmOptimization : IStrategy
     {
-        private Position oldposition;
+        private Position _oldposition;
 
         public Stack<Position> FindPath(IMap map, Position start, Position goal)
         {
@@ -21,12 +21,12 @@ namespace PacMan.Algorithms
 
             foreach (var neibor in neibors)
             {
-                if (map.OnMap(neibor) && !(map[neibor] is Wall) && neibor != oldposition)
+                if (map.OnMap(neibor) && !(map[neibor] is Wall) && neibor != _oldposition)
                 {
                     freepositions.Add(neibor);
                 }
             }
-            oldposition = start;
+            _oldposition = start;
 
             if (freepositions.Count == 1)
             {

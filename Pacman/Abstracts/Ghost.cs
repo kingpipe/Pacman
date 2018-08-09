@@ -45,7 +45,6 @@ namespace PacMan.Abstracts
         {
             idFrightened = "frightened";
             idEyes = "eyes";
-            timer = new Timer();
             path = new Stack<Position>();
             pacmanIsLive = true;
             StrategyGoToCorner();
