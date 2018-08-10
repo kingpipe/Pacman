@@ -15,14 +15,7 @@ namespace PacmanWeb.Models
 
         public void AddGame(string key, ConnectionGame gac)
         {
-            if (games.ContainsKey(key))
-            {
-                games[key] = gac;
-            }
-            else
-            {
-                games.Add(key, gac);
-            }
+            games.Add(key, gac);
         }
 
         public void RemoveGame(string key)

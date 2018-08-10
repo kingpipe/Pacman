@@ -7,6 +7,7 @@ using PacmanWeb.Data;
 using PacmanWeb.Models;
 using PacmanWeb.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace PacmanWeb.Controllers
 {
@@ -34,28 +35,19 @@ namespace PacmanWeb.Controllers
 
         public IActionResult BlueMap()
         {
-            var key = User.Identity.Name;
-            var game = new Game(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
-            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
-            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            var info = CreateGame("Blue");
             return View(info);
         }
 
         public IActionResult GreenMap()
         {
-            var key = User.Identity.Name;
-            var game = new Game(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
-            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
-            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            var info = CreateGame("Green");
             return View(info);
         }
-
+        
         public IActionResult RedMap()
         {
-            var key = User.Identity.Name;
-            var game = new Game(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
-            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
-            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            var info = CreateGame("Red");
             return View(info);
         }
 
@@ -63,6 +55,15 @@ namespace PacmanWeb.Controllers
         public IActionResult Records()
         {
             return View(Context.Records.OrderByDescending(model => model.Score));
+        }
+
+        private InformationModel CreateGame(string map)
+        {
+            var id = Guid.NewGuid().ToString();
+            var key = User.Identity.Name;
+            var game = new Game(Configuration.GetSection("AppConfig:Map" + map + "Path").Value, map + "Map");
+            GameCollection.AddGame(id, new ConnectionGame(game, HubContext, id, Context, key));
+            return new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = id };
         }
     }
 }

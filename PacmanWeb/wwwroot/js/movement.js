@@ -85,6 +85,11 @@ connection.on('Score', (score) => {
     count.innerText = score;
 });
 
+connection.on('add', () => {
+    var id = document.getElementById("id").innerText;
+    connection.invoke("AddInGroup", id).catch(err => console.error(err.toString()));
+});
+
 function SetElement(id, x, y) {
     var element = document.getElementById(id);
     context.fillStyle = "black";

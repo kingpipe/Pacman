@@ -15,18 +15,6 @@ namespace PacmanWeb.Hubs
             this.gamecollection = gamecollection;
         }
 
-        public override Task OnConnectedAsync()
-        {
-            Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-            return base.OnConnectedAsync();
-        }
-
-        public override Task OnDisconnectedAsync(Exception exception)
-        {
-            Groups.RemoveFromGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-            return base.OnDisconnectedAsync(exception);
-        }
-
         public void Start(string id)
         {
             gamecollection[id].Start();
@@ -62,6 +50,17 @@ namespace PacmanWeb.Hubs
                 default:
                     break;
             }
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            Clients.Caller.SendAsync("add");
+            return base.OnConnectedAsync();
+        }
+
+        public async Task AddInGroup(string id)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, id);
         }
     }
 }

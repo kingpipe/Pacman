@@ -11,30 +11,32 @@ namespace PacmanWeb.Hubs
     public class ConnectionGame
     {
         public Game Game { get; private set; }
-        private readonly IHubContext<PacmanHub> hubContext;
-        private readonly string key;
-        private readonly ApplicationDbContext context;
+        private readonly IHubContext<PacmanHub> _hubContext;
+        private readonly string _id;
+        private readonly string _name;
+        private readonly ApplicationDbContext _context;
 
         public ConnectionGame(Game game, IHubContext<PacmanHub> hubContext, 
-            string key, ApplicationDbContext context)
+            string id, ApplicationDbContext context, string name)
         {
             Game = game;
-            this.context = context;
-            this.hubContext = hubContext;
-            this.key = key;
+            _context = context;
+            _hubContext = hubContext;
+            _id = id;
+            _name = name;
             game.AddHandler(Move, ChangeScore, UpdateMap, TheEnd);
         }
 
         private void UpdateMap()
         {
-            hubContext.Clients.Groups(key).SendAsync("DrawMap", Game.Map.GetArrayID());
-            hubContext.Clients.Groups(key).SendAsync("Level", Game.Level);
-            hubContext.Clients.Groups(key).SendAsync("Live", Game.Lives);
+            _hubContext.Clients.Groups(_id).SendAsync("DrawMap", Game.Map.GetArrayID());
+            _hubContext.Clients.Groups(_id).SendAsync("Level", Game.Level);
+            _hubContext.Clients.Groups(_id).SendAsync("Live", Game.Lives);
         }
 
         private void Move(ICoord coord)
         {
-            Task.Run(() => hubContext.Clients.Groups(key).SendAsync("Move",
+            Task.Run(() => _hubContext.Clients.Groups(_id).SendAsync("Move",
                 coord.Position.X,
                 coord.Position.Y,
                 coord.GetId()));
@@ -42,21 +44,21 @@ namespace PacmanWeb.Hubs
 
         private void ChangeScore()
         {
-            Task.Run(() => hubContext.Clients.Groups(key).SendAsync("Score", Game.Score));
+            Task.Run(() => _hubContext.Clients.Groups(_id).SendAsync("Score", Game.Score));
         }
 
         private async Task TheEnd()
         {
-            await context.Records.AddAsync(
+            await _context.Records.AddAsync(
                 new RecordsModel
                 {
                     Level = Game.Level,
-                    Name = key,
+                    Name = _name,
                     Score = Game.Score,
                     Time = DateTime.Now,
                     Map = Game.Map.Name
                 });
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
