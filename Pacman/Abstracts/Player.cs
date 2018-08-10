@@ -29,8 +29,6 @@ namespace PacMan.Abstracts
             {
                 start = value;
                 DefaultCoord();
-                if (Map.map != null)
-                    Map[Position] = this;
             }
         }
 

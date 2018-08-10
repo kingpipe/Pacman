@@ -2,33 +2,36 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan.Enums;
+using PacmanWeb.Data;
 using PacmanWeb.Models;
 
 namespace PacmanWeb.Hubs
 {
     public class PacmanHub : Hub
     {
-        private readonly GameCollection gamecollection;
+        private readonly GameCollection _gamecollection;
+        private readonly ApplicationDbContext _context;
         
-        public PacmanHub(GameCollection gamecollection)
+        public PacmanHub(GameCollection gamecollection, ApplicationDbContext context)
         {
-            this.gamecollection = gamecollection;
+            _gamecollection = gamecollection;
+            _context = context;
         }
 
         public void Start(string id)
         {
-            gamecollection[id].Start();
+            _gamecollection[id].Start();
         }
 
         public void Stop(string id)
         {
-            gamecollection[id].Stop();
+            _gamecollection[id].Stop();
         }
 
         public void Restart(string id)
         {
-            gamecollection[id].Default();
-            gamecollection[id].Start();
+            _gamecollection[id].Default();
+            _gamecollection[id].Start();
         }
 
         public void PacmanDirection(string direction, string id)
@@ -36,20 +39,34 @@ namespace PacmanWeb.Hubs
             switch (direction)
             {
                 case "37":
-                    gamecollection[id].SetDirection(Direction.Left);
+                    _gamecollection[id].SetDirection(Direction.Left);
                     break;
                 case "38":
-                    gamecollection[id].SetDirection(Direction.Up);
+                    _gamecollection[id].SetDirection(Direction.Up);
                     break;
                 case "39":
-                    gamecollection[id].SetDirection(Direction.Right);
+                    _gamecollection[id].SetDirection(Direction.Right);
                     break;
                 case "40":
-                    gamecollection[id].SetDirection(Direction.Down);
+                    _gamecollection[id].SetDirection(Direction.Down);
                     break;
                 default:
                     break;
             }
+        }
+
+        public async Task TheEnd(string id)
+        {
+            await _context.Records.AddAsync(
+                new RecordsModel
+                {
+                    Level = _gamecollection[id].Level,
+                    Name = Context.User.Identity.Name,
+                    Score = _gamecollection[id].Score,
+                    Time = DateTime.Now,
+                    Map = _gamecollection[id].Map.Name
+                });
+            await _context.SaveChangesAsync();
         }
 
         public override Task OnConnectedAsync()

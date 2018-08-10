@@ -13,9 +13,9 @@ namespace PacmanWeb.Models
             games = new Dictionary<string, ConnectionGame>();
         }
 
-        public void AddGame(string key, ConnectionGame gac)
+        public void AddGame(string key, ConnectionGame connectiongame)
         {
-            games.Add(key, gac);
+            games.Add(key, connectiongame);
         }
 
         public void RemoveGame(string key)
@@ -23,9 +23,6 @@ namespace PacmanWeb.Models
             games.Remove(key);
         }
 
-        public Game this[string key]
-        {
-            get => games[key].Game;
-        }
+        public Game this[string key] => games[key].Game;
     }
 }

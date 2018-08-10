@@ -18,7 +18,6 @@ namespace PacMan
         private GameStatus _status;
 
         private event Action UpdateMap;
-        private event Func<Task> TheEnd;
         public Map Map { get; private set; }
         public int Score => _pacman.Count;
         public Direction Direction => _pacman.Direction;
@@ -72,7 +71,7 @@ namespace PacMan
             Start();
         }
 
-        public void AddHandler(Action<ICoord> move, Action score, Action updatemap, Func<Task> theend)
+        public void AddHandler(Action<ICoord> move, Action score, Action updatemap)
         {
             if (_status == GameStatus.NeedInitEvent)
             {
@@ -81,7 +80,6 @@ namespace PacMan
                 _pacman.Movement += move;
                 _pacman.SinkAboutChangeScore += score;
                 UpdateMap += updatemap;
-                TheEnd += theend;
                 _status = GameStatus.ReadyToStart;
             }
         }
@@ -129,7 +127,6 @@ namespace PacMan
             }
             else
             {
-                await TheEnd();
                 await Task.Delay(1000);
                 Default();
                 _status = GameStatus.ReadyToStart;

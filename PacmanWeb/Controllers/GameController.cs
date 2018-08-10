@@ -60,9 +60,9 @@ namespace PacmanWeb.Controllers
         private InformationModel CreateGame(string map)
         {
             var id = Guid.NewGuid().ToString();
-            var key = User.Identity.Name;
+            var name = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:Map" + map + "Path").Value, map + "Map");
-            GameCollection.AddGame(id, new ConnectionGame(game, HubContext, id, Context, key));
+            GameCollection.AddGame(id, new ConnectionGame(game, HubContext, id));
             return new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = id };
         }
     }

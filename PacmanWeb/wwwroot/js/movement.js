@@ -62,22 +62,10 @@ connection.on('Move', (x, y, id) => {
     SetElement(id, x, y);
 });
 
-connection.on('DrawMap', (id) => {
-    for (var w = 0; w < id.length; w++) {
-        for (var h = 0; h < id[w].length; h++) {
-            SetElement(id[w][h], w, h);
-        }
-    }
-});
-
-connection.on('Level', (level) => {
-    var element = document.getElementById("level");
-    element.innerText = level;
-});
-
-connection.on('Live', (live) => {
-    var element = document.getElementById("live");
-    element.innerText = live;
+connection.on('DrawMap', (id, level, live) => {
+    UpdateMap(id);
+    UpdateLevel(level);
+    UpdateLive(live);
 });
 
 connection.on('Score', (score) => {
@@ -95,4 +83,26 @@ function SetElement(id, x, y) {
     context.fillStyle = "black";
     context.fillRect(x * spriteX, y * spriteY, spriteX, spriteY);
     context.drawImage(element, x * spriteX, y * spriteY, spriteX, spriteY);
+}
+
+function UpdateLevel(level){
+    var element = document.getElementById("level");
+    element.innerText = level;
+}
+
+function UpdateLive(live){
+    var element = document.getElementById("live");
+    element.innerText = live;
+    if (live === 0) {
+        var id = document.getElementById("id").innerText;
+        connection.invoke("TheEnd", id).catch(err => console.error(err.toString()));
+    }
+}
+
+function UpdateMap(id) {
+    for (var w = 0; w < id.length; w++) {
+        for (var h = 0; h < id[w].length; h++) {
+            SetElement(id[w][h], w, h);
+        }
+    }
 }
