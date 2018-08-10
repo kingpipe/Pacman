@@ -5,6 +5,8 @@ using System.Linq;
 using PacMan;
 using PacmanWeb.Data;
 using PacmanWeb.Models;
+using PacmanWeb.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace PacmanWeb.Controllers
 {
@@ -14,12 +16,15 @@ namespace PacmanWeb.Controllers
         private IConfiguration Configuration { get; }
         private GameCollection GameCollection { get; }
         private ApplicationDbContext Context { get; }
+        private IHubContext<PacmanHub> HubContext { get; }
 
-        public GameController(GameCollection gameCollection, IConfiguration configuration, ApplicationDbContext context)
+        public GameController(GameCollection gameCollection, IConfiguration configuration,
+            ApplicationDbContext context, IHubContext<PacmanHub> hubContext)
         {
             Configuration = configuration;
             GameCollection = gameCollection;
             Context = context;
+            HubContext = hubContext;
         }
 
         public IActionResult Index()
@@ -30,8 +35,8 @@ namespace PacmanWeb.Controllers
         public IActionResult BlueMap()
         {
             var key = User.Identity.Name;
-            var game=new Game(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
-            GameCollection.AddGame(key, game);   
+            var game = new Game(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
+            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
             ViewBag.Width = game.Map.Widht;
             ViewBag.Height = game.Map.Height;
             ViewBag.Key = key;
@@ -42,7 +47,7 @@ namespace PacmanWeb.Controllers
         {
             var key = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
-            GameCollection.AddGame(key, game);
+            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
             ViewBag.Width = game.Map.Widht;
             ViewBag.Height = game.Map.Height;
             ViewBag.Key = key;
@@ -53,7 +58,7 @@ namespace PacmanWeb.Controllers
         {
             var key = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
-            GameCollection.AddGame(key, game);
+            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
             ViewBag.Width = game.Map.Widht;
             ViewBag.Height = game.Map.Height;
             ViewBag.Key = key;

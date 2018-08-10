@@ -65,6 +65,7 @@ namespace PacMan
                 _ghosts.Default(Map);
                 _pacman.Default(Map);
                 _pacman.StartPosition();
+                UpdateMap();
              }
         }
 
@@ -116,6 +117,7 @@ namespace PacMan
                 _status = GameStatus.Stop;
                 _pacman.Stop();
                 _ghosts.Stop();
+                UpdateMap();
             }
         }
 

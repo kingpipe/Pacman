@@ -1,20 +1,28 @@
 ﻿using System.Collections.Generic;
 using PacMan;
+using PacmanWeb.Hubs;
 
 namespace PacmanWeb.Models
 {
     public class GameCollection
     {
-        private readonly Dictionary<string, Game> games;
+        private readonly Dictionary<string, GameAndContext> games;
 
         public GameCollection()
         {
-            games = new Dictionary<string, Game>();
+            games = new Dictionary<string, GameAndContext>();
         }
 
-        public void AddGame(string key, Game game)
+        public void AddGame(string key, GameAndContext gac)
         {
-            games.Add(key, game);
+            if (games.ContainsKey(key))
+            {
+                games[key] = gac;
+            }
+            else
+            {
+                games.Add(key, gac);
+            }
         }
 
         public void RemoveGame(string key)
@@ -24,7 +32,7 @@ namespace PacmanWeb.Models
 
         public Game this[string key]
         {
-            get => games[key];
+            get => games[key].game;
         }
     }
 }

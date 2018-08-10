@@ -11,34 +11,28 @@ namespace PacmanWeb.Hubs
     public class PacmanHub : Hub
     {
         private GameCollection gamecollection;
-        private readonly PacmanHubContext pacmanHubContext;
         private readonly ApplicationDbContext context;
 
-        public PacmanHub(GameCollection gamecollection, PacmanHubContext pacmanHubContext, ApplicationDbContext context)
+        public PacmanHub(GameCollection gamecollection, ApplicationDbContext context)
         {
             this.gamecollection = gamecollection;
-            this.pacmanHubContext = pacmanHubContext;
             this.context = context;
         }
 
         public void Start(string id)
         {
-            gamecollection[id].AddHandler(pacmanHubContext.Move, pacmanHubContext.ChangeScore,
-             pacmanHubContext.UpdateMap);
             gamecollection[id].Start();
         }
 
         public void Stop(string id)
         {
             gamecollection[id].Stop();
-            Task.Run(() => pacmanHubContext.UpdateMap());
         }
 
         public void Restart(string id)
         {
             gamecollection[id].Default();
             gamecollection[id].Start();
-            Task.Run(() => pacmanHubContext.UpdateMap());
         }
 
         public async Task AddinDB(string id)
@@ -78,11 +72,13 @@ namespace PacmanWeb.Hubs
 
         public override Task OnConnectedAsync()
         {
-            return base.OnConnectedAsync();
+             Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
+            Groups.RemoveFromGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
             return base.OnDisconnectedAsync(exception);
         }
     }
