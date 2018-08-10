@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using PacMan;
 using PacMan.Enums;
-using PacmanWeb.Data;
 using PacmanWeb.Models;
 
 namespace PacmanWeb.Hubs
 {
     public class PacmanHub : Hub
     {
-        private GameCollection gamecollection;
-        private readonly ApplicationDbContext context;
-
-        public PacmanHub(GameCollection gamecollection, ApplicationDbContext context)
+        private readonly GameCollection gamecollection;
+        
+        public PacmanHub(GameCollection gamecollection)
         {
             this.gamecollection = gamecollection;
-            this.context = context;
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            Groups.RemoveFromGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+            return base.OnDisconnectedAsync(exception);
         }
 
         public void Start(string id)
@@ -33,20 +41,6 @@ namespace PacmanWeb.Hubs
         {
             gamecollection[id].Default();
             gamecollection[id].Start();
-        }
-
-        public async Task AddinDB(string id)
-        {
-            await context.Records.AddAsync(
-                new RecordsModel
-                {
-                    Level = gamecollection[id].Level,
-                    Name = id,
-                    Score = gamecollection[id].Score,
-                    Time = DateTime.Now,
-                    Map = gamecollection[id].Map.Name
-                });
-            await context.SaveChangesAsync();
         }
 
         public void PacmanDirection(string direction, string id)
@@ -68,18 +62,6 @@ namespace PacmanWeb.Hubs
                 default:
                     break;
             }
-        }
-
-        public override Task OnConnectedAsync()
-        {
-             Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-             return base.OnConnectedAsync();
-        }
-
-        public override Task OnDisconnectedAsync(Exception exception)
-        {
-            Groups.RemoveFromGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
-            return base.OnDisconnectedAsync(exception);
         }
     }
 }

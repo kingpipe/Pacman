@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model PacmanWeb.Models.InformationModel
+<!DOCTYPE html>
 @{
     Layout = "_Layout";
 }
@@ -21,9 +22,9 @@
     <img src="~/images/allelements/energaizer.png" id="energaizer" hidden="hidden" />
     <img src="~/images/allelements/littlegoal.png" id="littlegoal" hidden="hidden" />
     <img src="~/images/allelements/eyes.png" id="eyes" hidden="hidden" />
-    <h6 id="width" hidden="hidden">@ViewBag.Width</h6>
-    <h6 id="height" hidden="hidden">@ViewBag.Height</h6>
-    <h6 id="id" hidden="hidden">@ViewBag.Key</h6>
+    <h6 id="width" hidden="hidden">@Model.Widht</h6>
+    <h6 id="height" hidden="hidden">@Model.Height</h6>
+    <h6 id="id" hidden="hidden">@Model.Id</h6>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li>

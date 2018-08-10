@@ -14,10 +14,11 @@ namespace PacMan
         private readonly Pacman _pacman;
         private readonly Cherry _cherry;
         private readonly MenagerGhosts _ghosts;
-        private Map _defaultMap;
+        private readonly Map _defaultMap;
         private GameStatus _status;
 
-        public event Action UpdateMap;
+        private event Action UpdateMap;
+        private event Func<Task> TheEnd;
         public Map Map { get; private set; }
         public int Score => _pacman.Count;
         public Direction Direction => _pacman.Direction;
@@ -39,17 +40,6 @@ namespace PacMan
             _pacman.SinkAboutNextLevel += NextLevel;
             _pacman.SinkAboutEatGhost += _ghosts.EatGhost;
             _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
-        }
-
-        public void SetMap(string path, string name)
-        {
-            Map = new Map(path, name);
-            _defaultMap = (Map)Map.Clone();
-            _pacman.Map = Map;
-            _pacman.StartCoord = Map.Pacman.StartCoord;
-            _ghosts.SetMap(Map);
-            _ghosts.SetStartCoord(Map);
-            _cherry.Position = new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1);
         }
 
         public void Default()
@@ -82,7 +72,7 @@ namespace PacMan
             Start();
         }
 
-        public void AddHandler(Action<ICoord> move, Action score, Action updatemap)
+        public void AddHandler(Action<ICoord> move, Action score, Action updatemap, Func<Task> theend)
         {
             if (_status == GameStatus.NeedInitEvent)
             {
@@ -91,6 +81,7 @@ namespace PacMan
                 _pacman.Movement += move;
                 _pacman.SinkAboutChangeScore += score;
                 UpdateMap += updatemap;
+                TheEnd += theend;
                 _status = GameStatus.ReadyToStart;
             }
         }
@@ -138,6 +129,7 @@ namespace PacMan
             }
             else
             {
+                await TheEnd();
                 await Task.Delay(1000);
                 Default();
                 _status = GameStatus.ReadyToStart;

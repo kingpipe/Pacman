@@ -1,6 +1,4 @@
-﻿var tryingToReconnect = false;
-
-const connection = new signalR.HubConnectionBuilder()
+﻿const connection = new signalR.HubConnectionBuilder()
     .withUrl("/pacman")
     .build();
 
@@ -25,7 +23,7 @@ document.getElementById("start").addEventListener("click", event => {
 });
 
 addEventListener("keydown", function (event) {
-    if (event.keyCode == 32) {
+    if (event.keyCode === 32) {
         var id = document.getElementById("id").innerText;
         connection.invoke("Start", id).catch(err => console.error(err.toString()));
     }
@@ -39,7 +37,7 @@ document.getElementById("stop").addEventListener("click", event => {
 });
 
 addEventListener("keydown", function (event) {
-    if (event.keyCode == 13) {
+    if (event.keyCode === 13) {
         var id = document.getElementById("id").innerText;
         connection.invoke("Stop", id).catch(err => console.error(err.toString()));
     }
@@ -80,8 +78,6 @@ connection.on('Level', (level) => {
 connection.on('Live', (live) => {
     var element = document.getElementById("live");
     element.innerText = live;
-    if (live == 0)
-        connection.invoke("AddinDB").catch(err => console.error(err.toString()));
 });
 
 connection.on('Score', (score) => {

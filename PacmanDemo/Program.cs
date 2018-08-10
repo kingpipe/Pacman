@@ -13,7 +13,7 @@ namespace PacmanDemo
         static void Main(string[] args)
         {
             drawConsole.DrawMap();
-            game.AddHandler(drawConsole.EventMoving, drawConsole.DrawMap, drawConsole.DrawMap);
+            game.AddHandler(drawConsole.EventMoving, drawConsole.DrawMap, drawConsole.WriteScore, drawConsole.TheEnd);
             game.Start();
 
             while (true)
@@ -53,7 +53,6 @@ namespace PacmanDemo
                 }
                 else
                 {
-                    drawConsole.TheEnd();
                     break;
                 }
             }

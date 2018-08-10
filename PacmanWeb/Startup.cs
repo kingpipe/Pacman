@@ -8,7 +8,6 @@ using PacmanWeb.Data;
 using PacmanWeb.Models;
 using PacmanWeb.Services;
 using PacmanWeb.Hubs;
-using PacMan;
 
 namespace PacmanWeb
 {
@@ -36,11 +35,8 @@ namespace PacmanWeb
 
             services.AddSignalR();
 
-            //services.AddSingleton(game => new Game(Configuration.GetSection("AppConfig:MapBluePath").Value));
             services.AddSingleton<GameCollection>();
-
-            services.AddSingleton<PacmanHubContext>();
-
+            
             services.AddMvc();
 
             services.AddAuthentication().AddFacebook(options =>

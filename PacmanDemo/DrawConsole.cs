@@ -1,6 +1,7 @@
 ﻿using PacMan;
 using PacMan.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace PacmanDemo
 {
@@ -28,7 +29,7 @@ namespace PacmanDemo
             }
         }
 
-        public void TheEnd()
+        public async Task TheEnd()
         {
             lock (obj)
             {
@@ -54,15 +55,6 @@ namespace PacmanDemo
             {
                 Console.SetCursorPosition(coord.Position.X, coord.Position.Y);
                 Console.WriteLine(coord.GetCharElement());
-            }
-        }
-
-        public void PacmanMoving(ICoord coord)
-        {
-            lock (obj)
-            {
-                EventMoving(coord);
-                WriteScore();
             }
         }
 

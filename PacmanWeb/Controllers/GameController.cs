@@ -36,33 +36,27 @@ namespace PacmanWeb.Controllers
         {
             var key = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:MapBluePath").Value, "BlueMap");
-            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
-            ViewBag.Width = game.Map.Widht;
-            ViewBag.Height = game.Map.Height;
-            ViewBag.Key = key;
-            return View();
+            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
+            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            return View(info);
         }
 
         public IActionResult GreenMap()
         {
             var key = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:MapGreenPath").Value, "GreenMap");
-            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
-            ViewBag.Width = game.Map.Widht;
-            ViewBag.Height = game.Map.Height;
-            ViewBag.Key = key;
-            return View();
+            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
+            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            return View(info);
         }
 
         public IActionResult RedMap()
         {
             var key = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:MapRedPath").Value, "RedMap");
-            GameCollection.AddGame(key, new GameAndContext(game, HubContext, key));
-            ViewBag.Width = game.Map.Widht;
-            ViewBag.Height = game.Map.Height;
-            ViewBag.Key = key;
-            return View();
+            GameCollection.AddGame(key, new ConnectionGame(game, HubContext, key, Context));
+            var info = new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = key };
+            return View(info);
         }
 
         [AllowAnonymous]
