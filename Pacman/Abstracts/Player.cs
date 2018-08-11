@@ -6,7 +6,7 @@ using PacMan.Enums;
 
 namespace PacMan.Abstracts
 {
-    abstract class Player : IMovable, ISinkMoving
+    abstract class Player : IPlayer
     {
         public abstract event Action<ICoord> Movement;
         public abstract bool Move();
@@ -32,6 +32,7 @@ namespace PacMan.Abstracts
 
         public virtual string GetId() => id;
         public char GetCharElement() => idchar;
+
         public virtual void DefaultCoord() => Position = StartCoord;
 
         public virtual void Start() => timer.Start(TimerElapsed);

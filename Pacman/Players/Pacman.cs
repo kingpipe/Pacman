@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace PacMan.Players
 {
-    class Pacman : Player, IPacman, ISinkMoving
+    class Pacman : Player, IPacman
     {
         public override event Action<ICoord> Movement;
         public event Action SinkAboutCreateCherry;
@@ -53,7 +53,6 @@ namespace PacMan.Players
         {
             Map[Position] = new Empty(Position);
             Movement?.Invoke(new Empty(Position));
-
             DefaultCoord();
             Map[Position] = this;
             Movement?.Invoke(this);
@@ -98,7 +97,6 @@ namespace PacMan.Players
                 if (ghost.Frightened)
                 {
                     Count += food.Score;
-                    ghost.IsLive = false;
                     ghost.Restart();
                     SinkAboutEatGhost?.Invoke();
                 }
@@ -116,6 +114,11 @@ namespace PacMan.Players
         public override bool Move()
         {
             return Move(Direction);
+        }
+
+        public override string GetId()
+        {
+            return id + Direction.ToString().ToLower();
         }
 
         protected override bool MoveRight()
@@ -195,16 +198,6 @@ namespace PacMan.Players
                 default:
                     return false;
             }
-        }
-
-        public void Set()
-        {
-            Map[Position] = this;
-        }
-
-        public override string GetId()
-        {
-            return id + Direction.ToString().ToLower();
         }
     }
 }

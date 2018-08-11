@@ -52,6 +52,9 @@
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
     <Compile Include="Interfaces\IGetId.cs" />
     <Compile Include="Enums\GameStatus.cs" />
+    <Compile Include="Interfaces\IPacmanEvent.cs" />
+    <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\ISinkAboutKillPacman.cs" />
     <Compile Include="Interfaces\ISize.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
     <Compile Include="MenagerGhosts.cs" />
@@ -71,7 +74,7 @@
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\ISinkMoving.cs" />
     <Compile Include="Interfaces\IState.cs" />
-    <Compile Include="Interfaces\IStartPosition.cs" />
+    <Compile Include="Interfaces\IStartCoord.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Players\Clyde.cs" />
