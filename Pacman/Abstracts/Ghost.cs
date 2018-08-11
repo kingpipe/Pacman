@@ -19,7 +19,7 @@ namespace PacMan.Abstracts
         public Position PacmanPosition { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-        
+
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected string idEyes;
@@ -121,6 +121,7 @@ namespace PacMan.Abstracts
                     path = Strategy.FindPath(Map, Position, PacmanPosition);
                 }
             }
+
             PacmanPosition = SearchPacman();
 
             if (PacmanPosition != Position)
@@ -154,6 +155,7 @@ namespace PacMan.Abstracts
 
         public void Restart()
         {
+            IsLive = false;
             timer.Stop();
             DefaultTime();
             OldCoord = new Empty(Position);
@@ -164,7 +166,7 @@ namespace PacMan.Abstracts
 
         public void Scared()
         {
-            if (IsLive)
+            if (IsLive && !Frightened)
             {
                 SpeedDownAt(2);
                 Frightened = true;
@@ -179,7 +181,7 @@ namespace PacMan.Abstracts
 
         public void NotScared()
         {
-            if (IsLive)
+            if (IsLive && Frightened)
             {
                 DefaultTime();
                 Strategy = OldStrategy;
@@ -215,7 +217,9 @@ namespace PacMan.Abstracts
             }
             Map[coord.Position] = coord;
             if (!(Map[Position] is IPacman))
+            {
                 Map[Position] = this;
+            }
             return old;
         }
 

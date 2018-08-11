@@ -1,6 +1,6 @@
 ﻿namespace PacMan.Enums
 {
-    public enum GameStatus
+    enum GameStatus
     {
         NeedInitEvent,
         ReadyToStart,

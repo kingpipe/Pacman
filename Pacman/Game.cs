@@ -39,36 +39,6 @@ namespace PacMan
             _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
-        public void Default()
-        {
-            if (_status != GameStatus.ReadyToStart && _status != GameStatus.NeedInitEvent)
-            {
-                if (_status != GameStatus.Stop)
-                {
-                    Stop();
-                }
-                _status = GameStatus.ReadyToStart;
-                Map = (Map)_defaultMap.Clone();
-                _ghosts.Default(Map);
-                _pacman.Default(Map);
-                _pacman.StartPosition();
-                UpdateMap();
-             }
-        }
-
-        private void NextLevel()
-        {
-            Stop();
-            Map = (Map)_defaultMap.Clone();
-            _pacman.StartPosition();
-            _pacman.Map = Map;
-            _ghosts.StartPositions();
-            _ghosts.AreNotFrightened();
-            _ghosts.DefaultMap(Map);
-            UpdateMap();
-            Start();
-        }
-
         public void AddHandler(Action<ICoord> move, Action score, Action updatemap)
         {
             if (_status == GameStatus.NeedInitEvent)
@@ -107,6 +77,36 @@ namespace PacMan
                 UpdateMap();
             }
         }
+        public void Default()
+
+        {
+            if (_status != GameStatus.ReadyToStart && _status != GameStatus.NeedInitEvent)
+            {
+                if (_status != GameStatus.Stop)
+                {
+                    Stop();
+                }
+                _status = GameStatus.ReadyToStart;
+                Map = (Map)_defaultMap.Clone();
+                _ghosts.Default(Map);
+                _pacman.Default(Map);
+                _pacman.StartPosition();
+                UpdateMap();
+            }
+        }
+
+        private void NextLevel()
+        {
+            Stop();
+            Map = (Map)_defaultMap.Clone();
+            _pacman.StartPosition();
+            _pacman.Map = Map;
+            _ghosts.StartPositions();
+            _ghosts.AreNotFrightened();
+            _ghosts.DefaultMap(Map);
+            UpdateMap();
+            Start();
+        }
 
         private async Task PacmanIsKilled()
         {
@@ -117,7 +117,7 @@ namespace PacMan
             UpdateMap();
             if (_pacman.Lives > 0)
             {
-                await Task.Delay(3000);
+                await Task.Delay(2000);
                 if (_status != GameStatus.InProcess)
                 {
                     Start();
