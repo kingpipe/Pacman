@@ -13,7 +13,6 @@ namespace PacMan.Abstracts
         public abstract void StartPosition();
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
-        protected Position start;
         protected string id;
         protected char idchar;
         protected readonly Timer timer;
@@ -22,15 +21,7 @@ namespace PacMan.Abstracts
         public Position Position { get; set; }
         public Direction Direction { get; set; }
         public int Time { get; set; }
-        public virtual Position StartCoord
-        {
-            get => start;
-            set
-            {
-                start = value;
-                DefaultCoord();
-            }
-        }
+        public Position StartCoord { get; set; }
 
         protected Player(Position start, Map map)
         {
@@ -48,7 +39,6 @@ namespace PacMan.Abstracts
 
         public virtual void Default(Map map)
         {
-            Stop();
             Map = map;
             DefaultCoord();
         }

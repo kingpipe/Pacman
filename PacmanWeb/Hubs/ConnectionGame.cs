@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Interfaces;
-using PacmanWeb.Data;
-using PacmanWeb.Models;
 
 namespace PacmanWeb.Hubs
 {

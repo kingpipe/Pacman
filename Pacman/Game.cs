@@ -10,27 +10,25 @@ namespace PacMan
     public sealed class Game
     {
         private const int TIME = 200;
-        private const int TIMEFORPACMAN = 200;
         private readonly Pacman _pacman;
         private readonly Cherry _cherry;
         private readonly MenagerGhosts _ghosts;
         private readonly Map _defaultMap;
         private GameStatus _status;
-
         private event Action UpdateMap;
-        public Map Map { get; private set; }
+
+        public Map Map{ get; private set; }
         public int Score => _pacman.Count;
-        public Direction Direction => _pacman.Direction;
         public int Lives => _pacman.Lives;
         public int Level => _pacman.Level;
-
+        
         public Game(string path, string name)
         {
             _status = GameStatus.NeedInitEvent;
             Map = new Map(path, name);
             _defaultMap = (Map)Map.Clone();
             _pacman = Map.Pacman;
-            _pacman.SetTime(TIMEFORPACMAN);
+            _pacman.SetTime(TIME);
             _cherry = new Cherry(new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1), Map);
             _ghosts = new MenagerGhosts(Map, TIME);
 
@@ -65,8 +63,8 @@ namespace PacMan
             _pacman.StartPosition();
             _pacman.Map = Map;
             _ghosts.StartPositions();
-            _ghosts.ArenotFrightened();
-            _ghosts.SetMap(Map);
+            _ghosts.AreNotFrightened();
+            _ghosts.DefaultMap(Map);
             UpdateMap();
             Start();
         }

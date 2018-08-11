@@ -46,15 +46,14 @@ namespace PacMan
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
+            State.ChangeBehavior(this);
             if (_listoftime.Count != 0)
             {
                 ((Timer)sender).Interval = _listoftime.Dequeue();
-                State.ChangeBehavior(this);
             }
             else
             {
                 ((Timer)sender).Stop();
-                Ghosts.SetStrategyRunForPacman();
             }
         }
     }

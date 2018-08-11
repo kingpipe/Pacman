@@ -1,7 +1,8 @@
 ﻿namespace PacMan.Interfaces
 {
-    interface IStartPosition
+    interface IStartCoord
     {
+        Position StartCoord { get; set; }
         void DefaultCoord();
     }
 }

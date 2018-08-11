@@ -46,24 +46,16 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            SetMap(map);
+            DefaultMap(map);
             _changeStateGhosts = new ChangeStateGhosts(this);
         }
 
-        public void SetMap(Map map)
+        public void DefaultMap(Map map)
         {
             foreach (var ghost in _ghosts)
             {
                 ghost.Default(map);
             }
-        }
-
-        public void SetStartCoord(Map map)
-        {
-            _inky.StartCoord = map.Inky.StartCoord;
-            _pinky.StartCoord = map.Pinky.StartCoord;
-            _clyde.StartCoord = map.Clyde.StartCoord;
-            _blinky.StartCoord = map.Blinky.StartCoord;
         }
 
         public void EatGhost()
@@ -102,31 +94,28 @@ namespace PacMan
 
         public void AreFrightened()
         {
-            _timeFrightened.Stop(Timer_Elapsed);
+            _changeStateGhosts.Stop();
+            _timeFrightened.Stop(TimerElapsed);
             foreach (var ghost in _ghosts)
             {
-                if (ghost.IsLive)
-                {
-                    ghost.Scared();
-                }
+                ghost.Scared();
             }
-            _timeFrightened.Start(Timer_Elapsed);
-            _changeStateGhosts.Stop();
+            _timeFrightened.Start(TimerElapsed);
         }
 
-        public void ArenotFrightened()
+        public void AreNotFrightened()
         {
             foreach (var ghost in _ghosts)
             {
                 ghost.NotScared();
             }
-            _timeFrightened.Stop(Timer_Elapsed);
+            _timeFrightened.Stop(TimerElapsed);
             _changeStateGhosts.Start();
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            ArenotFrightened();
+            AreNotFrightened();
         }
 
         public void AddSinkAboutEatPacmanHandler(Func<Task> action)
@@ -158,14 +147,6 @@ namespace PacMan
             foreach (var ghost in _ghosts)
             {
                 ghost.StrategyGoToCorner();
-            }
-        }
-
-        public void SetStrategyGoAway()
-        {
-            foreach (var ghost in _ghosts)
-            {
-                ghost.StrategyGoAway();
             }
         }
 

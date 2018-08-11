@@ -38,6 +38,7 @@ namespace PacMan.Players
 
         public Pacman(Position start, Map map) : base(start, map)
         {
+            DefaultCoord();
             id = "pacman";
             idchar = 'P';
 

@@ -19,16 +19,7 @@ namespace PacMan.Abstracts
         public Position PacmanPosition { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
-        public override Position StartCoord
-        {
-            get => start;
-            set
-            {
-                base.StartCoord = value;
-                OldCoord = new Empty(Position);
-            }
-        }
-
+        
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected string idEyes;
@@ -38,11 +29,12 @@ namespace PacMan.Abstracts
         protected IStrategy OldStrategy { get; set; }
         protected ICoord OldCoord { get; set; }
         protected int DefaultScore { get; private set; }
-        
+
         private readonly object _obj = new object();
-        
+
         protected Ghost(Position start, Map map) : base(start, map)
         {
+            DefaultCoord();
             idFrightened = "frightened";
             idEyes = "eyes";
             path = new Stack<Position>();
@@ -56,7 +48,6 @@ namespace PacMan.Abstracts
         }
 
         public void UpScore() => Score += DefaultScore;
-        public void StrategyGoAway() => Strategy = new GoAway();
         public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
         public void StrategyGoToCorner() => Strategy = new GoToCorner();
 
@@ -173,18 +164,28 @@ namespace PacMan.Abstracts
 
         public void Scared()
         {
-            SpeedDownAt(2);
-            Frightened = true;
-            OldStrategy = Strategy;
-            StrategyGoAway();
+            if (IsLive)
+            {
+                SpeedDownAt(2);
+                Frightened = true;
+                if (Strategy is GoToClockwise || Strategy is GoAgainstClockwise)
+                {
+                    Strategy = new GoToCorner();
+                }
+                OldStrategy = Strategy;
+                Strategy = new GoAway();
+            }
         }
 
         public void NotScared()
         {
-            DefaultTime();
-            Strategy = OldStrategy;
-            Frightened = false;
-            Score = DefaultScore;
+            if (IsLive)
+            {
+                DefaultTime();
+                Strategy = OldStrategy;
+                Frightened = false;
+                Score = DefaultScore;
+            }
         }
 
         private Position SearchPacman()
@@ -196,7 +197,7 @@ namespace PacMan.Abstracts
             return PacmanPosition;
         }
 
-        protected ICoord Go(Stack<Position> list, ICoord coord)
+        private ICoord Go(Stack<Position> list, ICoord coord)
         {
             lock (list)
             {
@@ -207,18 +208,18 @@ namespace PacMan.Abstracts
                 Position = list.Pop();
             }
             ICoord old = Map[Position];
-            if (!(coord is IPacman))
+            if (old is IGhost)
             {
-                Map[coord.Position] = coord;
+                Position = coord.Position;
+                return coord;
             }
+            Map[coord.Position] = coord;
             if (!(Map[Position] is IPacman))
-            {
                 Map[Position] = this;
-            }
             return old;
         }
 
-        protected bool GhostIsFrightened()
+        private bool GhostIsFrightened()
         {
             if (Frightened || !IsLive)
             {

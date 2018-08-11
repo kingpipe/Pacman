@@ -24,8 +24,6 @@ namespace PacMan
         {
             Name = name;
             map = LoadMap(path);
-            Widht = map.GetLength(0);
-            Height = map.GetLength(1);
         }
 
         public object Clone()
@@ -67,11 +65,14 @@ namespace PacMan
             FileWithMap.Close();
             var array = JsonConvert.DeserializeObject<string[,]>(all);
 
-            ICoord[,] maze = new ICoord[array.GetLength(1), array.GetLength(0)];
+            Widht = array.GetLength(1);
+            Height = array.GetLength(0);
 
-            for (int y = 0; y < array.GetLength(0); y++)
+            ICoord[,] maze = new ICoord[Widht, Height];
+            
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < array.GetLength(1); x++)
+                for (int x = 0; x < Widht; x++)
                 {
                     switch (array[y, x])
                     {
