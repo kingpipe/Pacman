@@ -86,6 +86,8 @@ namespace PacMan.Abstracts
             StrategyGoToCorner();
             OldCoord = new Empty(Position);
             Frightened = false;
+            IsLive = true;
+            idCurrent = Id;
             DefaultTime();
         }
 
@@ -131,11 +133,11 @@ namespace PacMan.Abstracts
                 {
                     return true;
                 }
-                return GhostIsFrightened();
+                return GhostCanKill();
             }
             else
             {
-                return GhostIsFrightened();
+                return GhostCanKill();
             }
         }
 
@@ -229,17 +231,9 @@ namespace PacMan.Abstracts
             return old;
         }
 
-        private bool GhostIsFrightened()
+        private bool GhostCanKill()
         {
-            if (Frightened || !IsLive)
-            {
-                return true;
-            }
-            else
-            {
-                OldCoord = new Empty(Position);
-                return false;
-            }
+            return Frightened || !IsLive;
         }
 
         private void DefaultTime() => timer.Interval = Time;

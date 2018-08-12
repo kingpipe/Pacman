@@ -44,7 +44,7 @@ namespace PacmanWeb.Controllers
             var info = CreateGame("Green");
             return View(info);
         }
-        
+
         public IActionResult RedMap()
         {
             var info = CreateGame("Red");

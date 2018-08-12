@@ -9,34 +9,40 @@ namespace PacMan
 {
     public sealed class Game
     {
-        private const int TIME = 200;
-        private readonly Pacman _pacman;
-        private readonly Cherry _cherry;
-        private readonly MenagerGhosts _ghosts;
-        private readonly Map _defaultMap;
+        private Pacman _pacman;
+        private Cherry _cherry;
+        private MenagerGhosts _ghosts;
+        private Map _defaultMap;
         private GameStatus _status;
         private event Action UpdateMap;
 
-        public Map Map{ get; private set; }
+        public Map Map { get; private set; }
         public int Score => _pacman.Count;
         public int Lives => _pacman.Lives;
         public int Level => _pacman.Level;
-        
+
+        public Game(string path, string name, int time, Position cherry)
+        {
+            Map = new Map(path, name);
+            Init(time, cherry);
+        }
+
+        public Game(string path, string name, Position cherry)
+        {
+            Map = new Map(path, name);
+            Init(200, cherry);
+        }
+
+        public Game(string path, string name, int time)
+        {
+            Map = new Map(path, name);
+            Init(time, new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1));
+        }
+
         public Game(string path, string name)
         {
-            _status = GameStatus.NeedInitEvent;
             Map = new Map(path, name);
-            _defaultMap = (Map)Map.Clone();
-            _pacman = Map.Pacman;
-            _pacman.SetTime(TIME);
-            _cherry = new Cherry(new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1), Map);
-            _ghosts = new MenagerGhosts(Map, TIME);
-
-            _pacman.SinkAboutEatEnergizer += _ghosts.AreFrightened;
-            _pacman.SinkAboutCreateCherry += () => _cherry.Start();
-            _pacman.SinkAboutNextLevel += NextLevel;
-            _pacman.SinkAboutEatGhost += _ghosts.EatGhost;
-            _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
+            Init(200, new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1));
         }
 
         public void AddHandler(Action<ICoord> move, Action score, Action updatemap)
@@ -93,6 +99,22 @@ namespace PacMan
                 _pacman.StartPosition();
                 UpdateMap();
             }
+        }
+        
+        private void Init(int time, Position cherry)
+        {
+            _status = GameStatus.NeedInitEvent;
+            _defaultMap = (Map)Map.Clone();
+            _pacman = Map.Pacman;
+            _pacman.SetTime(time);
+            _cherry = new Cherry(cherry, Map);
+            _ghosts = new MenagerGhosts(Map, time);
+
+            _pacman.SinkAboutEatEnergizer += _ghosts.AreFrightened;
+            _pacman.SinkAboutCreateCherry += () => _cherry.Start();
+            _pacman.SinkAboutNextLevel += NextLevel;
+            _pacman.SinkAboutEatGhost += _ghosts.EatGhost;
+            _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
         private void NextLevel()
