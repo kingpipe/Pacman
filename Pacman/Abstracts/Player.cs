@@ -2,45 +2,59 @@
 using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
+using PacMan.Enums;
+using System.Threading.Tasks;
 
 namespace PacMan.Abstracts
 {
-    abstract class Player : IMovable, ISinkMoving, ITimer
+    abstract class Player : IPlayer
     {
-        public abstract event Action<ICoord> Movement;
-        public abstract void StartPosition();
-        public abstract char GetCharElement();
+        public abstract event Func<ICoord, Task> Movement;
         public abstract bool Move();
-        public abstract void TimerElapsed(object sender, ElapsedEventArgs e);
+        public abstract void StartPosition();
+        protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
+
+        protected virtual string Id { get; set; }
+        protected char idchar;
+        protected readonly Timer timer;
 
         public Map Map { get; set; }
         public Position Position { get; set; }
         public Direction Direction { get; set; }
-        public Timer Timer { get; set; }
         public int Time { get; set; }
+        public Position StartCoord { get; set; }
 
-        protected Player()
-        { }
-
-        protected Player(Map map, int time)
+        protected Player(Position start, Map map)
         {
-            Time = time;
             Map = map;
-        }
-        
-        public virtual void Start()
-        {
-            Timer.Start(TimerElapsed);
+            StartCoord = start;
+            timer = new Timer();
         }
 
-        public virtual void Stop()
+        public virtual string GetId() => Id;
+        public char GetCharElement() => idchar;
+
+        public virtual void DefaultCoord() => Position = StartCoord;
+
+        public virtual void Start() => timer.Start(TimerElapsed);
+        public virtual void Stop() => timer.Stop(TimerElapsed);
+
+        public virtual void DefaultMap(Map map)
         {
-            Timer.Stop(TimerElapsed);
+            Map = map;
+            DefaultCoord();
+
         }
 
-        public virtual bool MoveLeft()
+        public void SetTime(int time)
         {
-            if (!(Map.GetElementLeft(Position) is Wall))
+            timer.Interval = time;
+            Time = time;
+        }
+
+        protected virtual bool MoveLeft()
+        {
+            if (!(Map[Position.Left] is Wall))
             {
                 SwapPlacesX(Position.X - 1);
                 return true;
@@ -48,9 +62,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveRight()
+        protected virtual bool MoveRight()
         {
-            if (!(Map.GetElementRight(Position) is Wall))
+            if (!(Map[Position.Right] is Wall))
             {
                 SwapPlacesX(Position.X + 1);
                 return true;
@@ -58,9 +72,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveUp()
+        protected virtual bool MoveUp()
         {
-            if (!(Map.GetElementUp(Position) is Wall))
+            if (!(Map[Position.Up] is Wall))
             {
                 SwapPlacesY(Position.Y - 1);
                 return true;
@@ -68,9 +82,9 @@ namespace PacMan.Abstracts
             return false;
         }
 
-        public virtual bool MoveDown()
+        protected virtual bool MoveDown()
         {
-            if (!(Map.GetElementDown(Position) is Wall))
+            if (!(Map[Position.Down] is Wall))
             {
                 SwapPlacesY(Position.Y + 1);
                 return true;
@@ -80,22 +94,28 @@ namespace PacMan.Abstracts
 
         private void SwapPlacesX(int x)
         {
-            var value = Map.GetElement(Position);
-            Map.SetElement(new Empty(Position));
+            var value = Map[Position];
+            Map[Position] = new Empty(Position);
+
             Position position = Position;
             position.X = x;
             Position = position;
-            Map.SetElement(value, Position);
+
+            value.Position = Position;
+            Map[Position] = value;
         }
 
         private void SwapPlacesY(int y)
         {
-            var value = Map.GetElement(Position);
-            Map.SetElement(new Empty(Position));
+            var value = Map[Position];
+            Map[Position] = new Empty(Position);
+
             Position position = Position;
             position.Y = y;
             Position = position;
-            Map.SetElement(value, Position);   
+
+            value.Position = Position;
+            Map[Position] = value;
         }
     }
 }

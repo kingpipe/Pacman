@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PacmanWeb.Models.GameModels.RecordsModel>
+
+@{
+    ViewData["Title"] = "Records";
+}
+
+<h4>Records</h4>
+
+@(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.Name).Titled("Name");
+            columns.Add(model => model.Map).Titled("Map");
+            columns.Add(model => model.Level).Titled("Level");
+            columns.Add(model => model.Score).Titled("Score");
+            columns.Add(model => model.Time).Titled("Time");
+        })
+        .Filterable()
+        .Sortable()
+        .Pageable(pager =>
+        {
+            pager.PageSizes = new Dictionary<Int32, String> { { 10, "10" }, { 20, "20" }, { 0, "All" } };
+            pager.ShowPageSizes = true;
+            pager.PagesToDisplay = 3;
+            pager.CurrentPage = 1;
+            pager.RowsPerPage = 5;
+        })
+)
+
+@section Scripts{
+    <script src="~/js/mvc-grid.js"></script>
+    <script>
+        $('.mvc-grid').mvcgrid();
+    </script>
+}

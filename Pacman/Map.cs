@@ -1,4 +1,5 @@
-﻿using PacMan.Foods;
+﻿using Newtonsoft.Json;
+using PacMan.Foods;
 using PacMan.Interfaces;
 using PacMan.Players;
 using System;
@@ -9,14 +10,20 @@ namespace PacMan
     public class Map : IMap, ICloneable
     {
         public ICoord[,] map { get; set; }
-        public int Width { get; set; }
+        public int Widht { get; set; }
         public int Height { get; set; }
+        public string Name { get; private set; }
 
-        public Map(string path, ISize size)
+        internal Pacman Pacman { get; private set; }
+        internal Inky Inky { get; private set; }
+        internal Pinky Pinky { get; private set; }
+        internal Blinky Blinky { get; private set; }
+        internal Clyde Clyde { get; private set; }
+
+        public Map(string path, string name)
         {
-            map = LoadMap(path, size);
-            Width = map.GetLength(0);
-            Height = map.GetLength(1);
+            Name = name;
+            map = LoadMap(path);
         }
 
         public object Clone()
@@ -25,91 +32,89 @@ namespace PacMan
             board.map = (ICoord[,])map.Clone();
             return board;
         }
-        
-        public ICoord GetElement(IPosition position)
+
+        public ICoord this[IPosition index]
         {
-            return map[position.X, position.Y];
+            get => map[index.X, index.Y];
+            set => map[index.X, index.Y] = value;
         }
 
-        public ICoord GetElementLeft(IPosition position)
+        public string[,] GetArrayID()
         {
-            return map[position.X - 1, position.Y];
-        }
-
-        public ICoord GetElementRight(IPosition position)
-        {
-            return map[position.X + 1, position.Y];
-        }
-
-        public ICoord GetElementUp(IPosition position)
-        {
-            return map[position.X, position.Y - 1];
-        }
-
-        public ICoord GetElementDown(IPosition position)
-        {
-            return map[position.X, position.Y + 1];
-        }
-
-        public void SetElement(ICoord coord)
-        {
-            map[coord.Position.X, coord.Position.Y] = coord;
-        }
-
-        public void SetElement(ICoord coord, Position position)
-        {
-            coord.Position = position;
-            map[position.X, position.Y] = coord;
-        }
-
-        private ICoord[,] LoadMap(string path, ISize size)
-        {
-            ICoord[,] maze = new ICoord[size.Width, size.Height];
-            int counter = 0;
-            StreamReader FileWithMap = new StreamReader(path);
-            char[] array = FileWithMap.ReadToEnd().ToCharArray();
-            FileWithMap.Close();
-            for (int y = 0; y < size.Height; y++)
+            string[,] array = new string[Widht, Height];
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < size.Width; x++)
+                for (int x = 0; x < Widht; x++)
                 {
-                    switch (array[counter++])
+                    array[x, y] = map[x, y].GetId();
+                }
+            }
+            return array;
+        }
+
+        public bool OnMap(IPosition position)
+        {
+            return position.X >= 0 && position.X < Widht &&
+                position.Y >= 0 && position.Y < Height;
+        }
+
+        private ICoord[,] LoadMap(string path)
+        {
+            StreamReader FileWithMap = new StreamReader(path);
+            string all = FileWithMap.ReadToEnd();
+            FileWithMap.Close();
+            var array = JsonConvert.DeserializeObject<string[,]>(all);
+
+            Widht = array.GetLength(1);
+            Height = array.GetLength(0);
+
+            ICoord[,] maze = new ICoord[Widht, Height];
+            
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Widht; x++)
+                {
+                    switch (array[y, x])
                     {
-                        case '0':
+                        case "emtry":
                             maze[x, y] = new Empty(new Position(x, y));
                             break;
-                        case '1':
+                        case "wall":
                             maze[x, y] = new Wall(new Position(x, y));
                             break;
-                        case '2':
+                        case "littlegoal":
                             maze[x, y] = new LittleGoal(new Position(x, y));
                             break;
-                        case '3':
+                        case "energaizer":
                             maze[x, y] = new Energizer(new Position(x, y));
                             break;
-                        case '4':
+                        case "cherry":
                             maze[x, y] = new Cherry(new Position(x, y), this);
                             break;
-                        case '5':
-                            maze[x, y] = new Pacman(this, 100);
+                        case "pacmannone":
+                            Pacman = new Pacman(new Position(x, y), this);
+                            maze[x, y] = Pacman;
                             break;
-                        case '6':
-                            maze[x, y] = new Clyde(this, 100);
+                        case "clyde":
+                            Clyde = new Clyde(new Position(x, y), this);
+                            maze[x, y] = Clyde;
                             break;
-                        case '7':
-                            maze[x, y] = new Blinky(this, 100);
+                        case "blinky":
+                            Blinky = new Blinky(new Position(x, y), this);
+                            maze[x, y] = Blinky;
                             break;
-                        case '8':
-                            maze[x, y] = new Inky(this, 100);
+                        case "inky":
+                            Inky = new Inky(new Position(x, y), this);
+                            maze[x, y] = Inky;
                             break;
-                        case '9':
-                            maze[x, y] = new Pinky(this, 100);
+                        case "pinky":
+                            Pinky = new Pinky(new Position(x, y), this);
+                            maze[x, y] = Pinky;
                             break;
                         default:
                             continue;
                     }
                 }
-                counter += 2;
             }
             return maze;
         }

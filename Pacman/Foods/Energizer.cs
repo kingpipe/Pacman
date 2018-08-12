@@ -1,21 +1,14 @@
 ﻿using PacMan.Abstracts;
-using PacMan.Interfaces;
 
 namespace PacMan.Foods
 {
-    class Energizer : Food, IGetChar
+    class Energizer : Food
     {
-        public Energizer()
-        { }
-
-        public Energizer(Position position):base(position)
+        public Energizer(Position position) : base(position)
         {
+            id = "energaizer";
+            idchar = '*';
             Score = 50;
-        }
-
-        public override char GetCharElement()
-        {
-            return '*';
         }
     }
 }

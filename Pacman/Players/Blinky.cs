@@ -1,40 +1,18 @@
-﻿using System;
-using System.Timers;
-using PacMan.Abstracts;
-using PacMan.Interfaces;
+﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 
 namespace PacMan.Players
 {
-    class Blinky : Ghost, IGetChar
+    class Blinky : Ghost
     {
-        public override event Action SinkAboutEatPacman;
-        public override event Action<ICoord> Movement;
-
-        public Blinky()
-        { }
-
-        public Blinky(Map map, int time) : base(map, time)
-        { }
-
-        public override void StartPosition()
+        public Blinky(Position start, Map map) : base(start, map)
         {
-            Position = new Position(15, 11);
+            Id = "blinky";
+            idchar = 'B';
+
+            homePosition = new Position(Map.Widht - 4, 1);
         }
 
-        public override void TimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Movement(OldCoord);
-            pacmanIsLive = Move();
-            Movement(Map.GetElement(Position));
-            if (!pacmanIsLive)
-            {
-                SinkAboutEatPacman();
-            }
-        }
-
-        public override char GetCharElement()
-        {
-            return 'B';
-        }
+        protected override void GoToCircle() => Strategy = new GoToClockwise(); 
     }
 }

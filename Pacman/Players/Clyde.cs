@@ -1,40 +1,20 @@
-﻿using System;
-using System.Timers;
-using PacMan.Abstracts;
-using PacMan.Interfaces;
+﻿using PacMan.Abstracts;
+using PacMan.Algorithms;
 
 namespace PacMan.Players
 {
-    class Clyde : Ghost, IGetChar
+    class Clyde : Ghost
     {
-        public override event Action SinkAboutEatPacman;
-        public override event Action<ICoord> Movement;
-
-        public Clyde()
-        { }
-
-        public Clyde(Map map, int time) : base(map, time)
-        { }
-
-        public override void StartPosition()
+        public Clyde(Position start, Map map) : base(start, map)
         {
-            Position = new Position(14, 15);
+            Id = "clyde";
+            idchar = 'C';
+
+            homePosition = new Position(3, Map.Height - 5);
         }
 
-        public override void TimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Movement(OldCoord);
-            pacmanIsLive = Move();
-            Movement(Map.GetElement(Position));
-            if (!pacmanIsLive)
-            {
-                SinkAboutEatPacman();
-            }
-        }
+        public override void StrategyRunForPacman() => Strategy = new AlgorithmForClyde();
+        protected override void GoToCircle() => Strategy = new GoAgainstClockwise();
 
-        public override char GetCharElement()
-        {
-            return 'C';
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PacMan;
+using PacMan.Enums;
 using System;
 
 namespace PacmanDemo
@@ -6,17 +7,13 @@ namespace PacmanDemo
     class Program
     {
         static ConsoleKeyInfo key;
-        static readonly Size size = new Size(30, 31);
-        static Game game = new Game(@"C:\Users\fedyu\source\repos\pacman\PacmanDemo\map.txt", size);
+        static Game game = new Game(@"C://Users//fedyu//source//repos//pacman//PacmanDemo//map.json", "BlueMap");
         static DrawConsole drawConsole = new DrawConsole(game);
 
         static void Main(string[] args)
         {
             drawConsole.DrawMap();
-            game.AddMoveHandlerToGhosts(drawConsole.EventMoving);
-            game.AddMoveHandlerToPacman(drawConsole.PacmanMoving);
-            game.PacmanIsDied += Game_PacmanIsDied;
-            game.UpdateMap += drawConsole.DrawMap;
+            game.AddHandler(drawConsole.EventMoving, drawConsole.DrawMap, drawConsole.WriteScore);
             game.Start();
 
             while (true)
@@ -24,42 +21,38 @@ namespace PacmanDemo
                 if (game.Lives != 0)
                 {
                     key = Console.ReadKey(true);
-                    if (key.Key == ConsoleKey.Enter)
+                    switch (key.Key)
                     {
-                        game.Stop();
-                        drawConsole.InformationAfterStop();
-                        while (true)
-                        {
-                            key = Console.ReadKey(true);
-                            if (key.Key == ConsoleKey.Spacebar)
+                        case ConsoleKey.Enter:
+                            game.Stop();
+                            drawConsole.InformationAfterStop();
+                            while (true)
                             {
-                                drawConsole.DrawMap();
-                                game.Start();
-                                break;
+                                key = Console.ReadKey(true);
+                                if (key.Key == ConsoleKey.Spacebar)
+                                {
+                                    drawConsole.DrawMap();
+                                    game.Start();
+                                    break;
+                                }
                             }
-                        }
-                    }
-                    if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        game.SetDirection(Direction.Left);
-                    }
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        game.SetDirection(Direction.Right);
-                    }
-                    if (key.Key == ConsoleKey.UpArrow)
-                    {
-                        game.SetDirection(Direction.Up);
-                    }
-                    if (key.Key == ConsoleKey.DownArrow)
-                    {
-                        game.SetDirection(Direction.Down);
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            game.SetDirection(Direction.Left);
+                            break;
+                        case ConsoleKey.RightArrow:
+                            game.SetDirection(Direction.Right);
+                            break;
+                        case ConsoleKey.UpArrow:
+                            game.SetDirection(Direction.Up);
+                            break;
+                        case ConsoleKey.DownArrow:
+                            game.SetDirection(Direction.Down);
+                            break;
                     }
                 }
                 else
                 {
-                    drawConsole.TheEnd();
-                    game.End();
                     break;
                 }
             }

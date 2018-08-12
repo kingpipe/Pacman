@@ -1,4 +1,5 @@
 ﻿using PacMan.Algorithms;
+using PacMan.Algorithms.Astar;
 using PacMan.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,119 +8,235 @@ using System.Timers;
 
 namespace PacMan.Abstracts
 {
-    abstract class Ghost : Player, IGhost, IFood, ISinkAboutEatPacman
+    abstract class Ghost : Player, IGhost
     {
-        public abstract event Action SinkAboutEatPacman;
+        protected abstract void GoToCircle();
 
-        protected object obj = new object();
-        protected bool pacmanIsLive = true;
-        protected Stack<Position> path;
+        public event Func<Task> SinkAboutKillPacman;
+        public override event Func<ICoord, Task> Movement;
 
-        public IStrategy Strategy { get; set; }
-        public IStrategy OldStrategy { get; set; }
-        public ICoord OldCoord { get; set; }
         public Position PacmanPosition { get; set; }
-        public bool Frightened { get; set; }
         public int Score { get; set; }
+        public bool Frightened { get; set; }
         public bool IsLive { get; set; }
 
-        protected Ghost()
-        { }
-
-        protected Ghost(Map map, int time) : base(map, time)
+        protected bool pacmanIsLive;
+        protected string idFrightened;
+        protected string idEyes;
+        protected string idCurrent;
+        protected Stack<Position> path;
+        protected Position homePosition;
+        protected IStrategy Strategy { get; set; }
+        protected IStrategy OldStrategy { get; set; }
+        protected ICoord OldCoord { get; set; }
+        protected int DefaultScore { get; private set; }
+        protected override string Id
         {
-            Timer = new Timer(time);
-            Strategy = new RandomMoving();
-            StartPosition();
-            PacmanPosition = SearchPacman();
+            get => base.Id;
+            set
+            {
+                base.Id = value;
+                idCurrent = Id;
+            }
+        }
+
+        private readonly object _obj = new object();
+
+        protected Ghost(Position start, Map map) : base(start, map)
+        {
+            DefaultCoord();
+            idFrightened = "frightened";
+            idEyes = "eyes";
             path = new Stack<Position>();
-            OldCoord = new Empty(Position);
+            pacmanIsLive = true;
+            StrategyGoToCorner();
 
             Score = 200;
+            DefaultScore = Score;
             Frightened = false;
             IsLive = true;
         }
 
-        public async void Restart()
+        public void UpScore() => Score += DefaultScore;
+        public virtual void StrategyRunForPacman() => Strategy = new AstarAlgorithm();
+        public void StrategyGoToCorner() => Strategy = new GoToCorner();
+
+        public override void DefaultCoord()
         {
-            StartPosition();
-            DefaultTime();
+            base.DefaultCoord();
             OldCoord = new Empty(Position);
-            Strategy = OldStrategy;
+        }
+
+        public override void StartPosition()
+        {
+            lock (_obj)
+            {
+                Map[OldCoord.Position] = OldCoord;
+                Movement?.Invoke(OldCoord);
+
+                DefaultCoord();
+                Map[Position] = this;
+                Movement?.Invoke(this);
+            }
+        }
+
+        public override void DefaultMap(Map map)
+        {
+            base.DefaultMap(map);
+            OldCoord = new Empty(Position);
             Frightened = false;
-            await SleepAsync();
+            IsLive = true;
+            idCurrent = Id;
+            DefaultTime();
         }
 
-        public void DefaultTime()
-        {
-            Timer.Interval = Time;
-        }
 
-        public void SpeedDownAt(double n)
+        public override string GetId()
         {
-            Timer.Interval = Time * n;
+            return idCurrent;
         }
 
         public override bool Move()
         {
-            lock (obj)
+            if (!IsLive)
             {
-                PacmanPosition = SearchPacman();
-
-                if (PacmanPosition != Position)
+                path = Strategy.FindPath(Map, Position, StartCoord);
+                if (Position == StartCoord)
                 {
-                    path = Strategy.FindPath(Map, Position, PacmanPosition);
-                    OldCoord = Go(path, OldCoord);
-                    if (PacmanPosition != Position)
+                    IsLive = true;
+                    idCurrent = Id;
+                    Strategy = OldStrategy;
+                }
+            }
+            else
+            {
+                if (Strategy is GoToCorner)
+                {
+                    path = Strategy.FindPath(Map, Position, homePosition);
+                    if (Position == homePosition)
                     {
-                        return true;
+                        GoToCircle();
                     }
-                    return GhostIsFrightened();
                 }
                 else
                 {
-                    return GhostIsFrightened();
+                    path = Strategy.FindPath(Map, Position, PacmanPosition);
                 }
+            }
+
+            PacmanPosition = SearchPacman();
+
+            if (PacmanPosition != Position)
+            {
+                OldCoord = Go(path, OldCoord);
+                if (PacmanPosition != Position)
+                {
+                    return true;
+                }
+                return GhostCanKillPacman();
+            }
+            else
+            {
+                return GhostCanKillPacman();
             }
         }
 
-        protected Position SearchPacman()
+        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            lock (_obj)
+            {
+                Movement.Invoke(OldCoord);
+                pacmanIsLive = Move();
+                Movement.Invoke(Map[Position]);
+            }
+            if (!pacmanIsLive)
+            {
+                SinkAboutKillPacman();
+            }
+        }
+
+        public void Restart()
+        {
+            timer.Stop();
+            DefaultTime();
+            OldCoord = new Empty(Position);
+            Strategy = new GoToDefaultPosition();
+            Frightened = false;
+            IsLive = false;
+            idCurrent = idEyes;
+            timer.Start();
+        }
+
+        public void Scared()
+        {
+            if (IsLive && !Frightened)
+            {
+                SpeedDownAt(2);
+                Frightened = true;
+                idCurrent = idFrightened;
+                if (Strategy is GoToClockwise || Strategy is GoAgainstClockwise)
+                {
+                    Strategy = new GoToCorner();
+                }
+                OldStrategy = Strategy;
+                Strategy = new GoAway();
+            }
+        }
+
+        public void NotScared()
+        {
+            if (Frightened)
+            {
+                DefaultTime();
+                Strategy = OldStrategy;
+                Frightened = false;
+                idCurrent = Id;
+                Score = DefaultScore;
+            }
+        }
+
+        private Position SearchPacman()
         {
             for (int y = 0; y < Map.Height; y++)
-                for (int x = 0; x < Map.Width; x++)
+                for (int x = 0; x < Map.Widht; x++)
                     if (Map.map[x, y] is IPacman)
                         return new Position(x, y);
             return PacmanPosition;
         }
 
-        protected virtual ICoord Go(Stack<Position> list, ICoord coord)
+        private ICoord Go(Stack<Position> list, ICoord coord)
         {
-            Map.SetElement(coord);
-            if (list.Count != 0)
+            lock (list)
+            {
+                if (list.Count == 0)
+                {
+                    return coord;
+                }
                 Position = list.Pop();
-            ICoord old = Map.GetElement(Position);
-            Map.SetElement(this);
+            }
+            ICoord old = Map[Position];
+            if (old is IGhost)
+            {
+                Position = coord.Position;
+                return coord;
+            }
+            if (!(coord is IPacman))
+            {
+                Map[coord.Position] = coord;
+            }
+            if (!(Map[Position] is IPacman))
+            {
+                Map[Position] = this;
+            }
             return old;
         }
 
-        protected bool GhostIsFrightened()
+        private bool GhostCanKillPacman()
         {
-            if (Frightened)
-            {
-                return true;
-            }
-            else
-            {
-                OldCoord = new Empty(Position);
-                return false;
-            }
+            return Frightened || !IsLive;
         }
 
-        private async Task SleepAsync()
-        {
-            Timer.Stop();
-            await Task.Delay(Time * 20);
-            Timer.Start();
-        }
+        private void DefaultTime() => timer.Interval = Time;
+        private void SpeedDownAt(double n) => timer.Interval = Time * n;
     }
 }

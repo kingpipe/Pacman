@@ -1,41 +1,18 @@
 ﻿using PacMan.Abstracts;
-using PacMan.Interfaces;
-using System;
-using System.Timers;
+using PacMan.Algorithms;
 
 namespace PacMan.Players
 {
-    class Pinky : Ghost, IGetChar
+    class Pinky : Ghost
     {
-        public override event Action SinkAboutEatPacman;
-        public override event Action<ICoord> Movement;
-
-        public Pinky()
-        { }
-
-        public Pinky(Map map, int time) : base(map, time)
-        { }
-
-        public override void StartPosition()
+        public Pinky(Position start, Map map) : base(start, map)
         {
-            Position = new Position(17, 15);
-        }
+            Id = "pinky";
+            idchar = 'N';
 
-        public override void TimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            Movement(OldCoord);
-            pacmanIsLive = Move();
-            Movement(Map.GetElement(Position));
-            if (!pacmanIsLive)
-            {
-                SinkAboutEatPacman();
-            }
+            homePosition = new Position(3, 1);
         }
-
-        public override char GetCharElement()
-        {
-            return 'N';
-        }
-
+        public override void StrategyRunForPacman() => Strategy = new AstarAlgorithmOptimization();
+        protected override void GoToCircle() => Strategy = new GoAgainstClockwise();
     }
 }

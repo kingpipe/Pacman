@@ -2,140 +2,156 @@
 using PacMan.Players;
 using PacMan.Foods;
 using System;
-using System.Threading;
+using PacMan.Enums;
+using System.Threading.Tasks;
 
 namespace PacMan
 {
-    public sealed class Game : IGame, IDisposable
+    public sealed class Game
     {
-        private const int TIME = 300;
-        private const int TIMEFORPACMAN = 200;
-        private Pacman Pacman { get; set; }
-        private Cherry Cherry { get; set; }
-        private MenegerGhosts Ghosts { get; set; }
-        private Map DefaultMap { get; set; }
+        private Pacman _pacman;
+        private Cherry _cherry;
+        private MenagerGhosts _ghosts;
+        private Map _defaultMap;
+        private GameStatus _status;
+        private event Func<Task> UpdateMap;
 
-        public event Action PacmanIsDied;
-        public event Action UpdateMap;
-        public bool PacmanIsLive { get; private set; }
         public Map Map { get; private set; }
-        public int Score
+        public int Score => _pacman.Count;
+        public int Lives => _pacman.Lives;
+        public int Level => _pacman.Level;
+
+        public Game(string path, string name, int time, Position cherry)
         {
-            get
+            Map = new Map(path, name);
+            Init(time, cherry);
+        }
+
+        public Game(string path, string name, Position cherry)
+        {
+            Map = new Map(path, name);
+            Init(200, cherry);
+        }
+
+        public Game(string path, string name, int time)
+        {
+            Map = new Map(path, name);
+            Init(time, new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1));
+        }
+
+        public Game(string path, string name)
+        {
+            Map = new Map(path, name);
+            Init(200, new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1));
+        }
+
+        public void AddHandler(Func<ICoord, Task> move, Func<Task> score, Func<Task> updatemap)
+        {
+            if (_status == GameStatus.NeedInitEvent)
             {
-                return Pacman.Count;
+                _ghosts.AddMoveHandler(move);
+                _cherry.Movement += move;
+                _pacman.Movement += move;
+                _pacman.SinkAboutChangeScore += score;
+                UpdateMap += updatemap;
+                _status = GameStatus.ReadyToStart;
             }
-        }
-        public int Lives
-        {
-            get
-            {
-                return Pacman.Lives;
-            }
-        }
-        public int Level
-        {
-            get
-            {
-                return Pacman.Level;
-            }
-        }
-
-        public Game(string path, ISize size)
-        {
-            PacmanIsLive = true;
-            Map = new Map(path, size);
-            DefaultMap = (Map)Map.Clone();
-            Pacman = new Pacman(Map, TIMEFORPACMAN);
-            Cherry = new Cherry(new Position(14, 17), Map);
-            Ghosts = new MenegerGhosts(Map, TIME);
-
-            Pacman.SinkAboutEatEnergizer += Ghosts.AreFrightened;
-            Pacman.SinkAboutCreateCherry += () => Cherry.Start();
-            Pacman.SinkAboutNextLevel += Pacman_SinkAboutNextLevel;
-            Ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
-        }
-
-        private void Pacman_SinkAboutNextLevel()
-        {
-            SetDirection(Direction.None);
-            RemovePlayers();
-            Map = (Map)DefaultMap.Clone();
-            Pacman.Map = Map;
-            Ghosts.SetDefaultMap(Map);
-            UpdateMap();
-            Pacman.StartPosition();
-            Ghosts.StartPosition();
-            Ghosts.ArenotFrightened();
-            CreatePlayers();
-        }
-
-        public void AddMoveHandlerToGhosts(Action<ICoord> action)
-        {
-            Ghosts.AddMoveHandler(action);
-            Cherry.Movement += action;
-        }
-
-        public void AddMoveHandlerToPacman(Action<ICoord> action)
-        {
-            Pacman.Movement += action;
         }
 
         public void SetDirection(Direction direction)
         {
-            Pacman.OldDirection = Pacman.Direction;
-            Pacman.Direction = direction;
+            _pacman.NewDirection = direction;
         }
 
         public void Start()
         {
-            Ghosts.StartTimer();
-            Pacman.Start();
+            if (_status == GameStatus.Stop || _status == GameStatus.ReadyToStart)
+            {
+                _status = GameStatus.InProcess;
+                _ghosts.Start();
+                _pacman.Start();
+            }
         }
 
         public void Stop()
         {
-            Pacman.Direction = Direction.None;
-            Pacman.Stop();
-            Ghosts.StopTimer();
-            if (!PacmanIsLive)
+            if (_status == GameStatus.InProcess)
             {
-                Pacman.Lives--;
-                PacmanIsLive = true;
-                RemovePlayers();
-                Pacman.StartPosition();
-                Ghosts.StartPosition();
-                CreatePlayers();
+                _status = GameStatus.Stop;
+                _pacman.Stop();
+                _ghosts.Stop();
+                UpdateMap();
             }
-            Thread.Sleep(200);
+        }
+        public void Default()
+
+        {
+            if (_status != GameStatus.ReadyToStart && _status != GameStatus.NeedInitEvent)
+            {
+                if (_status != GameStatus.Stop)
+                {
+                    Stop();
+                }
+                _status = GameStatus.ReadyToStart;
+                Map = (Map)_defaultMap.Clone();
+                _ghosts.Default(Map);
+                _pacman.DefaultMap(Map);
+                _pacman.StartPosition();
+                UpdateMap();
+            }
+        }
+        
+        private void Init(int time, Position cherry)
+        {
+            _status = GameStatus.NeedInitEvent;
+            _defaultMap = (Map)Map.Clone();
+            _pacman = Map.Pacman;
+            _pacman.SetTime(time);
+            _cherry = new Cherry(cherry, Map);
+            _ghosts = new MenagerGhosts(Map, time);
+
+            _pacman.SinkAboutEatEnergizer += _ghosts.AreFrightened;
+            _pacman.SinkAboutCreateCherry += () => _cherry.Start();
+            _pacman.SinkAboutNextLevel += NextLevel;
+            _pacman.SinkAboutEatGhost += _ghosts.EatGhost;
+            _ghosts.AddSinkAboutEatPacmanHandler(PacmanIsKilled);
         }
 
-        public void End()
+        private void NextLevel()
         {
-            Dispose();
+            Stop();
+            Map = (Map)_defaultMap.Clone();
+            _pacman.StartPosition();
+            _pacman.Map = Map;
+            _ghosts.StartPositions();
+            _ghosts.AreNotFrightened();
+            _ghosts.DefaultMap(Map);
+            UpdateMap();
+            Start();
         }
 
-        private void PacmanIsKilled()
+        private async Task PacmanIsKilled()
         {
-            PacmanIsLive = false;
-            PacmanIsDied();
-        }
-
-        private void CreatePlayers()
-        {
-            Map.SetElement(Pacman);
-            Ghosts.SetGhosts();
-        }
-
-        private void RemovePlayers()
-        {
-            Map.SetElement(new Empty(Pacman.Position));
-            Ghosts.RemoveGhosts();
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(true);
+            Stop();
+            _pacman.Lives--;
+            _pacman.StartPosition();
+            _ghosts.StartPositions();
+            await UpdateMap();
+            if (_pacman.Lives > 0)
+            {
+                await Task.Delay(2000);
+                if (_status != GameStatus.InProcess)
+                {
+                    Start();
+                }
+            }
+            else
+            {
+                await Task.Delay(1000);
+                Default();
+                _status = GameStatus.ReadyToStart;
+                await UpdateMap();
+            }
         }
     }
 }

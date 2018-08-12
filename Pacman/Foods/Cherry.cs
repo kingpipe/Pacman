@@ -2,38 +2,34 @@
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace PacMan.Foods
 {
-    class Cherry : Food, IGetChar, ISinkMoving
+    class Cherry : Food, ISinkMoving
     {
         private const int TIMELIFE = 10000;
-        private readonly Timer timer;
+        private readonly Timer _timer;
 
-        public event Action<ICoord> Movement;
-        public Map Map { get; set; }
-
-        public Cherry()
-        { }
+        public event Func<ICoord, Task> Movement;
+        private Map _map { get; set; }
 
         public Cherry(Position position, Map map) : base(position)
         {
-            Map = map;
-            Score = 100;
-            timer = new Timer(TIMELIFE);
-        }
+            id = "cherry";
+            idchar = '0';
 
-        public override char GetCharElement()
-        {
-            return '0';
+            _map = map;
+            Score = 100;
+            _timer = new Timer(TIMELIFE);
         }
 
         public void Start()
         {
-            Map.SetElement(this);
+            _map[Position] = this;
             Movement(this);
-            timer.Start(TimerElapsed);
+            _timer.Start(TimerElapsed);
         }
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
@@ -41,7 +37,7 @@ namespace PacMan.Foods
             ((Timer)sender).Stop(TimerElapsed);
             if (IsLive)
             {
-                Map.SetElement(new Empty(Position));
+                _map[Position] = new Empty(Position);
                 Movement(new Empty(Position));
             }
         }

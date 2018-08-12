@@ -1,0 +1,27 @@
+﻿#game {
+    position:relative;
+    margin:auto;
+    left:3%;
+}
+
+#buttons {
+    position:relative;
+    font-size:20px;
+    margin:auto;
+    padding:10px;
+}
+#information {
+    position: relative;
+    font-size: 20px;
+    margin: auto;
+}
+input {
+    margin: 10px;
+}
+h4{   
+    display:inline-block;
+}
+div {
+    display: inline-block;
+}
+

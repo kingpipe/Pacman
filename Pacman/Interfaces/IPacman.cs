@@ -1,6 +1,8 @@
-﻿namespace PacMan.Interfaces
+﻿using PacMan.Enums;
+
+namespace PacMan.Interfaces
 {
-    interface IPacman : IMovable, IEateble
+    interface IPacman : IMovable, IEateble, IPacmanEvent
     {
         int Lives { get; set; }
         int Count { get; set; }

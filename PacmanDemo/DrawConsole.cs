@@ -1,6 +1,7 @@
 ﻿using PacMan;
 using PacMan.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace PacmanDemo
 {
@@ -15,7 +16,7 @@ namespace PacmanDemo
             Game = game;
         }
 
-        public void DrawMap()
+        public async Task DrawMap()
         {
             lock (obj)
             {
@@ -28,7 +29,7 @@ namespace PacmanDemo
             }
         }
 
-        public void TheEnd()
+        public async Task TheEnd()
         {
             lock (obj)
             {
@@ -39,7 +40,7 @@ namespace PacmanDemo
             }
         }
 
-        public void WriteScore()
+        public async Task WriteScore()
         {
             lock (obj)
             {
@@ -48,21 +49,12 @@ namespace PacmanDemo
             }
         }
 
-        public void EventMoving(ICoord coord)
+        public async Task EventMoving(ICoord coord)
         {
             lock (obj)
             {
                 Console.SetCursorPosition(coord.Position.X, coord.Position.Y);
                 Console.WriteLine(coord.GetCharElement());
-            }
-        }
-
-        public void PacmanMoving(ICoord coord)
-        {
-            lock (obj)
-            {
-                EventMoving(coord);
-                WriteScore();
             }
         }
 
@@ -94,7 +86,7 @@ namespace PacmanDemo
             ICoord[,] array = Game.Map.map;
             for (int y = 0; y < Game.Map.Height; y++)
             {
-                for (int x = 0; x < Game.Map.Width; x++)
+                for (int x = 0; x < Game.Map.Widht; x++)
                 {
                     Console.Write(array[x, y].GetCharElement());
                 }

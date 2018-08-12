@@ -2,61 +2,58 @@
 using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
-using PacMan.Algorithms.Astar;
+using PacMan.StateBehavior;
 
 namespace PacMan
 {
-    class ChangeStateGhosts : ITimer
+    class ChangeStateGhosts
     {
-        private readonly MenegerGhosts Ghosts;
-        private readonly Timer timer;
-        private readonly Queue<int> listoftime;
+        public MenagerGhosts Ghosts { get; }
+        public IState State { get; set; }
 
-        public ChangeStateGhosts(MenegerGhosts ghosts)
+        private readonly Timer _timer;
+        private readonly Queue<int> _listoftime;
+
+
+        public ChangeStateGhosts(MenagerGhosts ghosts)
         {
             Ghosts = ghosts;
-            listoftime = new Queue<int>();
+            _listoftime = new Queue<int>();
             InitQueue();
-            timer = new Timer(listoftime.Dequeue());
-        }
-
-        public ChangeStateGhosts(MenegerGhosts ghosts, Queue<int> Listoftime)
-        {
-            Ghosts = ghosts;
-            timer = new Timer(Listoftime.Dequeue());
+            _timer = new Timer(_listoftime.Dequeue());
+            State = new StateScatter();
         }
 
         private void InitQueue()
         {
-            listoftime.Enqueue(7000);
-            listoftime.Enqueue(10000);
-            listoftime.Enqueue(7000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
-            listoftime.Enqueue(20000);
-            listoftime.Enqueue(5000);
+            _listoftime.Enqueue(10000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(7000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(5000);
+            _listoftime.Enqueue(20000);
+            _listoftime.Enqueue(5000);
         }
 
         public void Start()
         {
-            timer.Start(TimerElapsed);
+            _timer.Start(TimerElapsed);
         }
         public void Stop()
         {
-            timer.Stop(TimerElapsed);
+            _timer.Stop(TimerElapsed);
         }
 
         public void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (listoftime.Count != 0)
+            State.ChangeBehavior(this);
+            if (_listoftime.Count != 0)
             {
-                ((Timer)sender).Interval = listoftime.Dequeue();
-                Ghosts.State.ChangeBehavior(Ghosts);
+                ((Timer)sender).Interval = _listoftime.Dequeue();
             }
             else
             {
                 ((Timer)sender).Stop();
-                Ghosts.SetStrategy(new AstarAlgorithm());
             }
         }
     }

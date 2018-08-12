@@ -1,32 +1,50 @@
 ﻿using PacMan.Abstracts;
 using PacMan.Foods;
 using PacMan.Interfaces;
+using PacMan.Enums;
 using System;
 using System.Linq;
 using System.Timers;
+using System.Threading.Tasks;
 
 namespace PacMan.Players
 {
-    class Pacman : Player, IPacman, ISinkMoving
+    class Pacman : Player, IPacman
     {
-        public override event Action<ICoord> Movement;
+        public override event Func<ICoord, Task> Movement;
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
-        public Direction OldDirection { get; set; }
+        public event Action SinkAboutEatGhost;
+        public event Func<Task> SinkAboutChangeScore;
+
+        private int _count;
+
+        public Direction NewDirection { get; set; }
         public int Lives { get; set; }
-        public int Count { get; set; }
         public int Level { get; set; }
-
-        public Pacman()
-        { }
-
-        public Pacman(Map map, int time) : base(map, time)
+        public int Count
         {
-            Timer = new Timer(time);
-            StartPosition();
+            get => _count;
+            set
+            {
+                _count = value;
+                SinkAboutChangeScore?.Invoke();
+                if (_count % 1000 == 700)
+                {
+                    SinkAboutCreateCherry?.Invoke();
+                }
+            }
+        }
+
+        public Pacman(Position start, Map map) : base(start, map)
+        {
+            DefaultCoord();
+            Id = "pacman";
+            idchar = 'P';
+
             Direction = Direction.None;
-            OldDirection = Direction.None;
+            NewDirection = Direction.None;
             Count = 0;
             Lives = 3;
             Level = 1;
@@ -34,30 +52,42 @@ namespace PacMan.Players
 
         public override void StartPosition()
         {
-            Position = new Position(15, 23);
+            Map[Position] = new Empty(Position);
+            Movement?.Invoke(new Empty(Position));
+            DefaultCoord();
+            Map[Position] = this;
+            Movement?.Invoke(this);
         }
 
-        public override void TimerElapsed(object sender, ElapsedEventArgs e)
+        public override void DefaultMap(Map map)
         {
+            Direction = Direction.None;
+            NewDirection = Direction.None;
+            Level = 1;
+            Count = 0;
+            Lives = 3;
+            base.DefaultMap(map);
+        }
 
-            Movement(new Empty(Position));
-            if (OldDirection != Direction)
+        protected override void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Movement.Invoke(new Empty(Position));
+            if (NewDirection != Direction)
             {
-                bool value = Move();
-                if (value)
+                if (Move(NewDirection))
                 {
-                    OldDirection = Direction;
+                    Direction = NewDirection;
                 }
                 else
                 {
-                    Direction = OldDirection;
+                    Move();
                 }
             }
             else
             {
                 Move();
             }
-            Movement(Map.GetElement(Position));
+            Movement.Invoke(Map[Position]);
             MaybeNextLevel();
         }
 
@@ -67,29 +97,96 @@ namespace PacMan.Players
             {
                 if (ghost.Frightened)
                 {
+                    Count += food.Score;
                     ghost.Restart();
+                    SinkAboutEatGhost?.Invoke();
                 }
             }
             else
             {
                 if (food is Energizer)
                 {
-                    SinkAboutEatEnergizer();
+                    SinkAboutEatEnergizer?.Invoke();
                 }
-            }
-            Count += food.Score;
-            food.IsLive = false;
-            Map.SetElement(this, Position);
-
-            if (Count % 1000 == 700)
-            {
-                SinkAboutCreateCherry();
+                Count += food.Score;
             }
         }
 
         public override bool Move()
         {
-            switch (Direction)
+            return Move(Direction);
+        }
+
+        public override string GetId()
+        {
+            return Id + Direction.ToString().ToLower();
+        }
+
+        protected override bool MoveRight()
+        {
+            if (Position.X + 2 > Map.Widht)
+            {
+                Map[Position] = new Empty(Position);
+                Position position = Position;
+                position.X = 0;
+                Position = position;
+                Map[Position] = this;
+                return true;
+            }
+            else
+            {
+                if (Map[Position.Right] is IFood food)
+                    Eat(food);
+                return base.MoveRight();
+            }
+        }
+
+        protected override bool MoveLeft()
+        {
+            if (Position.X - 1 < 0)
+            {
+                Map[Position] = new Empty(Position);
+                Position position = Position;
+                position.X = Map.Height - 2;
+                Position = position;
+                Map[Position] = this;
+                return true;
+            }
+            else
+            {
+                if (Map[Position.Left] is IFood food)
+                    Eat(food);
+                return base.MoveLeft();
+            }
+        }
+
+        protected override bool MoveDown()
+        {
+            if (Map[Position.Down] is IFood food)
+                Eat(food);
+            return base.MoveDown();
+        }
+
+        protected override bool MoveUp()
+        {
+            if (Map[Position.Up] is IFood food)
+                Eat(food);
+            return base.MoveUp();
+        }
+
+        private void MaybeNextLevel()
+        {
+            var IsLittleGoal = Map.map.OfType<ICoord>().AsQueryable().Any(m => m is LittleGoal);
+            if (!IsLittleGoal)
+            {
+                Level++;
+                SinkAboutNextLevel();
+            }
+        }
+
+        private bool Move(Direction direction)
+        {
+            switch (direction)
             {
                 case Direction.Left:
                     return MoveLeft();
@@ -101,77 +198,6 @@ namespace PacMan.Players
                     return MoveDown();
                 default:
                     return false;
-            }
-        }
-
-        public override bool MoveRight()
-        {
-            if (Position.X + 2 > Map.Width)
-            {
-                Map.SetElement(new Empty(Position));
-                Position position = Position;
-                position.X = 0;
-                Position = position;
-                Map.SetElement(this, Position);
-                return true;
-            }
-            else
-            {
-                if (Map.GetElementRight(Position) is IFood food)
-                    Eat(food);
-                return base.MoveRight();
-            }
-
-        }
-
-        public override bool MoveLeft()
-        {
-            if (Position.X - 1 < 0)
-            {
-                Map.SetElement(new Empty(Position));
-                Position position = Position;
-                position.X = Map.Height - 2;
-                Position = position;
-                Map.SetElement(this, Position);
-                return true;
-            }
-            else
-            {
-                if (Map.GetElementLeft(Position) is IFood food)
-                    Eat(food);
-                return base.MoveLeft();
-
-            }
-        }
-
-        public override bool MoveDown()
-        {
-            if (Map.GetElementDown(Position) is IFood food)
-                Eat(food);
-            return base.MoveDown();
-        }
-
-        public override bool MoveUp()
-        {
-            if (Map.GetElementUp(Position) is IFood food)
-                Eat(food);
-            return base.MoveUp();
-        }
-
-        public override char GetCharElement()
-        {
-            return 'P';
-        }
-
-        private void MaybeNextLevel()
-        {
-            var coords = Map.map.OfType<ICoord>().ToList();
-            var quaryable = coords.AsQueryable();
-            var IsLittleGoal = quaryable.Any(m => m is LittleGoal);
-            if (!IsLittleGoal)
-            {
-                Level++;
-                SinkAboutNextLevel();
             }
         }
     }

@@ -1,17 +1,13 @@
-﻿using PacMan.Algorithms;
-using PacMan.Interfaces;
+﻿using PacMan.Interfaces;
 
 namespace PacMan.StateBehavior
 {
     class StateAttack : IState
     {
-        public void ChangeBehavior(MenegerGhosts ghosts)
+        public void ChangeBehavior(ChangeStateGhosts changeState)
         {
-            foreach (var ghost in ghosts.Ghosts)
-            {
-                ghost.Strategy = new RandomMoving();
-            }
-            ghosts.State = new StateScatter();
+            changeState.Ghosts.SetStrategyGoToCorner();
+            changeState.State = new StateScatter();
         }
     }
 }

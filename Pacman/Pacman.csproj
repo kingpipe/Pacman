@@ -7,7 +7,7 @@
     <ProjectGuid>{CDFF2872-A473-4724-BFC2-E0C6E19CEF32}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pacman</RootNamespace>
+    <RootNamespace>PacMan</RootNamespace>
     <AssemblyName>Pacman</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,14 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AlgorithmForClyde.cs" />
+    <Compile Include="Algorithms\AstarAlgorithmOptimization.cs" />
+    <Compile Include="Algorithms\GoToClockwise.cs" />
+    <Compile Include="Algorithms\GoAgainstClockwise.cs" />
+    <Compile Include="Algorithms\GoToCorner.cs" />
+    <Compile Include="Algorithms\GoToDefaultPosition.cs" />
     <Compile Include="ExtensionClasses\ExtensionTimer.cs" />
+    <Compile Include="Interfaces\IGetId.cs" />
+    <Compile Include="Enums\GameStatus.cs" />
+    <Compile Include="Interfaces\IPacmanEvent.cs" />
+    <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\ISinkAboutKillPacman.cs" />
+    <Compile Include="Interfaces\ISize.cs" />
     <Compile Include="StateBehavior\StateScatter.cs" />
-    <Compile Include="ManagerGhosts.cs" />
+    <Compile Include="MenagerGhosts.cs" />
     <Compile Include="Algorithms\Astar\AstarAlgorithm.cs" />
     <Compile Include="Algorithms\Astar\PathNode.cs" />
     <Compile Include="Algorithms\GoAway.cs" />
-    <Compile Include="Algorithms\RandomMoving.cs" />
-    <Compile Include="Direction.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Foods\Energizer.cs" />
     <Compile Include="Foods\Cherry.cs" />
     <Compile Include="Abstracts\Food.cs" />
@@ -60,28 +74,23 @@
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\ISinkMoving.cs" />
     <Compile Include="Interfaces\IState.cs" />
-    <Compile Include="Interfaces\IStartPosition.cs" />
+    <Compile Include="Interfaces\IStartCoord.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
-    <Compile Include="Interfaces\ITimer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Players\Clyde.cs" />
     <Compile Include="Players\Blinky.cs" />
     <Compile Include="Abstracts\Ghost.cs" />
     <Compile Include="Players\Inky.cs" />
     <Compile Include="Players\Pinky.cs" />
-    <Compile Include="Interfaces\ISinkAboutEatPacman.cs" />
     <Compile Include="Interfaces\IFood.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGhost.cs" />
     <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="Interfaces\IPacman.cs" />
     <Compile Include="Interfaces\IPosition.cs" />
-    <Compile Include="Interfaces\ISize.cs" />
     <Compile Include="Abstracts\Player.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Players\Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Size.cs" />
     <Compile Include="StateBehavior\StateAttack.cs" />
     <Compile Include="StateBehavior\ChangeStateGhosts.cs" />
     <Compile Include="Wall.cs" />

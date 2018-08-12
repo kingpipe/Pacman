@@ -48,15 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="map.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pacman\PacMan.csproj">
       <Project>{cdff2872-a473-4724-bfc2-e0c6e19cef32}</Project>
       <Name>PacMan</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="map.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

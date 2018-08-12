@@ -2,21 +2,22 @@
 
 namespace PacMan.Abstracts
 {
-    abstract class Food: IFood
+    abstract class Food : IFood
     {
-        public abstract char GetCharElement();
-
         public Position Position { get; set; }
         public int Score { get; set; }
         public bool IsLive { get; set; }
 
-        protected Food()
-        { }
+        protected string id;
+        protected char idchar;
 
         protected Food(Position position)
         {
             Position = position;
             IsLive = true;
         }
+
+        public char GetCharElement() => idchar;
+        public string GetId() => id;
     }
 }

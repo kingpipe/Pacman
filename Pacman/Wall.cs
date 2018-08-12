@@ -6,9 +6,6 @@ namespace PacMan
     {
         public Position Position { get; set; }
 
-        public Wall()
-        { }
-
         public Wall(Position position)
         {
             Position = position;
@@ -17,6 +14,11 @@ namespace PacMan
         public char GetCharElement()
         {
             return '#';
+        }
+
+        public string GetId()
+        {
+            return "wall";
         }
     }
 }
