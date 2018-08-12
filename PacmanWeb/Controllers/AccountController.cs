@@ -243,7 +243,7 @@ namespace PacmanWeb.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(GameController.Index), "Game");
         }
 
         [HttpPost]
@@ -331,7 +331,7 @@ namespace PacmanWeb.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(GameController.Index), "Game");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -451,7 +451,7 @@ namespace PacmanWeb.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(GameController.Index), "Game");
             }
         }
 

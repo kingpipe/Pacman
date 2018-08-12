@@ -8,7 +8,7 @@ namespace PacMan
 {
     class ChangeStateGhosts
     {
-        public readonly MenagerGhosts Ghosts;
+        public MenagerGhosts Ghosts { get; }
         public IState State { get; set; }
 
         private readonly Timer _timer;
