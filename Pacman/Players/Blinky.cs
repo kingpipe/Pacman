@@ -7,7 +7,7 @@ namespace PacMan.Players
     {
         public Blinky(Position start, Map map) : base(start, map)
         {
-            id = "blinky";
+            Id = "blinky";
             idchar = 'B';
 
             homePosition = new Position(Map.Widht - 4, 1);

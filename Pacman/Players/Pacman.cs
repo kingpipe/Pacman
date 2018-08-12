@@ -39,7 +39,7 @@ namespace PacMan.Players
         public Pacman(Position start, Map map) : base(start, map)
         {
             DefaultCoord();
-            id = "pacman";
+            Id = "pacman";
             idchar = 'P';
 
             Direction = Direction.None;
@@ -118,7 +118,7 @@ namespace PacMan.Players
 
         public override string GetId()
         {
-            return id + Direction.ToString().ToLower();
+            return Id + Direction.ToString().ToLower();
         }
 
         protected override bool MoveRight()

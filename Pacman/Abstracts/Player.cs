@@ -13,7 +13,7 @@ namespace PacMan.Abstracts
         public abstract void StartPosition();
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);
 
-        protected string id;
+        protected virtual string Id { get; set; }
         protected char idchar;
         protected readonly Timer timer;
 
@@ -30,7 +30,7 @@ namespace PacMan.Abstracts
             timer = new Timer();
         }
 
-        public virtual string GetId() => id;
+        public virtual string GetId() => Id;
         public char GetCharElement() => idchar;
 
         public virtual void DefaultCoord() => Position = StartCoord;

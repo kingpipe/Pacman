@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Interfaces;
+using PacmanWeb.Hubs;
 
-namespace PacmanWeb.Hubs
+namespace PacmanWeb.Models.GameModels
 {
-    public class ConnectionGame
+    public class GameConnection
     {
         public Game Game { get; private set; }
         private readonly IHubContext<PacmanHub> _hubContext;
         private readonly string _id;
 
-        public ConnectionGame(Game game, IHubContext<PacmanHub> hubContext, string id)
+        public GameConnection(Game game, IHubContext<PacmanHub> hubContext, string id)
         {
             Game = game;
             _hubContext = hubContext;

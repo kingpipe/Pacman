@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using PacMan.Enums;
 using PacmanWeb.Data;
-using PacmanWeb.Models;
+using PacmanWeb.Models.GameModels;
 
 namespace PacmanWeb.Hubs
 {

@@ -8,6 +8,7 @@ using PacmanWeb.Data;
 using PacmanWeb.Models;
 using PacmanWeb.Services;
 using PacmanWeb.Hubs;
+using PacmanWeb.Models.GameModels;
 
 namespace PacmanWeb
 {

@@ -7,7 +7,7 @@ namespace PacMan.Players
     {
         public Clyde(Position start, Map map) : base(start, map)
         {
-            id = "clyde";
+            Id = "clyde";
             idchar = 'C';
 
             homePosition = new Position(3, Map.Height - 5);

@@ -1,4 +1,4 @@
-﻿namespace PacmanWeb.Models
+﻿namespace PacmanWeb.Models.GameModels
 {
     public class InformationModel
     {

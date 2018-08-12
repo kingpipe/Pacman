@@ -4,10 +4,10 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using PacMan;
 using PacmanWeb.Data;
-using PacmanWeb.Models;
 using PacmanWeb.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using PacmanWeb.Models.GameModels;
 
 namespace PacmanWeb.Controllers
 {
@@ -62,7 +62,7 @@ namespace PacmanWeb.Controllers
             var id = Guid.NewGuid().ToString();
             var name = User.Identity.Name;
             var game = new Game(Configuration.GetSection("AppConfig:Map" + map + "Path").Value, map + "Map");
-            GameCollection.AddGame(id, new ConnectionGame(game, HubContext, id));
+            GameCollection.AddGame(id, new GameConnection(game, HubContext, id));
             return new InformationModel { Widht = game.Map.Widht, Height = game.Map.Height, Id = id };
         }
     }

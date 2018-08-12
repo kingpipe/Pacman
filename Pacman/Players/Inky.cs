@@ -7,7 +7,7 @@ namespace PacMan.Players
     {
         public Inky(Position start, Map map) : base(start, map)
         {
-            id = "inky";
+            Id = "inky";
             idchar = 'I';
             homePosition = new Position(Map.Widht - 4, Map.Height - 5);
         }

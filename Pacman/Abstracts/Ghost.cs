@@ -15,20 +15,30 @@ namespace PacMan.Abstracts
         public event Func<Task> SinkAboutKillPacman;
         public override event Action<ICoord> Movement;
 
-        public bool Frightened { get; set; }
         public Position PacmanPosition { get; set; }
         public int Score { get; set; }
+        public bool Frightened { get; set; }
         public bool IsLive { get; set; }
 
         protected bool pacmanIsLive;
         protected string idFrightened;
         protected string idEyes;
+        protected string idCurrent;
         protected Stack<Position> path;
         protected Position homePosition;
         protected IStrategy Strategy { get; set; }
         protected IStrategy OldStrategy { get; set; }
         protected ICoord OldCoord { get; set; }
         protected int DefaultScore { get; private set; }
+        protected override string Id
+        {
+            get => base.Id;
+            set
+            {
+                base.Id = value;
+                idCurrent = Id;
+            }
+        }
 
         private readonly object _obj = new object();
 
@@ -81,18 +91,7 @@ namespace PacMan.Abstracts
 
         public override string GetId()
         {
-            if (Frightened)
-            {
-                return idFrightened;
-            }
-            else if (!IsLive)
-            {
-                return idEyes;
-            }
-            else
-            {
-                return id;
-            }
+            return idCurrent;
         }
 
         public override bool Move()
@@ -103,6 +102,7 @@ namespace PacMan.Abstracts
                 if (Position == StartCoord)
                 {
                     IsLive = true;
+                    idCurrent = Id;
                     Strategy = OldStrategy;
                 }
             }
@@ -155,12 +155,13 @@ namespace PacMan.Abstracts
 
         public void Restart()
         {
-            IsLive = false;
             timer.Stop();
             DefaultTime();
             OldCoord = new Empty(Position);
             Strategy = new GoToDefaultPosition();
             Frightened = false;
+            IsLive = false;
+            idCurrent = idEyes;
             timer.Start();
         }
 
@@ -170,6 +171,7 @@ namespace PacMan.Abstracts
             {
                 SpeedDownAt(2);
                 Frightened = true;
+                idCurrent = idFrightened;
                 if (Strategy is GoToClockwise || Strategy is GoAgainstClockwise)
                 {
                     Strategy = new GoToCorner();
@@ -186,6 +188,7 @@ namespace PacMan.Abstracts
                 DefaultTime();
                 Strategy = OldStrategy;
                 Frightened = false;
+                idCurrent = Id;
                 Score = DefaultScore;
             }
         }
@@ -215,7 +218,10 @@ namespace PacMan.Abstracts
                 Position = coord.Position;
                 return coord;
             }
-            Map[coord.Position] = coord;
+            if (!(coord is IPacman))
+            {
+                Map[coord.Position] = coord;
+            }
             if (!(Map[Position] is IPacman))
             {
                 Map[Position] = this;
