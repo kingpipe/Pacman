@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using PacMan;
 using PacMan.Interfaces;
 using PacmanWeb.Hubs;
@@ -16,15 +17,15 @@ namespace PacmanWeb.Models.GameModels
             Game = game;
             _hubContext = hubContext;
             _id = id;
-            game.AddHandler(Move, ChangeScore, UpdateMap);
+            game.AddHandler(MoveAsync, ChangeScoreAsync, UpdateMapAsync);
         }
 
-        private async void UpdateMap()
+        private async Task UpdateMapAsync()
         {
             await _hubContext.Clients.Groups(_id).SendAsync("DrawMap", Game.Map.GetArrayID(), Game.Level, Game.Lives);
         }
 
-        private async void Move(ICoord coord)
+        private async Task MoveAsync(ICoord coord)
         {
             await _hubContext.Clients.Groups(_id).SendAsync("Move",
                 coord.Position.X,
@@ -32,7 +33,7 @@ namespace PacmanWeb.Models.GameModels
                 coord.GetId());
         }
 
-        private async void ChangeScore()
+        private async Task ChangeScoreAsync()
         {
             await _hubContext.Clients.Groups(_id).SendAsync("Score", Game.Score);
         }

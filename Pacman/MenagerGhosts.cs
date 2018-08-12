@@ -126,7 +126,7 @@ namespace PacMan
             }
         }
 
-        public void AddMoveHandler(Action<ICoord> action)
+        public void AddMoveHandler(Func<ICoord, Task> action)
         {
             foreach (var ghost in _ghosts)
             {

@@ -14,7 +14,7 @@ namespace PacMan
         private MenagerGhosts _ghosts;
         private Map _defaultMap;
         private GameStatus _status;
-        private event Action UpdateMap;
+        private event Func<Task> UpdateMap;
 
         public Map Map { get; private set; }
         public int Score => _pacman.Count;
@@ -45,7 +45,7 @@ namespace PacMan
             Init(200, new Position(Map.Widht / 2, Map.Height / 2 + Map.Height % 2 + 1));
         }
 
-        public void AddHandler(Action<ICoord> move, Action score, Action updatemap)
+        public void AddHandler(Func<ICoord, Task> move, Func<Task> score, Func<Task> updatemap)
         {
             if (_status == GameStatus.NeedInitEvent)
             {
@@ -136,7 +136,7 @@ namespace PacMan
             _pacman.Lives--;
             _pacman.StartPosition();
             _ghosts.StartPositions();
-            UpdateMap();
+            await UpdateMap();
             if (_pacman.Lives > 0)
             {
                 await Task.Delay(2000);
@@ -150,7 +150,7 @@ namespace PacMan
                 await Task.Delay(1000);
                 Default();
                 _status = GameStatus.ReadyToStart;
-                UpdateMap();
+                await UpdateMap();
             }
         }
     }

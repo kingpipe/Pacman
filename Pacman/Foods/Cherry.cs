@@ -2,6 +2,7 @@
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace PacMan.Foods
@@ -11,7 +12,7 @@ namespace PacMan.Foods
         private const int TIMELIFE = 10000;
         private readonly Timer _timer;
 
-        public event Action<ICoord> Movement;
+        public event Func<ICoord, Task> Movement;
         private Map _map { get; set; }
 
         public Cherry(Position position, Map map) : base(position)

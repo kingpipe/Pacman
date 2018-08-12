@@ -3,12 +3,13 @@ using System.Timers;
 using PacMan.ExtensionClasses;
 using PacMan.Interfaces;
 using PacMan.Enums;
+using System.Threading.Tasks;
 
 namespace PacMan.Abstracts
 {
     abstract class Player : IPlayer
     {
-        public abstract event Action<ICoord> Movement;
+        public abstract event Func<ICoord, Task> Movement;
         public abstract bool Move();
         public abstract void StartPosition();
         protected abstract void TimerElapsed(object sender, ElapsedEventArgs e);

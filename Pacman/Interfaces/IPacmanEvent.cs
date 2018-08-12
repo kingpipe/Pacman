@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace PacMan.Interfaces
 {
@@ -8,6 +9,6 @@ namespace PacMan.Interfaces
         event Action SinkAboutEatEnergizer;
         event Action SinkAboutNextLevel;
         event Action SinkAboutEatGhost;
-        event Action SinkAboutChangeScore;
+        event Func<Task> SinkAboutChangeScore;
     }
 }

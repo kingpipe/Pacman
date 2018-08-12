@@ -5,17 +5,18 @@ using PacMan.Enums;
 using System;
 using System.Linq;
 using System.Timers;
+using System.Threading.Tasks;
 
 namespace PacMan.Players
 {
     class Pacman : Player, IPacman
     {
-        public override event Action<ICoord> Movement;
+        public override event Func<ICoord, Task> Movement;
         public event Action SinkAboutCreateCherry;
         public event Action SinkAboutEatEnergizer;
         public event Action SinkAboutNextLevel;
         public event Action SinkAboutEatGhost;
-        public event Action SinkAboutChangeScore;
+        public event Func<Task> SinkAboutChangeScore;
 
         private int _count;
 

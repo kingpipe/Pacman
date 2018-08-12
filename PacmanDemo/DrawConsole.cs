@@ -16,7 +16,7 @@ namespace PacmanDemo
             Game = game;
         }
 
-        public void DrawMap()
+        public async Task DrawMap()
         {
             lock (obj)
             {
@@ -40,7 +40,7 @@ namespace PacmanDemo
             }
         }
 
-        public void WriteScore()
+        public async Task WriteScore()
         {
             lock (obj)
             {
@@ -49,7 +49,7 @@ namespace PacmanDemo
             }
         }
 
-        public void EventMoving(ICoord coord)
+        public async Task EventMoving(ICoord coord)
         {
             lock (obj)
             {

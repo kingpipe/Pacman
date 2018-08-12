@@ -13,7 +13,7 @@ namespace PacMan.Abstracts
         protected abstract void GoToCircle();
 
         public event Func<Task> SinkAboutKillPacman;
-        public override event Action<ICoord> Movement;
+        public override event Func<ICoord, Task> Movement;
 
         public Position PacmanPosition { get; set; }
         public int Score { get; set; }
@@ -133,11 +133,11 @@ namespace PacMan.Abstracts
                 {
                     return true;
                 }
-                return GhostCanKill();
+                return GhostCanKillPacman();
             }
             else
             {
-                return GhostCanKill();
+                return GhostCanKillPacman();
             }
         }
 
@@ -231,7 +231,7 @@ namespace PacMan.Abstracts
             return old;
         }
 
-        private bool GhostCanKill()
+        private bool GhostCanKillPacman()
         {
             return Frightened || !IsLive;
         }
