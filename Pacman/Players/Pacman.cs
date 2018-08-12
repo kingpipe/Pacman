@@ -59,14 +59,14 @@ namespace PacMan.Players
             Movement?.Invoke(this);
         }
 
-        public override void Default(Map map)
+        public override void DefaultMap(Map map)
         {
             Direction = Direction.None;
             NewDirection = Direction.None;
             Level = 1;
             Count = 0;
             Lives = 3;
-            base.Default(map);
+            base.DefaultMap(map);
         }
 
         protected override void TimerElapsed(object sender, ElapsedEventArgs e)

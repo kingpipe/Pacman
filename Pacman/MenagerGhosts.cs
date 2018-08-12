@@ -46,7 +46,11 @@ namespace PacMan
 
         public void Default(Map map)
         {
-            DefaultMap(map);
+            foreach (var ghost in _ghosts)
+            {
+                ghost.DefaultMap(map);
+                ghost.StrategyGoToCorner();
+            }
             _changeStateGhosts = new ChangeStateGhosts(this);
         }
 
@@ -54,7 +58,7 @@ namespace PacMan
         {
             foreach (var ghost in _ghosts)
             {
-                ghost.Default(map);
+                ghost.DefaultMap(map);
             }
         }
 

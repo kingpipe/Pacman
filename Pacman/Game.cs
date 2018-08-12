@@ -95,7 +95,7 @@ namespace PacMan
                 _status = GameStatus.ReadyToStart;
                 Map = (Map)_defaultMap.Clone();
                 _ghosts.Default(Map);
-                _pacman.Default(Map);
+                _pacman.DefaultMap(Map);
                 _pacman.StartPosition();
                 UpdateMap();
             }

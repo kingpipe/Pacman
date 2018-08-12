@@ -80,16 +80,16 @@ namespace PacMan.Abstracts
             }
         }
 
-        public override void Default(Map map)
+        public override void DefaultMap(Map map)
         {
-            base.Default(map);
-            StrategyGoToCorner();
+            base.DefaultMap(map);
             OldCoord = new Empty(Position);
             Frightened = false;
             IsLive = true;
             idCurrent = Id;
             DefaultTime();
         }
+
 
         public override string GetId()
         {
@@ -185,7 +185,7 @@ namespace PacMan.Abstracts
 
         public void NotScared()
         {
-            if (IsLive && Frightened)
+            if (Frightened)
             {
                 DefaultTime();
                 Strategy = OldStrategy;

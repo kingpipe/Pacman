@@ -39,10 +39,11 @@ namespace PacMan.Abstracts
         public virtual void Start() => timer.Start(TimerElapsed);
         public virtual void Stop() => timer.Stop(TimerElapsed);
 
-        public virtual void Default(Map map)
+        public virtual void DefaultMap(Map map)
         {
             Map = map;
             DefaultCoord();
+
         }
 
         public void SetTime(int time)
