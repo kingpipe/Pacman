@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<PacmanWeb.Models.GameModels.RecordsModel>
-
+@using NonFactors.Mvc.Grid;
 @{
     ViewData["Title"] = "Records";
+}
+@section styles{
+    <link rel="stylesheet" href="~/css/mvc-grid.css" />
 }
 
 <h4>Records</h4>
