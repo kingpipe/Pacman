@@ -40,11 +40,11 @@ namespace PacmanWeb
             
             services.AddMvc();
 
-            services.AddAuthentication().AddFacebook(options =>
-                {
-                    options.AppId = Configuration.GetSection("Authentication:Facebook:AppId").Value;
-                    options.AppSecret = Configuration.GetSection("Authentication:Facebook:AppSecret").Value;
-                });
+            //services.AddAuthentication().AddFacebook(options =>
+            //    {
+            //        options.AppId = Configuration.GetSection("Authentication:Facebook:AppId").Value;
+            //        options.AppSecret = Configuration.GetSection("Authentication:Facebook:AppSecret").Value;
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
