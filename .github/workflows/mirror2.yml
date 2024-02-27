@@ -18,4 +18,4 @@ jobs:
         with:
           REMOTE: https://gitlab.com/kingpipe2/Pacman.git
           GIT_USERNAME: kingpipe2
-          GIT_PASSWORD: ${{ secrets.GITLAB_PAT }}
+          GIT_PASSWORD: glpat-ry_wn5ejYiPAZTfRsiA9
