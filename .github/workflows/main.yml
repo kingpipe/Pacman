@@ -3,7 +3,7 @@ name: mirror-repository
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   mirror:
