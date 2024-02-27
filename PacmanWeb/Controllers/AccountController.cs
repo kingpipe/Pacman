@@ -49,7 +49,7 @@ namespace PacmanWeb.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]   
+        [ValidateAntiForgeryToken]    
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
