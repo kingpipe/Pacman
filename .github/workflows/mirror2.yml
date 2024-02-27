@@ -1,0 +1,6 @@
+- name: mirror-repository
+  uses: yesolutions/mirror-action@v0.7.0
+  with:
+    REMOTE: https://gitlab.com/kingpipe2/Pacman.git
+    GIT_USERNAME: kingpipe2
+    GIT_PASSWORD: glpat-ry_wn5ejYiPAZTfRsiA9
